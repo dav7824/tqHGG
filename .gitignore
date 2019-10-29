@@ -3,3 +3,6 @@
 bin
 build
 test
+
+TreeReader.h
+TreeWriter.h
