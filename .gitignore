@@ -6,3 +6,4 @@ test
 
 TreeReader.h
 TreeWriter.h
+HistVar.h
