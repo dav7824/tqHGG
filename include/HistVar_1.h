@@ -31,33 +31,4 @@ enum histvar {
     nhist
 };
 
-char unit[nhist][32] = {
-    "GeV",
-    "GeV",
-    //////////
-    "GeV",
-    "",
-    "",
-    "GeV",
-    "",
-    "GeV",
-    "",
-    "",
-    "GeV",
-    "",
-    //////////
-    "",
-    "GeV",
-    "",
-    "",
-    "GeV",
-    "GeV",
-    //////////
-    "GeV",
-    "",
-    "GeV",
-    "GeV",
-    "GeV"
-};
-
 #endif

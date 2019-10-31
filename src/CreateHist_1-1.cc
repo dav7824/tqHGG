@@ -32,6 +32,35 @@ void CreateHist(TH1D **hist)
     hist[met_py] = new TH1D("met_py", ";MET p_{y} (GeV);", 50, -200., 200.);
     hist[met_SumET] = new TH1D("met_SumET", ";MET sum E_{T} (GeV);", 50, 0., 4000.);
 
+    char unit[nhist][32] = {
+	"GeV",
+	"GeV",
+	//////////
+	"GeV",
+	"",
+	"",
+	"GeV",
+	"",
+	"GeV",
+	"",
+	"",
+	"GeV",
+	"",
+	//////////
+	"",
+	"GeV",
+	"",
+	"",
+	"GeV",
+	"GeV",
+	//////////
+	"GeV",
+	"",
+	"GeV",
+	"GeV",
+	"GeV"
+    };
+
     for (int i=0; i<nhist; ++i) {
 	double width = (hist[i]->GetXaxis()->GetXmax() - hist[i]->GetXaxis()->GetXmin()) / hist[i]->GetNbinsX();
 	hist[i]->SetYTitle( Form("events / %.2g %s", width, unit[i]) );
