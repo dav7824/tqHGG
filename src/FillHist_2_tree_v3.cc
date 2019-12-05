@@ -1,15 +1,23 @@
 #include "HistVar.h"
 #include "TreeReader.h"
+#include "ScaleFactor.h"
 
-#include "TH1D.h"
+#include "TFile.h"
+#include "TH1.h"
+#include "TH2.h"
 
 #include <iostream>
 #include <cstdlib>
+#include <vector>
 #include <string>
 using namespace std;
 
 void FillHist(TreeReader &inTree, TH1D **hist, const string &type)
 {
+    vector<TFile*> f_SF;
+    vector<TH2*> h_SF;
+    PrepareSF(f_SF, h_SF);
+
     long nevt = inTree.GetEntries();
     for (long evt=0; evt<nevt; ++evt) {
 	if (evt % 100000 == 0) cout << "Processing event " << evt << "...\n";
@@ -17,7 +25,10 @@ void FillHist(TreeReader &inTree, TH1D **hist, const string &type)
 
 	float weight = 0.;
 	if (type == "data") weight = 1.;
-	else if (type == "mc") weight = inTree.EvtInfo_genweight;
+	else if (type == "mc") {
+	    weight = inTree.EvtInfo_genweight;
+	    ApplySF(inTree, h_SF, weight);
+	}
 	else {
 	    cout << "[ERROR] Unknown dataset type\n";
 	    exit(1);
@@ -55,4 +66,6 @@ void FillHist(TreeReader &inTree, TH1D **hist, const string &type)
 	    hist[lep_E]->Fill(inTree.MuonInfo_Energy->at(i), weight);
 	}
     }
+
+    CloseSF(f_SF);
 }
