@@ -3,26 +3,32 @@
 //   (1) at least 1 selected lepton
 //   (2) at least 1 selected jet
 
+#include "utility.h"
+
 #include "TFile.h"
 #include "TChain.h"
 #include "TTree.h"
 
 #include <iostream>
 #include <vector>
+#include <string>
 using namespace std;
 
 int main(int argc, char **argv)
 {
     // get input arguments
-    char *fin_name = argv[1];
+    vector<string> fin_name;  ParseCStringList(argv[1], fin_name);
     char *inTree_name = argv[2];
     char *fout_name = argv[3];
 
-    cout << "[INFO] Start processing n-tuple: " << fin_name << endl;
+    cout << "[INFO] Start processing n-tuple: " << fout_name << endl;
 
     // read input root files
     TChain *inTree = new TChain(inTree_name);
-    inTree->Add(fin_name);
+    for (int i=0; i<fin_name.size(); ++i) {
+	inTree->Add(fin_name[i].c_str());
+	cout << "---Input file added: " << fin_name[i] << endl;
+    }
 
     // create output file
     TFile *fout = new TFile(fout_name, "recreate");

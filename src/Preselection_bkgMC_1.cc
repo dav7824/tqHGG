@@ -1,4 +1,4 @@
-// Apply part 1 of preselection on 2017 signal MC n-tuples.
+// Apply part 1 of preselection on 2017 background MC n-tuples.
 // Preselections:
 //   Trigger:
 //     Diphoton triggers
@@ -6,7 +6,7 @@
 //     (1) pt > 35(25) GeV
 //     (2) |eta| < 2.5, excluding [1.4442, 1.566] (EE-EB gap)
 //   Diphoton:
-//     100 < Mgg < 180 GeV
+//     100 < Mgg < 180 GeV, blind signal region 120 < Mgg < 130 GeV
 //   Electron:
 //     (1) Cut-based medium ID
 //     (2) pt > 20 GeV
@@ -118,21 +118,21 @@ int main(int argc, char **argv)
     vector<float> *ElecInfo_Energy = 0;
     vector<float> *ElecInfo_EtaSC = 0;
     vector<float> *ElecInfo_PhiSC = 0;
-    vector<float> *ElecInfo_GsfTrackDz = 0;
-    vector<float> *ElecInfo_GsfTrackDxy = 0;
+    //vector<float> *ElecInfo_GsfTrackDz = 0;
+    //vector<float> *ElecInfo_GsfTrackDxy = 0;
     vector<bool> *ElecInfo_EGMCutBasedIDVeto = 0;
     vector<bool> *ElecInfo_EGMCutBasedIDLoose = 0;
     vector<bool> *ElecInfo_EGMCutBasedIDMedium = 0;
     vector<bool> *ElecInfo_EGMCutBasedIDTight = 0;
     vector<bool> *ElecInfo_passConvVeto = 0;
     vector<bool> *ElecInfo_fggPhoVeto = 0;
-    vector<float> *ElecInfo_EnergyCorrFactor = 0;
-    vector<float> *ElecInfo_EnergyPostCorrErr = 0;
-    vector<bool> *ElecInfo_GenMatch = 0;
-    vector<int> *ElecInfo_GenPdgID = 0;
-    vector<float> *ElecInfo_GenPt = 0;
-    vector<float> *ElecInfo_GenEta = 0;
-    vector<float> *ElecInfo_GenPhi = 0;
+    //vector<float> *ElecInfo_EnergyCorrFactor = 0;
+    //vector<float> *ElecInfo_EnergyPostCorrErr = 0;
+    //vector<bool> *ElecInfo_GenMatch = 0;
+    //vector<int> *ElecInfo_GenPdgID = 0;
+    //vector<float> *ElecInfo_GenPt = 0;
+    //vector<float> *ElecInfo_GenEta = 0;
+    //vector<float> *ElecInfo_GenPhi = 0;
     int MuonInfo_Size = 0;
     vector<int> *MuonInfo_Charge = 0;
     vector<float> *MuonInfo_MuonType = 0;
@@ -147,11 +147,11 @@ int main(int argc, char **argv)
     vector<bool> *MuonInfo_CutBasedIdMedium = 0;
     vector<bool> *MuonInfo_CutBasedIdTight = 0;
     vector<bool> *MuonInfo_CutBasedIdTight_bestVtx = 0;
-    vector<bool> *MuonInfo_GenMatch = 0;
-    vector<int> *MuonInfo_GenPdgID = 0;
-    vector<float> *MuonInfo_GenPt = 0;
-    vector<float> *MuonInfo_GenEta = 0;
-    vector<float> *MuonInfo_GenPhi = 0;
+    //vector<bool> *MuonInfo_GenMatch = 0;
+    //vector<int> *MuonInfo_GenPdgID = 0;
+    //vector<float> *MuonInfo_GenPt = 0;
+    //vector<float> *MuonInfo_GenEta = 0;
+    //vector<float> *MuonInfo_GenPhi = 0;
     int jets_size = 0;
     vector<float> *JetInfo_Pt = 0;
     vector<float> *JetInfo_Eta = 0;
@@ -180,13 +180,13 @@ int main(int argc, char **argv)
     vector<float> *JetInfo_pfDeepFlavourJetTags_problepb = 0;
     vector<float> *JetInfo_JECScale = 0;
     vector<float> *JetInfo_JERScale = 0;
-    vector<bool> *JetInfo_GenPartonMatch = 0;
-    vector<float> *JetInfo_GenPt = 0;
-    vector<float> *JetInfo_GenEta = 0;
-    vector<float> *JetInfo_GenPhi = 0;
-    vector<int> *JetInfo_GenPdgID = 0;
-    vector<int> *JetInfo_GenFlavor = 0;
-    vector<int> *JetInfo_GenHadronFlavor = 0;
+    //vector<bool> *JetInfo_GenPartonMatch = 0;
+    //vector<float> *JetInfo_GenPt = 0;
+    //vector<float> *JetInfo_GenEta = 0;
+    //vector<float> *JetInfo_GenPhi = 0;
+    //vector<int> *JetInfo_GenPdgID = 0;
+    //vector<int> *JetInfo_GenFlavor = 0;
+    //vector<int> *JetInfo_GenHadronFlavor = 0;
     float MetInfo_Pt = 0;
     float MetInfo_Phi = 0;
     float MetInfo_Px = 0;
@@ -274,21 +274,21 @@ int main(int argc, char **argv)
     inTree->SetBranchAddress("ElecInfo.Energy", &ElecInfo_Energy);
     inTree->SetBranchAddress("ElecInfo.EtaSC", &ElecInfo_EtaSC);
     inTree->SetBranchAddress("ElecInfo.PhiSC", &ElecInfo_PhiSC);
-    inTree->SetBranchAddress("ElecInfo.GsfTrackDz", &ElecInfo_GsfTrackDz);
-    inTree->SetBranchAddress("ElecInfo.GsfTrackDxy", &ElecInfo_GsfTrackDxy);
+    //inTree->SetBranchAddress("ElecInfo.GsfTrackDz", &ElecInfo_GsfTrackDz);
+    //inTree->SetBranchAddress("ElecInfo.GsfTrackDxy", &ElecInfo_GsfTrackDxy);
     inTree->SetBranchAddress("ElecInfo.EGMCutBasedIDVeto", &ElecInfo_EGMCutBasedIDVeto);
     inTree->SetBranchAddress("ElecInfo.EGMCutBasedIDLoose", &ElecInfo_EGMCutBasedIDLoose);
     inTree->SetBranchAddress("ElecInfo.EGMCutBasedIDMedium", &ElecInfo_EGMCutBasedIDMedium);
     inTree->SetBranchAddress("ElecInfo.EGMCutBasedIDTight", &ElecInfo_EGMCutBasedIDTight);
     inTree->SetBranchAddress("ElecInfo.passConvVeto", &ElecInfo_passConvVeto);
     inTree->SetBranchAddress("ElecInfo.fggPhoVeto", &ElecInfo_fggPhoVeto);
-    inTree->SetBranchAddress("ElecInfo.EnergyCorrFactor", &ElecInfo_EnergyCorrFactor);
-    inTree->SetBranchAddress("ElecInfo.EnergyPostCorrErr", &ElecInfo_EnergyPostCorrErr);
-    inTree->SetBranchAddress("ElecInfo.GenMatch", &ElecInfo_GenMatch);
-    inTree->SetBranchAddress("ElecInfo.GenPdgID", &ElecInfo_GenPdgID);
-    inTree->SetBranchAddress("ElecInfo.GenPt", &ElecInfo_GenPt);
-    inTree->SetBranchAddress("ElecInfo.GenEta", &ElecInfo_GenEta);
-    inTree->SetBranchAddress("ElecInfo.GenPhi", &ElecInfo_GenPhi);
+    //inTree->SetBranchAddress("ElecInfo.EnergyCorrFactor", &ElecInfo_EnergyCorrFactor);
+    //inTree->SetBranchAddress("ElecInfo.EnergyPostCorrErr", &ElecInfo_EnergyPostCorrErr);
+    //inTree->SetBranchAddress("ElecInfo.GenMatch", &ElecInfo_GenMatch);
+    //inTree->SetBranchAddress("ElecInfo.GenPdgID", &ElecInfo_GenPdgID);
+    //inTree->SetBranchAddress("ElecInfo.GenPt", &ElecInfo_GenPt);
+    //inTree->SetBranchAddress("ElecInfo.GenEta", &ElecInfo_GenEta);
+    //inTree->SetBranchAddress("ElecInfo.GenPhi", &ElecInfo_GenPhi);
     inTree->SetBranchAddress("MuonInfo.Size", &MuonInfo_Size);
     inTree->SetBranchAddress("MuonInfo.Charge", &MuonInfo_Charge);
     inTree->SetBranchAddress("MuonInfo.MuonType", &MuonInfo_MuonType);
@@ -303,11 +303,11 @@ int main(int argc, char **argv)
     inTree->SetBranchAddress("MuonInfo.CutBasedIdMedium", &MuonInfo_CutBasedIdMedium);
     inTree->SetBranchAddress("MuonInfo.CutBasedIdTight", &MuonInfo_CutBasedIdTight);
     inTree->SetBranchAddress("MuonInfo.CutBasedIdTight_bestVtx", &MuonInfo_CutBasedIdTight_bestVtx);
-    inTree->SetBranchAddress("MuonInfo.GenMatch", &MuonInfo_GenMatch);
-    inTree->SetBranchAddress("MuonInfo.GenPdgID", &MuonInfo_GenPdgID);
-    inTree->SetBranchAddress("MuonInfo.GenPt", &MuonInfo_GenPt);
-    inTree->SetBranchAddress("MuonInfo.GenEta", &MuonInfo_GenEta);
-    inTree->SetBranchAddress("MuonInfo.GenPhi", &MuonInfo_GenPhi);
+    //inTree->SetBranchAddress("MuonInfo.GenMatch", &MuonInfo_GenMatch);
+    //inTree->SetBranchAddress("MuonInfo.GenPdgID", &MuonInfo_GenPdgID);
+    //inTree->SetBranchAddress("MuonInfo.GenPt", &MuonInfo_GenPt);
+    //inTree->SetBranchAddress("MuonInfo.GenEta", &MuonInfo_GenEta);
+    //inTree->SetBranchAddress("MuonInfo.GenPhi", &MuonInfo_GenPhi);
     inTree->SetBranchAddress("jets_size", &jets_size);
     inTree->SetBranchAddress("JetInfo.Pt", &JetInfo_Pt);
     inTree->SetBranchAddress("JetInfo.Eta", &JetInfo_Eta);
@@ -336,13 +336,13 @@ int main(int argc, char **argv)
     inTree->SetBranchAddress("JetInfo.pfDeepFlavourJetTags_problepb", &JetInfo_pfDeepFlavourJetTags_problepb);
     inTree->SetBranchAddress("JetInfo.JECScale", &JetInfo_JECScale);
     inTree->SetBranchAddress("JetInfo.JERScale", &JetInfo_JERScale);
-    inTree->SetBranchAddress("JetInfo.GenPartonMatch", &JetInfo_GenPartonMatch);
-    inTree->SetBranchAddress("JetInfo.GenPt", &JetInfo_GenPt);
-    inTree->SetBranchAddress("JetInfo.GenEta", &JetInfo_GenEta);
-    inTree->SetBranchAddress("JetInfo.GenPhi", &JetInfo_GenPhi);
-    inTree->SetBranchAddress("JetInfo.GenPdgID", &JetInfo_GenPdgID);
-    inTree->SetBranchAddress("JetInfo.GenFlavor", &JetInfo_GenFlavor);
-    inTree->SetBranchAddress("JetInfo.GenHadronFlavor", &JetInfo_GenHadronFlavor);
+    //inTree->SetBranchAddress("JetInfo.GenPartonMatch", &JetInfo_GenPartonMatch);
+    //inTree->SetBranchAddress("JetInfo.GenPt", &JetInfo_GenPt);
+    //inTree->SetBranchAddress("JetInfo.GenEta", &JetInfo_GenEta);
+    //inTree->SetBranchAddress("JetInfo.GenPhi", &JetInfo_GenPhi);
+    //inTree->SetBranchAddress("JetInfo.GenPdgID", &JetInfo_GenPdgID);
+    //inTree->SetBranchAddress("JetInfo.GenFlavor", &JetInfo_GenFlavor);
+    //inTree->SetBranchAddress("JetInfo.GenHadronFlavor", &JetInfo_GenHadronFlavor);
     inTree->SetBranchAddress("MetInfo.Pt", &MetInfo_Pt);
     inTree->SetBranchAddress("MetInfo.Phi", &MetInfo_Phi);
     inTree->SetBranchAddress("MetInfo.Px", &MetInfo_Px);
@@ -380,21 +380,21 @@ int main(int argc, char **argv)
     vector<float> *ElecInfo_Energy_sel = new vector<float>();
     vector<float> *ElecInfo_EtaSC_sel = new vector<float>();
     vector<float> *ElecInfo_PhiSC_sel = new vector<float>();
-    vector<float> *ElecInfo_GsfTrackDz_sel = new vector<float>();
-    vector<float> *ElecInfo_GsfTrackDxy_sel = new vector<float>();
+    //vector<float> *ElecInfo_GsfTrackDz_sel = new vector<float>();
+    //vector<float> *ElecInfo_GsfTrackDxy_sel = new vector<float>();
     vector<bool> *ElecInfo_EGMCutBasedIDVeto_sel = new vector<bool>();
     vector<bool> *ElecInfo_EGMCutBasedIDLoose_sel = new vector<bool>();
     vector<bool> *ElecInfo_EGMCutBasedIDMedium_sel = new vector<bool>();
     vector<bool> *ElecInfo_EGMCutBasedIDTight_sel = new vector<bool>();
     vector<bool> *ElecInfo_passConvVeto_sel = new vector<bool>();
     vector<bool> *ElecInfo_fggPhoVeto_sel = new vector<bool>();
-    vector<float> *ElecInfo_EnergyCorrFactor_sel = new vector<float>();
-    vector<float> *ElecInfo_EnergyPostCorrErr_sel = new vector<float>();
-    vector<bool> *ElecInfo_GenMatch_sel = new vector<bool>();
-    vector<int> *ElecInfo_GenPdgID_sel = new vector<int>();
-    vector<float> *ElecInfo_GenPt_sel = new vector<float>();
-    vector<float> *ElecInfo_GenEta_sel = new vector<float>();
-    vector<float> *ElecInfo_GenPhi_sel = new vector<float>();
+    //vector<float> *ElecInfo_EnergyCorrFactor_sel = new vector<float>();
+    //vector<float> *ElecInfo_EnergyPostCorrErr_sel = new vector<float>();
+    //vector<bool> *ElecInfo_GenMatch_sel = new vector<bool>();
+    //vector<int> *ElecInfo_GenPdgID_sel = new vector<int>();
+    //vector<float> *ElecInfo_GenPt_sel = new vector<float>();
+    //vector<float> *ElecInfo_GenEta_sel = new vector<float>();
+    //vector<float> *ElecInfo_GenPhi_sel = new vector<float>();
     int MuonInfo_Size_sel = 0;
     vector<int> *MuonInfo_Charge_sel = new vector<int>();
     vector<float> *MuonInfo_MuonType_sel = new vector<float>();
@@ -409,11 +409,11 @@ int main(int argc, char **argv)
     vector<bool> *MuonInfo_CutBasedIdMedium_sel = new vector<bool>();
     vector<bool> *MuonInfo_CutBasedIdTight_sel = new vector<bool>();
     vector<bool> *MuonInfo_CutBasedIdTight_bestVtx_sel = new vector<bool>();
-    vector<bool> *MuonInfo_GenMatch_sel = new vector<bool>();
-    vector<int> *MuonInfo_GenPdgID_sel = new vector<int>();
-    vector<float> *MuonInfo_GenPt_sel = new vector<float>();
-    vector<float> *MuonInfo_GenEta_sel = new vector<float>();
-    vector<float> *MuonInfo_GenPhi_sel = new vector<float>();
+    //vector<bool> *MuonInfo_GenMatch_sel = new vector<bool>();
+    //vector<int> *MuonInfo_GenPdgID_sel = new vector<int>();
+    //vector<float> *MuonInfo_GenPt_sel = new vector<float>();
+    //vector<float> *MuonInfo_GenEta_sel = new vector<float>();
+    //vector<float> *MuonInfo_GenPhi_sel = new vector<float>();
     int jets_size_sel = 0;
     vector<float> *JetInfo_Pt_sel = new vector<float>();
     vector<float> *JetInfo_Eta_sel = new vector<float>();
@@ -442,13 +442,13 @@ int main(int argc, char **argv)
     vector<float> *JetInfo_pfDeepFlavourJetTags_problepb_sel = new vector<float>();
     vector<float> *JetInfo_JECScale_sel = new vector<float>();
     vector<float> *JetInfo_JERScale_sel = new vector<float>();
-    vector<bool> *JetInfo_GenPartonMatch_sel = new vector<bool>();
-    vector<float> *JetInfo_GenPt_sel = new vector<float>();
-    vector<float> *JetInfo_GenEta_sel = new vector<float>();
-    vector<float> *JetInfo_GenPhi_sel = new vector<float>();
-    vector<int> *JetInfo_GenPdgID_sel = new vector<int>();
-    vector<int> *JetInfo_GenFlavor_sel = new vector<int>();
-    vector<int> *JetInfo_GenHadronFlavor_sel = new vector<int>();
+    //vector<bool> *JetInfo_GenPartonMatch_sel = new vector<bool>();
+    //vector<float> *JetInfo_GenPt_sel = new vector<float>();
+    //vector<float> *JetInfo_GenEta_sel = new vector<float>();
+    //vector<float> *JetInfo_GenPhi_sel = new vector<float>();
+    //vector<int> *JetInfo_GenPdgID_sel = new vector<int>();
+    //vector<int> *JetInfo_GenFlavor_sel = new vector<int>();
+    //vector<int> *JetInfo_GenHadronFlavor_sel = new vector<int>();
 
     // set output tree branches
     // set branches that will be changed to xxx_sel variables
@@ -513,21 +513,21 @@ int main(int argc, char **argv)
     outTree->Branch("ElecInfo.Energy", &ElecInfo_Energy_sel);
     outTree->Branch("ElecInfo.EtaSC", &ElecInfo_EtaSC_sel);
     outTree->Branch("ElecInfo.PhiSC", &ElecInfo_PhiSC_sel);
-    outTree->Branch("ElecInfo.GsfTrackDz", &ElecInfo_GsfTrackDz_sel);
-    outTree->Branch("ElecInfo.GsfTrackDxy", &ElecInfo_GsfTrackDxy_sel);
+    //outTree->Branch("ElecInfo.GsfTrackDz", &ElecInfo_GsfTrackDz_sel);
+    //outTree->Branch("ElecInfo.GsfTrackDxy", &ElecInfo_GsfTrackDxy_sel);
     outTree->Branch("ElecInfo.EGMCutBasedIDVeto", &ElecInfo_EGMCutBasedIDVeto_sel);
     outTree->Branch("ElecInfo.EGMCutBasedIDLoose", &ElecInfo_EGMCutBasedIDLoose_sel);
     outTree->Branch("ElecInfo.EGMCutBasedIDMedium", &ElecInfo_EGMCutBasedIDMedium_sel);
     outTree->Branch("ElecInfo.EGMCutBasedIDTight", &ElecInfo_EGMCutBasedIDTight_sel);
     outTree->Branch("ElecInfo.passConvVeto", &ElecInfo_passConvVeto_sel);
     outTree->Branch("ElecInfo.fggPhoVeto", &ElecInfo_fggPhoVeto_sel);
-    outTree->Branch("ElecInfo.EnergyCorrFactor", &ElecInfo_EnergyCorrFactor_sel);
-    outTree->Branch("ElecInfo.EnergyPostCorrErr", &ElecInfo_EnergyPostCorrErr_sel);
-    outTree->Branch("ElecInfo.GenMatch", &ElecInfo_GenMatch_sel);
-    outTree->Branch("ElecInfo.GenPdgID", &ElecInfo_GenPdgID_sel);
-    outTree->Branch("ElecInfo.GenPt", &ElecInfo_GenPt_sel);
-    outTree->Branch("ElecInfo.GenEta", &ElecInfo_GenEta_sel);
-    outTree->Branch("ElecInfo.GenPhi", &ElecInfo_GenPhi_sel);
+    //outTree->Branch("ElecInfo.EnergyCorrFactor", &ElecInfo_EnergyCorrFactor_sel);
+    //outTree->Branch("ElecInfo.EnergyPostCorrErr", &ElecInfo_EnergyPostCorrErr_sel);
+    //outTree->Branch("ElecInfo.GenMatch", &ElecInfo_GenMatch_sel);
+    //outTree->Branch("ElecInfo.GenPdgID", &ElecInfo_GenPdgID_sel);
+    //outTree->Branch("ElecInfo.GenPt", &ElecInfo_GenPt_sel);
+    //outTree->Branch("ElecInfo.GenEta", &ElecInfo_GenEta_sel);
+    //outTree->Branch("ElecInfo.GenPhi", &ElecInfo_GenPhi_sel);
     outTree->Branch("MuonInfo.Size", &MuonInfo_Size_sel);
     outTree->Branch("MuonInfo.Charge", &MuonInfo_Charge_sel);
     outTree->Branch("MuonInfo.MuonType", &MuonInfo_MuonType_sel);
@@ -542,11 +542,11 @@ int main(int argc, char **argv)
     outTree->Branch("MuonInfo.CutBasedIdMedium", &MuonInfo_CutBasedIdMedium_sel);
     outTree->Branch("MuonInfo.CutBasedIdTight", &MuonInfo_CutBasedIdTight_sel);
     outTree->Branch("MuonInfo.CutBasedIdTight_bestVtx", &MuonInfo_CutBasedIdTight_bestVtx_sel);
-    outTree->Branch("MuonInfo.GenMatch", &MuonInfo_GenMatch_sel);
-    outTree->Branch("MuonInfo.GenPdgID", &MuonInfo_GenPdgID_sel);
-    outTree->Branch("MuonInfo.GenPt", &MuonInfo_GenPt_sel);
-    outTree->Branch("MuonInfo.GenEta", &MuonInfo_GenEta_sel);
-    outTree->Branch("MuonInfo.GenPhi", &MuonInfo_GenPhi_sel);
+    //outTree->Branch("MuonInfo.GenMatch", &MuonInfo_GenMatch_sel);
+    //outTree->Branch("MuonInfo.GenPdgID", &MuonInfo_GenPdgID_sel);
+    //outTree->Branch("MuonInfo.GenPt", &MuonInfo_GenPt_sel);
+    //outTree->Branch("MuonInfo.GenEta", &MuonInfo_GenEta_sel);
+    //outTree->Branch("MuonInfo.GenPhi", &MuonInfo_GenPhi_sel);
     outTree->Branch("jets_size", &jets_size_sel);
     outTree->Branch("JetInfo.Pt", &JetInfo_Pt_sel);
     outTree->Branch("JetInfo.Eta", &JetInfo_Eta_sel);
@@ -575,13 +575,13 @@ int main(int argc, char **argv)
     outTree->Branch("JetInfo.pfDeepFlavourJetTags_problepb", &JetInfo_pfDeepFlavourJetTags_problepb_sel);
     outTree->Branch("JetInfo.JECScale", &JetInfo_JECScale_sel);
     outTree->Branch("JetInfo.JERScale", &JetInfo_JERScale_sel);
-    outTree->Branch("JetInfo.GenPartonMatch", &JetInfo_GenPartonMatch_sel);
-    outTree->Branch("JetInfo.GenPt", &JetInfo_GenPt_sel);
-    outTree->Branch("JetInfo.GenEta", &JetInfo_GenEta_sel);
-    outTree->Branch("JetInfo.GenPhi", &JetInfo_GenPhi_sel);
-    outTree->Branch("JetInfo.GenPdgID", &JetInfo_GenPdgID_sel);
-    outTree->Branch("JetInfo.GenFlavor", &JetInfo_GenFlavor_sel);
-    outTree->Branch("JetInfo.GenHadronFlavor", &JetInfo_GenHadronFlavor_sel);
+    //outTree->Branch("JetInfo.GenPartonMatch", &JetInfo_GenPartonMatch_sel);
+    //outTree->Branch("JetInfo.GenPt", &JetInfo_GenPt_sel);
+    //outTree->Branch("JetInfo.GenEta", &JetInfo_GenEta_sel);
+    //outTree->Branch("JetInfo.GenPhi", &JetInfo_GenPhi_sel);
+    //outTree->Branch("JetInfo.GenPdgID", &JetInfo_GenPdgID_sel);
+    //outTree->Branch("JetInfo.GenFlavor", &JetInfo_GenFlavor_sel);
+    //outTree->Branch("JetInfo.GenHadronFlavor", &JetInfo_GenHadronFlavor_sel);
     outTree->Branch("MetInfo.Pt", &MetInfo_Pt);
     outTree->Branch("MetInfo.Phi", &MetInfo_Phi);
     outTree->Branch("MetInfo.Px", &MetInfo_Px);
@@ -618,6 +618,7 @@ int main(int argc, char **argv)
 	if (!EvtInfo_passTrigger) continue;
 
 	if (DiPhoInfo_mass < 100 || DiPhoInfo_mass > 180) continue;
+	if (DiPhoInfo_mass > 120 && DiPhoInfo_mass < 130) continue;
 
 	if (DiPhoInfo_leadPt < 35 || DiPhoInfo_subleadPt < 25) continue;
 	if (fabs(DiPhoInfo_leadEta) > 2.5) continue;
@@ -636,21 +637,21 @@ int main(int argc, char **argv)
 	ElecInfo_Energy_sel->clear();
 	ElecInfo_EtaSC_sel->clear();
 	ElecInfo_PhiSC_sel->clear();
-	ElecInfo_GsfTrackDz_sel->clear();
-	ElecInfo_GsfTrackDxy_sel->clear();
+	//ElecInfo_GsfTrackDz_sel->clear();
+	//ElecInfo_GsfTrackDxy_sel->clear();
 	ElecInfo_EGMCutBasedIDVeto_sel->clear();
 	ElecInfo_EGMCutBasedIDLoose_sel->clear();
 	ElecInfo_EGMCutBasedIDMedium_sel->clear();
 	ElecInfo_EGMCutBasedIDTight_sel->clear();
 	ElecInfo_passConvVeto_sel->clear();
 	ElecInfo_fggPhoVeto_sel->clear();
-	ElecInfo_EnergyCorrFactor_sel->clear();
-	ElecInfo_EnergyPostCorrErr_sel->clear();
-	ElecInfo_GenMatch_sel->clear();
-	ElecInfo_GenPdgID_sel->clear();
-	ElecInfo_GenPt_sel->clear();
-	ElecInfo_GenEta_sel->clear();
-	ElecInfo_GenPhi_sel->clear();
+	//ElecInfo_EnergyCorrFactor_sel->clear();
+	//ElecInfo_EnergyPostCorrErr_sel->clear();
+	//ElecInfo_GenMatch_sel->clear();
+	//ElecInfo_GenPdgID_sel->clear();
+	//ElecInfo_GenPt_sel->clear();
+	//ElecInfo_GenEta_sel->clear();
+	//ElecInfo_GenPhi_sel->clear();
 	MuonInfo_Size_sel = 0;
 	MuonInfo_Charge_sel->clear();
 	MuonInfo_MuonType_sel->clear();
@@ -665,11 +666,11 @@ int main(int argc, char **argv)
 	MuonInfo_CutBasedIdMedium_sel->clear();
 	MuonInfo_CutBasedIdTight_sel->clear();
 	MuonInfo_CutBasedIdTight_bestVtx_sel->clear();
-	MuonInfo_GenMatch_sel->clear();
-	MuonInfo_GenPdgID_sel->clear();
-	MuonInfo_GenPt_sel->clear();
-	MuonInfo_GenEta_sel->clear();
-	MuonInfo_GenPhi_sel->clear();
+	//MuonInfo_GenMatch_sel->clear();
+	//MuonInfo_GenPdgID_sel->clear();
+	//MuonInfo_GenPt_sel->clear();
+	//MuonInfo_GenEta_sel->clear();
+	//MuonInfo_GenPhi_sel->clear();
 	jets_size_sel = 0;
 	JetInfo_Pt_sel->clear();
 	JetInfo_Eta_sel->clear();
@@ -698,13 +699,13 @@ int main(int argc, char **argv)
 	JetInfo_pfDeepFlavourJetTags_problepb_sel->clear();
 	JetInfo_JECScale_sel->clear();
 	JetInfo_JERScale_sel->clear();
-	JetInfo_GenPartonMatch_sel->clear();
-	JetInfo_GenPt_sel->clear();
-	JetInfo_GenEta_sel->clear();
-	JetInfo_GenPhi_sel->clear();
-	JetInfo_GenPdgID_sel->clear();
-	JetInfo_GenFlavor_sel->clear();
-	JetInfo_GenHadronFlavor_sel->clear();
+	//JetInfo_GenPartonMatch_sel->clear();
+	//JetInfo_GenPt_sel->clear();
+	//JetInfo_GenEta_sel->clear();
+	//JetInfo_GenPhi_sel->clear();
+	//JetInfo_GenPdgID_sel->clear();
+	//JetInfo_GenFlavor_sel->clear();
+	//JetInfo_GenHadronFlavor_sel->clear();
 
 	// create 4-momentum of leading photon and subleading photon
 	TLorentzVector leadPho, subleadPho;
@@ -735,21 +736,21 @@ int main(int argc, char **argv)
 	    ElecInfo_Energy_sel->push_back(ElecInfo_Energy->at(i));
 	    ElecInfo_EtaSC_sel->push_back(ElecInfo_EtaSC->at(i));
 	    ElecInfo_PhiSC_sel->push_back(ElecInfo_PhiSC->at(i));
-	    ElecInfo_GsfTrackDz_sel->push_back(ElecInfo_GsfTrackDz->at(i));
-	    ElecInfo_GsfTrackDxy_sel->push_back(ElecInfo_GsfTrackDxy->at(i));
+	    //ElecInfo_GsfTrackDz_sel->push_back(ElecInfo_GsfTrackDz->at(i));
+	    //ElecInfo_GsfTrackDxy_sel->push_back(ElecInfo_GsfTrackDxy->at(i));
 	    ElecInfo_EGMCutBasedIDVeto_sel->push_back(ElecInfo_EGMCutBasedIDVeto->at(i));
 	    ElecInfo_EGMCutBasedIDLoose_sel->push_back(ElecInfo_EGMCutBasedIDLoose->at(i));
 	    ElecInfo_EGMCutBasedIDMedium_sel->push_back(ElecInfo_EGMCutBasedIDMedium->at(i));
 	    ElecInfo_EGMCutBasedIDTight_sel->push_back(ElecInfo_EGMCutBasedIDTight->at(i));
 	    ElecInfo_passConvVeto_sel->push_back(ElecInfo_passConvVeto->at(i));
 	    ElecInfo_fggPhoVeto_sel->push_back(ElecInfo_fggPhoVeto->at(i));
-	    ElecInfo_EnergyCorrFactor_sel->push_back(ElecInfo_EnergyCorrFactor->at(i));
-	    ElecInfo_EnergyPostCorrErr_sel->push_back(ElecInfo_EnergyPostCorrErr->at(i));
-	    ElecInfo_GenMatch_sel->push_back(ElecInfo_GenMatch->at(i));
-	    ElecInfo_GenPdgID_sel->push_back(ElecInfo_GenPdgID->at(i));
-	    ElecInfo_GenPt_sel->push_back(ElecInfo_GenPt->at(i));
-	    ElecInfo_GenEta_sel->push_back(ElecInfo_GenEta->at(i));
-	    ElecInfo_GenPhi_sel->push_back(ElecInfo_GenPhi->at(i));
+	    //ElecInfo_EnergyCorrFactor_sel->push_back(ElecInfo_EnergyCorrFactor->at(i));
+	    //ElecInfo_EnergyPostCorrErr_sel->push_back(ElecInfo_EnergyPostCorrErr->at(i));
+	    //ElecInfo_GenMatch_sel->push_back(ElecInfo_GenMatch->at(i));
+	    //ElecInfo_GenPdgID_sel->push_back(ElecInfo_GenPdgID->at(i));
+	    //ElecInfo_GenPt_sel->push_back(ElecInfo_GenPt->at(i));
+	    //ElecInfo_GenEta_sel->push_back(ElecInfo_GenEta->at(i));
+	    //ElecInfo_GenPhi_sel->push_back(ElecInfo_GenPhi->at(i));
 
 	    electrons.push_back(electron_tmp);
 	} // end of electron loop
@@ -780,11 +781,11 @@ int main(int argc, char **argv)
 	    MuonInfo_CutBasedIdMedium_sel->push_back(MuonInfo_CutBasedIdMedium->at(i));
 	    MuonInfo_CutBasedIdTight_sel->push_back(MuonInfo_CutBasedIdTight->at(i));
 	    MuonInfo_CutBasedIdTight_bestVtx_sel->push_back(MuonInfo_CutBasedIdTight_bestVtx->at(i));
-	    MuonInfo_GenMatch_sel->push_back(MuonInfo_GenMatch->at(i));
-	    MuonInfo_GenPdgID_sel->push_back(MuonInfo_GenPdgID->at(i));
-	    MuonInfo_GenPt_sel->push_back(MuonInfo_GenPt->at(i));
-	    MuonInfo_GenEta_sel->push_back(MuonInfo_GenEta->at(i));
-	    MuonInfo_GenPhi_sel->push_back(MuonInfo_GenPhi->at(i));
+	    //MuonInfo_GenMatch_sel->push_back(MuonInfo_GenMatch->at(i));
+	    //MuonInfo_GenPdgID_sel->push_back(MuonInfo_GenPdgID->at(i));
+	    //MuonInfo_GenPt_sel->push_back(MuonInfo_GenPt->at(i));
+	    //MuonInfo_GenEta_sel->push_back(MuonInfo_GenEta->at(i));
+	    //MuonInfo_GenPhi_sel->push_back(MuonInfo_GenPhi->at(i));
 
 	    muons.push_back(muon_tmp);
 	} // end of muon loop
@@ -842,13 +843,13 @@ int main(int argc, char **argv)
 	    JetInfo_pfDeepFlavourJetTags_problepb_sel->push_back(JetInfo_pfDeepFlavourJetTags_problepb->at(i));
 	    JetInfo_JECScale_sel->push_back(JetInfo_JECScale->at(i));
 	    JetInfo_JERScale_sel->push_back(JetInfo_JERScale->at(i));
-	    JetInfo_GenPartonMatch_sel->push_back(JetInfo_GenPartonMatch->at(i));
-	    JetInfo_GenPt_sel->push_back(JetInfo_GenPt->at(i));
-	    JetInfo_GenEta_sel->push_back(JetInfo_GenEta->at(i));
-	    JetInfo_GenPhi_sel->push_back(JetInfo_GenPhi->at(i));
-	    JetInfo_GenPdgID_sel->push_back(JetInfo_GenPdgID->at(i));
-	    JetInfo_GenFlavor_sel->push_back(JetInfo_GenFlavor->at(i));
-	    JetInfo_GenHadronFlavor_sel->push_back(JetInfo_GenHadronFlavor->at(i));
+	    //JetInfo_GenPartonMatch_sel->push_back(JetInfo_GenPartonMatch->at(i));
+	    //JetInfo_GenPt_sel->push_back(JetInfo_GenPt->at(i));
+	    //JetInfo_GenEta_sel->push_back(JetInfo_GenEta->at(i));
+	    //JetInfo_GenPhi_sel->push_back(JetInfo_GenPhi->at(i));
+	    //JetInfo_GenPdgID_sel->push_back(JetInfo_GenPdgID->at(i));
+	    //JetInfo_GenFlavor_sel->push_back(JetInfo_GenFlavor->at(i));
+	    //JetInfo_GenHadronFlavor_sel->push_back(JetInfo_GenHadronFlavor->at(i));
 	} // end of jet loop
 
 	for (int i=0; i<electrons.size(); ++i) delete electrons[i];
