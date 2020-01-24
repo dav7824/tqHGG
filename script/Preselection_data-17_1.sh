@@ -16,6 +16,6 @@ Run() {
 set -e
 
 Run DoubleEG \
-    $dir_in/DoubleEG.root,$dir_in/DoubleEGB.root,$dir_in/DoubleEGC.root,$dir_in/DoubleEGD.root,$dir_in/DoubleEGE.root,$dir_in/DoubleEGF1.root,$dir_in/DoubleEGF2.root
+    $dir_in/DoubleEGB.root,$dir_in/DoubleEGC.root,$dir_in/DoubleEGD.root,$dir_in/DoubleEGE.root,$dir_in/DoubleEGF1.root,$dir_in/DoubleEGF2.root
 
 exit 0

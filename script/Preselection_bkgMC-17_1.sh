@@ -15,6 +15,8 @@ Run() {
 
 set -e
 
+Run DiPhotonJetsBox \
+    $dir_in/DiPhotonJetsBox_MGG-80toInf_13TeV-Sherpa/*.root
 Run GJet_Pt-20to40_MGG-80toInf \
     $dir_in/GJet_Pt-20to40_DoubleEMEnriched_MGG-80toInf_TuneCP5_13TeV_Pythia8.root
 Run GJet_Pt-20toInf_MGG-40to80 \

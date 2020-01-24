@@ -20,6 +20,7 @@ Run() {
 
 set -e
 
+Run DiPhotonJetsBox
 Run GJet_Pt-20to40_MGG-80toInf
 Run GJet_Pt-20toInf_MGG-40to80
 Run GJet_Pt-40toInf_MGG-80toInf
