@@ -3,9 +3,11 @@
 #include "TFile.h"
 #include "TChain.h"
 #include "TH1D.h"
+#include "TH2.h"
 #include "TLorentzVector.h"
 
 #include <iostream>
+#include <cmath>
 #include <vector>
 #include <string>
 using namespace std;
@@ -81,55 +83,85 @@ int main(int argc, char **argv)
 	cout << "---Input file added: " << fin_name[i] << endl;
     }
 
+    // read scale factor root files
+    bool use_SF_elec_RECO = 1;
+    bool use_SF_elec_ID = 1;
+    bool use_SF_muon_ID = 1;
+    bool use_SF_muon_ISO = 1;
+    TFile *fSF_elec_RECO = 0;
+    TFile *fSF_elec_ID = 0;
+    TFile *fSF_muon_ID = 0;
+    TFile *fSF_muon_ISO = 0;
+    TH2F *hSF_elec_RECO = 0;
+    TH2F *hSF_elec_ID = 0;
+    TH2D *hSF_muon_ID = 0;
+    TH2D *hSF_muon_ISO = 0;
+    if (use_SF_elec_RECO) {
+	fSF_elec_RECO = new TFile("/wk_cms2/mc_cheng/public/tqHGG/2017/SF/egammaEffi.txt_EGM2D_runBCDEF_passingRECO.root");
+	hSF_elec_RECO = (TH2F*)fSF_elec_RECO->Get("EGamma_SF2D");
+    }
+    if (use_SF_elec_ID) {
+	fSF_elec_ID = new TFile("/wk_cms2/mc_cheng/public/tqHGG/2017/SF/2017_ElectronMedium.root");
+	hSF_elec_ID = (TH2F*)fSF_elec_ID->Get("EGamma_SF2D");
+    }
+    if (use_SF_muon_ID) {
+	fSF_muon_ID = new TFile("/wk_cms2/mc_cheng/public/tqHGG/2017/SF/RunBCDEF_SF_ID.root");
+	hSF_muon_ID = (TH2D*)fSF_muon_ID->Get("NUM_TightID_DEN_genTracks_pt_abseta");
+    }
+    if (use_SF_muon_ISO) {
+	fSF_muon_ISO = new TFile("/wk_cms2/mc_cheng/public/tqHGG/2017/SF/RunBCDEF_SF_ISO.root");
+	hSF_muon_ISO = (TH2D*)fSF_muon_ISO->Get("NUM_LooseRelIso_DEN_TightIDandIPCut_pt_abseta");
+    }
+
     // create output file
     TFile *fout = new TFile(fout_name, "recreate");
 
     // create histograms
     TH1D *hists[nhist];
-    hists[dipho_mass] =  new TH1D("dipho_mass", ";diphoton mass (GeV);",   40,  100,  180);
-    hists[dipho_pt] =    new TH1D("dipho_pt",   ";diphoton p_{T} (GeV);",  50,    0,  400);
-    hists[dipho_eta] =   new TH1D("dipho_eta",  ";diphoton #eta;",         50,   -3,    3);
-    hists[dipho_phi] =   new TH1D("dipho_phi",  ";diphoton #phi;",         50, -3.5,  3.5);
-    hists[dipho_E] =     new TH1D("dipho_E",    ";diphoton energy (GeV);", 50,    0,  800);
-    hists[pho1_pt] =     new TH1D("pho1_pt",    ";leading photon p_{T} (GeV);",     50,    0,  300);
-    hists[pho1_eta] =    new TH1D("pho1_eta",   ";leading photon #eta;",            50,   -3,    3);
-    hists[pho1_phi] =    new TH1D("pho1_phi",   ";leading photon #phi;",            50, -3.5,  3.5);
-    hists[pho1_E] =      new TH1D("pho1_E",     ";leading photon energy (GeV);",    50,    0,  600);
-    hists[pho1_idmva] =  new TH1D("pho1_idmva", ";leading photon IDMVA;",           50,   -1,    1);
-    hists[pho2_pt] =     new TH1D("pho2_pt",    ";subleading photon p_{T} (GeV);",  50,    0,  150);
-    hists[pho2_eta] =    new TH1D("pho2_eta",   ";subleading photon #eta;",         50,   -3,    3);
-    hists[pho2_phi] =    new TH1D("pho2_phi",   ";subleading photon #phi;",         50, -3.5,  3.5);
-    hists[pho2_E] =      new TH1D("pho2_E",     ";subleading photon energy (GeV);", 50,    0,  300);
-    hists[pho2_idmva] =  new TH1D("pho2_idmva", ";subleading photon IDMVA;",        50,   -1,    1);
+    hists[dipho_mass] =  new TH1D("dipho_mass", ";diphoton mass (GeV);",   16,  100,  180);
+    hists[dipho_pt] =    new TH1D("dipho_pt",   ";diphoton p_{T} (GeV);",  20,    0,  400);
+    hists[dipho_eta] =   new TH1D("dipho_eta",  ";diphoton #eta;",         20,   -3,    3);
+    hists[dipho_phi] =   new TH1D("dipho_phi",  ";diphoton #phi;",         20, -3.5,  3.5);
+    hists[dipho_E] =     new TH1D("dipho_E",    ";diphoton energy (GeV);", 20,    0,  800);
+    hists[pho1_pt] =     new TH1D("pho1_pt",    ";leading photon p_{T} (GeV);",     20,    0,  300);
+    hists[pho1_eta] =    new TH1D("pho1_eta",   ";leading photon #eta;",            20,   -3,    3);
+    hists[pho1_phi] =    new TH1D("pho1_phi",   ";leading photon #phi;",            20, -3.5,  3.5);
+    hists[pho1_E] =      new TH1D("pho1_E",     ";leading photon energy (GeV);",    20,    0,  600);
+    hists[pho1_idmva] =  new TH1D("pho1_idmva", ";leading photon IDMVA;",           20,   -1,    1);
+    hists[pho2_pt] =     new TH1D("pho2_pt",    ";subleading photon p_{T} (GeV);",  20,    0,  150);
+    hists[pho2_eta] =    new TH1D("pho2_eta",   ";subleading photon #eta;",         20,   -3,    3);
+    hists[pho2_phi] =    new TH1D("pho2_phi",   ";subleading photon #phi;",         20, -3.5,  3.5);
+    hists[pho2_E] =      new TH1D("pho2_E",     ";subleading photon energy (GeV);", 20,    0,  300);
+    hists[pho2_idmva] =  new TH1D("pho2_idmva", ";subleading photon IDMVA;",        20,   -1,    1);
     hists[elec_N] =      new TH1D("elec_N",      ";number of electrons;",    7, -0.5, 6.5);
     hists[elec_charge] = new TH1D("elec_charge", ";electron charge;",        5, -2.5, 2.5);
-    hists[elec_pt] =     new TH1D("elec_pt",     ";electron p_{T} (GeV);",  30,    0, 250);
-    hists[elec_eta] =    new TH1D("elec_eta",    ";electron #eta;",         30,   -3,   3);
-    hists[elec_phi] =    new TH1D("elec_phi",    ";electron #phi;",         30, -3.5, 3.5);
-    hists[elec_E] =      new TH1D("elec_E",      ";electron energy (GeV);", 30,    0, 500);
+    hists[elec_pt] =     new TH1D("elec_pt",     ";electron p_{T} (GeV);",  20,    0, 250);
+    hists[elec_eta] =    new TH1D("elec_eta",    ";electron #eta;",         20,   -3,   3);
+    hists[elec_phi] =    new TH1D("elec_phi",    ";electron #phi;",         20, -3.5, 3.5);
+    hists[elec_E] =      new TH1D("elec_E",      ";electron energy (GeV);", 20,    0, 500);
     hists[muon_N] =      new TH1D("muon_N",      ";number of muons;",        7, -0.5, 6.5);
     hists[muon_charge] = new TH1D("muon_charge", ";muon charge;",            5, -2.5, 2.5);
-    hists[muon_pt] =     new TH1D("muon_pt",     ";muon p_{T} (GeV);",      30,    0, 250);
-    hists[muon_eta] =    new TH1D("muon_eta",    ";muon #eta;",             30,   -3,   3);
-    hists[muon_phi] =    new TH1D("muon_phi",    ";muon #phi;",             30, -3.5, 3.5);
-    hists[muon_E] =      new TH1D("muon_E",      ";muon energy (GeV);",     30,    0, 500);
+    hists[muon_pt] =     new TH1D("muon_pt",     ";muon p_{T} (GeV);",      20,    0, 250);
+    hists[muon_eta] =    new TH1D("muon_eta",    ";muon #eta;",             20,   -3,   3);
+    hists[muon_phi] =    new TH1D("muon_phi",    ";muon #phi;",             20, -3.5, 3.5);
+    hists[muon_E] =      new TH1D("muon_E",      ";muon energy (GeV);",     20,    0, 500);
     hists[lep_N] =       new TH1D("lep_N",       ";number of leptons;",      7, -0.5, 6.5);
     hists[lep_charge] =  new TH1D("lep_charge",  ";lepton charge;",          5, -2.5, 2.5);
-    hists[lep_pt] =      new TH1D("lep_pt",      ";lepton p_{T} (GeV);",    30,    0, 250);
-    hists[lep_eta] =     new TH1D("lep_eta",     ";lepton #eta;",           30,   -3,   3);
-    hists[lep_phi] =     new TH1D("lep_phi",     ";lepton #phi;",           30, -3.5, 3.5);
-    hists[lep_E] =       new TH1D("lep_E",       ";lepton energy (GeV);",   30,    0, 500);
+    hists[lep_pt] =      new TH1D("lep_pt",      ";lepton p_{T} (GeV);",    20,    0, 250);
+    hists[lep_eta] =     new TH1D("lep_eta",     ";lepton #eta;",           20,   -3,   3);
+    hists[lep_phi] =     new TH1D("lep_phi",     ";lepton #phi;",           20, -3.5, 3.5);
+    hists[lep_E] =       new TH1D("lep_E",       ";lepton energy (GeV);",   20,    0, 500);
     hists[jet_N] =       new TH1D("jet_N",       ";number of jets;",   12, -0.5, 11.5);
-    hists[jet_pt] =      new TH1D("jet_pt",      ";jet p_{T} (GeV);",  50,    0,  300);
-    hists[jet_eta] =     new TH1D("jet_eta",     ";jet #eta;",         50,   -3,    3);
-    hists[jet_phi] =     new TH1D("jet_phi",     ";jet #phi;",         50, -3.5,  3.5);
-    hists[jet_E] =       new TH1D("jet_E",       ";jet energy (GeV);", 50,    0,  600);
-    hists[jet_M] =       new TH1D("jet_M",       ";jet mass (GeV);",   50,    0,   50);
-    hists[met_pt] =      new TH1D("met_pt",      ";MET p_{T} (GeV);",       50,    0,  200);
-    hists[met_phi] =     new TH1D("met_phi",     ";MET #phi;",              50, -3.5,  3.5);
-    hists[met_px] =      new TH1D("met_px",      ";MET p_{x} (GeV);",       50, -200,  200);
-    hists[met_py] =      new TH1D("met_py",      ";MET p_{y} (GeV);",       50, -200,  200);
-    hists[met_SumET] =   new TH1D("met_SumET",   ";MET E^{sum}_{T} (GeV);", 50,    0, 4000);
+    hists[jet_pt] =      new TH1D("jet_pt",      ";jet p_{T} (GeV);",  20,    0,  300);
+    hists[jet_eta] =     new TH1D("jet_eta",     ";jet #eta;",         20,   -3,    3);
+    hists[jet_phi] =     new TH1D("jet_phi",     ";jet #phi;",         20, -3.5,  3.5);
+    hists[jet_E] =       new TH1D("jet_E",       ";jet energy (GeV);", 20,    0,  600);
+    hists[jet_M] =       new TH1D("jet_M",       ";jet mass (GeV);",   20,    0,   50);
+    hists[met_pt] =      new TH1D("met_pt",      ";MET p_{T} (GeV);",       20,    0,  200);
+    hists[met_phi] =     new TH1D("met_phi",     ";MET #phi;",              20, -3.5,  3.5);
+    hists[met_px] =      new TH1D("met_px",      ";MET p_{x} (GeV);",       20, -200,  200);
+    hists[met_py] =      new TH1D("met_py",      ";MET p_{y} (GeV);",       20, -200,  200);
+    hists[met_SumET] =   new TH1D("met_SumET",   ";MET E^{sum}_{T} (GeV);", 20,    0, 4000);
 
     char *unit[nhist];
     unit[dipho_mass]  = "GeV";
