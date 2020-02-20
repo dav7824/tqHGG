@@ -585,6 +585,8 @@ int main(int argc, char **argv)
     int Nevt_in = inTree->GetEntries();
     int Nevt_goodJetNum = 0;
     int Nevt_goodGenInfo = 0;
+    int Nevt_training = 0;
+    int Nevt_test = 0;
     int Nevt_outSigTraining = 0;
     int Nevt_outSigTest = 0;
     int Nevt_outBkgTraining = 0;
@@ -642,6 +644,9 @@ int main(int argc, char **argv)
 	if (gen_gammaFromH.size() != 2 || gen_qFromW.size() != 2 || gen_qFromM1.size() != 1 || gen_bFromM2.size() != 1) continue;
 
 	Nevt_goodGenInfo += 1;
+
+	if (evt < Nevt_in/2) Nevt_training += 1;
+	else Nevt_test += 1;
 
 	/* start MC truth matching */
 	// match the 2 photons
@@ -760,10 +765,12 @@ int main(int argc, char **argv)
     cout << "---Number of input events: " << Nevt_in << endl;
     cout << "---Number of events with good jet number: " << Nevt_goodJetNum << endl;
     cout << "---Number of events with good gen particle info: " << Nevt_goodGenInfo << endl;
-    cout << "---Number of events in signal training output: " << Nevt_outSigTraining << endl;
-    cout << "---Number of events in signal test output: " << Nevt_outSigTest << endl;
-    cout << "---Number of events in background training output: " << Nevt_outBkgTraining << endl;
-    cout << "---Number of events in background test output: " << Nevt_outBkgTest << endl;
+    cout << "---Number of events for training: " << Nevt_training << endl;
+    cout << "---Number of events for testing: " << Nevt_test << endl;
+    cout << "---Number of permutations in signal training output: " << Nevt_outSigTraining << endl;
+    cout << "---Number of permutations in signal test output: " << Nevt_outSigTest << endl;
+    cout << "---Number of permutations in background training output: " << Nevt_outBkgTraining << endl;
+    cout << "---Number of permutations in background test output: " << Nevt_outBkgTest << endl;
 
     return 0;
 }

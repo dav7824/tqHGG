@@ -4,12 +4,10 @@
 set -o noglob
 
 indir=/wk_cms2/mc_cheng/public/tqHGG/2017/$1/ntuple
-outdir=/wk_cms2/mc_cheng/public/tqHGG/2017/MVAreco_TT-had/signal
-mkdir -p $outdir
+outdir=/wk_cms2/mc_cheng/public/tqHGG/2017/MVAreco_TT-had/training
 
 Run() {
     echo -e "\n\n\n===Start processing: $1==="
-    mkdir $outdir/$1
     $DIR_TQHGG/bin/PrepareMVAreco_sigMC_TT-had \
 	$indir/$1.root \
 	flashggStdTree \
