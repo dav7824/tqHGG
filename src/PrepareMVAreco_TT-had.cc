@@ -674,7 +674,7 @@ int main(int argc, char **argv)
     cout << "\n[Summary]\n";
     cout << "---Number of input events: " << Nevt_in << endl;
     cout << "---Number of events with good jet number: " << Nevt_goodJetNum << endl;
-    cout << "---Number of output events: " << Nevt_out << endl;
+    cout << "---Number of output permutations: " << Nevt_out << endl;
 
     return 0;
 }

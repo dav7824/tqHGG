@@ -1,17 +1,22 @@
-# argument 1 : name of signal MC used for training
+# argument 1 : setting version
 
 #!/bin/bash
 set -o noglob
 
-indir=/wk_cms2/mc_cheng/public/tqHGG/2017/MVAreco_TT-had/signal/$1
-outdir=/wk_cms2/mc_cheng/public/tqHGG/2017/MVAreco_TT-had/signal/$1
+indir=/wk_cms2/mc_cheng/public/tqHGG/2017/MVAreco_TT-had/training/TT_FCNC-TtoHJ_aThad_hct
+outdir=/wk_cms2/mc_cheng/public/tqHGG/2017/MVAreco_TT-had/training/TT_FCNC-TtoHJ_aThad_hct/setting_$1
+exe=$DIR_TQHGG/bin/MVAreco_TT-had_training_$1
+mkdir $outdir
 
 set -e
 
-echo -e "\n\n\n===Start processing: $1==="
-$DIR_TQHGG/bin/MVAreco_TT-had_training \
+g++ -o $exe $DIR_TQHGG/src/MVAreco_TT-had_training_$1.cc `root-config --cflags --libs` -lTMVA
+
+cd $outdir
+$exe \
 	$indir \
 	flashggStdTree \
-	$outdir
+	$outdir \
+	| tee $outdir/MVAreco_TT-had_training.log
 
 exit 0

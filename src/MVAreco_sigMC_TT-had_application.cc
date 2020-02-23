@@ -1,7 +1,11 @@
 // Applying trained models for reconstruction of hadronic TT signal to signal MC test sample.
 //
 // input arguments:
-//
+// 1. path to input root file
+// 2. name of input TTree
+// 3. name of TMVA method
+// 4. path to TMVA weight file
+// 5. path to output root file
 
 #include "TMVA/Tools.h"
 #include "TMVA/Reader.h"
@@ -15,14 +19,17 @@
 #include <vector>
 using namespace std;
 
-double cut_BDT = -0.02;
+// cut on MVA score
+double cut_MVA = -999;
 
 int main(int argc, char **argv)
 {
     // get input arguments
     TString fin_name = argv[1];
     TString inTree_name = argv[2];
-    TString fout_name = argv[3];
+    TString method = argv[3];
+    TString fweight_name = argv[4];
+    TString fout_name = argv[5];
 
     cout << "[INFO] Reading root file: " << fin_name << endl;
 
@@ -220,6 +227,9 @@ int main(int argc, char **argv)
     float Jet2_W_Phi = 0;
     float Jet2_W_E = 0;
     float Jet2_W_btag = 0;
+
+    // additional variables for output tree
+    float TThad_recoMVA = 0;
 
     // set input tree branches
     inTree->SetBranchAddress("EvtInfo.NPu", &EvtInfo_NPu);
@@ -594,6 +604,8 @@ int main(int argc, char **argv)
     outTree->Branch("Jet2_W_Phi", &Jet2_W_Phi);
     outTree->Branch("Jet2_W_E", &Jet2_W_E);
     outTree->Branch("Jet2_W_btag", &Jet2_W_btag);
+    // additional variables for output tree
+    outTree->Branch("TThad_recoMVA", &TThad_recoMVA);
 
     cout << "Output tree is successfully set.\n";
 
@@ -607,69 +619,69 @@ int main(int argc, char **argv)
     reader->AddVariable("DiPhoInfo.leadPt", &DiPhoInfo_leadPt);
     reader->AddVariable("DiPhoInfo.leadEta", &DiPhoInfo_leadEta);
     reader->AddVariable("DiPhoInfo.leadPhi", &DiPhoInfo_leadPhi);
-    reader->AddVariable("DiPhoInfo.leadE", &DiPhoInfo_leadE);
+    //reader->AddVariable("DiPhoInfo.leadE", &DiPhoInfo_leadE);
     reader->AddVariable("DiPhoInfo.leadIDMVA", &DiPhoInfo_leadIDMVA);
     reader->AddVariable("DiPhoInfo.subleadPt", &DiPhoInfo_subleadPt);
     reader->AddVariable("DiPhoInfo.subleadEta", &DiPhoInfo_subleadEta);
     reader->AddVariable("DiPhoInfo.subleadPhi", &DiPhoInfo_subleadPhi);
-    reader->AddVariable("DiPhoInfo.subleadE", &DiPhoInfo_subleadE);
+    //reader->AddVariable("DiPhoInfo.subleadE", &DiPhoInfo_subleadE);
     reader->AddVariable("DiPhoInfo.subleadIDMVA", &DiPhoInfo_subleadIDMVA);
     reader->AddVariable("bJet_M2_Pt", &bJet_M2_Pt);
     reader->AddVariable("bJet_M2_Eta", &bJet_M2_Eta);
     reader->AddVariable("bJet_M2_Phi", &bJet_M2_Phi);
-    reader->AddVariable("bJet_M2_E", &bJet_M2_E);
+    //reader->AddVariable("bJet_M2_E", &bJet_M2_E);
     reader->AddVariable("bJet_M2_btag", &bJet_M2_btag);
     reader->AddVariable("Jet_M1_Pt", &Jet_M1_Pt);
     reader->AddVariable("Jet_M1_Eta", &Jet_M1_Eta);
     reader->AddVariable("Jet_M1_Phi", &Jet_M1_Phi);
-    reader->AddVariable("Jet_M1_E", &Jet_M1_E);
+    //reader->AddVariable("Jet_M1_E", &Jet_M1_E);
     reader->AddVariable("Jet_M1_btag", &Jet_M1_btag);
     reader->AddVariable("Jet1_W_Pt", &Jet1_W_Pt);
     reader->AddVariable("Jet1_W_Eta", &Jet1_W_Eta);
     reader->AddVariable("Jet1_W_Phi", &Jet1_W_Phi);
-    reader->AddVariable("Jet1_W_E", &Jet1_W_E);
+    //reader->AddVariable("Jet1_W_E", &Jet1_W_E);
     reader->AddVariable("Jet1_W_btag", &Jet1_W_btag);
     reader->AddVariable("Jet2_W_Pt", &Jet2_W_Pt);
     reader->AddVariable("Jet2_W_Eta", &Jet2_W_Eta);
     reader->AddVariable("Jet2_W_Phi", &Jet2_W_Phi);
-    reader->AddVariable("Jet2_W_E", &Jet2_W_E);
+    //reader->AddVariable("Jet2_W_E", &Jet2_W_E);
     reader->AddVariable("Jet2_W_btag", &Jet2_W_btag);
 
     // book MVA methods
-    TString dir_weight = "/wk_cms2/mc_cheng/public/tqHGG/2017/MVAreco_TT-had/training/TT_FCNC-TtoHJ_aThad_hct/dataset/weights/";
-    reader->BookMVA("BDT", dir_weight+"MVAreco_TT-had_BDT.weights.xml");
+    reader->BookMVA(method, fweight_name);
 
     cout << "[INFO] MVA reader is successfully set!\n";
 
-    double score_BDT = 0;
-    double best_score_BDT = -999;
-    long best_perm_BDT = -1;
+    double score = 0;
+    double best_score = -999;
+    long best_perm = -1;
 
     long Nevt_in = inTree->GetEntries();
-    long Nevt_out_BDT = 0;
-    long Nevt_out_BDT_sig = 0;
-    long Nevt_out_BDT_bkg = 0;
+    long Nevt_out = 0;
+    long Nevt_out_sig = 0;
+    long Nevt_out_bkg = 0;
 
     // loop through each event
     for (long evt=0; evt<inTree->GetEntries(); ++evt) {
 	if (evt % 10000 == 0) cout << "Processing event #" << evt << "...\n";
 	inTree->GetEntry(evt);
 
-	score_BDT = reader->EvaluateMVA("BDT");
-	if (score_BDT > cut_BDT && score_BDT > best_score_BDT) {
-	    best_score_BDT = score_BDT;
-	    best_perm_BDT = evt;
+	score = reader->EvaluateMVA(method);
+	if (score > cut_MVA && score > best_score) {
+	    best_score = score;
+	    best_perm = evt;
 	}
 
-	if ( (idx_perm == N_perm) && (best_perm_BDT >= 0) ) {
-	    inTree->GetEntry(best_perm_BDT);
+	if ( (idx_perm == N_perm) && (best_perm >= 0) ) {
+	    inTree->GetEntry(best_perm);
+	    TThad_recoMVA = best_score;
 	    outTree->Fill();
-	    Nevt_out_BDT += 1;
-	    if (truth_matched) Nevt_out_BDT_sig += 1;
-	    else Nevt_out_BDT_bkg += 1;
+	    Nevt_out += 1;
+	    if (truth_matched) Nevt_out_sig += 1;
+	    else Nevt_out_bkg += 1;
 
-	    best_score_BDT = -999;
-	    best_perm_BDT = -1;
+	    best_score = -999;
+	    best_perm = -1;
 	}
     } // end of event loop
 
@@ -679,10 +691,10 @@ int main(int argc, char **argv)
     cout << "[INFO] Output tree is saved at: " << fout_name << endl;
 
     cout << "\n[Summary]\n";
-    cout << "---Number of input events: " << Nevt_in << endl;
-    cout << "---Number of output events with method \"BDT\": " << Nevt_out_BDT << endl;
-    cout << "---Number of output truth matched events with method \"BDT\": " << Nevt_out_BDT_sig << endl;
-    cout << "---Number of output not truth matched events with method \"BDT\": " << Nevt_out_BDT_bkg << endl;
+    cout << "---Number of input permutations: " << Nevt_in << endl;
+    cout << "---Number of output events with method \"" << method <<  "\": " << Nevt_out << endl;
+    cout << "---Number of output truth matched events with method \"" << method << "\": " << Nevt_out_sig << endl;
+    cout << "---Number of output not truth matched events with method \"" << method << "\": " << Nevt_out_bkg << endl;
 
     delete reader;
 

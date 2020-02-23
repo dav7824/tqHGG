@@ -1,7 +1,7 @@
 // Train the models for MVA reconstruction of TT hadronic signal.
 //
 // input arguments:
-// 1. signal MC used for MVA training
+// 1. path to input directory
 // 2. name of input TTree
 // 3. path to output directory
 
@@ -63,32 +63,32 @@ int main(int argc, char **argv)
     dataloader->AddVariable("DiPhoInfo.leadPt", 'F');
     dataloader->AddVariable("DiPhoInfo.leadEta", 'F');
     dataloader->AddVariable("DiPhoInfo.leadPhi", 'F');
-    dataloader->AddVariable("DiPhoInfo.leadE", 'F');
+    //dataloader->AddVariable("DiPhoInfo.leadE", 'F');
     dataloader->AddVariable("DiPhoInfo.leadIDMVA", 'F');
     dataloader->AddVariable("DiPhoInfo.subleadPt", 'F');
     dataloader->AddVariable("DiPhoInfo.subleadEta", 'F');
     dataloader->AddVariable("DiPhoInfo.subleadPhi", 'F');
-    dataloader->AddVariable("DiPhoInfo.subleadE", 'F');
+    //dataloader->AddVariable("DiPhoInfo.subleadE", 'F');
     dataloader->AddVariable("DiPhoInfo.subleadIDMVA", 'F');
     dataloader->AddVariable("bJet_M2_Pt", 'F');
     dataloader->AddVariable("bJet_M2_Eta", 'F');
     dataloader->AddVariable("bJet_M2_Phi", 'F');
-    dataloader->AddVariable("bJet_M2_E", 'F');
+    //dataloader->AddVariable("bJet_M2_E", 'F');
     dataloader->AddVariable("bJet_M2_btag", 'F');
     dataloader->AddVariable("Jet_M1_Pt", 'F');
     dataloader->AddVariable("Jet_M1_Eta", 'F');
     dataloader->AddVariable("Jet_M1_Phi", 'F');
-    dataloader->AddVariable("Jet_M1_E", 'F');
+    //dataloader->AddVariable("Jet_M1_E", 'F');
     dataloader->AddVariable("Jet_M1_btag", 'F');
     dataloader->AddVariable("Jet1_W_Pt", 'F');
     dataloader->AddVariable("Jet1_W_Eta", 'F');
     dataloader->AddVariable("Jet1_W_Phi", 'F');
-    dataloader->AddVariable("Jet1_W_E", 'F');
+    //dataloader->AddVariable("Jet1_W_E", 'F');
     dataloader->AddVariable("Jet1_W_btag", 'F');
     dataloader->AddVariable("Jet2_W_Pt", 'F');
     dataloader->AddVariable("Jet2_W_Eta", 'F');
     dataloader->AddVariable("Jet2_W_Phi", 'F');
-    dataloader->AddVariable("Jet2_W_E", 'F');
+    //dataloader->AddVariable("Jet2_W_E", 'F');
     dataloader->AddVariable("Jet2_W_btag", 'F');
 
     // cut on input events and set dataloader options
@@ -103,8 +103,25 @@ int main(int argc, char **argv)
 
     /* book MVA methods */
     // BDT
-    factory->BookMethod( dataloader, TMVA::Types::kBDT, "BDT",
-	    "H:V:BoostType=AdaBoost");
+    TString opt_method = "H:V:BoostType=AdaBoost:IgnoreNegWeightsInTraining:";
+    factory->BookMethod( dataloader, TMVA::Types::kBDT, "BDT_a",
+	    opt_method + "NTrees=600:AdaBoostBeta=0.25");
+    factory->BookMethod( dataloader, TMVA::Types::kBDT, "BDT_b",
+	    opt_method + "NTrees=600:AdaBoostBeta=0.5");
+    factory->BookMethod( dataloader, TMVA::Types::kBDT, "BDT_c",
+	    opt_method + "NTrees=600:AdaBoostBeta=0.75");
+    factory->BookMethod( dataloader, TMVA::Types::kBDT, "BDT_d",
+	    opt_method + "NTrees=800:AdaBoostBeta=0.25");
+    factory->BookMethod( dataloader, TMVA::Types::kBDT, "BDT_e",
+	    opt_method + "NTrees=800:AdaBoostBeta=0.5");
+    factory->BookMethod( dataloader, TMVA::Types::kBDT, "BDT_f",
+	    opt_method + "NTrees=800:AdaBoostBeta=0.75");
+    factory->BookMethod( dataloader, TMVA::Types::kBDT, "BDT_g",
+	    opt_method + "NTrees=1000:AdaBoostBeta=0.25");
+    factory->BookMethod( dataloader, TMVA::Types::kBDT, "BDT_h",
+	    opt_method + "NTrees=1000:AdaBoostBeta=0.5");
+    factory->BookMethod( dataloader, TMVA::Types::kBDT, "BDT_i",
+	    opt_method + "NTrees=1000:AdaBoostBeta=0.75");
 
     // start training model
     cout << "[INFO] Start training!\n";
@@ -117,7 +134,7 @@ int main(int argc, char **argv)
 
     delete factory;
     delete dataloader;
-    cout << "[INFO] End of all!\n";
+    cout << "[INFO] Output files are saved at: " << outdir << endl;
 
     return 0;
 }
