@@ -1,9 +1,7 @@
 // Train the models for MVA reconstruction of TT hadronic signal.
 //
 // input arguments:
-// 1. path to input directory
-// 2. name of input TTree
-// 3. path to output directory
+// 1. string that describes the MVA settings
 
 #include "TMVA/Factory.h"
 #include "TMVA/DataLoader.h"
@@ -20,22 +18,30 @@ using namespace std;
 
 int main(int argc, char **argv)
 {
-    // get input arguments
-    TString indir = argv[1];
-    TString inTree_name = argv[2];
-    TString outdir = argv[3];
+    TString tag_MVA = argv[1];
 
     // read input datasets
-    cout << "[INFO] Reading training & test datasets from: " << indir << endl;
-    int Nfin = 4;
-    TString fin_name[Nfin] = {
+    cout << "[INFO] Reading training & test datasets...\n";
+    TString indir = "/wk_cms2/mc_cheng/public/tqHGG/2017/MVAreco_TT-had/training/";
+    TString outdir = indir + "All/";
+    TString inTree_name = "flashggStdTree";
+
+    int Nsample = 4;
+    TString sample[Nsample] = {
+	"TT_FCNC-TtoHJ_aThad_hct", "TT_FCNC-TtoHJ_aThad_hut", "TT_FCNC-aTtoHJ_Thad_hct", "TT_FCNC-aTtoHJ_Thad_hut"
+    };
+
+    int Ntreetype = 4;
+    TString fin_name[Ntreetype] = {
 	"signal_training", "signal_test",
 	"bkg_training", "bkg_test"
     };
-    TChain *inTree[Nfin];
-    for (int i=0; i<Nfin; ++i) {
+    TChain *inTree[Ntreetype];
+    for (int i=0; i<Ntreetype; ++i) {
 	inTree[i] = new TChain(inTree_name);
-	inTree[i]->Add( indir + "/" + fin_name[i] + ".root" );
+	for (int j=0; j<Nsample; ++j) {
+	    inTree[i]->Add( indir + sample[j] + "/" + fin_name[i] + ".root" );
+	}
     }
     cout << "[INFO] Create dataloader...\n";
 
@@ -98,18 +104,29 @@ int main(int argc, char **argv)
     cout << "[INFO] Dataloader successfully set!\n";
 
     // declare TMVA factory
-    TFile *fTrainSummary = new TFile(outdir + "/training_summary.root", "recreate");
+    TFile *fTrainSummary = new TFile(outdir + "training_summary_" + tag_MVA + ".root", "recreate");
     TMVA::Factory *factory = new TMVA::Factory("MVAreco_TT-had", fTrainSummary, "V:AnalysisType=Classification");
 
     /* book MVA methods */
     // BDT
-    TString opt_method = "H:V:IgnoreNegWeightsInTraining:";
-    factory->BookMethod( dataloader, TMVA::Types::kBDT, "BDT+D",
-	    opt_method + "BoostType=AdaBoost:NTrees=1000:AdaBoostBeta=0.75:VarTransform=D");
-    factory->BookMethod( dataloader, TMVA::Types::kBDT, "BDT+B",
-	    opt_method + "BoostType=AdaBoost:NTrees=1000:AdaBoostBeta=0.75:UseBaggedBoost");
-    factory->BookMethod( dataloader, TMVA::Types::kBDT, "BDT+D+B",
-	    opt_method + "BoostType=AdaBoost:NTrees=1000:AdaBoostBeta=0.75:VarTransform=D:UseBaggedBoost");
+    /*factory->BookMethod( dataloader, TMVA::Types::kBDT, "BDT",
+	    "H:V:IgnoreNegWeightsInTraining:NTrees=1000:BoostType=AdaBoost:AdaBoostBeta=0.75");
+    factory->BookMethod( dataloader, TMVA::Types::kBDT, "BDTG",
+	    "H:V:IgnoreNegWeightsInTraining:NTrees=1000:BoostType=Grad:Shrinkage=1.5");*/
+    // BDT_v2
+    /*factory->BookMethod( dataloader, TMVA::Types::kBDT, "BDT+D",
+	    "H:V:IgnoreNegWeightsInTraining:NTrees=1000:BoostType=AdaBoost:AdaBoostBeta=0.75:VarTransform=D");
+    factory->BookMethod( dataloader, TMVA::Types::kBDT, "BDTG+D",
+	    "H:V:IgnoreNegWeightsInTraining:NTrees=1000:BoostType=Grad:Shrinkage=1.5:VarTransform=D");*/
+    // ANN
+    /*factory->BookMethod( dataloader, TMVA::Types::kMLP, "ANN",
+	    "H:V:IgnoreNegWeightsInTraining:VarTransform=N");*/
+    // Cuts
+    /*factory->BookMethod( dataloader, TMVA::Types::kCuts, "Cuts",
+	    "H:V:FitMethod=MC:EffSel:VarProp=FSmart:SampleSize=200000:VarTransform=D,P");*/
+    // Fisher
+    factory->BookMethod( dataloader, TMVA::Types::kFisher, "Fisher",
+	    "H:V:VarTransform=G");
 
     // start training model
     cout << "[INFO] Start training!\n";

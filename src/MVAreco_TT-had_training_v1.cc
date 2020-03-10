@@ -102,8 +102,9 @@ int main(int argc, char **argv)
     TMVA::Factory *factory = new TMVA::Factory("MVAreco_TT-had", fTrainSummary, "V:AnalysisType=Classification");
 
     /* book MVA methods */
+    // v1
     // BDT
-    TString opt_method = "H:V:BoostType=AdaBoost:IgnoreNegWeightsInTraining:";
+    /*TString opt_method = "H:V:BoostType=AdaBoost:IgnoreNegWeightsInTraining:";
     factory->BookMethod( dataloader, TMVA::Types::kBDT, "BDT_a",
 	    opt_method + "NTrees=600:AdaBoostBeta=0.25");
     factory->BookMethod( dataloader, TMVA::Types::kBDT, "BDT_b",
@@ -121,7 +122,63 @@ int main(int argc, char **argv)
     factory->BookMethod( dataloader, TMVA::Types::kBDT, "BDT_h",
 	    opt_method + "NTrees=1000:AdaBoostBeta=0.5");
     factory->BookMethod( dataloader, TMVA::Types::kBDT, "BDT_i",
-	    opt_method + "NTrees=1000:AdaBoostBeta=0.75");
+	    opt_method + "NTrees=1000:AdaBoostBeta=0.75");*/
+    // v5
+    // BDT
+    /*TString opt_method = "H:V:IgnoreNegWeightsInTraining:";
+    factory->BookMethod( dataloader, TMVA::Types::kBDT, "BDT+D",
+	    opt_method + "BoostType=AdaBoost:NTrees=1000:AdaBoostBeta=0.75:VarTransform=D");
+    factory->BookMethod( dataloader, TMVA::Types::kBDT, "BDT+B",
+	    opt_method + "BoostType=AdaBoost:NTrees=1000:AdaBoostBeta=0.75:UseBaggedBoost");
+    factory->BookMethod( dataloader, TMVA::Types::kBDT, "BDT+D+B",
+	    opt_method + "BoostType=AdaBoost:NTrees=1000:AdaBoostBeta=0.75:VarTransform=D:UseBaggedBoost");*/
+    // v6
+    // BDT
+    /*TString opt_method = "H:V:BoostType=Grad:IgnoreNegWeightsInTraining:";
+    factory->BookMethod( dataloader, TMVA::Types::kBDT, "BDTG_a",
+	    opt_method + "NTrees=600:Shrinkage=0.5");
+    factory->BookMethod( dataloader, TMVA::Types::kBDT, "BDTG_b",
+	    opt_method + "NTrees=600:Shrinkage=1");
+    factory->BookMethod( dataloader, TMVA::Types::kBDT, "BDTG_c",
+	    opt_method + "NTrees=600:Shrinkage=1.5");
+    factory->BookMethod( dataloader, TMVA::Types::kBDT, "BDTG_d",
+	    opt_method + "NTrees=800:Shrinkage=0.5");
+    factory->BookMethod( dataloader, TMVA::Types::kBDT, "BDTG_e",
+	    opt_method + "NTrees=800:Shrinkage=1");
+    factory->BookMethod( dataloader, TMVA::Types::kBDT, "BDTG_f",
+	    opt_method + "NTrees=800:Shrinkage=1.5");
+    factory->BookMethod( dataloader, TMVA::Types::kBDT, "BDTG_g",
+	    opt_method + "NTrees=1000:Shrinkage=0.5");
+    factory->BookMethod( dataloader, TMVA::Types::kBDT, "BDTG_h",
+	    opt_method + "NTrees=1000:Shrinkage=1");
+    factory->BookMethod( dataloader, TMVA::Types::kBDT, "BDTG_i",
+	    opt_method + "NTrees=1000:Shrinkage=1.5");*/
+    // v7
+    // BDT
+    /*TString opt_method = "H:V:BoostType=AdaBoost:IgnoreNegWeightsInTraining:";
+    factory->BookMethod( dataloader, TMVA::Types::kBDT, "BDT_1",
+	    opt_method + "NTrees=800:AdaBoostBeta=0.05");
+    factory->BookMethod( dataloader, TMVA::Types::kBDT, "BDT_2",
+	    opt_method + "NTrees=800:AdaBoostBeta=0.2");
+    factory->BookMethod( dataloader, TMVA::Types::kBDT, "BDT_3",
+	    opt_method + "NTrees=800:AdaBoostBeta=0.5");
+    factory->BookMethod( dataloader, TMVA::Types::kBDT, "BDT_4",
+	    opt_method + "NTrees=800:AdaBoostBeta=1.25");
+    factory->BookMethod( dataloader, TMVA::Types::kBDT, "BDT_5",
+	    opt_method + "NTrees=800:AdaBoostBeta=5");*/
+    // v8
+    // BDT
+    TString opt_method = "H:V:BoostType=Grad:IgnoreNegWeightsInTraining:";
+    factory->BookMethod( dataloader, TMVA::Types::kBDT, "BDTG_1",
+	    opt_method + "NTrees=800:Shrinkage=0.1");
+    factory->BookMethod( dataloader, TMVA::Types::kBDT, "BDTG_2",
+	    opt_method + "NTrees=800:Shrinkage=0.4");
+    factory->BookMethod( dataloader, TMVA::Types::kBDT, "BDTG_3",
+	    opt_method + "NTrees=800:Shrinkage=1");
+    factory->BookMethod( dataloader, TMVA::Types::kBDT, "BDTG_4",
+	    opt_method + "NTrees=800:Shrinkage=2.5");
+    factory->BookMethod( dataloader, TMVA::Types::kBDT, "BDTG_5",
+	    opt_method + "NTrees=800:Shrinkage=10");
 
     // start training model
     cout << "[INFO] Start training!\n";
