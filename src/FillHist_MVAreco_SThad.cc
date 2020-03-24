@@ -1,12 +1,10 @@
 // Take dataset TTree as input and produce histograms (saved in root files).
-// This code deals with signal MC. Besides producing hist, it also prints additional info like reconstruction correctness.
 //
 // input arguments:
 // 1. comma-separated list of input root files
 // 2. name of input TTree
 // 3. path to output root file
 // 4. cut value on the MVA score
-// 5. if events with Mgg [120-130] GeV are excluded or not
 
 #include "utility.h"
 
@@ -75,10 +73,9 @@ enum HistVar {
     met_py,
     met_SumET,
     //////////
-    tthad_mva,
+    sthad_mva,
     invm_W,
     invm_M1,
-    invm_M2,
     //////////
     nhist
 };
@@ -90,7 +87,6 @@ int main(int argc, char **argv)
     char *inTree_name = argv[2];
     char *fout_name = argv[3];
     double cut_MVA = atof(argv[4]);
-    int set_blind = atoi(argv[5]);
 
     cout << "[INFO] Start processing n-tuple: " << fout_name << endl;
 
@@ -182,11 +178,10 @@ int main(int argc, char **argv)
     hists[met_px] =      new TH1D("met_px",      ";MET p_{x} (GeV);",       20, -200,  200);
     hists[met_py] =      new TH1D("met_py",      ";MET p_{y} (GeV);",       20, -200,  200);
     hists[met_SumET] =   new TH1D("met_SumET",   ";MET E^{sum}_{T} (GeV);", 20,    0, 4000);
-    // variables for MVA reconstruction of TT hadronic signal
-    hists[tthad_mva] =   new TH1D("tthad_mva",   ";MVA score;",      20, 0,  1);
+    // variables for MVA reconstruction of ST hadronic signal
+    hists[sthad_mva] =   new TH1D("sthad_mva",   ";MVA score;",      20, 0,  1);
     hists[invm_W] =      new TH1D("invm_W",      ";M_{W} (GeV);",    20,    0,  250);
     hists[invm_M1] =     new TH1D("invm_M1",     ";M1 (GeV);",       20,   50,  350);
-    hists[invm_M2] =     new TH1D("invm_M2",     ";M2 (GeV);",       20,    0,  500);
 
     char *unit[nhist];
     unit[dipho_mass]  = "GeV";
@@ -233,11 +228,10 @@ int main(int argc, char **argv)
     unit[met_px]    = "GeV";
     unit[met_py]    = "GeV";
     unit[met_SumET] = "GeV";
-    // variables for MVA reconstruction of TT hadronic signal
-    unit[tthad_mva] = "";
+    // variables for MVA reconstruction of ST hadronic signal
+    unit[sthad_mva] = "";
     unit[invm_W]    = "GeV";
     unit[invm_M1]   = "GeV";
-    unit[invm_M2]   = "GeV";
 
     for (int i=0; i<nhist; ++i) {
 	double bin_width = (hists[i]->GetXaxis()->GetXmax() - hists[i]->GetXaxis()->GetXmin()) / hists[i]->GetNbinsX();
@@ -309,21 +303,21 @@ int main(int argc, char **argv)
     vector<float> *ElecInfo_Energy = 0;
     vector<float> *ElecInfo_EtaSC = 0;
     vector<float> *ElecInfo_PhiSC = 0;
-    vector<float> *ElecInfo_GsfTrackDz = 0;
-    vector<float> *ElecInfo_GsfTrackDxy = 0;
+    //vector<float> *ElecInfo_GsfTrackDz = 0;
+    //vector<float> *ElecInfo_GsfTrackDxy = 0;
     vector<bool> *ElecInfo_EGMCutBasedIDVeto = 0;
     vector<bool> *ElecInfo_EGMCutBasedIDLoose = 0;
     vector<bool> *ElecInfo_EGMCutBasedIDMedium = 0;
     vector<bool> *ElecInfo_EGMCutBasedIDTight = 0;
     vector<bool> *ElecInfo_passConvVeto = 0;
     vector<bool> *ElecInfo_fggPhoVeto = 0;
-    vector<float> *ElecInfo_EnergyCorrFactor = 0;
-    vector<float> *ElecInfo_EnergyPostCorrErr = 0;
-    vector<bool> *ElecInfo_GenMatch = 0;
-    vector<int> *ElecInfo_GenPdgID = 0;
-    vector<float> *ElecInfo_GenPt = 0;
-    vector<float> *ElecInfo_GenEta = 0;
-    vector<float> *ElecInfo_GenPhi = 0;
+    //vector<float> *ElecInfo_EnergyCorrFactor = 0;
+    //vector<float> *ElecInfo_EnergyPostCorrErr = 0;
+    //vector<bool> *ElecInfo_GenMatch = 0;
+    //vector<int> *ElecInfo_GenPdgID = 0;
+    //vector<float> *ElecInfo_GenPt = 0;
+    //vector<float> *ElecInfo_GenEta = 0;
+    //vector<float> *ElecInfo_GenPhi = 0;
     int MuonInfo_Size = 0;
     vector<int> *MuonInfo_Charge = 0;
     vector<float> *MuonInfo_MuonType = 0;
@@ -338,11 +332,11 @@ int main(int argc, char **argv)
     vector<bool> *MuonInfo_CutBasedIdMedium = 0;
     vector<bool> *MuonInfo_CutBasedIdTight = 0;
     vector<bool> *MuonInfo_CutBasedIdTight_bestVtx = 0;
-    vector<bool> *MuonInfo_GenMatch = 0;
-    vector<int> *MuonInfo_GenPdgID = 0;
-    vector<float> *MuonInfo_GenPt = 0;
-    vector<float> *MuonInfo_GenEta = 0;
-    vector<float> *MuonInfo_GenPhi = 0;
+    //vector<bool> *MuonInfo_GenMatch = 0;
+    //vector<int> *MuonInfo_GenPdgID = 0;
+    //vector<float> *MuonInfo_GenPt = 0;
+    //vector<float> *MuonInfo_GenEta = 0;
+    //vector<float> *MuonInfo_GenPhi = 0;
     int jets_size = 0;
     vector<float> *JetInfo_Pt = 0;
     vector<float> *JetInfo_Eta = 0;
@@ -371,44 +365,42 @@ int main(int argc, char **argv)
     vector<float> *JetInfo_pfDeepFlavourJetTags_problepb = 0;
     vector<float> *JetInfo_JECScale = 0;
     vector<float> *JetInfo_JERScale = 0;
-    vector<bool> *JetInfo_GenPartonMatch = 0;
-    vector<float> *JetInfo_GenPt = 0;
-    vector<float> *JetInfo_GenEta = 0;
-    vector<float> *JetInfo_GenPhi = 0;
-    vector<int> *JetInfo_GenPdgID = 0;
-    vector<int> *JetInfo_GenFlavor = 0;
-    vector<int> *JetInfo_GenHadronFlavor = 0;
+    //vector<bool> *JetInfo_GenPartonMatch = 0;
+    //vector<float> *JetInfo_GenPt = 0;
+    //vector<float> *JetInfo_GenEta = 0;
+    //vector<float> *JetInfo_GenPhi = 0;
+    //vector<int> *JetInfo_GenPdgID = 0;
+    //vector<int> *JetInfo_GenFlavor = 0;
+    //vector<int> *JetInfo_GenHadronFlavor = 0;
     float MetInfo_Pt = 0;
     float MetInfo_Phi = 0;
     float MetInfo_Px = 0;
     float MetInfo_Py = 0;
     float MetInfo_SumET = 0;
-    int GenPartInfo_size = 0;
-    vector<float> *GenPartInfo_Pt = 0;
-    vector<float> *GenPartInfo_Eta = 0;
-    vector<float> *GenPartInfo_Phi = 0;
-    vector<float> *GenPartInfo_Mass = 0;
-    vector<int> *GenPartInfo_PdgID = 0;
-    vector<int> *GenPartInfo_Status = 0;
-    vector<int> *GenPartInfo_nMo = 0;
-    vector<int> *GenPartInfo_nDa = 0;
-    vector<bool> *GenPartInfo_isHardProcess = 0;
-    vector<bool> *GenPartInfo_fromHardProcessFinalState = 0;
-    vector<bool> *GenPartInfo_isPromptFinalState = 0;
-    vector<bool> *GenPartInfo_isDirectPromptTauDecayProductFinalState = 0;
-    vector<int> *GenPartInfo_MomPdgID = 0;
-    vector<int> *GenPartInfo_MomStatus = 0;
-    vector<float> *GenPartInfo_MomPt = 0;
-    vector<float> *GenPartInfo_MomEta = 0;
-    vector<float> *GenPartInfo_MomPhi = 0;
-    vector<float> *GenPartInfo_MomMass = 0;
-
-    // variables for MVA reconstruction of TT hadronic events
-    bool truth_matched = 0;
-    float TThad_recoMVA = 0;
+    //int GenPartInfo_size = 0;
+    //vector<float> *GenPartInfo_Pt = 0;
+    //vector<float> *GenPartInfo_Eta = 0;
+    //vector<float> *GenPartInfo_Phi = 0;
+    //vector<float> *GenPartInfo_Mass = 0;
+    //vector<int> *GenPartInfo_PdgID = 0;
+    //vector<int> *GenPartInfo_Status = 0;
+    //vector<int> *GenPartInfo_nMo = 0;
+    //vector<int> *GenPartInfo_nDa = 0;
+    //vector<bool> *GenPartInfo_isHardProcess = 0;
+    //vector<bool> *GenPartInfo_fromHardProcessFinalState = 0;
+    //vector<bool> *GenPartInfo_isPromptFinalState = 0;
+    //vector<bool> *GenPartInfo_isDirectPromptTauDecayProductFinalState = 0;
+    //vector<int> *GenPartInfo_MomPdgID = 0;
+    //vector<int> *GenPartInfo_MomStatus = 0;
+    //vector<float> *GenPartInfo_MomPt = 0;
+    //vector<float> *GenPartInfo_MomEta = 0;
+    //vector<float> *GenPartInfo_MomPhi = 0;
+    //vector<float> *GenPartInfo_MomMass = 0;
+    //
+    // variables for MVA reconstruction of ST hadronic events
+    float SThad_recoMVA = 0;
     float InvMass_W = 0;
     float InvMass_M1 = 0;
-    float InvMass_M2 = 0;
 
     // set input tree branches
     inTree->SetBranchAddress("EvtInfo.NPu", &EvtInfo_NPu);
@@ -472,21 +464,21 @@ int main(int argc, char **argv)
     inTree->SetBranchAddress("ElecInfo.Energy", &ElecInfo_Energy);
     inTree->SetBranchAddress("ElecInfo.EtaSC", &ElecInfo_EtaSC);
     inTree->SetBranchAddress("ElecInfo.PhiSC", &ElecInfo_PhiSC);
-    inTree->SetBranchAddress("ElecInfo.GsfTrackDz", &ElecInfo_GsfTrackDz);
-    inTree->SetBranchAddress("ElecInfo.GsfTrackDxy", &ElecInfo_GsfTrackDxy);
+    //inTree->SetBranchAddress("ElecInfo.GsfTrackDz", &ElecInfo_GsfTrackDz);
+    //inTree->SetBranchAddress("ElecInfo.GsfTrackDxy", &ElecInfo_GsfTrackDxy);
     inTree->SetBranchAddress("ElecInfo.EGMCutBasedIDVeto", &ElecInfo_EGMCutBasedIDVeto);
     inTree->SetBranchAddress("ElecInfo.EGMCutBasedIDLoose", &ElecInfo_EGMCutBasedIDLoose);
     inTree->SetBranchAddress("ElecInfo.EGMCutBasedIDMedium", &ElecInfo_EGMCutBasedIDMedium);
     inTree->SetBranchAddress("ElecInfo.EGMCutBasedIDTight", &ElecInfo_EGMCutBasedIDTight);
     inTree->SetBranchAddress("ElecInfo.passConvVeto", &ElecInfo_passConvVeto);
     inTree->SetBranchAddress("ElecInfo.fggPhoVeto", &ElecInfo_fggPhoVeto);
-    inTree->SetBranchAddress("ElecInfo.EnergyCorrFactor", &ElecInfo_EnergyCorrFactor);
-    inTree->SetBranchAddress("ElecInfo.EnergyPostCorrErr", &ElecInfo_EnergyPostCorrErr);
-    inTree->SetBranchAddress("ElecInfo.GenMatch", &ElecInfo_GenMatch);
-    inTree->SetBranchAddress("ElecInfo.GenPdgID", &ElecInfo_GenPdgID);
-    inTree->SetBranchAddress("ElecInfo.GenPt", &ElecInfo_GenPt);
-    inTree->SetBranchAddress("ElecInfo.GenEta", &ElecInfo_GenEta);
-    inTree->SetBranchAddress("ElecInfo.GenPhi", &ElecInfo_GenPhi);
+    //inTree->SetBranchAddress("ElecInfo.EnergyCorrFactor", &ElecInfo_EnergyCorrFactor);
+    //inTree->SetBranchAddress("ElecInfo.EnergyPostCorrErr", &ElecInfo_EnergyPostCorrErr);
+    //inTree->SetBranchAddress("ElecInfo.GenMatch", &ElecInfo_GenMatch);
+    //inTree->SetBranchAddress("ElecInfo.GenPdgID", &ElecInfo_GenPdgID);
+    //inTree->SetBranchAddress("ElecInfo.GenPt", &ElecInfo_GenPt);
+    //inTree->SetBranchAddress("ElecInfo.GenEta", &ElecInfo_GenEta);
+    //inTree->SetBranchAddress("ElecInfo.GenPhi", &ElecInfo_GenPhi);
     inTree->SetBranchAddress("MuonInfo.Size", &MuonInfo_Size);
     inTree->SetBranchAddress("MuonInfo.Charge", &MuonInfo_Charge);
     inTree->SetBranchAddress("MuonInfo.MuonType", &MuonInfo_MuonType);
@@ -501,11 +493,11 @@ int main(int argc, char **argv)
     inTree->SetBranchAddress("MuonInfo.CutBasedIdMedium", &MuonInfo_CutBasedIdMedium);
     inTree->SetBranchAddress("MuonInfo.CutBasedIdTight", &MuonInfo_CutBasedIdTight);
     inTree->SetBranchAddress("MuonInfo.CutBasedIdTight_bestVtx", &MuonInfo_CutBasedIdTight_bestVtx);
-    inTree->SetBranchAddress("MuonInfo.GenMatch", &MuonInfo_GenMatch);
-    inTree->SetBranchAddress("MuonInfo.GenPdgID", &MuonInfo_GenPdgID);
-    inTree->SetBranchAddress("MuonInfo.GenPt", &MuonInfo_GenPt);
-    inTree->SetBranchAddress("MuonInfo.GenEta", &MuonInfo_GenEta);
-    inTree->SetBranchAddress("MuonInfo.GenPhi", &MuonInfo_GenPhi);
+    //inTree->SetBranchAddress("MuonInfo.GenMatch", &MuonInfo_GenMatch);
+    //inTree->SetBranchAddress("MuonInfo.GenPdgID", &MuonInfo_GenPdgID);
+    //inTree->SetBranchAddress("MuonInfo.GenPt", &MuonInfo_GenPt);
+    //inTree->SetBranchAddress("MuonInfo.GenEta", &MuonInfo_GenEta);
+    //inTree->SetBranchAddress("MuonInfo.GenPhi", &MuonInfo_GenPhi);
     inTree->SetBranchAddress("jets_size", &jets_size);
     inTree->SetBranchAddress("JetInfo.Pt", &JetInfo_Pt);
     inTree->SetBranchAddress("JetInfo.Eta", &JetInfo_Eta);
@@ -534,58 +526,53 @@ int main(int argc, char **argv)
     inTree->SetBranchAddress("JetInfo.pfDeepFlavourJetTags_problepb", &JetInfo_pfDeepFlavourJetTags_problepb);
     inTree->SetBranchAddress("JetInfo.JECScale", &JetInfo_JECScale);
     inTree->SetBranchAddress("JetInfo.JERScale", &JetInfo_JERScale);
-    inTree->SetBranchAddress("JetInfo.GenPartonMatch", &JetInfo_GenPartonMatch);
-    inTree->SetBranchAddress("JetInfo.GenPt", &JetInfo_GenPt);
-    inTree->SetBranchAddress("JetInfo.GenEta", &JetInfo_GenEta);
-    inTree->SetBranchAddress("JetInfo.GenPhi", &JetInfo_GenPhi);
-    inTree->SetBranchAddress("JetInfo.GenPdgID", &JetInfo_GenPdgID);
-    inTree->SetBranchAddress("JetInfo.GenFlavor", &JetInfo_GenFlavor);
-    inTree->SetBranchAddress("JetInfo.GenHadronFlavor", &JetInfo_GenHadronFlavor);
+    //inTree->SetBranchAddress("JetInfo.GenPartonMatch", &JetInfo_GenPartonMatch);
+    //inTree->SetBranchAddress("JetInfo.GenPt", &JetInfo_GenPt);
+    //inTree->SetBranchAddress("JetInfo.GenEta", &JetInfo_GenEta);
+    //inTree->SetBranchAddress("JetInfo.GenPhi", &JetInfo_GenPhi);
+    //inTree->SetBranchAddress("JetInfo.GenPdgID", &JetInfo_GenPdgID);
+    //inTree->SetBranchAddress("JetInfo.GenFlavor", &JetInfo_GenFlavor);
+    //inTree->SetBranchAddress("JetInfo.GenHadronFlavor", &JetInfo_GenHadronFlavor);
     inTree->SetBranchAddress("MetInfo.Pt", &MetInfo_Pt);
     inTree->SetBranchAddress("MetInfo.Phi", &MetInfo_Phi);
     inTree->SetBranchAddress("MetInfo.Px", &MetInfo_Px);
     inTree->SetBranchAddress("MetInfo.Py", &MetInfo_Py);
     inTree->SetBranchAddress("MetInfo.SumET", &MetInfo_SumET);
-    inTree->SetBranchAddress("GenPartInfo.size", &GenPartInfo_size);
-    inTree->SetBranchAddress("GenPartInfo.Pt", &GenPartInfo_Pt);
-    inTree->SetBranchAddress("GenPartInfo.Eta", &GenPartInfo_Eta);
-    inTree->SetBranchAddress("GenPartInfo.Phi", &GenPartInfo_Phi);
-    inTree->SetBranchAddress("GenPartInfo.Mass", &GenPartInfo_Mass);
-    inTree->SetBranchAddress("GenPartInfo.PdgID", &GenPartInfo_PdgID);
-    inTree->SetBranchAddress("GenPartInfo.Status", &GenPartInfo_Status);
-    inTree->SetBranchAddress("GenPartInfo.nMo", &GenPartInfo_nMo);
-    inTree->SetBranchAddress("GenPartInfo.nDa", &GenPartInfo_nDa);
-    inTree->SetBranchAddress("GenPartInfo.isHardProcess", &GenPartInfo_isHardProcess);
-    inTree->SetBranchAddress("GenPartInfo.fromHardProcessFinalState", &GenPartInfo_fromHardProcessFinalState);
-    inTree->SetBranchAddress("GenPartInfo.isPromptFinalState", &GenPartInfo_isPromptFinalState);
-    inTree->SetBranchAddress("GenPartInfo.isDirectPromptTauDecayProductFinalState", &GenPartInfo_isDirectPromptTauDecayProductFinalState);
-    inTree->SetBranchAddress("GenPartInfo.MomPdgID", &GenPartInfo_MomPdgID);
-    inTree->SetBranchAddress("GenPartInfo.MomStatus", &GenPartInfo_MomStatus);
-    inTree->SetBranchAddress("GenPartInfo.MomPt", &GenPartInfo_MomPt);
-    inTree->SetBranchAddress("GenPartInfo.MomEta", &GenPartInfo_MomEta);
-    inTree->SetBranchAddress("GenPartInfo.MomPhi", &GenPartInfo_MomPhi);
-    inTree->SetBranchAddress("GenPartInfo.MomMass", &GenPartInfo_MomMass);
+    //inTree->SetBranchAddress("GenPartInfo.size", &GenPartInfo_size);
+    //inTree->SetBranchAddress("GenPartInfo.Pt", &GenPartInfo_Pt);
+    //inTree->SetBranchAddress("GenPartInfo.Eta", &GenPartInfo_Eta);
+    //inTree->SetBranchAddress("GenPartInfo.Phi", &GenPartInfo_Phi);
+    //inTree->SetBranchAddress("GenPartInfo.Mass", &GenPartInfo_Mass);
+    //inTree->SetBranchAddress("GenPartInfo.PdgID", &GenPartInfo_PdgID);
+    //inTree->SetBranchAddress("GenPartInfo.Status", &GenPartInfo_Status);
+    //inTree->SetBranchAddress("GenPartInfo.nMo", &GenPartInfo_nMo);
+    //inTree->SetBranchAddress("GenPartInfo.nDa", &GenPartInfo_nDa);
+    //inTree->SetBranchAddress("GenPartInfo.isHardProcess", &GenPartInfo_isHardProcess);
+    //inTree->SetBranchAddress("GenPartInfo.fromHardProcessFinalState", &GenPartInfo_fromHardProcessFinalState);
+    //inTree->SetBranchAddress("GenPartInfo.isPromptFinalState", &GenPartInfo_isPromptFinalState);
+    //inTree->SetBranchAddress("GenPartInfo.isDirectPromptTauDecayProductFinalState", &GenPartInfo_isDirectPromptTauDecayProductFinalState);
+    //inTree->SetBranchAddress("GenPartInfo.MomPdgID", &GenPartInfo_MomPdgID);
+    //inTree->SetBranchAddress("GenPartInfo.MomStatus", &GenPartInfo_MomStatus);
+    //inTree->SetBranchAddress("GenPartInfo.MomPt", &GenPartInfo_MomPt);
+    //inTree->SetBranchAddress("GenPartInfo.MomEta", &GenPartInfo_MomEta);
+    //inTree->SetBranchAddress("GenPartInfo.MomPhi", &GenPartInfo_MomPhi);
+    //inTree->SetBranchAddress("GenPartInfo.MomMass", &GenPartInfo_MomMass);
 
-    // variables for MVA reconstruction of TT hadronic events
-    inTree->SetBranchAddress("truth_matched", &truth_matched);
-    inTree->SetBranchAddress("TThad_recoMVA", &TThad_recoMVA);
+    // variables for MVA reconstruction of ST hadronic events
+    inTree->SetBranchAddress("SThad_recoMVA", &SThad_recoMVA);
     inTree->SetBranchAddress("InvMass_W", &InvMass_W);
     inTree->SetBranchAddress("InvMass_M1", &InvMass_M1);
-    inTree->SetBranchAddress("InvMass_M2", &InvMass_M2);
 
     cout << "Input tree is successfully set\n";
 
     int Nevt_out = 0;
-    int Nevt_out_right = 0;
-    int Nevt_out_wrong = 0;
 
     // loop through input tree events
     for (long evt=0; evt<inTree->GetEntries(); ++evt) {
 	if (evt % 100000 == 0) cout << "---Processing event " << evt << "...\n";
 	inTree->GetEntry(evt);
 
-	if (set_blind && DiPhoInfo_mass > 120 && DiPhoInfo_mass < 130) continue;
-	if (TThad_recoMVA < cut_MVA) continue;
+	if (SThad_recoMVA < cut_MVA) continue;
 
 	float weight = EvtInfo_genweight;
 
@@ -656,14 +643,11 @@ int main(int argc, char **argv)
 	hists[met_py]->Fill(MetInfo_Py, weight);
 	hists[met_SumET]->Fill(MetInfo_SumET, weight);
 
-	hists[tthad_mva]->Fill(TThad_recoMVA, weight);
+	hists[sthad_mva]->Fill(SThad_recoMVA, weight);
 	hists[invm_W]->Fill(InvMass_W, weight);
 	hists[invm_M1]->Fill(InvMass_M1, weight);
-	hists[invm_M2]->Fill(InvMass_M2, weight);
 
 	Nevt_out += 1;
-	if (truth_matched) Nevt_out_right += 1;
-	else Nevt_out_wrong += 1;
     } // end of input tree event loop
 
     // save the histograms
@@ -674,9 +658,6 @@ int main(int argc, char **argv)
 
     cout << "\n[Summary]\n";
     cout << "---Number of events passing MVA cut value " << cut_MVA << " : " << Nevt_out << endl;
-    cout << "---Number of events passing cut and is truth matched : " << Nevt_out_right << endl;
-    cout << "---Number of events passing cut and is not truth matched : " << Nevt_out_wrong << endl;
-    cout << "---Num of matched events / Num of output events : " << (float)Nevt_out_right/Nevt_out * 100 << " %" << endl;
 
     return 0;
 }

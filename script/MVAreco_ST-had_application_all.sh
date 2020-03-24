@@ -4,15 +4,15 @@
 #!/bin/bash
 set -o noglob
 
-indir=/wk_cms2/mc_cheng/public/tqHGG/2017/MVAreco_TT-had/input
-outdir=/wk_cms2/mc_cheng/public/tqHGG/2017/MVAreco_TT-had/output/All/$1
+indir=$DIR_PROD/2017/MVAreco_ST-had/input
+outdir=$DIR_PROD/2017/MVAreco_ST-had/output/All/$1
 mkdir $outdir
 method=$1
-weightfile=/wk_cms2/mc_cheng/public/tqHGG/2017/MVAreco_TT-had/training/All/dataset/weights/MVAreco_TT-had_$1.weights.xml
+weightfile=$DIR_PROD/2017/MVAreco_ST-had/training/All/dataset/weights/MVAreco_ST-had_$1.weights.xml
 
 Run() {
     echo -e "\n\n\n===Start processing: $1==="
-    $DIR_TQHGG/bin/MVAreco_TT-had_application_all \
+    $DIR_TQHGG/bin/MVAreco_ST-had_application_all \
 	$indir/$1.root \
 	flashggStdTree \
 	$method \
@@ -54,6 +54,6 @@ RunAll() {
     Run THW_HToGG
 }
 
-RunAll | tee $outdir/MVAreco_TT-had_application_all.log
+RunAll | tee $outdir/MVAreco_ST-had_application_all.log
 
 exit 0

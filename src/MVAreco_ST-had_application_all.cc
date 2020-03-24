@@ -1,250 +1,47 @@
-// Take dataset TTree as input and produce histograms (saved in root files).
+// Applying trained models for reconstruction of hadronic ST signal to bkg MC and data.
 //
 // input arguments:
-// 1. comma-separated list of input root files
+// 1. path to input root file
 // 2. name of input TTree
-// 3. path to output root file
-// 4. cut value on the MVA score
+// 3. name of TMVA method
+// 4. path to TMVA weight file
+// 5. path to output root file
 
-#include "utility.h"
+#include "TMVA/Tools.h"
+#include "TMVA/Reader.h"
 
 #include "TFile.h"
 #include "TChain.h"
-#include "TH1D.h"
-#include "TH2.h"
-#include "TLorentzVector.h"
+#include "TTree.h"
+#include "TString.h"
 
 #include <iostream>
-#include <cstdlib>
-#include <cmath>
 #include <vector>
-#include <string>
 using namespace std;
 
-enum HistVar {
-    dipho_mass,
-    dipho_pt,
-    dipho_eta,
-    dipho_phi,
-    dipho_E,
-    //////////
-    pho1_pt,
-    pho1_eta,
-    pho1_phi,
-    pho1_E,
-    pho1_idmva,
-    pho2_pt,
-    pho2_eta,
-    pho2_phi,
-    pho2_E,
-    pho2_idmva,
-    //////////
-    elec_N,
-    elec_charge,
-    elec_pt,
-    elec_eta,
-    elec_phi,
-    elec_E,
-    //////////
-    muon_N,
-    muon_charge,
-    muon_pt,
-    muon_eta,
-    muon_phi,
-    muon_E,
-    //////////
-    lep_N,
-    lep_charge,
-    lep_pt,
-    lep_eta,
-    lep_phi,
-    lep_E,
-    //////////
-    jet_N,
-    jet_pt,
-    jet_eta,
-    jet_phi,
-    jet_E,
-    jet_M,
-    //////////
-    met_pt,
-    met_phi,
-    met_px,
-    met_py,
-    met_SumET,
-    //////////
-    tthad_mva,
-    invm_W,
-    invm_M1,
-    invm_M2,
-    //////////
-    nhist
-};
+// cut on MVA score
+double cut_MVA = -999;
 
 int main(int argc, char **argv)
 {
     // get input arguments
-    vector<string> fin_name;  ParseCStringList(argv[1], fin_name);
-    char *inTree_name = argv[2];
-    char *fout_name = argv[3];
-    double cut_MVA = atof(argv[4]);
+    TString fin_name = argv[1];
+    TString inTree_name = argv[2];
+    TString method = argv[3];
+    TString fweight_name = argv[4];
+    TString fout_name = argv[5];
 
-    cout << "[INFO] Start processing n-tuple: " << fout_name << endl;
+    cout << "[INFO] Reading root file: " << fin_name << endl;
 
-    // read input root files
+    // read input root file
     TChain *inTree = new TChain(inTree_name);
-    for (int i=0; i<fin_name.size(); ++i) {
-	inTree->Add(fin_name[i].c_str());
-	cout << "---Input file added: " << fin_name[i] << endl;
-    }
+    inTree->Add(fin_name);
 
-/*
-    // read scale factor root files
-    bool use_SF_elec_RECO = 1;
-    bool use_SF_elec_ID = 1;
-    bool use_SF_muon_ID = 1;
-    bool use_SF_muon_ISO = 1;
-    TFile *fSF_elec_RECO = 0;
-    TFile *fSF_elec_ID = 0;
-    TFile *fSF_muon_ID = 0;
-    TFile *fSF_muon_ISO = 0;
-    TH2F *hSF_elec_RECO = 0;
-    TH2F *hSF_elec_ID = 0;
-    TH2D *hSF_muon_ID = 0;
-    TH2D *hSF_muon_ISO = 0;
-    if (use_SF_elec_RECO) {
-	fSF_elec_RECO = new TFile("/wk_cms2/mc_cheng/public/tqHGG/2017/SF/egammaEffi.txt_EGM2D_runBCDEF_passingRECO.root");
-	hSF_elec_RECO = (TH2F*)fSF_elec_RECO->Get("EGamma_SF2D");
-    }
-    if (use_SF_elec_ID) {
-	fSF_elec_ID = new TFile("/wk_cms2/mc_cheng/public/tqHGG/2017/SF/2017_ElectronMedium.root");
-	hSF_elec_ID = (TH2F*)fSF_elec_ID->Get("EGamma_SF2D");
-    }
-    if (use_SF_muon_ID) {
-	fSF_muon_ID = new TFile("/wk_cms2/mc_cheng/public/tqHGG/2017/SF/RunBCDEF_SF_ID.root");
-	hSF_muon_ID = (TH2D*)fSF_muon_ID->Get("NUM_TightID_DEN_genTracks_pt_abseta");
-    }
-    if (use_SF_muon_ISO) {
-	fSF_muon_ISO = new TFile("/wk_cms2/mc_cheng/public/tqHGG/2017/SF/RunBCDEF_SF_ISO.root");
-	hSF_muon_ISO = (TH2D*)fSF_muon_ISO->Get("NUM_LooseRelIso_DEN_TightIDandIPCut_pt_abseta");
-    }
-*/
-
-    // create output file
+    // create output root file
     TFile *fout = new TFile(fout_name, "recreate");
+    TTree *outTree = new TTree("flashggStdTree", "");
 
-    // create histograms
-    TH1D *hists[nhist];
-    hists[dipho_mass] =  new TH1D("dipho_mass", ";diphoton mass (GeV);",   16,  100,  180);
-    hists[dipho_pt] =    new TH1D("dipho_pt",   ";diphoton p_{T} (GeV);",  20,    0,  400);
-    hists[dipho_eta] =   new TH1D("dipho_eta",  ";diphoton #eta;",         20,   -3,    3);
-    hists[dipho_phi] =   new TH1D("dipho_phi",  ";diphoton #phi;",         20, -3.5,  3.5);
-    hists[dipho_E] =     new TH1D("dipho_E",    ";diphoton energy (GeV);", 20,    0,  800);
-    hists[pho1_pt] =     new TH1D("pho1_pt",    ";leading photon p_{T} (GeV);",     20,    0,  300);
-    hists[pho1_eta] =    new TH1D("pho1_eta",   ";leading photon #eta;",            20,   -3,    3);
-    hists[pho1_phi] =    new TH1D("pho1_phi",   ";leading photon #phi;",            20, -3.5,  3.5);
-    hists[pho1_E] =      new TH1D("pho1_E",     ";leading photon energy (GeV);",    20,    0,  600);
-    hists[pho1_idmva] =  new TH1D("pho1_idmva", ";leading photon IDMVA;",           20,   -1,    1);
-    hists[pho2_pt] =     new TH1D("pho2_pt",    ";subleading photon p_{T} (GeV);",  20,    0,  150);
-    hists[pho2_eta] =    new TH1D("pho2_eta",   ";subleading photon #eta;",         20,   -3,    3);
-    hists[pho2_phi] =    new TH1D("pho2_phi",   ";subleading photon #phi;",         20, -3.5,  3.5);
-    hists[pho2_E] =      new TH1D("pho2_E",     ";subleading photon energy (GeV);", 20,    0,  300);
-    hists[pho2_idmva] =  new TH1D("pho2_idmva", ";subleading photon IDMVA;",        20,   -1,    1);
-    hists[elec_N] =      new TH1D("elec_N",      ";number of electrons;",    7, -0.5, 6.5);
-    hists[elec_charge] = new TH1D("elec_charge", ";electron charge;",        5, -2.5, 2.5);
-    hists[elec_pt] =     new TH1D("elec_pt",     ";electron p_{T} (GeV);",  20,    0, 250);
-    hists[elec_eta] =    new TH1D("elec_eta",    ";electron #eta;",         20,   -3,   3);
-    hists[elec_phi] =    new TH1D("elec_phi",    ";electron #phi;",         20, -3.5, 3.5);
-    hists[elec_E] =      new TH1D("elec_E",      ";electron energy (GeV);", 20,    0, 500);
-    hists[muon_N] =      new TH1D("muon_N",      ";number of muons;",        7, -0.5, 6.5);
-    hists[muon_charge] = new TH1D("muon_charge", ";muon charge;",            5, -2.5, 2.5);
-    hists[muon_pt] =     new TH1D("muon_pt",     ";muon p_{T} (GeV);",      20,    0, 250);
-    hists[muon_eta] =    new TH1D("muon_eta",    ";muon #eta;",             20,   -3,   3);
-    hists[muon_phi] =    new TH1D("muon_phi",    ";muon #phi;",             20, -3.5, 3.5);
-    hists[muon_E] =      new TH1D("muon_E",      ";muon energy (GeV);",     20,    0, 500);
-    hists[lep_N] =       new TH1D("lep_N",       ";number of leptons;",      7, -0.5, 6.5);
-    hists[lep_charge] =  new TH1D("lep_charge",  ";lepton charge;",          5, -2.5, 2.5);
-    hists[lep_pt] =      new TH1D("lep_pt",      ";lepton p_{T} (GeV);",    20,    0, 250);
-    hists[lep_eta] =     new TH1D("lep_eta",     ";lepton #eta;",           20,   -3,   3);
-    hists[lep_phi] =     new TH1D("lep_phi",     ";lepton #phi;",           20, -3.5, 3.5);
-    hists[lep_E] =       new TH1D("lep_E",       ";lepton energy (GeV);",   20,    0, 500);
-    hists[jet_N] =       new TH1D("jet_N",       ";number of jets;",   12, -0.5, 11.5);
-    hists[jet_pt] =      new TH1D("jet_pt",      ";jet p_{T} (GeV);",  20,    0,  300);
-    hists[jet_eta] =     new TH1D("jet_eta",     ";jet #eta;",         20,   -3,    3);
-    hists[jet_phi] =     new TH1D("jet_phi",     ";jet #phi;",         20, -3.5,  3.5);
-    hists[jet_E] =       new TH1D("jet_E",       ";jet energy (GeV);", 20,    0,  600);
-    hists[jet_M] =       new TH1D("jet_M",       ";jet mass (GeV);",   20,    0,   50);
-    hists[met_pt] =      new TH1D("met_pt",      ";MET p_{T} (GeV);",       20,    0,  200);
-    hists[met_phi] =     new TH1D("met_phi",     ";MET #phi;",              20, -3.5,  3.5);
-    hists[met_px] =      new TH1D("met_px",      ";MET p_{x} (GeV);",       20, -200,  200);
-    hists[met_py] =      new TH1D("met_py",      ";MET p_{y} (GeV);",       20, -200,  200);
-    hists[met_SumET] =   new TH1D("met_SumET",   ";MET E^{sum}_{T} (GeV);", 20,    0, 4000);
-    // variables for MVA reconstruction of TT hadronic signal
-    hists[tthad_mva] =   new TH1D("tthad_mva",   ";MVA score;",      20, 0,  1);
-    hists[invm_W] =      new TH1D("invm_W",      ";M_{W} (GeV);",    20,    0,  250);
-    hists[invm_M1] =     new TH1D("invm_M1",     ";M1 (GeV);",       20,   50,  350);
-    hists[invm_M2] =     new TH1D("invm_M2",     ";M2 (GeV);",       20,    0,  500);
-
-    char *unit[nhist];
-    unit[dipho_mass]  = "GeV";
-    unit[dipho_pt]    = "GeV";
-    unit[dipho_eta]   = "";
-    unit[dipho_phi]   = "";
-    unit[dipho_E]     = "GeV";
-    unit[pho1_pt]    = "GeV";
-    unit[pho1_eta]   = "";
-    unit[pho1_phi]   = "";
-    unit[pho1_E]     = "GeV";
-    unit[pho1_idmva] = "";
-    unit[pho2_pt]    = "GeV";
-    unit[pho2_eta]   = "";
-    unit[pho2_phi]   = "";
-    unit[pho2_E]     = "GeV";
-    unit[pho2_idmva] = "";
-    unit[elec_N]      = "";
-    unit[elec_charge] = "";
-    unit[elec_pt]     = "GeV";
-    unit[elec_eta]    = "";
-    unit[elec_phi]    = "";
-    unit[elec_E]      = "GeV";
-    unit[muon_N]      = "";
-    unit[muon_charge] = "";
-    unit[muon_pt]     = "GeV";
-    unit[muon_eta]    = "";
-    unit[muon_phi]    = "";
-    unit[muon_E]      = "GeV";
-    unit[lep_N]       = "";
-    unit[lep_charge]  = "";
-    unit[lep_pt]      = "GeV";
-    unit[lep_eta]     = "";
-    unit[lep_phi]     = "";
-    unit[lep_E]       = "GeV";
-    unit[jet_N]   = "";
-    unit[jet_pt]  = "GeV";
-    unit[jet_eta] = "";
-    unit[jet_phi] = "";
-    unit[jet_E]   = "GeV";
-    unit[jet_M]   = "GeV";
-    unit[met_pt]    = "GeV";
-    unit[met_phi]   = "";
-    unit[met_px]    = "GeV";
-    unit[met_py]    = "GeV";
-    unit[met_SumET] = "GeV";
-    // variables for MVA reconstruction of TT hadronic signal
-    unit[tthad_mva] = "";
-    unit[invm_W]    = "GeV";
-    unit[invm_M1]   = "GeV";
-    unit[invm_M2]   = "GeV";
-
-    for (int i=0; i<nhist; ++i) {
-	double bin_width = (hists[i]->GetXaxis()->GetXmax() - hists[i]->GetXaxis()->GetXmin()) / hists[i]->GetNbinsX();
-	hists[i]->SetYTitle( Form("events / %.2g %s", bin_width, unit[i]) );
-	hists[i]->Sumw2();
-    }
-
-    cout << "Histograms are initialized\n";
-
-    // declare input tree variables
+    // declare tree variables
     float EvtInfo_NPu = 0;
     int EvtInfo_NVtx = 0;
     bool EvtInfo_passTrigger = 0;
@@ -399,12 +196,33 @@ int main(int argc, char **argv)
     //vector<float> *GenPartInfo_MomEta = 0;
     //vector<float> *GenPartInfo_MomPhi = 0;
     //vector<float> *GenPartInfo_MomMass = 0;
-    //
-    // variables for MVA reconstruction of TT hadronic events
-    float TThad_recoMVA = 0;
+    int idx_perm = 0;
+    int N_perm = 0;
+    //bool truth_matched = 0;
+    int idx_Wjet1 = 0;
+    int idx_Wjet2 = 0;
+    int idx_M1bjet = 0;
     float InvMass_W = 0;
     float InvMass_M1 = 0;
-    float InvMass_M2 = 0;
+    // variables for MVA score calculation
+    float bJet_M1_Pt = 0;
+    float bJet_M1_Eta = 0;
+    float bJet_M1_Phi = 0;
+    float bJet_M1_E = 0;
+    float bJet_M1_btag = 0;
+    float Jet1_W_Pt = 0;
+    float Jet1_W_Eta = 0;
+    float Jet1_W_Phi = 0;
+    float Jet1_W_E = 0;
+    float Jet1_W_btag = 0;
+    float Jet2_W_Pt = 0;
+    float Jet2_W_Eta = 0;
+    float Jet2_W_Phi = 0;
+    float Jet2_W_E = 0;
+    float Jet2_W_btag = 0;
+
+    // additional variables for output tree
+    float SThad_recoMVA = 0;
 
     // set input tree branches
     inTree->SetBranchAddress("EvtInfo.NPu", &EvtInfo_NPu);
@@ -561,102 +379,292 @@ int main(int argc, char **argv)
     //inTree->SetBranchAddress("GenPartInfo.MomEta", &GenPartInfo_MomEta);
     //inTree->SetBranchAddress("GenPartInfo.MomPhi", &GenPartInfo_MomPhi);
     //inTree->SetBranchAddress("GenPartInfo.MomMass", &GenPartInfo_MomMass);
-
-    // variables for MVA reconstruction of TT hadronic events
-    inTree->SetBranchAddress("TThad_recoMVA", &TThad_recoMVA);
+    inTree->SetBranchAddress("idx_perm", &idx_perm);
+    inTree->SetBranchAddress("N_perm", &N_perm);
+    //inTree->SetBranchAddress("truth_matched", &truth_matched);
+    inTree->SetBranchAddress("idx_Wjet1", &idx_Wjet1);
+    inTree->SetBranchAddress("idx_Wjet2", &idx_Wjet2);
+    inTree->SetBranchAddress("idx_M1bjet", &idx_M1bjet);
     inTree->SetBranchAddress("InvMass_W", &InvMass_W);
     inTree->SetBranchAddress("InvMass_M1", &InvMass_M1);
-    inTree->SetBranchAddress("InvMass_M2", &InvMass_M2);
+    inTree->SetBranchAddress("bJet_M1_Pt", &bJet_M1_Pt);
+    inTree->SetBranchAddress("bJet_M1_Eta", &bJet_M1_Eta);
+    inTree->SetBranchAddress("bJet_M1_Phi", &bJet_M1_Phi);
+    inTree->SetBranchAddress("bJet_M1_E", &bJet_M1_E);
+    inTree->SetBranchAddress("bJet_M1_btag", &bJet_M1_btag);
+    inTree->SetBranchAddress("Jet1_W_Pt", &Jet1_W_Pt);
+    inTree->SetBranchAddress("Jet1_W_Eta", &Jet1_W_Eta);
+    inTree->SetBranchAddress("Jet1_W_Phi", &Jet1_W_Phi);
+    inTree->SetBranchAddress("Jet1_W_E", &Jet1_W_E);
+    inTree->SetBranchAddress("Jet1_W_btag", &Jet1_W_btag);
+    inTree->SetBranchAddress("Jet2_W_Pt", &Jet2_W_Pt);
+    inTree->SetBranchAddress("Jet2_W_Eta", &Jet2_W_Eta);
+    inTree->SetBranchAddress("Jet2_W_Phi", &Jet2_W_Phi);
+    inTree->SetBranchAddress("Jet2_W_E", &Jet2_W_E);
+    inTree->SetBranchAddress("Jet2_W_btag", &Jet2_W_btag);
 
-    cout << "Input tree is successfully set\n";
+    cout << "Input tree is successfully set.\n";
 
-    // loop through input tree events
+    // set output tree branches
+    outTree->Branch("EvtInfo.NPu", &EvtInfo_NPu);
+    outTree->Branch("EvtInfo.NVtx", &EvtInfo_NVtx);
+    outTree->Branch("EvtInfo.passTrigger", &EvtInfo_passTrigger);
+    outTree->Branch("EvtInfo.genweight", &EvtInfo_genweight);
+    outTree->Branch("EvtInfo.Rho", &EvtInfo_Rho);
+    outTree->Branch("EvtInfo.PVz", &EvtInfo_PVz);
+    outTree->Branch("EvtInfo.BSsigmaz", &EvtInfo_BSsigmaz);
+    outTree->Branch("EvtInfo.Flag_HBHENoiseFilter", &EvtInfo_Flag_HBHENoiseFilter);
+    outTree->Branch("EvtInfo.Flag_HBHENoiseIsoFilter", &EvtInfo_Flag_HBHENoiseIsoFilter);
+    outTree->Branch("EvtInfo.Flag_EcalDeadCellTriggerPrimitiveFilter", &EvtInfo_Flag_EcalDeadCellTriggerPrimitiveFilter);
+    outTree->Branch("EvtInfo.Flag_goodVertices", &EvtInfo_Flag_goodVertices);
+    outTree->Branch("EvtInfo.Flag_globalSuperTightHalo2016Filter", &EvtInfo_Flag_globalSuperTightHalo2016Filter);
+    outTree->Branch("EvtInfo.Flag_BadPFMuonFilter", &EvtInfo_Flag_BadPFMuonFilter);
+    outTree->Branch("EvtInfo.Flag_eeBadScFilter", &EvtInfo_Flag_eeBadScFilter);
+    outTree->Branch("EvtInfo.ecalBadCalibReducedMINIAODFilter", &EvtInfo_ecalBadCalibReducedMINIAODFilter);
+    outTree->Branch("DiPhoInfo.mass", &DiPhoInfo_mass);
+    outTree->Branch("DiPhoInfo.pt", &DiPhoInfo_pt);
+    outTree->Branch("DiPhoInfo.leadPt", &DiPhoInfo_leadPt);
+    outTree->Branch("DiPhoInfo.leadEta", &DiPhoInfo_leadEta);
+    outTree->Branch("DiPhoInfo.leadPhi", &DiPhoInfo_leadPhi);
+    outTree->Branch("DiPhoInfo.leadE", &DiPhoInfo_leadE);
+    outTree->Branch("DiPhoInfo.leadEtaSC", &DiPhoInfo_leadEtaSC);
+    outTree->Branch("DiPhoInfo.leadPhiSC", &DiPhoInfo_leadPhiSC);
+    outTree->Branch("DiPhoInfo.leadsigEOverE", &DiPhoInfo_leadsigEOverE);
+    outTree->Branch("DiPhoInfo.leadR9", &DiPhoInfo_leadR9);
+    outTree->Branch("DiPhoInfo.leadsieie", &DiPhoInfo_leadsieie);
+    outTree->Branch("DiPhoInfo.leadhoe", &DiPhoInfo_leadhoe);
+    outTree->Branch("DiPhoInfo.leadIDMVA", &DiPhoInfo_leadIDMVA);
+    outTree->Branch("DiPhoInfo.leadIsEB", &DiPhoInfo_leadIsEB);
+    outTree->Branch("DiPhoInfo.leadIsEE", &DiPhoInfo_leadIsEE);
+    outTree->Branch("DiPhoInfo.leadhasPixelSeed", &DiPhoInfo_leadhasPixelSeed);
+    outTree->Branch("DiPhoInfo.leadGenMatch", &DiPhoInfo_leadGenMatch);
+    outTree->Branch("DiPhoInfo.leadGenMatchType", &DiPhoInfo_leadGenMatchType);
+    outTree->Branch("DiPhoInfo.subleadPt", &DiPhoInfo_subleadPt);
+    outTree->Branch("DiPhoInfo.subleadEta", &DiPhoInfo_subleadEta);
+    outTree->Branch("DiPhoInfo.subleadPhi", &DiPhoInfo_subleadPhi);
+    outTree->Branch("DiPhoInfo.subleadE", &DiPhoInfo_subleadE);
+    outTree->Branch("DiPhoInfo.subleadEtaSC", &DiPhoInfo_subleadEtaSC);
+    outTree->Branch("DiPhoInfo.subleadPhiSC", &DiPhoInfo_subleadPhiSC);
+    outTree->Branch("DiPhoInfo.subleadsigEOverE", &DiPhoInfo_subleadsigEOverE);
+    outTree->Branch("DiPhoInfo.subleadR9", &DiPhoInfo_subleadR9);
+    outTree->Branch("DiPhoInfo.subleadsieie", &DiPhoInfo_subleadsieie);
+    outTree->Branch("DiPhoInfo.subleadhoe", &DiPhoInfo_subleadhoe);
+    outTree->Branch("DiPhoInfo.subleadIDMVA", &DiPhoInfo_subleadIDMVA);
+    outTree->Branch("DiPhoInfo.subleadIsEB", &DiPhoInfo_subleadIsEB);
+    outTree->Branch("DiPhoInfo.subleadIsEE", &DiPhoInfo_subleadIsEE);
+    outTree->Branch("DiPhoInfo.subleadhasPixelSeed", &DiPhoInfo_subleadhasPixelSeed);
+    outTree->Branch("DiPhoInfo.subleadGenMatch", &DiPhoInfo_subleadGenMatch);
+    outTree->Branch("DiPhoInfo.subleadGenMatchType", &DiPhoInfo_subleadGenMatchType);
+    outTree->Branch("DiPhoInfo.diphotonMVA", &DiPhoInfo_diphotonMVA);
+    outTree->Branch("DiPhoInfo.SelectedVz", &DiPhoInfo_SelectedVz);
+    outTree->Branch("DiPhoInfo.GenVz", &DiPhoInfo_GenVz);
+    outTree->Branch("DiPhoInfo.centralWeight", &DiPhoInfo_centralWeight);
+    outTree->Branch("ElecInfo.Size", &ElecInfo_Size);
+    outTree->Branch("ElecInfo.Charge", &ElecInfo_Charge);
+    outTree->Branch("ElecInfo.Pt", &ElecInfo_Pt);
+    outTree->Branch("ElecInfo.Eta", &ElecInfo_Eta);
+    outTree->Branch("ElecInfo.Phi", &ElecInfo_Phi);
+    outTree->Branch("ElecInfo.Energy", &ElecInfo_Energy);
+    outTree->Branch("ElecInfo.EtaSC", &ElecInfo_EtaSC);
+    outTree->Branch("ElecInfo.PhiSC", &ElecInfo_PhiSC);
+    //outTree->Branch("ElecInfo.GsfTrackDz", &ElecInfo_GsfTrackDz);
+    //outTree->Branch("ElecInfo.GsfTrackDxy", &ElecInfo_GsfTrackDxy);
+    outTree->Branch("ElecInfo.EGMCutBasedIDVeto", &ElecInfo_EGMCutBasedIDVeto);
+    outTree->Branch("ElecInfo.EGMCutBasedIDLoose", &ElecInfo_EGMCutBasedIDLoose);
+    outTree->Branch("ElecInfo.EGMCutBasedIDMedium", &ElecInfo_EGMCutBasedIDMedium);
+    outTree->Branch("ElecInfo.EGMCutBasedIDTight", &ElecInfo_EGMCutBasedIDTight);
+    outTree->Branch("ElecInfo.passConvVeto", &ElecInfo_passConvVeto);
+    outTree->Branch("ElecInfo.fggPhoVeto", &ElecInfo_fggPhoVeto);
+    //outTree->Branch("ElecInfo.EnergyCorrFactor", &ElecInfo_EnergyCorrFactor);
+    //outTree->Branch("ElecInfo.EnergyPostCorrErr", &ElecInfo_EnergyPostCorrErr);
+    //outTree->Branch("ElecInfo.GenMatch", &ElecInfo_GenMatch);
+    //outTree->Branch("ElecInfo.GenPdgID", &ElecInfo_GenPdgID);
+    //outTree->Branch("ElecInfo.GenPt", &ElecInfo_GenPt);
+    //outTree->Branch("ElecInfo.GenEta", &ElecInfo_GenEta);
+    //outTree->Branch("ElecInfo.GenPhi", &ElecInfo_GenPhi);
+    outTree->Branch("MuonInfo.Size", &MuonInfo_Size);
+    outTree->Branch("MuonInfo.Charge", &MuonInfo_Charge);
+    outTree->Branch("MuonInfo.MuonType", &MuonInfo_MuonType);
+    outTree->Branch("MuonInfo.Pt", &MuonInfo_Pt);
+    outTree->Branch("MuonInfo.Eta", &MuonInfo_Eta);
+    outTree->Branch("MuonInfo.Phi", &MuonInfo_Phi);
+    outTree->Branch("MuonInfo.Energy", &MuonInfo_Energy);
+    outTree->Branch("MuonInfo.BestTrackDz", &MuonInfo_BestTrackDz);
+    outTree->Branch("MuonInfo.BestTrackDxy", &MuonInfo_BestTrackDxy);
+    outTree->Branch("MuonInfo.PFIsoDeltaBetaCorrR04", &MuonInfo_PFIsoDeltaBetaCorrR04);
+    outTree->Branch("MuonInfo.TrackerBasedIsoR03", &MuonInfo_TrackerBasedIsoR03);
+    outTree->Branch("MuonInfo.CutBasedIdMedium", &MuonInfo_CutBasedIdMedium);
+    outTree->Branch("MuonInfo.CutBasedIdTight", &MuonInfo_CutBasedIdTight);
+    outTree->Branch("MuonInfo.CutBasedIdTight_bestVtx", &MuonInfo_CutBasedIdTight_bestVtx);
+    //outTree->Branch("MuonInfo.GenMatch", &MuonInfo_GenMatch);
+    //outTree->Branch("MuonInfo.GenPdgID", &MuonInfo_GenPdgID);
+    //outTree->Branch("MuonInfo.GenPt", &MuonInfo_GenPt);
+    //outTree->Branch("MuonInfo.GenEta", &MuonInfo_GenEta);
+    //outTree->Branch("MuonInfo.GenPhi", &MuonInfo_GenPhi);
+    outTree->Branch("jets_size", &jets_size);
+    outTree->Branch("JetInfo.Pt", &JetInfo_Pt);
+    outTree->Branch("JetInfo.Eta", &JetInfo_Eta);
+    outTree->Branch("JetInfo.Phi", &JetInfo_Phi);
+    outTree->Branch("JetInfo.Mass", &JetInfo_Mass);
+    outTree->Branch("JetInfo.Energy", &JetInfo_Energy);
+    outTree->Branch("JetInfo.PtRaw", &JetInfo_PtRaw);
+    outTree->Branch("JetInfo.QGL", &JetInfo_QGL);
+    outTree->Branch("JetInfo.RMS", &JetInfo_RMS);
+    outTree->Branch("JetInfo.puJetIdMVA", &JetInfo_puJetIdMVA);
+    outTree->Branch("JetInfo.passesPuJetIdLoose", &JetInfo_passesPuJetIdLoose);
+    outTree->Branch("JetInfo.passesPuJetIdMedium", &JetInfo_passesPuJetIdMedium);
+    outTree->Branch("JetInfo.passesPuJetIdTight", &JetInfo_passesPuJetIdTight);
+    outTree->Branch("JetInfo.GenJetMatch", &JetInfo_GenJetMatch);
+    outTree->Branch("JetInfo.pfCombinedInclusiveSecondaryVertexV2BJetTags", &JetInfo_pfCombinedInclusiveSecondaryVertexV2BJetTags);
+    outTree->Branch("JetInfo.pfCombinedMVAV2BJetTags", &JetInfo_pfCombinedMVAV2BJetTags);
+    outTree->Branch("JetInfo.pfDeepCSVJetTags_probb", &JetInfo_pfDeepCSVJetTags_probb);
+    outTree->Branch("JetInfo.pfDeepCSVJetTags_probbb", &JetInfo_pfDeepCSVJetTags_probbb);
+    outTree->Branch("JetInfo.pfDeepCSVJetTags_probc", &JetInfo_pfDeepCSVJetTags_probc);
+    outTree->Branch("JetInfo.pfDeepCSVJetTags_probudsg", &JetInfo_pfDeepCSVJetTags_probudsg);
+    outTree->Branch("JetInfo.pfDeepFlavourJetTags_probb", &JetInfo_pfDeepFlavourJetTags_probb);
+    outTree->Branch("JetInfo.pfDeepFlavourJetTags_probbb", &JetInfo_pfDeepFlavourJetTags_probbb);
+    outTree->Branch("JetInfo.pfDeepFlavourJetTags_probc", &JetInfo_pfDeepFlavourJetTags_probc);
+    outTree->Branch("JetInfo.pfDeepFlavourJetTags_probuds", &JetInfo_pfDeepFlavourJetTags_probuds);
+    outTree->Branch("JetInfo.pfDeepFlavourJetTags_probg", &JetInfo_pfDeepFlavourJetTags_probg);
+    outTree->Branch("JetInfo.pfDeepFlavourJetTags_problepb", &JetInfo_pfDeepFlavourJetTags_problepb);
+    outTree->Branch("JetInfo.JECScale", &JetInfo_JECScale);
+    outTree->Branch("JetInfo.JERScale", &JetInfo_JERScale);
+    //outTree->Branch("JetInfo.GenPartonMatch", &JetInfo_GenPartonMatch);
+    //outTree->Branch("JetInfo.GenPt", &JetInfo_GenPt);
+    //outTree->Branch("JetInfo.GenEta", &JetInfo_GenEta);
+    //outTree->Branch("JetInfo.GenPhi", &JetInfo_GenPhi);
+    //outTree->Branch("JetInfo.GenPdgID", &JetInfo_GenPdgID);
+    //outTree->Branch("JetInfo.GenFlavor", &JetInfo_GenFlavor);
+    //outTree->Branch("JetInfo.GenHadronFlavor", &JetInfo_GenHadronFlavor);
+    outTree->Branch("MetInfo.Pt", &MetInfo_Pt);
+    outTree->Branch("MetInfo.Phi", &MetInfo_Phi);
+    outTree->Branch("MetInfo.Px", &MetInfo_Px);
+    outTree->Branch("MetInfo.Py", &MetInfo_Py);
+    outTree->Branch("MetInfo.SumET", &MetInfo_SumET);
+    //outTree->Branch("GenPartInfo.size", &GenPartInfo_size);
+    //outTree->Branch("GenPartInfo.Pt", &GenPartInfo_Pt);
+    //outTree->Branch("GenPartInfo.Eta", &GenPartInfo_Eta);
+    //outTree->Branch("GenPartInfo.Phi", &GenPartInfo_Phi);
+    //outTree->Branch("GenPartInfo.Mass", &GenPartInfo_Mass);
+    //outTree->Branch("GenPartInfo.PdgID", &GenPartInfo_PdgID);
+    //outTree->Branch("GenPartInfo.Status", &GenPartInfo_Status);
+    //outTree->Branch("GenPartInfo.nMo", &GenPartInfo_nMo);
+    //outTree->Branch("GenPartInfo.nDa", &GenPartInfo_nDa);
+    //outTree->Branch("GenPartInfo.isHardProcess", &GenPartInfo_isHardProcess);
+    //outTree->Branch("GenPartInfo.fromHardProcessFinalState", &GenPartInfo_fromHardProcessFinalState);
+    //outTree->Branch("GenPartInfo.isPromptFinalState", &GenPartInfo_isPromptFinalState);
+    //outTree->Branch("GenPartInfo.isDirectPromptTauDecayProductFinalState", &GenPartInfo_isDirectPromptTauDecayProductFinalState);
+    //outTree->Branch("GenPartInfo.MomPdgID", &GenPartInfo_MomPdgID);
+    //outTree->Branch("GenPartInfo.MomStatus", &GenPartInfo_MomStatus);
+    //outTree->Branch("GenPartInfo.MomPt", &GenPartInfo_MomPt);
+    //outTree->Branch("GenPartInfo.MomEta", &GenPartInfo_MomEta);
+    //outTree->Branch("GenPartInfo.MomPhi", &GenPartInfo_MomPhi);
+    //outTree->Branch("GenPartInfo.MomMass", &GenPartInfo_MomMass);
+    outTree->Branch("idx_perm", &idx_perm);
+    outTree->Branch("N_perm", &N_perm);
+    //outTree->Branch("truth_matched", &truth_matched);
+    outTree->Branch("idx_Wjet1", &idx_Wjet1);
+    outTree->Branch("idx_Wjet2", &idx_Wjet2);
+    outTree->Branch("idx_M1bjet", &idx_M1bjet);
+    outTree->Branch("InvMass_W", &InvMass_W);
+    outTree->Branch("InvMass_M1", &InvMass_M1);
+    outTree->Branch("bJet_M1_Pt", &bJet_M1_Pt);
+    outTree->Branch("bJet_M1_Eta", &bJet_M1_Eta);
+    outTree->Branch("bJet_M1_Phi", &bJet_M1_Phi);
+    outTree->Branch("bJet_M1_E", &bJet_M1_E);
+    outTree->Branch("bJet_M1_btag", &bJet_M1_btag);
+    outTree->Branch("Jet1_W_Pt", &Jet1_W_Pt);
+    outTree->Branch("Jet1_W_Eta", &Jet1_W_Eta);
+    outTree->Branch("Jet1_W_Phi", &Jet1_W_Phi);
+    outTree->Branch("Jet1_W_E", &Jet1_W_E);
+    outTree->Branch("Jet1_W_btag", &Jet1_W_btag);
+    outTree->Branch("Jet2_W_Pt", &Jet2_W_Pt);
+    outTree->Branch("Jet2_W_Eta", &Jet2_W_Eta);
+    outTree->Branch("Jet2_W_Phi", &Jet2_W_Phi);
+    outTree->Branch("Jet2_W_E", &Jet2_W_E);
+    outTree->Branch("Jet2_W_btag", &Jet2_W_btag);
+    // additional variables for output tree
+    outTree->Branch("SThad_recoMVA", &SThad_recoMVA);
+
+    cout << "Output tree is successfully set.\n";
+
+    // load TMVA library
+    TMVA::Tools::Instance();
+
+    // create TMVA reader
+    TMVA::Reader *reader = new TMVA::Reader("V");
+
+    // set discriminating variables
+    reader->AddVariable("DiPhoInfo.leadPt", &DiPhoInfo_leadPt);
+    reader->AddVariable("DiPhoInfo.leadEta", &DiPhoInfo_leadEta);
+    reader->AddVariable("DiPhoInfo.leadPhi", &DiPhoInfo_leadPhi);
+    //reader->AddVariable("DiPhoInfo.leadE", &DiPhoInfo_leadE);
+    reader->AddVariable("DiPhoInfo.leadIDMVA", &DiPhoInfo_leadIDMVA);
+    reader->AddVariable("DiPhoInfo.subleadPt", &DiPhoInfo_subleadPt);
+    reader->AddVariable("DiPhoInfo.subleadEta", &DiPhoInfo_subleadEta);
+    reader->AddVariable("DiPhoInfo.subleadPhi", &DiPhoInfo_subleadPhi);
+    //reader->AddVariable("DiPhoInfo.subleadE", &DiPhoInfo_subleadE);
+    reader->AddVariable("DiPhoInfo.subleadIDMVA", &DiPhoInfo_subleadIDMVA);
+    reader->AddVariable("bJet_M1_Pt", &bJet_M1_Pt);
+    reader->AddVariable("bJet_M1_Eta", &bJet_M1_Eta);
+    reader->AddVariable("bJet_M1_Phi", &bJet_M1_Phi);
+    //reader->AddVariable("bJet_M1_E", &bJet_M1_E);
+    reader->AddVariable("bJet_M1_btag", &bJet_M1_btag);
+    reader->AddVariable("Jet1_W_Pt", &Jet1_W_Pt);
+    reader->AddVariable("Jet1_W_Eta", &Jet1_W_Eta);
+    reader->AddVariable("Jet1_W_Phi", &Jet1_W_Phi);
+    //reader->AddVariable("Jet1_W_E", &Jet1_W_E);
+    reader->AddVariable("Jet1_W_btag", &Jet1_W_btag);
+    reader->AddVariable("Jet2_W_Pt", &Jet2_W_Pt);
+    reader->AddVariable("Jet2_W_Eta", &Jet2_W_Eta);
+    reader->AddVariable("Jet2_W_Phi", &Jet2_W_Phi);
+    //reader->AddVariable("Jet2_W_E", &Jet2_W_E);
+    reader->AddVariable("Jet2_W_btag", &Jet2_W_btag);
+
+    // book MVA methods
+    reader->BookMVA(method, fweight_name);
+
+    cout << "[INFO] MVA reader is successfully set!\n";
+
+    double score = 0;
+    double best_score = -999;
+    long best_perm = -1;
+
+    long Nevt_in = inTree->GetEntries();
+    long Nevt_out = 0;
+
+    // loop through each event
     for (long evt=0; evt<inTree->GetEntries(); ++evt) {
-	if (evt % 100000 == 0) cout << "---Processing event " << evt << "...\n";
+	if (evt % 10000 == 0) cout << "Processing event #" << evt << "...\n";
 	inTree->GetEntry(evt);
 
-	if (TThad_recoMVA < cut_MVA) continue;
-
-	float weight = EvtInfo_genweight;
-
-	TLorentzVector leadPho, subleadPho, diphoton;
-	leadPho.SetPtEtaPhiE(DiPhoInfo_leadPt, DiPhoInfo_leadEta, DiPhoInfo_leadPhi, DiPhoInfo_leadE);
-	subleadPho.SetPtEtaPhiE(DiPhoInfo_subleadPt, DiPhoInfo_subleadEta, DiPhoInfo_subleadPhi, DiPhoInfo_subleadE);
-	diphoton = leadPho + subleadPho;
-
-	hists[dipho_mass]->Fill(DiPhoInfo_mass, weight);
-	hists[dipho_pt]->Fill(DiPhoInfo_pt, weight);
-	hists[dipho_eta]->Fill(diphoton.Eta(), weight);
-	hists[dipho_phi]->Fill(diphoton.Phi(), weight);
-	hists[dipho_E]->Fill(diphoton.Energy(), weight);
-
-	hists[pho1_pt]->Fill(DiPhoInfo_leadPt, weight);
-	hists[pho1_eta]->Fill(DiPhoInfo_leadEta, weight);
-	hists[pho1_phi]->Fill(DiPhoInfo_leadPhi, weight);
-	hists[pho1_E]->Fill(DiPhoInfo_leadE, weight);
-	hists[pho1_idmva]->Fill(DiPhoInfo_leadIDMVA, weight);
-	hists[pho2_pt]->Fill(DiPhoInfo_subleadPt, weight);
-	hists[pho2_eta]->Fill(DiPhoInfo_subleadEta, weight);
-	hists[pho2_phi]->Fill(DiPhoInfo_subleadPhi, weight);
-	hists[pho2_E]->Fill(DiPhoInfo_subleadE, weight);
-	hists[pho2_idmva]->Fill(DiPhoInfo_subleadIDMVA, weight);
-
-	hists[elec_N]->Fill(ElecInfo_Size, weight);
-	for (int i=0; i<ElecInfo_Size; ++i) {
-	    hists[elec_charge]->Fill(ElecInfo_Charge->at(i), weight);
-	    hists[elec_pt]->Fill(ElecInfo_Pt->at(i), weight);
-	    hists[elec_eta]->Fill(ElecInfo_Eta->at(i), weight);
-	    hists[elec_phi]->Fill(ElecInfo_Phi->at(i), weight);
-	    hists[elec_E]->Fill(ElecInfo_Energy->at(i), weight);
-
-	    hists[lep_charge]->Fill(ElecInfo_Charge->at(i), weight);
-	    hists[lep_pt]->Fill(ElecInfo_Pt->at(i), weight);
-	    hists[lep_eta]->Fill(ElecInfo_Eta->at(i), weight);
-	    hists[lep_phi]->Fill(ElecInfo_Phi->at(i), weight);
-	    hists[lep_E]->Fill(ElecInfo_Energy->at(i), weight);
-	}
-	hists[muon_N]->Fill(MuonInfo_Size, weight);
-	for (int i=0; i<MuonInfo_Size; ++i) {
-	    hists[muon_charge]->Fill(MuonInfo_Charge->at(i), weight);
-	    hists[muon_pt]->Fill(MuonInfo_Pt->at(i), weight);
-	    hists[muon_eta]->Fill(MuonInfo_Eta->at(i), weight);
-	    hists[muon_phi]->Fill(MuonInfo_Phi->at(i), weight);
-	    hists[muon_E]->Fill(MuonInfo_Energy->at(i), weight);
-
-	    hists[lep_charge]->Fill(MuonInfo_Charge->at(i), weight);
-	    hists[lep_pt]->Fill(MuonInfo_Pt->at(i), weight);
-	    hists[lep_eta]->Fill(MuonInfo_Eta->at(i), weight);
-	    hists[lep_phi]->Fill(MuonInfo_Phi->at(i), weight);
-	    hists[lep_E]->Fill(MuonInfo_Energy->at(i), weight);
-	}
-	hists[lep_N]->Fill(ElecInfo_Size+MuonInfo_Size, weight);
-
-	hists[jet_N]->Fill(jets_size, weight);
-	for (int i=0; i<jets_size; ++i) {
-	    hists[jet_pt]->Fill(JetInfo_Pt->at(i), weight);
-	    hists[jet_eta]->Fill(JetInfo_Eta->at(i), weight);
-	    hists[jet_phi]->Fill(JetInfo_Phi->at(i), weight);
-	    hists[jet_E]->Fill(JetInfo_Energy->at(i), weight);
-	    hists[jet_M]->Fill(JetInfo_Mass->at(i), weight);
+	score = reader->EvaluateMVA(method);
+	if (score > cut_MVA && score > best_score) {
+	    best_score = score;
+	    best_perm = evt;
 	}
 
-	hists[met_pt]->Fill(MetInfo_Pt, weight);
-	hists[met_phi]->Fill(MetInfo_Phi, weight);
-	hists[met_px]->Fill(MetInfo_Px, weight);
-	hists[met_py]->Fill(MetInfo_Py, weight);
-	hists[met_SumET]->Fill(MetInfo_SumET, weight);
+	if ( (idx_perm == N_perm) && (best_perm >= 0) ) {
+	    inTree->GetEntry(best_perm);
+	    SThad_recoMVA = best_score;
+	    outTree->Fill();
+	    Nevt_out += 1;
 
-	hists[tthad_mva]->Fill(TThad_recoMVA, weight);
-	hists[invm_W]->Fill(InvMass_W, weight);
-	hists[invm_M1]->Fill(InvMass_M1, weight);
-	hists[invm_M2]->Fill(InvMass_M2, weight);
-    } // end of input tree event loop
+	    best_score = -999;
+	    best_perm = -1;
+	}
+    } // end of event loop
 
-    // save the histograms
     fout->cd();
-    for (int i=0; i<nhist; ++i) hists[i]->Write();
+    outTree->Write();
     fout->Close();
-    cout << "[INFO] Output histograms are saved at: " << fout_name << endl;
+    cout << "[INFO] Output tree is saved at: " << fout_name << endl;
+
+    cout << "\n[Summary]\n";
+    cout << "---Number of input permutations: " << Nevt_in << endl;
+    cout << "---Number of output events with method \"" << method << "\": " << Nevt_out << endl;
+
+    delete reader;
 
     return 0;
 }

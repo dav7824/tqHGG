@@ -15,6 +15,6 @@ set -e
 
 $DIR_TQHGG/bin/MVAreco_sigMC_TT-had_application_all \
 	$fin flashggStdTree $method $weightfile $outdir/$sample.root \
-	| tee $outdir/MVAreco_TT-had_application.log
+	| tee $outdir/MVAreco_sigMC_TT-had_application_all.log
 
 exit 0

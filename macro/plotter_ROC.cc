@@ -27,21 +27,23 @@ void plotter_ROC()
     vector<int> color = {
 	kYellow-7, kOrange+1, kRed, kGreen-9, kSpring-1, kSpring-7, kCyan, kAzure+2, kViolet+10,
     };*/
-    TString indir = "/wk_cms2/mc_cheng/public/tqHGG/2017/MVAreco_TT-had/training/All/";
+    TString indir = "/wk_cms2/mc_cheng/public/tqHGG/2017/MVAreco_ST-had/training/All/";
     vector<TString> fin_name = {
 	"training_summary_BDT.root",
-	"training_summary_BDT.root",
+	"training_summary_BDTG.root",
+	"training_summary_ANN.root",
 	"training_summary_Cuts.root",
 	"training_summary_Fisher.root",
     };
     vector<TString> hist_name = {
 	Form("dataset/Method_%s/%s/MVA_%s_rejBvsS", "BDT", "BDT", "BDT"),
 	Form("dataset/Method_%s/%s/MVA_%s_rejBvsS", "BDTG", "BDTG", "BDTG"),
+	Form("dataset/Method_%s/%s/MVA_%s_rejBvsS", "ANN", "ANN", "ANN"),
 	Form("dataset/Method_%s/%s/MVA_%s_rejBvsS", "Cuts", "Cuts", "Cuts"),
 	Form("dataset/Method_%s/%s/MVA_%s_rejBvsS", "Fisher", "Fisher", "Fisher"),
     };
     vector<int> color = {
-	kRed, kBlue, kBlack, kSpring-7,
+	kViolet, kRed, kBlue, kBlack, kSpring-7,
     };
 
     int Nhist = hist_name.size();
@@ -62,7 +64,7 @@ void plotter_ROC()
     hists[0]->Draw("l");
     for (int i=1; i<Nhist; ++i) hists[i]->Draw("lsame");
     c->BuildLegend();
-    c->SaveAs("ROC.png");
+    c->SaveAs("ROC_ST-had.png");
 
     for (int i=0; i<Nhist; ++i) fin[i]->Close();
 }

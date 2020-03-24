@@ -4,19 +4,19 @@
 #!/bin/bash
 set -o noglob
 
-sample=TT_FCNC-TtoHJ_aThad_hct
+sample=ST_FCNC-TH_Thad_hct
 cutval=$2
-exe=$DIR_TQHGG/bin/FillHist_MVAreco_TThad
-exe_sig=$DIR_TQHGG/bin/FillHist_sigMC_MVAreco_TThad
-indir=/wk_cms2/mc_cheng/public/tqHGG/2017/MVAreco_TT-had/output/All/$1
+exe=$DIR_TQHGG/bin/FillHist_MVAreco_SThad
+exe_sig=$DIR_TQHGG/bin/FillHist_sigMC_MVAreco_SThad
+indir=/wk_cms2/mc_cheng/public/tqHGG/2017/MVAreco_ST-had/output/All/$1
 outdir=$indir/hist_cut$cutval
 plotsdir=$indir/plots_cut$cutval
 mkdir $outdir $plotsdir
 
 set -e
 
-g++ -o $exe $DIR_TQHGG/src/FillHist_MVAreco_TThad.cc $DIR_TQHGG/src/utility.cc -I$DIR_TQHGG/include `root-config --cflags --libs`
-g++ -o $exe_sig $DIR_TQHGG/src/FillHist_sigMC_MVAreco_TThad.cc $DIR_TQHGG/src/utility.cc -I$DIR_TQHGG/include `root-config --cflags --libs`
+g++ -o $exe $DIR_TQHGG/src/FillHist_MVAreco_SThad.cc $DIR_TQHGG/src/utility.cc -I$DIR_TQHGG/include `root-config --cflags --libs`
+g++ -o $exe_sig $DIR_TQHGG/src/FillHist_sigMC_MVAreco_SThad.cc $DIR_TQHGG/src/utility.cc -I$DIR_TQHGG/include `root-config --cflags --libs`
 echo "Compilation completed"
 
 Run() {
@@ -64,6 +64,6 @@ RunAll() {
     RunSig $sample
 }
 
-RunAll | tee $outdir/FillHist_MVAreco_TThad.log
+RunAll | tee $outdir/FillHist_MVAreco_SThad.log
 
 exit 0

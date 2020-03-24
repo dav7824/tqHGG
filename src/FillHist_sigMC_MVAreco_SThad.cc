@@ -75,10 +75,9 @@ enum HistVar {
     met_py,
     met_SumET,
     //////////
-    tthad_mva,
+    sthad_mva,
     invm_W,
     invm_M1,
-    invm_M2,
     //////////
     nhist
 };
@@ -182,11 +181,10 @@ int main(int argc, char **argv)
     hists[met_px] =      new TH1D("met_px",      ";MET p_{x} (GeV);",       20, -200,  200);
     hists[met_py] =      new TH1D("met_py",      ";MET p_{y} (GeV);",       20, -200,  200);
     hists[met_SumET] =   new TH1D("met_SumET",   ";MET E^{sum}_{T} (GeV);", 20,    0, 4000);
-    // variables for MVA reconstruction of TT hadronic signal
-    hists[tthad_mva] =   new TH1D("tthad_mva",   ";MVA score;",      20, 0,  1);
+    // variables for MVA reconstruction of ST hadronic signal
+    hists[sthad_mva] =   new TH1D("sthad_mva",   ";MVA score;",      20, 0,  1);
     hists[invm_W] =      new TH1D("invm_W",      ";M_{W} (GeV);",    20,    0,  250);
     hists[invm_M1] =     new TH1D("invm_M1",     ";M1 (GeV);",       20,   50,  350);
-    hists[invm_M2] =     new TH1D("invm_M2",     ";M2 (GeV);",       20,    0,  500);
 
     char *unit[nhist];
     unit[dipho_mass]  = "GeV";
@@ -233,11 +231,10 @@ int main(int argc, char **argv)
     unit[met_px]    = "GeV";
     unit[met_py]    = "GeV";
     unit[met_SumET] = "GeV";
-    // variables for MVA reconstruction of TT hadronic signal
-    unit[tthad_mva] = "";
+    // variables for MVA reconstruction of ST hadronic signal
+    unit[sthad_mva] = "";
     unit[invm_W]    = "GeV";
     unit[invm_M1]   = "GeV";
-    unit[invm_M2]   = "GeV";
 
     for (int i=0; i<nhist; ++i) {
 	double bin_width = (hists[i]->GetXaxis()->GetXmax() - hists[i]->GetXaxis()->GetXmin()) / hists[i]->GetNbinsX();
@@ -403,12 +400,11 @@ int main(int argc, char **argv)
     vector<float> *GenPartInfo_MomPhi = 0;
     vector<float> *GenPartInfo_MomMass = 0;
 
-    // variables for MVA reconstruction of TT hadronic events
+    // variables for MVA reconstruction of ST hadronic events
     bool truth_matched = 0;
-    float TThad_recoMVA = 0;
+    float SThad_recoMVA = 0;
     float InvMass_W = 0;
     float InvMass_M1 = 0;
-    float InvMass_M2 = 0;
 
     // set input tree branches
     inTree->SetBranchAddress("EvtInfo.NPu", &EvtInfo_NPu);
@@ -566,12 +562,11 @@ int main(int argc, char **argv)
     inTree->SetBranchAddress("GenPartInfo.MomPhi", &GenPartInfo_MomPhi);
     inTree->SetBranchAddress("GenPartInfo.MomMass", &GenPartInfo_MomMass);
 
-    // variables for MVA reconstruction of TT hadronic events
+    // variables for MVA reconstruction of ST hadronic events
     inTree->SetBranchAddress("truth_matched", &truth_matched);
-    inTree->SetBranchAddress("TThad_recoMVA", &TThad_recoMVA);
+    inTree->SetBranchAddress("SThad_recoMVA", &SThad_recoMVA);
     inTree->SetBranchAddress("InvMass_W", &InvMass_W);
     inTree->SetBranchAddress("InvMass_M1", &InvMass_M1);
-    inTree->SetBranchAddress("InvMass_M2", &InvMass_M2);
 
     cout << "Input tree is successfully set\n";
 
@@ -585,7 +580,7 @@ int main(int argc, char **argv)
 	inTree->GetEntry(evt);
 
 	if (set_blind && DiPhoInfo_mass > 120 && DiPhoInfo_mass < 130) continue;
-	if (TThad_recoMVA < cut_MVA) continue;
+	if (SThad_recoMVA < cut_MVA) continue;
 
 	float weight = EvtInfo_genweight;
 
@@ -656,10 +651,9 @@ int main(int argc, char **argv)
 	hists[met_py]->Fill(MetInfo_Py, weight);
 	hists[met_SumET]->Fill(MetInfo_SumET, weight);
 
-	hists[tthad_mva]->Fill(TThad_recoMVA, weight);
+	hists[sthad_mva]->Fill(SThad_recoMVA, weight);
 	hists[invm_W]->Fill(InvMass_W, weight);
 	hists[invm_M1]->Fill(InvMass_M1, weight);
-	hists[invm_M2]->Fill(InvMass_M2, weight);
 
 	Nevt_out += 1;
 	if (truth_matched) Nevt_out_right += 1;

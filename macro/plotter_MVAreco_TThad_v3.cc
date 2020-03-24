@@ -17,10 +17,12 @@ void plotter_MVAreco_TThad_v3(TString method, TString cut_MVA, bool use_logy = 0
     TString ch = "had";
 
     // set IO directories
-    TString sample = "TT_FCNC-TtoHJ_aThad_hct";
-    TString ntdir = Form("/wk_cms2/mc_cheng/public/tqHGG/%d/MVAreco_TT-had/output/All/%s/", year, method.Data());
+    TString sample = "ST_FCNC-TH_Thad_hct";   /* REMEMBER TO CHANGE TT/ST */
+    //TString sample = "TT_FCNC-TtoHJ_aThad_hct";   /* REMEMBER TO CHANGE TT/ST */
+    TString ntdir = Form("/wk_cms2/mc_cheng/public/tqHGG/%d/MVAreco_ST-had/output/All/%s/", year, method.Data());   /* REMEMBER TO CHANGE TT/ST */
     TString indir = ntdir + Form("hist_cut%s/", cut_MVA.Data());
-    TString outdir = ntdir + Form("plots_cut%s/", cut_MVA.Data());
+    TString outdir = ntdir + Form("plots_noQCD_cut%s_log/", cut_MVA.Data());
+    //TString outdir = ntdir + Form("plots_cut%s/", cut_MVA.Data());
     TString normdir = Form("/wk_cms2/mc_cheng/public/tqHGG/%d/normfactor/", year);
 
     // name of each bkg MC
@@ -183,7 +185,7 @@ void plotter_MVAreco_TThad_v3(TString method, TString cut_MVA, bool use_logy = 0
 
     // create legend
     cout << "Setting legend...\n";
-    TLegend *leg = new TLegend(0.35, 0.7, 0.96, 0.89);
+    TLegend *leg = new TLegend(0.35, 0.7, 0.93, 0.87);
     leg->SetNColumns(3);
     leg->SetLineWidth(0);
     leg->SetFillColorAlpha(kWhite, 0);
@@ -196,7 +198,7 @@ void plotter_MVAreco_TThad_v3(TString method, TString cut_MVA, bool use_logy = 0
     }
     leg->AddEntry(hdata[0], "data", "p");
     leg->AddEntry(hbkg_tot[0], "MC stat err", "f");
-    leg->AddEntry(hsig[0], "TT FCNC", "l");
+    leg->AddEntry(hsig[0], "ST FCNC", "l");   /* REMEMBER TO CHANGE TT/ST */
 
     // create data/MC histograms
     /*cout << "Creating data/MC histograms...\n";
@@ -232,6 +234,7 @@ void plotter_MVAreco_TThad_v3(TString method, TString cut_MVA, bool use_logy = 0
     // create canvas and pads
     TCanvas *c = new TCanvas();
     c->SetGrid(); c->SetTicks();
+    if (use_logy) c->SetLogy();
     /*
     TPad *pad1 = new TPad("pad1", "pad1", 0., 0.23, 1., 1.);
     TPad *pad2 = new TPad("pad2", "pad2", 0., 0., 1., 0.23);
@@ -270,11 +273,11 @@ void plotter_MVAreco_TThad_v3(TString method, TString cut_MVA, bool use_logy = 0
 	hbkg_tot[i]->SetFillStyle(3245);
 	hbkg_tot[i]->SetMarkerStyle(0);
 	// configure bkg MC hist stack
-	TH1 *hs_b = hstack[i]->GetHistogram();
+	/*TH1 *hs_b = hstack[i]->GetHistogram();
 	hs_b->SetTitleSize(0., "x");
 	hs_b->SetLabelSize(0., "x");
 	hs_b->GetYaxis()->SetTitleSize(0.03);
-	hs_b->GetYaxis()->SetLabelSize(0.028);
+	hs_b->GetYaxis()->SetLabelSize(0.028);*/
 	// configure sig MC hist
 	hsig[i]->SetLineColor(kRed);
 	hsig[i]->SetLineWidth(2);
@@ -291,7 +294,7 @@ void plotter_MVAreco_TThad_v3(TString method, TString cut_MVA, bool use_logy = 0
 	else hstack[i]->SetMinimum(0.1);
 
 	// draw plot 1
-	pad1->cd();
+	//pad1->cd();
 	hstack[i]->Draw("hist");
 	hbkg_tot[i]->Draw("e2 same");
 	hsig[i]->Draw("hist same");
@@ -315,7 +318,7 @@ void plotter_MVAreco_TThad_v3(TString method, TString cut_MVA, bool use_logy = 0
 	tex_info->DrawLatexNDC(0.97, 0.94, tex_info_);
 	tex_cms->DrawLatexNDC(0.16, 0.94, "CMS preliminary");
 	tex_ch->DrawLatexNDC(0.15, 0.8, tex_ch_);
-
+/*
 	// configure data/mc hist
 	hdom[i]->SetMarkerStyle(20);
 	hdom[i]->SetMarkerSize(0.6);
@@ -340,7 +343,7 @@ void plotter_MVAreco_TThad_v3(TString method, TString cut_MVA, bool use_logy = 0
 	hdom_err[i]->Draw("e2");
 	lin->DrawLine(hdom_err[i]->GetXaxis()->GetXmin(), 1., hdom_err[i]->GetXaxis()->GetXmax(), 1.);
 	hdom[i]->Draw("p same");
-
+*/
 	// save the canvas
 	c->SaveAs(outdir + hdata[i]->GetName() + ".png");
     } // end of histogram plotting loop
