@@ -1,9 +1,8 @@
 *.swp
 *~
+*.pyc
 bin
 build
 test
-
-TreeReader.h
-TreeWriter.h
-HistVar.h
+tmp
+spec
