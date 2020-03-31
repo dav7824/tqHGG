@@ -25,11 +25,11 @@ def ReadList(path):
 	fin = open(path, 'r')
 	ls = []
 	for line in fin:
-		if line == '\n':
-			continue;
+		if line.strip() == '':
+			continue
 		res = re.match(r'#', line.lstrip())
 		if res:
-			continue;
+			continue
 		ls.append( line.split() )
 
 	fin.close()

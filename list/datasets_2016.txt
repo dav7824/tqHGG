@@ -1,0 +1,29 @@
+# bkg MC
+DiPhotonJetsBox                           DiPhotonJetsBox_MGG-80toInf_13TeV-Sherpa/*.root                                           
+GJet_Pt-20to40_MGG-80toInf                GJet_Pt-20to40_DoubleEMEnriched_MGG-80toInf_TuneCUETP8M1_13TeV_Pythia8.root               
+GJet_Pt-20toInf_MGG-40to80                GJet_Pt-20toInf_DoubleEMEnriched_MGG-40to80_TuneCUETP8M1_13TeV_Pythia8.root               
+GJet_Pt-40toInf_MGG-80toInf               GJet_Pt-40toInf_DoubleEMEnriched_MGG-80toInf_TuneCUETP8M1_13TeV_Pythia8.root              
+QCD_Pt-30to40_MGG-80toInf                 QCD_Pt-30to40_DoubleEMEnriched_MGG-80toInf_TuneCUETP8M1_13TeV_Pythia8.root                
+QCD_Pt-40toInf_MGG-80toInf                QCD_Pt-40toInf_DoubleEMEnriched_MGG-80toInf_TuneCUETP8M1_13TeV_Pythia8.root               
+TGJets                                    TGJets_TuneCUETP8M1_13TeV_amcatnlo_madspin_pythia8.root                                   
+tW_antitop                                ST_tW_antitop_5f_inclusiveDecays_13TeV-powheg-pythia8.root                                
+tW_top                                    ST_tW_top_5f_inclusiveDecays_13TeV-powheg-pythia8.root                                    
+TTGG                                      TTGG_0Jets_TuneCUETP8M1_13TeV_amcatnlo_madspin_pythia8.root                               
+TTGJets                                   TTGJets_TuneCUETP8M1_13TeV-amcatnloFXFX-madspin-pythia8.root                              
+TTJets                                    TTJets_TuneCUETP8M2T4_13TeV-amcatnloFXFX-pythia8.root                                     
+TTWJetsToLNu                              TTWJetsToLNu_TuneCUETP8M1_13TeV-amcatnloFXFX-madspin-pythia8.root                         
+TTZToLLNuNu                               TTZToLLNuNu_M-10_TuneCUETP8M1_13TeV-amcatnlo-pythia8.root                                 
+DYJetsToLL                                DYJetsToLL_M-50_TuneCUETP8M1_13TeV-amcatnloFXFX-pythia8.root                              
+WGToLNuG                                  WGToLNuG_TuneCUETP8M1_13TeV-amcatnloFXFX-pythia8.root                                     
+ZGToLLG                                   ZGTo2LG_TuneCUETP8M1_13TeV-amcatnloFXFX-pythia8.root                                      
+WW                                        WW_TuneCUETP8M1_13TeV-pythia8.root                                                        
+WZ                                        WZ_TuneCUETP8M1_13TeV-pythia8.root                                                        
+ZZ                                        ZZ_TuneCUETP8M1_13TeV-pythia8.root                                                        
+GluGluHToGG                               GluGluHToGG_M125_13TeV_amcatnloFXFX_pythia8.root                                          
+VBFHToGG                                  VBFHToGG_M125_13TeV_amcatnlo_pythia8.root                                                 
+ttHJetToGG                                ttHJetToGG_M125_13TeV_amcatnloFXFX_madspin_pythia8.root                                   
+THQ_HToGG                                 THQ_ctcvcp_HToGG_M125_13TeV-madgraph-pythia8.root                                         
+THW_HToGG                                 THW_ctcvcp_HToGG_M125_13TeV-madgraph-pythia8.root                                         
+
+# data
+data                                      DoubleEG_*.root                                                                           

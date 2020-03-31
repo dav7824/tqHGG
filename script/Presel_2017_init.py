@@ -20,7 +20,7 @@ i_job = 0
 for dataset in ls:
 	print 'Start processing dataset: {}'.format(dataset[0])
 	cmd = '"set -o noglob; {} {} flashggNtuples/flashggStdTree {}"'.format(exe, Path.dir_nt_2017+'/'+dataset[1], outDir+'/'+dataset[0]+'.root')
-	os.system( Path.dir_tqHGG + '/qSub/submitJOB.py -c {} -N presel_{:02d}'.format(cmd, i_job) )
+	os.system( Path.dir_tqHGG + '/qSub/submitJOB.py -c {} -N presel17_{:02d}'.format(cmd, i_job) )
 	i_job += 1
 	print '\n'
 
@@ -28,7 +28,7 @@ for dataset in ls:
 for dataset in ls_sig:
 	print 'Start processing dataset: {}'.format(dataset[0])
 	cmd = '"set -o noglob; {} {} flashggNtuples/flashggStdTree {}"'.format(exe, Path.dir_nt_2017_sig+'/'+dataset[1], outDir+'/'+dataset[0]+'.root')
-	os.system( Path.dir_tqHGG + '/qSub/submitJOB.py -c {} -N presel_{:02d}'.format(cmd, i_job) )
+	os.system( Path.dir_tqHGG + '/qSub/submitJOB.py -c {} -N presel17_{:02d}'.format(cmd, i_job) )
 	i_job += 1
 	print '\n'
 

@@ -96,4 +96,4 @@ if __name__ == '__main__':
 	else:
 		os.system( 'qsub {} -N {} -p 1'.format(jobfile, args.name) )
 
-	print '[INFO] Job "{}" has been sent successfully.'.format(args.name)
+	print '[INFO] End of job submit of "{}".'.format(args.name)
