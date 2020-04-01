@@ -26,14 +26,8 @@ int main(int argc, char **argv)
 	TFile *fout = new TFile(fout_name, "recreate");
 	TTree *outTree = new TTree("flashggStdTree", "");
 
-	/* BEGIN: Common variables for input & output TTree */
-	/* END: Common variables for input & output TTree */
-
-	/* BEGIN: Variables for input TTree */
-	/* END: Variables for input TTree */
-
-	/* BEGIN: Variables for output TTree */
-	/* END: Variables for output TTree */
+	/* BEGIN: Variables for input & output TTree */
+	/* END: Variables for input & output TTree */
 
 	cout << "Setting input TTree...\n";
 	/* BEGIN: Set branches for input TTree */
@@ -54,23 +48,6 @@ int main(int argc, char **argv)
 
 		/* BEGIN: Selection cuts on whole events */
 		/* END: Selection cuts on whole events */
-
-		// If the event passes the whole-event cuts, do selection on its physical objects and fill it to output TTree
-
-		/* BEGIN: Reset output branches */
-		/* END: Reset output branches */
-
-		/* BEGIN: Prepare area B */
-		/* END: Prepare area B */
-
-		/* BEGIN: Select electrons */
-		/* END: Select electrons */
-
-		/* BEGIN: Select muons */
-		/* END: Select muons */
-
-		/* BEGIN: Select jets */
-		/* END: Select jets */
 
 		/* BEGIN: Cleanup */
 		/* END: Cleanup */
