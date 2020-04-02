@@ -31,6 +31,10 @@ parser.add_argument(
 	'--outdir', '-O', type=str,
 	help='The directory to save the output.'
 	)
+parser.add_argument(
+	'--run_qsub', action='store_true',
+	help='Whether send jobs with qsub.'
+	)
 args = parser.parse_args()
 
 # Check the arguments
@@ -81,9 +85,12 @@ i_job = 0
 for dataset in ls:
 	print 'Start processing dataset: {}'.format(dataset[0])
 	cmd = '"set -o noglob; {} {} flashggStdTree {}"'.format(args.exe, args.indir+'/'+dataset[0]+'.root', args.outdir+'/'+dataset[0]+'.root')
-	t = time.time()
-	os.system( Path.dir_tqHGG + '/qSub/submitJOB.py -c {} -N presel{:05d}_{:03d}'.format(cmd, int(t%100000), int(t*1000%1000)) )
+	if args.run_qsub:
+		t = time.time()
+		os.system( Path.dir_tqHGG + '/qSub/submitJOB.py -c {} -N presel{:05d}_{:03d}'.format(cmd, int(t%100000), int(t*1000%1000)) )
+	else:
+		os.system( cmd.strip('"') )
 	i_job += 1
 	print ''
 
-print '[INFO] Completed submitting {} jobs.'.format(i_job)
+print '[INFO] Total job number: {}'.format(i_job)
