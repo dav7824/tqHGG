@@ -1,7 +1,7 @@
 #!/usr/bin/env python2
-# Run preselections.
+# Run AddVar_xxx.cc
 # Usage:
-#   ./Presel.py -Y <year> -E <exe> -I <indir> -O <outdir> [-L <listfile>] [--option <opt>] [--run_qsub]
+#   ./AddVar.py -Y <year> -E <exe> -I <indir> [-L <listfile>] [--option <opt>] [--run_qsub]
 
 import Path
 import Util
@@ -28,10 +28,6 @@ parser.add_argument(
 	help='Name of input directory.'
 	)
 parser.add_argument(
-	'--outdir', '-O', type=str,
-	help='Name of output directory.'
-	)
-parser.add_argument(
 	'--option', type=str, default='',
 	help='Other options for the binary.'
 	)
@@ -53,7 +49,6 @@ else:
 	print '[ERROR] Invalid year for the datasets!'
 	exit()
 indir = iodir+'/'+args.indir
-outdir = iodir+'/'+args.outdir
 
 bin = Path.dir_bin+'/'+args.exe
 if not os.path.exists(bin):
@@ -77,9 +72,6 @@ if not os.path.exists(indir):
 	print '[ERROR] Input directory doesn\'t exist!'
 	exit()
 
-# Create output directory
-Util.CreateDir(outdir)
-
 # Read n-tuple list
 ls = Util.ReadList(flist)
 
@@ -88,7 +80,6 @@ ls = Util.ReadList(flist)
 print '[INFO] Year of n-tuples: {}'.format(args.year)
 print '[INFO] Start running: {}'.format(args.exe)
 print '[INFO] Input directory: {}'.format(indir)
-print '[INFO] Output directory: {}'.format(outdir)
 print '[INFO] List of n-tuples: {}'.format(args.list)
 print '[INFO] N-tuples to be processed:'
 for nt in ls:
@@ -99,11 +90,11 @@ i_job = 0
 # Submit jobs for datasets
 for nt in ls:
 	print 'Start processing dataset: {}'.format(nt[0])
-	cmd = '"set -o noglob; {} {} flashggStdTree {} {}"'.format(bin, indir+'/'+nt[0]+'.root', outdir+'/'+nt[0]+'.root', args.option)
+	cmd = '"set -o noglob; {} {} flashggStdTree {} {}"'.format(bin, indir+'/'+nt[0]+'.root', indir+'/'+nt[0]+'_diphoton.root', args.option)
 	if args.run_qsub:
 		t = time.time()
-		jobname = 'Presel_{}_{}_{}_{:06d}'.format(args.outdir, args.year, nt[0], int(t%1000000))
-		os.system( Path.dir_tqHGG + '/qSub/submitJOB.py -c {} -N {}'.format(cmd, jobname)
+		jobname = '{}_{}_{}_{}_{:06d}'.format(args.exe, args.indir, args.year, nt[0], int(t%1000000))
+		os.system( Path.dir_tqHGG + '/qSub/submitJOB.py -c {} -N {}'.format(cmd, jobname) )
 	else:
 		os.system( cmd.strip('"') )
 	i_job += 1
