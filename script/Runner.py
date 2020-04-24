@@ -1,12 +1,13 @@
 #!/usr/bin/env python2
-# Run preselections.
+# Run compiled C++ codes.
 # Usage:
-#   ./Presel.py -Y <year> -E <exe> -I <indir> -O <outdir> [-L <listfile>] [--option <opt>] [--run_qsub]
+#   ./Runner.py -Y <year> -E <exe> -I <indir> [-i <input_tag>] -O <outdir> [-o <output_tag>] [-L <listfile>] [--option <opt>] [--run_qsub]
+#
+# Note: Only file names are needed. The path to files are added by the script.
 
 import Path
 import Util
 import os
-import time
 import argparse
 
 # Get the command line arguments
@@ -28,8 +29,16 @@ parser.add_argument(
 	help='Name of input directory.'
 	)
 parser.add_argument(
+	'--in_tag', '-i', type=str, default='',
+	help='Tag of input root files.'
+	)
+parser.add_argument(
 	'--outdir', '-O', type=str,
 	help='Name of output directory.'
+	)
+parser.add_argument(
+	'--out_tag', '-o', type=str, default='',
+	help='Tag of output root files.'
 	)
 parser.add_argument(
 	'--option', type=str, default='',
@@ -83,12 +92,21 @@ Util.CreateDir(outdir)
 # Read n-tuple list
 ls = Util.ReadList(flist)
 
+in_tag = ''
+if args.in_tag:
+	in_tag = '_'+args.in_tag
+
+out_tag = ''
+if args.out_tag:
+	out_tag = '_'+args.out_tag
 
 # Print the information
 print '[INFO] Year of n-tuples: {}'.format(args.year)
 print '[INFO] Start running: {}'.format(args.exe)
-print '[INFO] Input directory: {}'.format(indir)
-print '[INFO] Output directory: {}'.format(outdir)
+print '[INFO] Input directory: {}'.format(args.indir)
+print '[INFO] Input tag: {}'.format(args.in_tag)
+print '[INFO] Output directory: {}'.format(args.outdir)
+print '[INFO] Output tag: {}'.format(args.out_tag)
 print '[INFO] List of n-tuples: {}'.format(args.list)
 print '[INFO] N-tuples to be processed:'
 for nt in ls:
@@ -99,11 +117,10 @@ i_job = 0
 # Submit jobs for datasets
 for nt in ls:
 	print 'Start processing dataset: {}'.format(nt[0])
-	cmd = '"set -o noglob; {} {} flashggStdTree {} {}"'.format(bin, indir+'/'+nt[0]+'.root', outdir+'/'+nt[0]+'.root', args.option)
+	cmd = '"set -o noglob; {} {} flashggStdTree {} {}"'.format(bin, indir+'/'+nt[0]+in_tag+'.root', outdir+'/'+nt[0]+out_tag+'.root', args.option)
 	if args.run_qsub:
-		t = time.time()
-		jobname = 'Presel_{}_{}_{}_{:06d}'.format(args.outdir, args.year, nt[0], int(t%1000000))
-		os.system( Path.dir_tqHGG + '/qSub/submitJOB.py -c {} -N {}'.format(cmd, jobname)
+		jobname = '{}_{}_{}_{}_{}_{}_{}'.format(args.exe, args.indir, args.in_tag, args.outdir, args.out_tag, args.year, nt[0])
+		os.system( Path.dir_tqHGG + '/qSub/submitJOB.py -c {} -N {}'.format(cmd, jobname) )
 	else:
 		os.system( cmd.strip('"') )
 	i_job += 1
