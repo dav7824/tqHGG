@@ -1,5 +1,4 @@
 #!/usr/bin/env python2
-from Path import dir_tqHGG
 import os
 import re
 
@@ -15,10 +14,6 @@ def CreateDirs(dirpath):
 		os.makedirs(dirpath)
 	else:
 		print '[INFO] The dirpath "{}" already exists.'.format(dirpath)
-
-
-#def SubmitJob(cmd, name):
-#	os.system( '{}/qSub/submitJOB.py -c {} -N {}'.format(dir_tqHGG, cmd, name) )
 
 
 def ReadList(path):

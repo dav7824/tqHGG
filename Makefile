@@ -6,7 +6,7 @@ SRC := src
 INC := include
 BUI := build
 
-all: ${BIN}/Presel_a
+all: 
 
 ${BIN}/Presel_%: ${BUI}/Presel_%.o
 	@echo "[MAKE] Making $@"
