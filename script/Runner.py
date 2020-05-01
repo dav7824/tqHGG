@@ -9,6 +9,7 @@ import Path
 import Util
 import os
 import argparse
+import time
 
 # Get the command line arguments
 parser = argparse.ArgumentParser( description='' )
@@ -117,9 +118,10 @@ i_job = 0
 # Submit jobs for datasets
 for nt in ls:
 	print 'Start processing dataset: {}'.format(nt[0])
-	cmd = '"set -o noglob; {} {} flashggStdTree {} {}"'.format(bin, indir+'/'+nt[0]+in_tag+'.root', outdir+'/'+nt[0]+out_tag+'.root', args.option)
+	cmd = '"set -o noglob; {} {} T {} {}"'.format(bin, indir+'/'+nt[0]+in_tag+'.root', outdir+'/'+nt[0]+out_tag+'.root', args.option)
 	if args.run_qsub:
-		jobname = '{}_{}_{}_{}_{}_{}_{}'.format(args.exe, args.indir, args.in_tag, args.outdir, args.out_tag, args.year, nt[0])
+		jobID = int(time.time()%100000*1000)
+		jobname = '{}_{}_{}'.format(args.exe, args.year, jobID)
 		os.system( Path.dir_tqHGG + '/qSub/submitJOB.py -c {} -N {}'.format(cmd, jobname) )
 	else:
 		os.system( cmd.strip('"') )
