@@ -20,6 +20,10 @@ ${BIN}/FillHist_%: ${BUI}/FillHist_%.o
 	@echo "[MAKE] Making $@"
 	${CC} -o $@ $^ ${ROOTLIB}
 
+${BIN}/MVAreco_GenPerm: ${BUI}/MVAreco_GenPerm.o
+	@echo "[MAKE] Making $@"
+	${CC} -o $@ $^ ${ROOTLIB}
+
 ${BUI}/%.o: ${SRC}/%.cc ${INC}/utility.h
 	@echo "[MAKE] Making $@"
 	${CC} -c -o $@ $< ${ROOTFLAG} -I. -Wno-write-strings
