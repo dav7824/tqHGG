@@ -20,9 +20,9 @@ ${BIN}/FillHist_%: ${BUI}/FillHist_%.o
 	@echo "[MAKE] Making $@"
 	${CC} -o $@ $^ ${ROOTLIB}
 
-${BIN}/MVAreco_GenPerm: ${BUI}/MVAreco_GenPerm.o
+${BIN}/MVAreco_%: ${BUI}/MVAreco_%.o
 	@echo "[MAKE] Making $@"
-	${CC} -o $@ $^ ${ROOTLIB}
+	${CC} -o $@ $^ ${ROOTLIB} -lTMVA
 
 ${BUI}/%.o: ${SRC}/%.cc ${INC}/utility.h
 	@echo "[MAKE] Making $@"
