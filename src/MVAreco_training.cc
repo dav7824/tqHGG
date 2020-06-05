@@ -118,8 +118,12 @@ int main(int argc, char **argv)
 
 	/* Book MVA methods */
 	//factory->BookMethod( dataloader, TMVA::Types::kFisher, "Fisher", "H:V:VarTransform=G" );
-	factory->BookMethod( dataloader, TMVA::Types::kBDT, "BDT",
-		"H:V:IgnoreNegWeightsInTraining:NTrees=800:BoostType=AdaBoost:AdaBoostBeta=0.5");
+	/*factory->BookMethod( dataloader, TMVA::Types::kBDT, "BDT",
+		"H:V:IgnoreNegWeightsInTraining:NTrees=800:BoostType=AdaBoost:AdaBoostBeta=0.5");*/
+	/*factory->BookMethod( dataloader, TMVA::Types::kBDT, "BDTG",
+		"H:V:IgnoreNegWeightsInTraining:NTrees=800:BoostType=Grad:Shrinkage=1");*/
+	factory->BookMethod( dataloader, TMVA::Types::kMLP, "ANN",
+			"H:V:IgnoreNegWeightsInTraining:VarTransform=N" );
 
 	// Start training model
 	cout << "[INFO] Start training!\n";
