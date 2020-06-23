@@ -24,6 +24,10 @@ ${BIN}/MVAreco_%: ${BUI}/MVAreco_%.o
 	@echo "[MAKE] Making $@"
 	${CC} -o $@ $^ ${ROOTLIB} -lTMVA
 
+${BIN}/NuPz: ${BUI}/NuPz.o
+	@echo "[MAKE] Making $@"
+	${CC} -o $@ $^ ${ROOTLIB}
+
 ${BUI}/%.o: ${SRC}/%.cc ${INC}/utility.h
 	@echo "[MAKE] Making $@"
 	${CC} -c -o $@ $< ${ROOTFLAG} -I. -Wno-write-strings

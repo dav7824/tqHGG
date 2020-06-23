@@ -63,10 +63,10 @@ TH1D *CreateHist(char *name, char *title, int nbin, double min, double max, TStr
 	return hist;
 }
 
-void MakeFillHist(TTree *T, char *treevar, TString &exp_weight, char *hist_name, char *hist_title, int nbin, double min, double max, TString unit = "")
+void MakeFillHist(TTree *T, TString treevar, TString &exp_weight, char *hist_name, char *hist_title, int nbin, double min, double max, TString unit = "")
 {
 	CreateHist(hist_name, hist_title, nbin, min, max, unit);
-	T->Draw(Form("%s>>%s", treevar, hist_name), exp_weight);
+	T->Draw(Form("%s>>%s", treevar.Data(), hist_name), exp_weight);
 }
 
 TH1D *CopyHist(char *old_name, char *new_name, char *new_title)
