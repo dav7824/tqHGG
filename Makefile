@@ -12,6 +12,10 @@ ${BIN}/Presel_%: ${BUI}/Presel_%.o
 	@echo "[MAKE] Making $@"
 	${CC} -o $@ $^ ${ROOTLIB}
 
+${BIN}/SampleSummary: ${BUI}/SampleSummary.o
+	@echo "[MAKE] Making $@"
+	${CC} -o $@ $^ ${ROOTLIB}
+
 ${BIN}/AddVar_%: ${BUI}/AddVar_%.o
 	@echo "[MAKE] Making $@"
 	${CC} -o $@ $^ ${ROOTLIB}
