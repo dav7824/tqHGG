@@ -18,3 +18,5 @@ dir_nt_2016 = '/wk_cms2/ykao/public/thFCNC/flashgg_105X/2016'
 dir_nt_2017 = '/wk_cms2/youying/public/thFCNC/flashgg_105X/2017'
 dir_nt_2017_sig = '/wk_cms2/youying/public/tH_FCNC/Era2017_RR-31Mar2018_v2'
 dir_nt_2018 = '/wk_cms2/youying/public/thFCNC/flashgg_105X/2018'
+
+dir_norm_2017 = dir_2017 + '/normfactor'

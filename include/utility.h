@@ -98,6 +98,23 @@ void ParseCStringList(const char *input, vector<string> &output)
 		else tmp_str += read;
 	} while (true);
 }
+void ParseCStringList(const char *input, vector<TString> &output)
+{
+	int idx = 0;
+	char read = '\0';
+	char sep = ',';
+	TString tmp_str;
+
+	do {
+		read = input[idx++];
+		if (read == sep || read == '\0') {
+			output.push_back(tmp_str);
+			tmp_str.Clear();
+			if (read == '\0') break;
+		}
+		else tmp_str += read;
+	} while (true);
+}
 
 double GetHistVal(const char *fileName, const char *histName)
 {
@@ -113,6 +130,14 @@ double GetHistVal(const char *fileName, const char *histName)
 double GetNormFactor(const char *fileName)
 {
 	return GetHistVal(fileName, "normfactor");
+}
+
+void GetYieldInfo(const char *fileName, float *yield)
+{
+	TFile *fin = new TFile(fileName);
+	yield[0] = ((TH1D*)fin->Get("yield"))->GetBinContent(1);
+	yield[1] = ((TH1D*)fin->Get("yield2"))->GetBinContent(1);
+	fin->Close();
 }
 
 #endif

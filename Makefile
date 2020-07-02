@@ -16,6 +16,14 @@ ${BIN}/SampleSummary: ${BUI}/SampleSummary.o
 	@echo "[MAKE] Making $@"
 	${CC} -o $@ $^ ${ROOTLIB}
 
+${BIN}/AddYields: ${BUI}/AddYields.o
+	@echo "[MAKE] Making $@"
+	${CC} -o $@ $^ ${ROOTLIB}
+
+${BIN}/PrintYieldSummary: ${BUI}/PrintYieldSummary.o
+	@echo "[MAKE] Making $@"
+	${CC} -o $@ $^ ${ROOTLIB}
+
 ${BIN}/AddVar_%: ${BUI}/AddVar_%.o
 	@echo "[MAKE] Making $@"
 	${CC} -o $@ $^ ${ROOTLIB}

@@ -41,3 +41,6 @@ bkg_noQCD = bkg_GGJets + bkg_GJet + bkg_TGJets + bkg_tW \
 
 bkg_data = data + bkg
 bkg_noQCD_data = data + bkg_noQCD
+
+bkg_cat_file = ['DiPhotonJetsBox', 'GJet', 'QCD', 'TGJets', 'tW', 'TTGG', 'TTGJets', 'TTJets', 'TTV', 'DYJetsToLL', 'VG', 'VV', 'Higgs']
+bkg_cat_name = ['GGJets', 'GJet', 'QCD', 'TGJets', 'tW', 'TTGG', 'TTGJets', 'TTJets', 'TTV', 'DY', 'VG', 'VV', 'Higgs']
