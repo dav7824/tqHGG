@@ -11,8 +11,11 @@
 #include "TH1D.h"
 
 #include <iostream>
+#include <cstdlib>
 #include <vector>
 using namespace std;
+
+vector<TH1D*> hists;
 
 int main(int argc, char **argv)
 {
@@ -22,6 +25,10 @@ int main(int argc, char **argv)
 	TString fout_name = argv[3];
 	TString channel = argv[4];
 	TString weight = argv[5];
+	if (channel!="had" && channel!="lep" && channel!="all") {
+		cout << "[ERROR] Invalid channel!\n";
+		exit(1);
+	}
 
 	// Read input file
 	cout << "Reading input files: " << fin_name << endl;
@@ -66,7 +73,7 @@ int main(int argc, char **argv)
 	MakeFillHist(inTree,    "MetInfo.Py", weight,    "met_py",          "MET Py", 40, -200,  200, "GeV");
 	MakeFillHist(inTree, "MetInfo.SumET", weight, "met_sumET", "MET E_{T}^{sum}", 40,    0, 4000, "GeV");
 
-	if (channel == "lep" || channel == "leptonic" || channel == "all") {
+	if (channel == "lep" || channel == "all") {
 		// electron
 		MakeFillHist(inTree,   "ElecInfo.Size", weight,   "elec_N",      "electron N",  7, -0.5,  6.5);
 		MakeFillHist(inTree, "ElecInfo.Charge", weight,   "elec_Q", "electron charge",  5, -2.5,  2.5);
