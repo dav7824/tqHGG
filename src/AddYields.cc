@@ -1,9 +1,7 @@
 /*
- * Calculate yield of a sample category. Take a list of files as input, sum their yields and save the result.
+ * Calculate event yield for a bkg MC category.
  * Usage:
- *   ./AddYields <file_list> <in_dir> <output.root> <category_name>
- *
- * <file_list>: a string of comma-separated list of input sample names
+ *   ./AddYields <category_name> <file_list> <in_dir> <output.root> <summary.txt>
  */
 
 #include "include/utility.h"
@@ -20,10 +18,11 @@ using namespace std;
 int main(int argc, char **argv)
 {
 	// Get command line arguments
-	char *fileList = argv[1];  // List of names of input samples
-	TString indir = argv[2];   // Path of input directory
-	TString fout_name = argv[3];  // Path of output file
-	TString out_name = argv[4];   // Name of sample category
+	TString cat_name = argv[1];   // Name of sample category
+	char *fileList = argv[2];  // List of names of input samples without '.root' suffix
+	TString indir = argv[3];   // Path of input directory
+	TString fout_name = argv[4];  // Path of output file
+	TString fsummary_name = argv[5]; // Path of summary text file
 
 	vector<TString> fins;
 	ParseCStringList(fileList, fins);
@@ -47,7 +46,9 @@ int main(int argc, char **argv)
 	}
 
 	// Print results
-	printf("Category: %35s\t\tYield: %20f +- %15f\n", out_name.Data(), yield_out[0], sqrt(yield_out[1]));
+	FILE *fsummary = fopen(fsummary_name.Data(), "a");
+	fprintf(fsummary, "%35s\t\tYield: %15f +- %15f\n", cat_name.Data(), yield_out[0], sqrt(yield_out[1]));
+	fclose(fsummary);
 
 	// Save results
 	TFile *fout = new TFile(fout_name, "recreate");

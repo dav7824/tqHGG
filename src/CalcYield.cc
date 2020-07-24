@@ -1,8 +1,8 @@
 /*
- *  Compute sum of weight, sum of weight squared and number of entries of a dataset, then save the results.
+ *  Calculate event yield of each dataset.
  *
  *  Usage:
- *    ./SampleSummary <input.root> <sample_name> <tree_name> <norm.root> <output.root>
+ *    ./CalcYield <input.root> <sample_name> <tree_name> <norm.root> <output.root> <summary.txt>
  */
 
 #include "include/utility.h"
@@ -26,6 +26,7 @@ int main(int argc, char **argv)
 	TString tree_name = argv[3];
 	TString fnorm_name = argv[4];
 	TString fout_name = argv[5];
+	TString fsummary_name = argv[6];
 
 	// Read input file
 	TFile *fin = new TFile(fin_name);
@@ -59,7 +60,9 @@ int main(int argc, char **argv)
 	float yield2 = sumweight2 * nf * nf;
 
 	// Print result
-	printf("Sample: %35s\t\tYield: %15f +- %15f\t\tEntries: %15lld\n", nt_name.Data(), yield, sqrt(yield2), Nevt);
+	FILE *fsummary = fopen(fsummary_name.Data(), "a");
+	fprintf(fsummary, "%35s\t\tYield: %15f +- %15f\t\tEntries: %15lld\n", nt_name.Data(), yield, sqrt(yield2), Nevt);
+	fclose(fsummary);
 
 	// Save results
 	TFile *fout = new TFile(fout_name, "recreate");

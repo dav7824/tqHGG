@@ -16,7 +16,7 @@ import ROOT
 def main():
     parser = argparse.ArgumentParser(
         description='Creating the Pileupweigt in plain text files')
-     parser.add_argument('-x', '--crosssection', dest='xsec', type=int,
+    parser.add_argument('-x', '--crosssection', dest='xsec', type=int,
                          help='Minimum bias cross section to use',
                          default=None,
                          )
@@ -82,13 +82,13 @@ def main():
     for i in range(0, len(mcpileup)):
         mcweight.append(datapuhist.GetBinContent(i + 1) / mcpileup[i])
         mchist.SetBinContent(i+1,mcpileup[i])
-          puhist.SetBinContent(i+1, mcweight[i])
-         orgweightsum = orgweightsum + mcpileup[i]
+        puhist.SetBinContent(i+1, mcweight[i])
+        orgweightsum = orgweightsum + mcpileup[i]
         puweightsum = puweightsum + (mcpileup[i] * mcweight[i])
-           print i, mcweight[i], mcpileup[i], datapuhist.GetBinContent(i + 1)
+        print i, mcweight[i], mcpileup[i], datapuhist.GetBinContent(i + 1)
 
-       mcfile = ROOT.TFile.Open("./puInfo/MCPileUp.root","update")
-       mchist.Write()
+        mcfile = ROOT.TFile.Open("./puInfo/MCPileUp.root","update")
+        mchist.Write()
     puhist.Write()
     print puweightsum
     print orgweightsum

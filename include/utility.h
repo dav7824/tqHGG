@@ -42,7 +42,7 @@ float GetBtagCut(TString &year, TString &wp)
 	return list_btag[i_year][i_wp];
 }
 
-extern vector<TH1D*> hists;
+vector<TH1D*> hists;
 
 TH1D *CreateHist(char *name, char *title, int nbin, double min, double max, TString unit = "")
 {

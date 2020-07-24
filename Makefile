@@ -12,7 +12,7 @@ ${BIN}/Presel_%: ${BUI}/Presel_%.o
 	@echo "[MAKE] Making $@"
 	${CC} -o $@ $^ ${ROOTLIB}
 
-${BIN}/SampleSummary: ${BUI}/SampleSummary.o
+${BIN}/CalcYield: ${BUI}/CalcYield.o
 	@echo "[MAKE] Making $@"
 	${CC} -o $@ $^ ${ROOTLIB}
 
@@ -21,6 +21,18 @@ ${BIN}/AddYields: ${BUI}/AddYields.o
 	${CC} -o $@ $^ ${ROOTLIB}
 
 ${BIN}/PrintYieldSummary: ${BUI}/PrintYieldSummary.o
+	@echo "[MAKE] Making $@"
+	${CC} -o $@ $^ ${ROOTLIB}
+
+${BIN}/PrintYieldSummary_sig: ${BUI}/PrintYieldSummary_sig.o
+	@echo "[MAKE] Making $@"
+	${CC} -o $@ $^ ${ROOTLIB}
+
+${BIN}/HistNorm: ${BUI}/HistNorm.o
+	@echo "[MAKE] Making $@"
+	${CC} -o $@ $^ ${ROOTLIB}
+
+${BIN}/HistAdd: ${BUI}/HistAdd.o
 	@echo "[MAKE] Making $@"
 	${CC} -o $@ $^ ${ROOTLIB}
 
