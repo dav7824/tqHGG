@@ -51,10 +51,10 @@ TH1D *CreateHist(char *name, char *title, int nbin, double min, double max, TStr
 	double binwidth = (max - min) / nbin;
 	if (unit == "") {
 		xtitle = title;
-		ytitle = Form("entries / %.2g", binwidth);
+		ytitle = Form("events / %.2g", binwidth);
 	} else {
 		xtitle = Form("%s (%s)", title, unit.Data());
-		ytitle = Form("entries / %.2g %s", binwidth, unit.Data());
+		ytitle = Form("events / %.2g %s", binwidth, unit.Data());
 	}
 	TH1D *hist = new TH1D( name, Form(";%s;%s", xtitle, ytitle), nbin, min, max );
 	hist->Sumw2();
@@ -138,6 +138,16 @@ void GetYieldInfo(const char *fileName, float *yield)
 	yield[0] = ((TH1D*)fin->Get("yield"))->GetBinContent(1);
 	yield[1] = ((TH1D*)fin->Get("yield2"))->GetBinContent(1);
 	fin->Close();
+}
+
+template <typename T>
+T GetMaximum(T *arr, int N)
+{
+	T maxima = -999;
+	for (int i=0; i<N; ++i)
+		if (arr[i] > maxima) maxima = arr[i];
+
+	return maxima;
 }
 
 #endif

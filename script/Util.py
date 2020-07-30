@@ -1,6 +1,6 @@
 #!/usr/bin/env python2
-import os
-import re
+import os, re
+import Path
 
 def CreateDir(dir):
 	if not os.path.exists(dir):
@@ -29,3 +29,20 @@ def ReadList(path):
 
 	fin.close()
 	return ls
+
+def GenCode_FillHist(tag):
+	fmain = open( os.path.join(Path.dir_src, 'FillHist.cc') )
+	fhist = open( os.path.join(Path.dir_src, 'hist_'+tag+'.cc') )
+	fout_name = 'FillHist_'+tag+'.cc'
+	fout = open( os.path.join(Path.dir_tqHGG, 'tmp', fout_name), 'w' )
+
+	for i in fmain:
+		fout.write(i)
+		if re.search('INSERT CODE', i):
+			for j in fhist:
+				fout.write('\t'+j)
+
+	fmain.close()
+	fhist.close()
+	fout.close()
+	print '[INFO] %s is generated' % fout_name

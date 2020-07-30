@@ -1,6 +1,9 @@
 #!/usr/bin/env python2
 #
 # For 2017.
+#
+# Attention!!!
+# Do NOT use any space in the file names or legends, or they will cause problems when used as arguments when calling C++ programs.
 
 # Signal MC
 '''
@@ -31,6 +34,13 @@ sig_MC = {
 	('ST', 'lep', 'hct'): [('ST_FCNC-TH_Tlep_hct', 'ST_FCNC-TH_Tleptonic_HToaa_eta_hct-MadGraph5-pythia8.root')],
 	('ST', 'lep', 'hut'): [('ST_FCNC-TH_Tlep_hut', 'ST_FCNC-TH_Tleptonic_HToaa_eta_hut-MadGraph5-pythia8.root')],
 }
+
+sig_MC_s = {}
+for nt_type in sig_MC:
+	tmp = []
+	for nt in sig_MC[nt_type]:
+		tmp.append(nt[0])
+	sig_MC_s[nt_type] = tmp
 
 '''
 sig_had = sig_TThad + sig_SThad
@@ -123,3 +133,42 @@ bkg_MC = {
 		('THW_HToGG', 'THW_ctcvcp_HToGG_M125_13TeV-madgraph-pythia8_TuneCP5.root')
 	],
 }
+
+bkg_MC_s = {}
+for cat in bkg_MC:
+	tmp = []
+	for nt in bkg_MC[cat]:
+		tmp.append(nt[0])
+	bkg_MC_s[cat] = tmp
+
+bkg_MC_leg = {
+	'GGJets': '#gamma#gamma+jets',
+	'GJet': '#gamma+jets',
+	'QCD': 'QCD',
+	'TGJets': 't#gamma+jets',
+	'tW': 't+W',
+	'TTGG': 't#bar{t}#gamma#gamma',
+	'TTGJets': 't#bar{t}#gamma+jets',
+	'TTJets': 't#bar{t}+jets',
+	'TTV': 't#bar{t}+V',
+	'DY': 'DY',
+	'VG': 'V#gamma',
+	'VV': 'VV',
+	'Higgs': 'SM_Higgs',
+}
+
+bkg_MC_stack_order = [
+	'Higgs',
+	'TTGG',
+	'TTGJets',
+	'TTJets',
+	'TTV',
+	'TGJets',
+	'tW',
+	'VG',
+	'VV',
+	'DY',
+	'GGJets',
+	'GJet',
+	'QCD',
+]
