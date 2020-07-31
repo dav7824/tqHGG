@@ -38,6 +38,7 @@ void norm_sig()
 		0.019, 0.139, 0.009, 0.067,
 	};
 	float lumi = 41.53;
+	float BR_tqH = 0.001;
 
 	cout << "[Normfactor]\n";
 	for (int i=0; i<filename.size(); ++i) {
@@ -46,7 +47,7 @@ void norm_sig()
 		double sumweight = hweight->GetBinContent(1);
 		fin->Close();
 
-		float normfactor = xs[i] * lumi * 1000 / sumweight;
+		float normfactor = xs[i] * lumi * BR_tqH * 1000 / sumweight;
 
 		TFile *fout = new TFile(outdir + ntname[i] + ".root", "recreate");
 		TH1D *nf = new TH1D("normfactor", "", 1, 0, 1);
