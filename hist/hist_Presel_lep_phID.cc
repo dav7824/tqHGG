@@ -2,7 +2,7 @@
 MakeFillHist(inTree, "EvtInfo.NVtx", weight, "evt_Nvtx", "number of vertices",  10, 0,  80);
 MakeFillHist(inTree,  "EvtInfo.Rho", weight,  "evt_rho",               "#rho",  10, 0,  60);
 // diphoton
-MakeFillHist(inTree,        "DiPhoInfo.mass", weight, "dipho_mass", "diphoton mass", 10, 100, 400, "GeV");
+MakeFillHist(inTree,        "DiPhoInfo.mass", weight, "dipho_mass", "diphoton mass",  8, 100, 180, "GeV");
 MakeFillHist(inTree,          "DiPhoInfo.pt", weight,   "dipho_pt",   "diphoton Pt", 10,   0, 260, "GeV");
 MakeFillHist(inTree, "DiPhoInfo.diphotonMVA", weight,  "dipho_mva",  "diphoton MVA", 10,  -1,   1);
 // leading photon

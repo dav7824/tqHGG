@@ -39,7 +39,7 @@ vector<int> bkg_color = {
 	kYellow-7, kSpring+9, kGreen-7, kGreen-6,
 };
 vector<int> sig_color = {
-	kRed, kBlue, kRed, kBlue,
+	kRed, kBlack, kRed, kBlack,
 };
 vector<int> sig_style = {
 	1, 1, 7, 7,
