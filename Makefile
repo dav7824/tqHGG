@@ -48,6 +48,10 @@ ${BIN}/FillHist_%: ${BUI}/FillHist_%.o
 	@echo "[MAKE] Making $@"
 	${CC} -o $@ $^ ${ROOTLIB}
 
+${BIN}/FindGenPart: ${BUI}/FindGenPart.o
+	@echo "[MAKE] Making $@"
+	${CC} -o $@ $^ ${ROOTLIB} -lTMVA
+
 ${BIN}/MVAreco_%: ${BUI}/MVAreco_%.o
 	@echo "[MAKE] Making $@"
 	${CC} -o $@ $^ ${ROOTLIB} -lTMVA
