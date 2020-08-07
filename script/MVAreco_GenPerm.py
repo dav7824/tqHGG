@@ -1,71 +1,66 @@
 #!/usr/bin/env python2
-# Run MVAreco_GenPerm.
 
-import Path
-import Util
-import os
+import Path, Util, Samples
+import os, sys
+from os.path import join
 
-# Process bkg MC & data
-indir_had = Path.dir_2017+'/Presel_had_btag-M_phID'
-outdir_had = Path.dir_2017+'/MVAreco_perm_had_btag-M_phID'
-indir_lep = Path.dir_2017+'/Presel_lep_btag-L_phID'
-outdir_lep = Path.dir_2017+'/MVAreco_perm_lep_btag-L_phID'
+# I/O directories
+indir_sig = join(Path.dir_2017, 'MVAreco_GenPerm')
+indir_hadbkg = join(Path.dir_2017, 'Presel_had_phID_btag-L')
+indir_lepbkg = join(Path.dir_2017, 'Presel_lep_phID')
+outdir_had = join(Path.dir_2017, 'MVAreco_Perm_had')
+Util.CreateDir(outdir_had)
+#outdir_lep = join(Path.dir_2017, 'MVAreco_Perm_lep')
+#Util.CreateDir(outdir_lep)
 
-f_bkg = Path.dir_list+'/datasets_2017.txt'
-exe = '{}/MVAreco_GenPerm'.format( Path.dir_bin )
+# Sample names
+nt_sig_TThad = ['TT_FCNC-TtoHJ_aThad_hct', 'TT_FCNC-aTtoHJ_Thad_hct', 'TT_FCNC-TtoHJ_aThad_hut', 'TT_FCNC-aTtoHJ_Thad_hut']
+nt_sig_SThad = ['ST_FCNC-TH_Thad_hct', 'ST_FCNC-TH_Thad_hut']
+nt_sig_TTlep = ['TT_FCNC-TtoHJ_aTlep_hct', 'TT_FCNC-aTtoHJ_Tlep_hct', 'TT_FCNC-TtoHJ_aTlep_hut', 'TT_FCNC-aTtoHJ_Tlep_hut']
+nt_sig_STlep = ['ST_FCNC-TH_Tlep_hct', 'ST_FCNC-TH_Tlep_hut']
+nt_bkg = Samples.bkg_MC_s
 
-Util.CreateDir( outdir_had )
-Util.CreateDir( outdir_lep )
-ls_bkg = Util.ReadList( f_bkg )
-n_job = 0
+# Executables
+exe_TThad = join(Path.dir_bin, 'MVAreco_GenPerm_TThad')
+exe_SThad = join(Path.dir_bin, 'MVAreco_GenPerm_SThad')
+exe_TTlep = join(Path.dir_bin, 'MVAreco_GenPerm_TTlep')
+exe_STlep = join(Path.dir_bin, 'MVAreco_GenPerm_STlep')
 
-for nt in ls_bkg:
-	filename = nt[0]+'.root'
-	cmd = exe + ' {} T {} bkg {} 2017 {}'.format(indir_had+'/'+filename, outdir_had+'/'+filename, 'had', 'medium')
-	print 'Running: {}'.format(cmd)
-	os.system( cmd )
-	cmd = exe + ' {} T {} bkg {} 2017 {}'.format(indir_lep+'/'+filename, outdir_lep+'/'+filename, 'lep', 'loose')
-	print 'Running: {}'.format(cmd)
-	os.system( cmd )
-	n_job += 2
+# Command template
+cmd_TThad_sig = '{bin} {indir}/{{nt}}.root {outdir}/{{nt}}.root sig'.format(bin=exe_TThad, indir=indir_sig, outdir=outdir_had)
+#cmd_SThad_sig = '{bin} {indir}/{{nt}}.root {outdir}/{{nt}}.root sig'.format(bin=exe_SThad, indir=indir_sig, outdir=outdir_had)
+#cmd_TTlep_sig = '{bin} {indir}/{{nt}}.root {outdir}/{{nt}}.root sig'.format(bin=exe_TTlep, indir=indir_sig, outdir=outdir_lep)
+#cmd_STlep_sig = '{bin} {indir}/{{nt}}.root {outdir}/{{nt}}.root sig'.format(bin=exe_STlep, indir=indir_sig, outdir=outdir_lep)
+cmd_TThad_bkg = '{bin} {indir}/{{nt}}.root {outdir}/{{nt}}.root bkg'.format(bin=exe_TThad, indir=indir_hadbkg, outdir=outdir_had)
+#cmd_SThad_bkg = '{bin} {indir}/{{nt}}.root {outdir}/{{nt}}.root bkg'.format(bin=exe_SThad, indir=indir_hadbkg, outdir=outdir_had)
+#cmd_TTlep_bkg = '{bin} {indir}/{{nt}}.root {outdir}/{{nt}}.root bkg'.format(bin=exe_TTlep, indir=indir_lepbkg, outdir=outdir_lep)
+#cmd_STlep_bkg = '{bin} {indir}/{{nt}}.root {outdir}/{{nt}}.root bkg'.format(bin=exe_STlep, indir=indir_lepbkg, outdir=outdir_lep)
 
-print '[INFO] Completed {} jobs'.format(n_job)
+# Output log file
+output = open( join(outdir_had,'summary.txt'), 'w' )
 
-# Process signal MC
-'''
-ls_sig_TThad = ['TT_FCNC-TtoHJ_aThad_hct.root', 'TT_FCNC-TtoHJ_aThad_hut.root', 'TT_FCNC-aTtoHJ_Thad_hct.root', 'TT_FCNC-aTtoHJ_Thad_hut.root']
-ls_sig_SThad = ['ST_FCNC-TH_Thad_hct.root', 'ST_FCNC-TH_Thad_hut.root']
-ls_sig_TTlep = ['TT_FCNC-TtoHJ_aTlep_hct.root', 'TT_FCNC-TtoHJ_aTlep_hut.root', 'TT_FCNC-aTtoHJ_Tlep_hct.root', 'TT_FCNC-aTtoHJ_Tlep_hut.root']
-ls_sig_STlep = ['ST_FCNC-TH_Tlep_hct.root', 'ST_FCNC-TH_Tlep_hut.root']
+mesg_sample = '---Start running: {}'
 
-n_job = 0
-indir = Path.dir_2017 + '/Presel_had_btag-M_phID'
-outdir = Path.dir_2017 + '/MVAreco_perm_had_btag-M_phID'
-Util.CreateDir(outdir)
-for nt in ls_sig_TThad:
-	cmd = '{}/MVAreco_GenPerm {} T {} {} {} 2017 {}'.format(Path.dir_bin, indir+'/'+nt, outdir+'/'+nt, 'TT', 'had', 'medium')
-	print 'Running: {}'.format(cmd)
-	os.system( cmd )
-	n_job += 1
-for nt in ls_sig_SThad:
-	cmd = '{}/MVAreco_GenPerm {} T {} {} {} 2017 {}'.format(Path.dir_bin, indir+'/'+nt, outdir+'/'+nt, 'ST', 'had', 'medium')
-	print 'Running: {}'.format(cmd)
-	os.system( cmd )
-	n_job += 1
+# Run TT hadronic GenPerm
+for sample in nt_sig_TThad:
+	print mesg_sample.format(sample)
+	output.write( '\n'+mesg_sample.format(sample)+'\n' )
+	fp = os.popen( cmd_TThad_sig.format(nt=sample) )
+	output.write( fp.read() )
+	fp.close()
+for cat in nt_bkg:
+	for sample in nt_bkg[cat]:
+		print mesg_sample.format(sample)
+		output.write( '\n'+mesg_sample.format(sample)+'\n' )
+		fp = os.popen( cmd_TThad_bkg.format(nt=sample) )
+		output.write( fp.read() )
+		fp.close()
+print mesg_sample.format('data')
+output.write( '\n'+mesg_sample.format('data')+'\n' )
+fp = os.popen( cmd_TThad_bkg.format(nt='data') )
+output.write( fp.read() )
+fp.close()
 
-indir = Path.dir_2017 + '/Presel_lep_btag-L_phID'
-outdir = Path.dir_2017 + '/MVAreco_perm_lep_btag-L_phID'
-Util.CreateDir(outdir)
-for nt in ls_sig_TTlep:
-	cmd = '{}/MVAreco_GenPerm {} T {} {} {} 2017 {}'.format(Path.dir_bin, indir+'/'+nt, outdir+'/'+nt, 'TT', 'lep', 'loose')
-	print 'Running: {}'.format(cmd)
-	os.system( cmd )
-	n_job += 1
-for nt in ls_sig_STlep:
-	cmd = '{}/MVAreco_GenPerm {} T {} {} {} 2017 {}'.format(Path.dir_bin, indir+'/'+nt, outdir+'/'+nt, 'ST', 'lep', 'loose')
-	print 'Running: {}'.format(cmd)
-	os.system( cmd )
-	n_job += 1
+output.close()
 
-print '[INFO] Completed {} jobs'.format(n_job)
-'''
+print 'End!'
