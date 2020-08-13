@@ -141,3 +141,7 @@ MC_lep.update(bkg_MC_s)
 
 MC_all = bkg_MC_s.copy()
 MC_all.update(sig_MC_s)
+
+# Bkg MC without QCD
+bkg_MC_noQCD = bkg_MC_s.copy()
+del bkg_MC_noQCD['QCD']

@@ -72,4 +72,62 @@ public:
 	int WJet2;
 };
 
+class IdxPerm_SThad
+{
+public:
+	// Constructor
+	IdxPerm_SThad(int bJet_, int WJet1_, int WJet2_) {
+		if (bJet_ == WJet1_ || bJet_ == WJet2_ || WJet1_ == WJet2_) {
+			bJet = 0;  WJet1 = 1;  WJet2 = 2;
+			return;
+		}
+		bJet = bJet_;
+		WJet1 = WJet1_;
+		WJet2 = WJet2_;
+		if (WJet1 > WJet2) {
+			int tmp = WJet1;
+			WJet1 = WJet2;
+			WJet2 = tmp;
+		}
+	}
+	// Test of equality btw perms
+	bool operator==(const IdxPerm_SThad &perm) const {
+		return bJet==perm.bJet && WJet1==perm.WJet1 && WJet2==perm.WJet2;
+	}
+	// Check if this perm is already included by a vector of perms
+	bool IncludedBy(const vector<IdxPerm_SThad> &perms) const {
+		for (int i=0; i<perms.size(); ++i)
+			if (*this == perms.at(i))  return true;
+		return false;
+	}
+	// Print perm info
+	void Print() const {
+		printf("SThad_perm:\t%4d\t%4d\t%4d\n", bJet, WJet1, WJet2);
+	}
+
+	// Static functions
+	// Randomly generate a new perm given number of jets in an event
+	static IdxPerm_SThad GetRandom(int njet) {
+		bool valid;
+		int bJet_, WJet1_, WJet2_;
+
+		do {
+			valid = true;
+			bJet_ = (int)rnd.Uniform(njet);
+			WJet1_ = (int)rnd.Uniform(njet);
+			WJet2_ = (int)rnd.Uniform(njet);
+			if ( bJet_>=njet || WJet1_>=njet || WJet2_>=njet )  valid = false;
+			if ( bJet_ == WJet1_ || bJet_ == WJet2_ || WJet1_ >= WJet2_ )  valid = false;
+		} while (!valid);
+
+		return IdxPerm_SThad(bJet_, WJet1_, WJet2_);
+	}
+
+	// Data members
+	// indices for each reco jet
+	int bJet;
+	int WJet1;
+	int WJet2;
+};
+
 #endif

@@ -1,7 +1,7 @@
 /*
- * Producing permutation trees for hadronic TT signal reconstruction.
+ * Producing permutation trees for leptonic ST signal reconstruction.
  * Usage:
- *   ./MVAreco_GenPerm_TThad <fin> <fout> <sig|bkg>
+ *   ./MVAreco_GenPerm_STlep <fin> <fout> <sig|bkg>
  *
  *
  * For signal MC samples, 2 trees are needed:
@@ -13,20 +13,11 @@
  *   1. `TPerm_train`: Contain permutations for training MVA
  *   2. `TPerm_test`: Contain permutations for testing MVA and further use
  * For other kinds of samples, a tree would be produced:
- *   1. `TPerm_TT`
- *
- * Only jets of the highest Pt (lowest indices) are considered when generating permutations,
- * since the other jets rarely have any match to gen particles and thus unimportant. By this
- * way we can reduce the number of considered permutations.
- *
- * For training samples, permutation number is further reduced by random sampling from all
- * possible permutations of the significant jets.
+ *   1. `TPerm_ST`
  *
  * For each bkg MC or data sample in given channel, both TT & ST permutation-generating codes
  * should be run to get both `TPerm_TT` & `TPerm_ST`.
  */
-
-#include "include/MVAreco_GenPerm.h"
 
 #include "TString.h"
 #include "TFile.h"
@@ -39,7 +30,6 @@
 using namespace std;
 
 float frac_train = 0.5;
-int NJet_sig = 7;
 double dR_cut = 0.4;
 
 int main(int argc, char **argv)
@@ -74,6 +64,18 @@ int main(int argc, char **argv)
 	float DiPho_subleadPhi = 0;
 	float DiPho_subleadIDMVA = 0;
 	int DiPho_subleadGenMatchType = 0;
+	int Elec_Size = 0;
+	vector<int> *Elec_Charge = 0;
+	vector<float> *Elec_Pt = 0;
+	vector<float> *Elec_Eta = 0;
+	vector<float> *Elec_Phi = 0;
+	vector<float> *Elec_Energy = 0;
+	int Muon_Size = 0;
+	vector<int> *Muon_Charge = 0;
+	vector<float> *Muon_Pt = 0;
+	vector<float> *Muon_Eta = 0;
+	vector<float> *Muon_Phi = 0;
+	vector<float> *Muon_Energy = 0;
 	int jets_size = 0;
 	vector<float> *Jet_Pt = 0;
 	vector<float> *Jet_Eta = 0;
@@ -86,10 +88,9 @@ int main(int argc, char **argv)
 	vector<float> *Gen_Eta = 0;
 	vector<float> *Gen_Phi = 0;
 	vector<float> *Gen_Mass = 0;
+	vector<int> *Gen_PdgID = 0;
 	int Idx_bq = 0;
-	int Idx_lq = 0;
-	int Idx_Wq1 = 0;
-	int Idx_Wq2 = 0;
+	int Idx_lep = 0;
 
 	// Set input tree branches
 	T->SetBranchStatus("*", 0);
@@ -104,6 +105,18 @@ int main(int argc, char **argv)
 	T->SetBranchStatus("DiPhoInfo.subleadPhi", 1);
 	T->SetBranchStatus("DiPhoInfo.subleadIDMVA", 1);
 	T->SetBranchStatus("DiPhoInfo.subleadGenMatchType", 1);
+	T->SetBranchStatus("ElecInfo.Size", 1);
+	T->SetBranchStatus("ElecInfo.Charge", 1);
+	T->SetBranchStatus("ElecInfo.Pt", 1);
+	T->SetBranchStatus("ElecInfo.Eta", 1);
+	T->SetBranchStatus("ElecInfo.Phi", 1);
+	T->SetBranchStatus("ElecInfo.Energy", 1);
+	T->SetBranchStatus("MuonInfo.Size", 1);
+	T->SetBranchStatus("MuonInfo.Charge", 1);
+	T->SetBranchStatus("MuonInfo.Pt", 1);
+	T->SetBranchStatus("MuonInfo.Eta", 1);
+	T->SetBranchStatus("MuonInfo.Phi", 1);
+	T->SetBranchStatus("MuonInfo.Energy", 1);
 	T->SetBranchStatus("jets_size", 1);
 	T->SetBranchStatus("JetInfo.Pt", 1);
 	T->SetBranchStatus("JetInfo.Eta", 1);
@@ -116,10 +129,9 @@ int main(int argc, char **argv)
 		T->SetBranchStatus("GenPartInfo.Eta", 1);
 		T->SetBranchStatus("GenPartInfo.Phi", 1);
 		T->SetBranchStatus("GenPartInfo.Mass", 1);
+		T->SetBranchStatus("GenPartInfo.PdgID", 1);
 		T->SetBranchStatus("Idx_bq", 1);
-		T->SetBranchStatus("Idx_lq", 1);
-		T->SetBranchStatus("Idx_Wq1", 1);
-		T->SetBranchStatus("Idx_Wq2", 1);
+		T->SetBranchStatus("Idx_lep", 1);
 	}
 	T->SetBranchAddress("EvtInfo.genweight", &Evt_genweight);
 	T->SetBranchAddress("DiPhoInfo.leadPt", &DiPho_leadPt);
@@ -132,6 +144,18 @@ int main(int argc, char **argv)
 	T->SetBranchAddress("DiPhoInfo.subleadPhi", &DiPho_subleadPhi);
 	T->SetBranchAddress("DiPhoInfo.subleadIDMVA", &DiPho_subleadIDMVA);
 	T->SetBranchAddress("DiPhoInfo.subleadGenMatchType", &DiPho_subleadGenMatchType);
+	T->SetBranchAddress("ElecInfo.Size", &Elec_Size);
+	T->SetBranchAddress("ElecInfo.Charge", &Elec_Charge);
+	T->SetBranchAddress("ElecInfo.Pt", &Elec_Pt);
+	T->SetBranchAddress("ElecInfo.Eta", &Elec_Eta);
+	T->SetBranchAddress("ElecInfo.Phi", &Elec_Phi);
+	T->SetBranchAddress("ElecInfo.Energy", &Elec_Energy);
+	T->SetBranchAddress("MuonInfo.Size", &Muon_Size);
+	T->SetBranchAddress("MuonInfo.Charge", &Muon_Charge);
+	T->SetBranchAddress("MuonInfo.Pt", &Muon_Pt);
+	T->SetBranchAddress("MuonInfo.Eta", &Muon_Eta);
+	T->SetBranchAddress("MuonInfo.Phi", &Muon_Phi);
+	T->SetBranchAddress("MuonInfo.Energy", &Muon_Energy);
 	T->SetBranchAddress("jets_size", &jets_size);
 	T->SetBranchAddress("JetInfo.Pt", &Jet_Pt);
 	T->SetBranchAddress("JetInfo.Eta", &Jet_Eta);
@@ -144,10 +168,9 @@ int main(int argc, char **argv)
 		T->SetBranchAddress("GenPartInfo.Eta", &Gen_Eta);
 		T->SetBranchAddress("GenPartInfo.Phi", &Gen_Phi);
 		T->SetBranchAddress("GenPartInfo.Mass", &Gen_Mass);
+		T->SetBranchAddress("GenPartInfo.PdgID", &Gen_PdgID);
 		T->SetBranchAddress("Idx_bq", &Idx_bq);
-		T->SetBranchAddress("Idx_lq", &Idx_lq);
-		T->SetBranchAddress("Idx_Wq1", &Idx_Wq1);
-		T->SetBranchAddress("Idx_Wq2", &Idx_Wq2);
+		T->SetBranchAddress("Idx_lep", &Idx_lep);
 	}
 
 	// New variables for output tree
@@ -185,7 +208,6 @@ int main(int argc, char **argv)
 	float lep_Eta = -999;
 	float lep_Phi = -999;
 
-	/* LESSON: Create TFile BEFORE TTree (See near the end of code) */
 	// Create output file
 	TFile *fout = new TFile(fout_name, "update");
 
@@ -229,7 +251,7 @@ int main(int argc, char **argv)
 	T_tmp->Branch("lep_Pt", &lep_Pt);
 	T_tmp->Branch("lep_Eta", &lep_Eta);
 	T_tmp->Branch("lep_Phi", &lep_Phi);
-	TTree *TPerm_TT = 0;
+	TTree *TPerm_ST = 0;
 	TTree *TPerm_train = 0, *TPerm_test = 0;
 	if (is_signal) {
 		TPerm_train = T_tmp;
@@ -237,18 +259,18 @@ int main(int argc, char **argv)
 		TPerm_train->SetName("TPerm_train");
 		TPerm_test->SetName("TPerm_test");
 	} else {
-		TPerm_TT = T_tmp;
-		TPerm_TT->SetName("TPerm_TT");
+		TPerm_ST = T_tmp;
+		TPerm_ST->SetName("TPerm_ST");
 	}
 
 	int Nevt_tot = T->GetEntries();
 	int Nevt_train = (int)(Nevt_tot * frac_train);
 
-	int Nevt_recoable = 0;
-
 	int Nperm_train = 0;
 	int Nperm_test = 0;
 	int Nperm_bkg = 0;
+	int Nperm_match = 0;
+	int Nperm_unmatch = 0;
 
 	TLorentzVector gen_bq, gen_lq, gen_Wq1, gen_Wq2, gen_lep;
 	TLorentzVector reco_bJet, reco_M1Jet, reco_WJet1, reco_WJet2, reco_lep;
@@ -295,208 +317,100 @@ int main(int argc, char **argv)
 		bool is_train = false;
 		if (is_signal && evt<Nevt_train) is_train = true;
 
-		// Events that can't be recostructed are not saved in training tree, but are saved in testing tree and bkg tree with variables
-		// set to null.
-		if (jets_size < 4) {
-			if (!is_train) {
-				if (is_signal)  TPerm_test->Fill();
-				else TPerm_TT->Fill();
-			}
-			continue;
-		}
-
-		Nevt_recoable += 1;
-
 		// Set the 4-momenta of gen particles if processing signal sample
 		if (is_signal) {
 			gen_bq.SetPtEtaPhiM(Gen_Pt->at(Idx_bq), Gen_Eta->at(Idx_bq), Gen_Phi->at(Idx_bq), Gen_Mass->at(Idx_bq));
-			gen_lq.SetPtEtaPhiM(Gen_Pt->at(Idx_lq), Gen_Eta->at(Idx_lq), Gen_Phi->at(Idx_lq), Gen_Mass->at(Idx_lq));
-			gen_Wq1.SetPtEtaPhiM(Gen_Pt->at(Idx_Wq1), Gen_Eta->at(Idx_Wq1), Gen_Phi->at(Idx_Wq1), Gen_Mass->at(Idx_Wq1));
-			gen_Wq2.SetPtEtaPhiM(Gen_Pt->at(Idx_Wq2), Gen_Eta->at(Idx_Wq2), Gen_Phi->at(Idx_Wq2), Gen_Mass->at(Idx_Wq2));
+			gen_lep.SetPtEtaPhiM(Gen_Pt->at(Idx_lep), Gen_Eta->at(Idx_lep), Gen_Phi->at(Idx_lep), Gen_Mass->at(Idx_lep));
 		}
 
-		// Determine number of jets used to generate permutations
-		int njet_ = 0;  // Number of significant jets
-		if (jets_size <= NJet_sig) { njet_ = jets_size; }
-		else { njet_ = NJet_sig; }
+		// Combine the input variables of electrons & muons, for later processing
+		int Lep_Size = Elec_Size + Muon_Size;
+		vector<int> Lep_ID(Lep_Size);
+		vector<float> Lep_Pt(Lep_Size);
+		vector<float> Lep_Eta(Lep_Size);
+		vector<float> Lep_Phi(Lep_Size);
+		vector<float> Lep_Energy(Lep_Size);
+		for (int i=0; i<Lep_Size; ++i) {
+			if (i < Elec_Size) {
+				if (Elec_Charge->at(i) > 0) Lep_ID[i] = -11;
+				else Lep_ID[i] = 11;
+				Lep_Pt[i] = Elec_Pt->at(i);
+				Lep_Eta[i] = Elec_Eta->at(i);
+				Lep_Phi[i] = Elec_Phi->at(i);
+				Lep_Energy[i] = Elec_Energy->at(i);
+			} else {
+				int j = i-Elec_Size;
+				if (Muon_Charge->at(j) > 0) Lep_ID[i] = -13;
+				else Lep_ID[i] = 13;
+				Lep_Pt[i] = Muon_Pt->at(j);
+				Lep_Eta[i] = Muon_Eta->at(j);
+				Lep_Phi[i] = Muon_Phi->at(j);
+				Lep_Energy[i] = Muon_Energy->at(j);
+			}
+		}
 
-		NPerm = njet_ * (njet_-1) * (njet_-2)*(njet_-3)/2;
+		NPerm = jets_size * Lep_Size;
 		idxPerm = 0;
-		vector<IdxPerm_TThad> match_perms;  // Vector of truth matched permutations
 
 		// Start b-jet loop
-		for (int i=0; i<njet_; ++i) {
-			// Start fcnc jet loop
-			for (int j=0; j<njet_; ++j) {
-				if (j == i) continue;
-				// Start W jet 1 loop
-				for (int k=0; k<njet_-1; ++k) {
-					if (k == i || k == j) continue;
-					// Start W jet 2 loop
-					for (int l=k+1; l<njet_; ++l) {
-						if (l == i || l == j) continue;
+		for (int i=0; i<jets_size; ++i) {
+			// Start lepton loop
+			for (int k=0; k<Lep_Size; ++k) {
 
-						// Decide if reco & gen particles are matched if processing signal sample
-						// When producing bkg tree, variable `match` is not modified and stay at -1
-						if (is_signal) {
-							// Set 4-momenta of reco objects
-							reco_bJet.SetPtEtaPhiE(Jet_Pt->at(i), Jet_Eta->at(i), Jet_Phi->at(i), Jet_Energy->at(i));
-							reco_M1Jet.SetPtEtaPhiE(Jet_Pt->at(j), Jet_Eta->at(j), Jet_Phi->at(j), Jet_Energy->at(j));
-							reco_WJet1.SetPtEtaPhiE(Jet_Pt->at(k), Jet_Eta->at(k), Jet_Phi->at(k), Jet_Energy->at(k));
-							reco_WJet2.SetPtEtaPhiE(Jet_Pt->at(l), Jet_Eta->at(l), Jet_Phi->at(l), Jet_Energy->at(l));
+				// Decide if reco & gen particles are matched if processing signal sample
+				// When producing bkg tree, variable `match` is not modified and stay at -1
+				if (is_signal) {
+					// Set 4-momenta of reco objects
+					reco_bJet.SetPtEtaPhiE(Jet_Pt->at(i), Jet_Eta->at(i), Jet_Phi->at(i), Jet_Energy->at(i));
+					reco_lep.SetPtEtaPhiE(Lep_Pt[k], Lep_Eta[k], Lep_Phi[k], Lep_Energy[k]);
 
-							match = 0;
-							bool W_matched = (reco_WJet1.DeltaR(gen_Wq1)<dR_cut && reco_WJet2.DeltaR(gen_Wq2)<dR_cut) ||
-									(reco_WJet1.DeltaR(gen_Wq2)<dR_cut && reco_WJet2.DeltaR(gen_Wq1)<dR_cut);
-							if (reco_bJet.DeltaR(gen_bq)<dR_cut && reco_M1Jet.DeltaR(gen_lq)<dR_cut && W_matched
-									&& DiPho_leadGenMatchType==1 && DiPho_subleadGenMatchType==1)
-								match = 1;
-						}
+					match = 0;
+					if (reco_bJet.DeltaR(gen_bq)<dR_cut &&
+							reco_lep.DeltaR(gen_lep)<dR_cut && Lep_ID[k]==Gen_PdgID->at(Idx_lep) &&
+							DiPho_leadGenMatchType==1 && DiPho_subleadGenMatchType==1)
+						match = 1;
 
-						// If not producing training tree, fill the output tree
-						// Training tree is not filled in this loop. For training tree, this loop only bookmarks the matched permutations
-						// for later permutation sampling.
-						if (!is_train) {
-							bJet_idx = i;
-							bJet_Pt = Jet_Pt->at(i);
-							bJet_Eta = Jet_Eta->at(i);
-							bJet_Phi = Jet_Phi->at(i);
-							bJet_btag = Jet_probb->at(i)+Jet_probbb->at(i);
-							M1Jet_idx = j;
-							M1Jet_Pt = Jet_Pt->at(j);
-							M1Jet_Eta = Jet_Eta->at(j);
-							M1Jet_Phi = Jet_Phi->at(j);
-							M1Jet_btag = Jet_probb->at(j)+Jet_probbb->at(j);
-							WJet1_idx = k;
-							WJet1_Pt = Jet_Pt->at(k);
-							WJet1_Eta = Jet_Eta->at(k);
-							WJet1_Phi = Jet_Phi->at(k);
-							WJet1_btag = Jet_probb->at(k)+Jet_probbb->at(k);
-							WJet2_idx = l;
-							WJet2_Pt = Jet_Pt->at(l);
-							WJet2_Eta = Jet_Eta->at(l);
-							WJet2_Phi = Jet_Phi->at(l);
-							WJet2_btag = Jet_probb->at(l)+Jet_probbb->at(l);
+					if (match) ++Nperm_match;
+					else ++Nperm_unmatch;
+				}
 
-							if (is_signal) {
-								TPerm_test->Fill();
-								++Nperm_test;
-							}
-							else {
-								TPerm_TT->Fill();
-								++Nperm_bkg;
-							}
-						}
+				// Fill output trees
+				bJet_idx = i;
+				bJet_Pt = Jet_Pt->at(i);
+				bJet_Eta = Jet_Eta->at(i);
+				bJet_Phi = Jet_Phi->at(i);
+				bJet_btag = Jet_probb->at(i)+Jet_probbb->at(i);
+				if (k >= Elec_Size) lep_idx = k-Elec_Size;
+				else lep_idx = k;
+				lep_ID = (float)(Lep_ID[k]);
+				lep_Pt = Lep_Pt[k];
+				lep_Eta = Lep_Eta[k];
+				lep_Phi = Lep_Phi[k];
 
-						// If produing training tree, bookmark the matched permutations.
-						if (is_train && match)  match_perms.push_back(IdxPerm_TThad(i, j, k, l));
+				if (is_signal) {
+					if (is_train) {
+						TPerm_train->Fill();
+						++Nperm_train;
+					} else {
+						TPerm_test->Fill();
+						++Nperm_test;
+					}
+				} else {
+					TPerm_ST->Fill();
+					++Nperm_bkg;
+				}
 
-						++idxPerm;
-					} // End W jet 2 loop
-				} // End W jet 1 loop
-			} // End fcnc jet loop
+				++idxPerm;
+			} // End lepton loop
 		} // End b-jet loop
-
-		// If producing testing tree or bkg tree, the processing of this event is already completed. Go to next event.
-		if (!is_train) continue;
-
-		/* The remaining part of event loop is for training tree only */
-
-		// If there is any matched permutations, randomly choose one of them to save
-		vector<IdxPerm_TThad> train_perms;  // Vector of permutations to be saved in training tree
-		if (match_perms.size() > 0) {
-			int idxrnd_match = (int)rnd.Uniform(match_perms.size());
-			train_perms.push_back( match_perms.at(idxrnd_match) );
-		}
-
-		/* Random sampling of permutations */
-		// For different jet numbers, different number of permutations are sampled
-		NPerm = 0;
-		switch (njet_) {
-			case 4:
-				NPerm = 6;
-				break;
-			case 5:
-				NPerm = 12;
-				break;
-			case 6:
-				NPerm = 18;
-				break;
-			case 7:
-				NPerm = 21;
-				break;
-		}
-
-		// Randomly choose `NPerm` permutations to save
-		int idxPerm_sample = train_perms.size();
-		while (idxPerm_sample < NPerm) {  // Leave the loop only after enough permutations are saved
-			// Randomly generate a permutation
-			IdxPerm_TThad rndPerm = IdxPerm_TThad::GetRandom(njet_);
-			// If the permutation is already saved, generate a new one
-			if (rndPerm.IncludedBy(train_perms))  continue;
-			// If the permutation is new, save it
-			train_perms.push_back(rndPerm);
-			++idxPerm_sample;
-		}
-
-		// After choosing which permutations to save, fill them to training tree
-		idxPerm = 0;
-		// Start train perm loop
-		for (int p=0; p<train_perms.size(); ++p) {
-			int i = train_perms.at(p).bJet;
-			int j = train_perms.at(p).M1Jet;
-			int k = train_perms.at(p).WJet1;
-			int l = train_perms.at(p).WJet2;
-			reco_bJet.SetPtEtaPhiE(Jet_Pt->at(i), Jet_Eta->at(i), Jet_Phi->at(i), Jet_Energy->at(i));
-			reco_M1Jet.SetPtEtaPhiE(Jet_Pt->at(j), Jet_Eta->at(j), Jet_Phi->at(j), Jet_Energy->at(j));
-			reco_WJet1.SetPtEtaPhiE(Jet_Pt->at(k), Jet_Eta->at(k), Jet_Phi->at(k), Jet_Energy->at(k));
-			reco_WJet2.SetPtEtaPhiE(Jet_Pt->at(l), Jet_Eta->at(l), Jet_Phi->at(l), Jet_Energy->at(l));
-
-			match = 0;
-			bool W_matched = (reco_WJet1.DeltaR(gen_Wq1)<dR_cut && reco_WJet2.DeltaR(gen_Wq2)<dR_cut) ||
-					(reco_WJet1.DeltaR(gen_Wq2)<dR_cut && reco_WJet2.DeltaR(gen_Wq1)<dR_cut);
-			if (reco_bJet.DeltaR(gen_bq)<dR_cut && reco_M1Jet.DeltaR(gen_lq)<dR_cut && W_matched
-					&& DiPho_leadGenMatchType==1 && DiPho_subleadGenMatchType==1)
-				match = 1;
-
-			bJet_idx = i;
-			bJet_Pt = Jet_Pt->at(i);
-			bJet_Eta = Jet_Eta->at(i);
-			bJet_Phi = Jet_Phi->at(i);
-			bJet_btag = Jet_probb->at(i)+Jet_probbb->at(i);
-			M1Jet_idx = j;
-			M1Jet_Pt = Jet_Pt->at(j);
-			M1Jet_Eta = Jet_Eta->at(j);
-			M1Jet_Phi = Jet_Phi->at(j);
-			M1Jet_btag = Jet_probb->at(j)+Jet_probbb->at(j);
-			WJet1_idx = k;
-			WJet1_Pt = Jet_Pt->at(k);
-			WJet1_Eta = Jet_Eta->at(k);
-			WJet1_Phi = Jet_Phi->at(k);
-			WJet1_btag = Jet_probb->at(k)+Jet_probbb->at(k);
-			WJet2_idx = l;
-			WJet2_Pt = Jet_Pt->at(l);
-			WJet2_Eta = Jet_Eta->at(l);
-			WJet2_Phi = Jet_Phi->at(l);
-			WJet2_btag = Jet_probb->at(l)+Jet_probbb->at(l);
-
-			TPerm_train->Fill();  ++Nperm_train;
-			++idxPerm;
-		} // End of train perm loop
 	} // End event loop
-
-	/* LESSON: Don't create output TFile after creating the TTree that you want to save to that file! Somehow it creates error during execution.
-	 * Create TFile BEFORE create TTree.
-	// Create output file
-	TFile *fout = new TFile(fout_name, "update");
-	*/
 
 	// Save results
 	cout << "[INFO] Saving file: " << fout_name << endl;
 	if (is_signal) {
 		fout->WriteTObject(TPerm_train);
 		fout->WriteTObject(TPerm_test);
-	} else fout->WriteTObject(TPerm_TT);
+	} else fout->WriteTObject(TPerm_ST);
 
 	fout->Close();
 	fin->Close();
@@ -504,10 +418,11 @@ int main(int argc, char **argv)
 	// Print summary
 	cout << "\n[Summary]\n";
 	cout << "# of input events: " << Nevt_tot << endl;
-	cout << "# of recoable events: " << Nevt_recoable << endl;
 	if (is_signal) {
 		cout << "# of training permutations: " << Nperm_train << endl;
 		cout << "# of test permutations: " << Nperm_test << endl;
+		cout << "# of matched permutations: " << Nperm_match << endl;
+		cout << "# of unmatched permutations: " << Nperm_unmatch << endl;
 	} else cout << "# of permutations: " << Nperm_bkg << endl;
 
 	return 0;
