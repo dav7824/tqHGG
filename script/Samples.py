@@ -45,6 +45,14 @@ for nt_type in sig_MC_s:
 	elif nt_type[1] == 'lep':
 		sig_MC_lep[nt_type] = sig_MC_s[nt_type]
 
+sig_MC_expr_v2 = {}
+for i in sig_MC_s:
+	key = i[:2]
+	if key in sig_MC_expr_v2:
+		sig_MC_expr_v2[key].extend(sig_MC_s[i])
+	else:
+		sig_MC_expr_v2[key] = sig_MC_s[i][:]
+
 # Data
 data = {
 	'data': [('data', 'DoubleEG.root')]

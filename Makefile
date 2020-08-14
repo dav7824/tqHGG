@@ -56,6 +56,10 @@ ${BIN}/MVAreco_GenPerm_%: ${BUI}/MVAreco_GenPerm_%.o
 	@echo "[MAKE] Making $@"
 	${CC} -o $@ $^ ${ROOTLIB}
 
+${BIN}/MVAreco_train_%: ${BUI}/MVAreco_train_%.o
+	@echo "[MAKE] Making $@"
+	${CC} -o $@ $^ ${ROOTLIB} -lTMVA
+
 ${BIN}/NuPz: ${BUI}/NuPz.o
 	@echo "[MAKE] Making $@"
 	${CC} -o $@ $^ ${ROOTLIB}
