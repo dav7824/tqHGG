@@ -60,6 +60,10 @@ ${BIN}/MVAreco_train_%: ${BUI}/MVAreco_train_%.o
 	@echo "[MAKE] Making $@"
 	${CC} -o $@ $^ ${ROOTLIB} -lTMVA
 
+${BIN}/MVAreco_application: ${BUI}/MVAreco_application.o
+	@echo "[MAKE] Making $@"
+	${CC} -o $@ $^ ${ROOTLIB} -lTMVA
+
 ${BIN}/NuPz: ${BUI}/NuPz.o
 	@echo "[MAKE] Making $@"
 	${CC} -o $@ $^ ${ROOTLIB}

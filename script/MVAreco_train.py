@@ -27,9 +27,9 @@ exe_name = 'MVAreco_train_{}'.format(train_tag)
 exe = join(Path.dir_bin, exe_name)
 
 # Set I/O directories
-indir_had = join(Path.dir_2017, 'MVAreco_Perm_had')
-indir_lep = join(Path.dir_2017, 'MVAreco_Perm_lep')
-outdir = join(Path.dir_2017, 'MVAreco_train')
+indir_had = join(Path.dir_2017, 'MVAreco_Perm_had_v2')
+indir_lep = join(Path.dir_2017, 'MVAreco_Perm_lep_v2')
+outdir = join(Path.dir_2017, 'MVAreco_train_v2')
 Util.CreateDir(outdir)
 
 # Generate source code
@@ -54,7 +54,7 @@ if run_qsub:
 	Util.submit_job( cmd_TThad, 'TThad_'+train_tag )
 	Util.submit_job( cmd_SThad, 'SThad_'+train_tag )
 	Util.submit_job( cmd_TTlep, 'TTlep_'+train_tag )
-	Util.submit_job( cmd_STlep, 'STlep_'+train_tag )
+	#Util.submit_job( cmd_STlep, 'STlep_'+train_tag )
 else:
 	Util.CreateDir(join(outdir,'log'))
 	RunTrain( cmd_TThad, 'TThad_'+train_tag )
