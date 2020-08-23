@@ -52,8 +52,8 @@ cmd_STlep = cmd_train.format(fin=join(indir_lep,'ST_FCNC*'), recotype='ST', ch='
 # Run training
 if run_qsub:
 	Util.submit_job( cmd_TThad, 'TThad_'+train_tag )
-	Util.submit_job( cmd_SThad, 'SThad_'+train_tag )
-	Util.submit_job( cmd_TTlep, 'TTlep_'+train_tag )
+	#Util.submit_job( cmd_SThad, 'SThad_'+train_tag )
+	#Util.submit_job( cmd_TTlep, 'TTlep_'+train_tag )
 	#Util.submit_job( cmd_STlep, 'STlep_'+train_tag )
 else:
 	Util.CreateDir(join(outdir,'log'))
