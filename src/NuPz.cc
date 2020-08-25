@@ -1,9 +1,9 @@
 /*
  * Given reconstructed leptonic signal, reconstruct Pz of neutrino.
  * Usage:
- *   ./NuPz <event file> <event tree> <reco file> <reco tree> <n-tuple type>
+ *   ./NuPz <event_file> <reco_file> <reco_type=TT|ST>
  *
- * The new tree containing nu Pz info will overwrite original <reco tree> in <reco file>.
+ * The new tree containing nu Pz info will overwrite original tree in <reco_file>.
  */
 
 #include "TString.h"
@@ -26,124 +26,99 @@ int CalcNuPz( TLorentzVector &lep, float met_Px, float met_Py, float *nu_Pz );
 int main(int argc, char **argv)
 {
 	// Get command line arguments
-	TString fin1_name = argv[1];
-	TString Tin1_name = argv[2];
-	TString fin2_name = argv[3];
-	TString Tin2_name = argv[4];
-	TString nttype = argv[5];
-	if (nttype!="TT" && nttype!="ST" && nttype!="bkg") {
-		cout << "[ERROR] Invalid n-tuple type\n";
+	TString fevt_name = argv[1];
+	TString freco_name = argv[2];
+	TString recotype = argv[3];
+	if (recotype!="TT" && recotype!="ST") {
+		cout << "[ERROR] Invalid reconstruction type\n";
 		exit(1);
 	}
 
-	// Set flags
-	bool run_TT = false;
-	bool run_ST = false;
-	if (nttype == "TT" || nttype == "bkg") run_TT = true;
-	if (nttype == "ST" || nttype == "bkg") run_ST = true;
-
-	// Read input tree
-	cout << "[INFO] Reading event file: " << fin1_name << endl;
-	TFile *fin1 = new TFile( fin1_name );
-	TTree *Tin1 = (TTree*)fin1->Get( Tin1_name );
-	cout << "[INFO] Reading reco file: " << fin2_name << endl;
-	TFile *fin2 = new TFile( fin2_name, "update" );
-	TTree *Tin2 = (TTree*)fin2->Get( Tin2_name );
-	TTree *Tin2_ = Tin2->CloneTree(0);
+	// Read event tree
+	cout << "[INFO] Reading event file: " << fevt_name << endl;
+	TFile *fevt = new TFile( fevt_name );
+	TTree *Tevt = (TTree*)fevt->Get("T");
+	// Read reconstruction tree
+	cout << "[INFO] Reading reco file: " << freco_name << endl;
+	TFile *freco = new TFile( freco_name, "update" );
+	TString Treco_name;
+	if (recotype=="TT") Treco_name = "Treco_TT";
+	else Treco_name = "Treco_ST";
+	TTree *Treco = (TTree*)freco->Get(Treco_name);
+	TTree *Treco_ = Treco->CloneTree(0); // New tree with additional vars
 
 	// Tree variables
-	// Tree 1
-	vector<float> *Elec_E = 0;
-	vector<float> *Muon_E = 0;
+	// Event tree
+	vector<float> *Elec_Energy = 0;
+	vector<float> *Muon_Energy = 0;
 	float met_Px = 0;
 	float met_Py = 0;
-	// Tree 2
-	int TT_lep_idx = 0;
-	int TT_lep_ID = 0;
-	float TT_lep_Pt = 0;
-	float TT_lep_Eta = 0;
-	float TT_lep_Phi = 0;
-	float TT_lep_E = 0;
-	int ST_lep_idx = 0;
-	int ST_lep_ID = 0;
-	float ST_lep_Pt = 0;
-	float ST_lep_Eta = 0;
-	float ST_lep_Phi = 0;
-	float ST_lep_E = 0;
-	// Tree 2 additional
-	float TT_Nu_Pz[2] = {0};
-	int TT_Nu_Pz_real = 0;
-	float ST_Nu_Pz[2] = {0};
-	int ST_Nu_Pz_real = 0;
+	// Reconstruction tree
+	int NPerm = 0;
+	int lep_idx = 0;
+	float lep_ID = 0;
+	float lep_Pt = 0;
+	float lep_Eta = 0;
+	float lep_Phi = 0;
+	// Reconstruction tree additional
+	/* nu_Pz_real: -1: cannot be reconstructed, 0: D<0, 1: D>=0 */
+	int nu_Pz_real = 0;
+	/* nu_Pz_arr: [0]=real large solution, [1]=real small solution, [2]=real part of complex solution */
+	float nu_Pz_arr[3] = {0.};
 
 	// Set tree branches
-	// Tree 1
-	Tin1->SetBranchStatus("*", 0);
-	Tin1->SetBranchStatus("ElecInfo.Energy", 1);
-	Tin1->SetBranchStatus("MuonInfo.Energy", 1);
-	Tin1->SetBranchStatus("MetInfo.Px", 1);
-	Tin1->SetBranchStatus("MetInfo.Py", 1);
-	Tin1->SetBranchAddress("ElecInfo.Energy", &Elec_E);
-	Tin1->SetBranchAddress("MuonInfo.Energy", &Muon_E);
-	Tin1->SetBranchAddress("MetInfo.Px", &met_Px);
-	Tin1->SetBranchAddress("MetInfo.Py", &met_Py);
-	// Tree 2
-	if (run_TT) {
-		Tin2->SetBranchAddress("TT_lep_idx", &TT_lep_idx);
-		Tin2->SetBranchAddress("TT_lep_ID", &TT_lep_ID);
-		Tin2->SetBranchAddress("TT_lep_Pt", &TT_lep_Pt);
-		Tin2->SetBranchAddress("TT_lep_Eta", &TT_lep_Eta);
-		Tin2->SetBranchAddress("TT_lep_Phi", &TT_lep_Phi);
-	}
-	if (run_ST) {
-		Tin2->SetBranchAddress("ST_lep_idx", &ST_lep_idx);
-		Tin2->SetBranchAddress("ST_lep_ID", &ST_lep_ID);
-		Tin2->SetBranchAddress("ST_lep_Pt", &ST_lep_Pt);
-		Tin2->SetBranchAddress("ST_lep_Eta", &ST_lep_Eta);
-		Tin2->SetBranchAddress("ST_lep_Phi", &ST_lep_Phi);
-	}
-	// Tree 2 additional
-	Tin2_->Branch("TT_Nu_Pz_0", &TT_Nu_Pz[0]);
-	Tin2_->Branch("TT_Nu_Pz_1", &TT_Nu_Pz[1]);
-	Tin2_->Branch("TT_Nu_Pz_real", &TT_Nu_Pz_real);
-	Tin2_->Branch("ST_Nu_Pz_0", &ST_Nu_Pz[0]);
-	Tin2_->Branch("ST_Nu_Pz_1", &ST_Nu_Pz[1]);
-	Tin2_->Branch("ST_Nu_Pz_real", &ST_Nu_Pz_real);
+	// Event tree
+	Tevt->SetBranchStatus("*", 0);
+	Tevt->SetBranchStatus("ElecInfo.Energy", 1);
+	Tevt->SetBranchStatus("MuonInfo.Energy", 1);
+	Tevt->SetBranchStatus("MetInfo.Px", 1);
+	Tevt->SetBranchStatus("MetInfo.Py", 1);
+	Tevt->SetBranchAddress("ElecInfo.Energy", &Elec_Energy);
+	Tevt->SetBranchAddress("MuonInfo.Energy", &Muon_Energy);
+	Tevt->SetBranchAddress("MetInfo.Px", &met_Px);
+	Tevt->SetBranchAddress("MetInfo.Py", &met_Py);
+	// Reconstruction tree
+	Treco->SetBranchAddress("NPerm", &NPerm);
+	Treco->SetBranchAddress("lep_idx", &lep_idx);
+	Treco->SetBranchAddress("lep_ID", &lep_ID);
+	Treco->SetBranchAddress("lep_Pt", &lep_Pt);
+	Treco->SetBranchAddress("lep_Eta", &lep_Eta);
+	Treco->SetBranchAddress("lep_Phi", &lep_Phi);
+	// Reconstruction tree additional
+	Treco_->Branch("nu_Pz_real", &nu_Pz_real);
+	Treco_->Branch("nu_Pz_L", &nu_Pz_arr[0]);
+	Treco_->Branch("nu_Pz_S", &nu_Pz_arr[1]);
+	Treco_->Branch("nu_Pz_M", &nu_Pz_arr[2]);
 
 	TLorentzVector lep;
+	float lep_E = 0;
 
 	// Start event loop
-	for (int evt=0; evt<Tin1->GetEntries(); ++evt)
+	for (int evt=0; evt<Tevt->GetEntries(); ++evt)
 	{
-		Tin1->GetEntry(evt);
-		Tin2->GetEntry(evt);
+		Tevt->GetEntry(evt);
+		Treco->GetEntry(evt);
 
-		TT_Nu_Pz[0] = -99999;
-		TT_Nu_Pz[1] = -99999;
-		TT_Nu_Pz_real = -1;
-		ST_Nu_Pz[0] = -99999;
-		ST_Nu_Pz[1] = -99999;
-		ST_Nu_Pz_real = -1;
+		// Initialize output variables
+		nu_Pz_real = -1;
+		for (int i=0; i<3; ++i) nu_Pz_arr[i] = -99999;
 
-		if (run_TT && TT_lep_idx>=0) {
-			if ( fabs(TT_lep_ID)==11 ) TT_lep_E = Elec_E->at( TT_lep_idx );
-			else TT_lep_E = Muon_E->at( TT_lep_idx );
-			lep.SetPtEtaPhiE( TT_lep_Pt, TT_lep_Eta, TT_lep_Phi, TT_lep_E );
-			TT_Nu_Pz_real = CalcNuPz( lep, met_Px, met_Py, TT_Nu_Pz );
-		}
-		if (run_ST && ST_lep_idx>=0) {
-			if ( fabs(ST_lep_ID)==11 ) ST_lep_E = Elec_E->at( ST_lep_idx );
-			else ST_lep_E = Muon_E->at( ST_lep_idx );
-			lep.SetPtEtaPhiE( ST_lep_Pt, ST_lep_Eta, ST_lep_Phi, ST_lep_E );
-			ST_Nu_Pz_real = CalcNuPz( lep, met_Px, met_Py, ST_Nu_Pz );
-		}
+		// For events that can't be reconstructed, fill null values to output
+		if (NPerm < 0) { Treco_->Fill();  continue; }
 
-		Tin2_->Fill();
+		if ( fabs(lep_ID)==11 ) lep_E = Elec_Energy->at( lep_idx );
+		else lep_E = Muon_Energy->at( lep_idx );
+		lep.SetPtEtaPhiE( lep_Pt, lep_Eta, lep_Phi, lep_E );
+
+		// Calculate neutrino Pz
+		nu_Pz_real = CalcNuPz( lep, met_Px, met_Py, nu_Pz_arr );
+
+		Treco_->Fill();
 	} // End of event loop
 
-	fin1->Close();
-	fin2->WriteTObject(Tin2_);
-	fin2->Close();
+	fevt->Close();
+	freco->WriteTObject(Treco_, "", "Overwrite");
+	freco->Close();
 	cout << "[INFO] Nu Pz info is saved in original reco file\n";
 
 	return 0;
@@ -165,8 +140,7 @@ int CalcNuPz(TLorentzVector &lep, float met_Px, float met_Py, float *nu_Pz)
 		nu_Pz[1] = ( 2*A*lep_Pz - sqrt(D) ) / ( 2*pow(lep_Pt,2) );
 		return 1;
 	} else {
-		nu_Pz[0] = ( 2*A*lep_Pz ) / ( 2*pow(lep_Pt,2) );
-		nu_Pz[1] = nu_Pz[0];
+		nu_Pz[2] = ( 2*A*lep_Pz ) / ( 2*pow(lep_Pt,2) );
 		return 0;
 	}
 }

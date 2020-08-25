@@ -1,40 +1,66 @@
 #!/usr/bin/env python2
-# Reconstruct neutrino Pz, given reconstructed leptonic signal events.
-#
+# Reconstruct neutrino Pz, given reconstructed leptonic events.
 # Usage:
-#   ./NuPz.py <name of MVA method>
+#   ./NuPz.py <train_tag>
 #
 # The new tree containing nu Pz info will overwrite the original reco tree.
 
-import Path
-import Samples
-import os
-import sys
+import Path, Util, Samples
+import os, sys
+from os.path import join
 
-def PrintRun( cmd ):
-	print 'Running: ', cmd
-	os.system( cmd )
+def RunNuPz( cmd ):
+	fp = os.popen(cmd)
+	#print fp.read()
+	fp.close()
 
-method = sys.argv[1]
-indir0 = Path.dir_2017+'/Presel_lep_btag-L_phID'
-indir1 = Path.dir_2017+'/MVAreco_result_lep_btag-L_phID/'+method+'_'
-exe = Path.dir_bin + '/NuPz'
+# Training tag
+train_tag = sys.argv[1]
 
-cmd_template = exe + ' {indir0}/{{sample}}.root {tree0} {indir1}/{{sample}}.root {tree1} {{nttype}}'.format(
-		indir0=indir0, tree0='T', indir1=indir1, tree1='T_MVAreco_'+method
-		)
+# Event tree dirs
+# Signal MC samples are selected to only contain test events
+evtdir_sig_lep = join(Path.dir_2017, 'Presel_lep_phID__MVAreco')
+# Other samples are the original ones
+evtdir_lep = join(Path.dir_2017, 'Presel_lep_phID')
 
-for nt in Samples.sig_TTlep:
-	cmd = cmd_template.format( sample=nt, nttype='TT' )
-	PrintRun( cmd )
-	print ''
-for nt in Samples.sig_STlep:
-	cmd = cmd_template.format( sample=nt, nttype='ST' )
-	PrintRun( cmd )
-	print ''
-for nt in Samples.bkg_noQCD_data:
-	cmd = cmd_template.format( sample=nt, nttype='bkg' )
-	PrintRun( cmd )
-	print ''
+# Reconstruction tree dirs
+recodir_lep = join(Path.dir_2017, 'MVAreco_result_lep', train_tag)
 
-print '[NuPz.py] Completed!'
+# Executable
+exe = join(Path.dir_bin, 'NuPz')
+
+# Command template
+# ./NuPz <evt_file> <reco_file> <TT|ST>
+cmd_t = '%s {evtdir}/{{nt}}.root %s/{{nt}}.root {recotype}' % (exe, recodir_lep)
+cmd_TT_sig = cmd_t.format( evtdir=evtdir_sig_lep, recotype='TT' )
+cmd_ST_sig = cmd_t.format( evtdir=evtdir_sig_lep, recotype='ST' )
+cmd_TT = cmd_t.format( evtdir=evtdir_lep, recotype='TT' )
+cmd_ST = cmd_t.format( evtdir=evtdir_lep, recotype='ST' )
+
+# Run TT for signal samples
+print '[INFO] Start running: TTlep_%s' % train_tag
+for nt in Samples.sig_MC_expr_v2[('TT','lep')]:
+	print 'Processing:', nt
+	RunNuPz( cmd_TT_sig.format(nt=nt) )
+# Run TT for other samples
+for cat in Samples.bkg_MC_s:
+	for nt in Samples.bkg_MC_s[cat]:
+		print 'Processing:', nt
+		RunNuPz( cmd_TT.format(nt=nt) )
+print 'Processing: data'
+RunNuPz( cmd_TT.format(nt='data') )
+
+# Run ST for signal samples
+print '[INFO] Start running: STlep_%s' % train_tag
+for nt in Samples.sig_MC_expr_v2[('ST','lep')]:
+	print 'Processing:', nt
+	RunNuPz( cmd_ST_sig.format(nt=nt) )
+# Run ST for other samples
+for cat in Samples.bkg_MC_s:
+	for nt in Samples.bkg_MC_s[cat]:
+		print 'Processing:', nt
+		RunNuPz( cmd_ST.format(nt=nt) )
+print 'Processing: data'
+RunNuPz( cmd_ST.format(nt='data') )
+
+print 'Complete!'
