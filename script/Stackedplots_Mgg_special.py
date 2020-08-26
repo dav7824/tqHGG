@@ -1,34 +1,35 @@
 #!/usr/bin/env python2
+# Usage:
+#   ./Stackedplots_Mgg_special.py <tag> <channel>
+#
+# Make Mgg stacked plot. Data is blinded while MCs are not.
+# Since data and MC are in different selections, only Mgg plot makes sense.
 
-import os, sys
 import Path, Util, Samples
-from os.path import join, exists
+import os, sys
+from os.path import join
 
 # Tag for input samples (dir name)
 tag = sys.argv[1]
 # Channel of samples
 ch = sys.argv[2]
 
-if ch!='all' and ch!='had' and ch!='lep':
+if ch!='had' and ch!='lep':
 	print '[ERROR] Invalid channel!'
 	sys.exit(1)
 
+# Data hist dir
+datadir = join(Path.dir_2017, 'stackedplots', 'hist_'+tag+'_blind')
+fdata = join(datadir, 'data.root')
 
-# Run HistNormAdd.py (If you've already run HistNormAdd.py and just want to make plot using HistPlotter,
-# just comment this part out.)
-fp = os.popen( '{py} {tag} {ch}'.format(py=join(Path.dir_script,'HistNormAdd.py'), tag=tag, ch=ch) )
-print fp.read()
-fp.close()
+# MC hist dir
+mcdir = join(Path.dir_tqHGG, 'tmp', 'hist_'+tag)
 
-
-# Set paths
+# Executable
 exe_HistPlotter = join(Path.dir_bin, 'HistPlotter')
-indir = join(Path.dir_2017, 'stackedplots', 'hist_'+tag)
-tmpdir = join(Path.dir_tqHGG, 'tmp', 'hist_'+tag)
-if not exists(tmpdir):
-	print '[ERROR] Cannot find histograms!'
-	sys.exit(1)
-outdir = join(Path.dir_2017, 'stackedplots', 'plots_'+tag)
+
+# Output dir
+outdir = join(Path.dir_2017, 'stackedplots', 'plots_'+tag+'_Mgg')
 Util.CreateDir(outdir)
 
 # Bkg files
@@ -40,24 +41,21 @@ for nt in bkg_list_:
 	bkg_leg_.append(Samples.bkg_MC_leg[nt])
 bkg_leg = ','.join(bkg_leg_)
 # Total bkg file
-ftotbkg = join(tmpdir, 'totbkg.root')
+ftotbkg = join(mcdir, 'totbkg.root')
 
 # Sig files
-sig_list = 'none'
+sig_list = 'TT{ch}hct,ST{ch}hct,TT{ch}hut,ST{ch}hut'.format(ch=ch)
 # Sig legends
-sig_leg = 'none'
-
-# Data file
-fdata = join(indir, 'data.root')
+sig_leg = 'TT_hct,ST_hct,TT_hut,ST_hut'
 
 # Bkg dir
-dir_bkg = tmpdir
+dir_bkg = mcdir
 # Sig dir
-dir_sig = tmpdir
+dir_sig = mcdir
 
 # Options
 plot_dom = 1
-use_log_y = 0
+use_log_y = 1
 
 # Command template
 cmd_HistPlotter = '{bin} {bkg_list} {bkg_leg} {ftotbkg} {sig_list} {sig_leg} {fdata} {dir_bkg} {dir_sig} \

@@ -12,15 +12,7 @@ ch = sys.argv[2]
 if ch!='had' and ch!='lep':
 	print '[ERROR] Invalid channel!'
 	sys.exit(1)
-'''
-sig_MC = {}
-for nt_type in Samples.sig_MC_s:
-	if ch=='had' and nt_type[1]=='lep':
-		continue
-	if ch=='lep' and nt_type[1]=='had':
-		continue
-	sig_MC[nt_type] = Samples.sig_MC_s[nt_type]
-'''
+
 
 # Run HistNormAdd.py (If you've already run HistNormAdd.py and just want to make plot using HistPlotter,
 # just comment this part out.)

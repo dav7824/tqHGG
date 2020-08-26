@@ -32,7 +32,7 @@ def ReadList(path):
 
 def GenCode_FillHist(tag):
 	fmain = open( os.path.join(Path.dir_src, 'FillHist.cc') )
-	fhist = open( os.path.join(Path.dir_src, 'hist_'+tag+'.cc') )
+	fhist = open( os.path.join(Path.dir_tqHGG, 'hist', 'hist_'+tag+'.cc') )
 	fout_name = 'FillHist_'+tag+'.cc'
 	fout = open( os.path.join(Path.dir_tqHGG, 'tmp', fout_name), 'w' )
 
