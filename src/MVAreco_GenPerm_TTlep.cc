@@ -29,7 +29,7 @@
 #include <vector>
 using namespace std;
 
-float frac_train = 0.5;
+float frac_train = 0.25;
 double dR_cut = 0.4;
 
 int main(int argc, char **argv)
@@ -57,12 +57,12 @@ int main(int argc, char **argv)
 	float DiPho_leadPt = 0;
 	float DiPho_leadEta = 0;
 	float DiPho_leadPhi = 0;
-	float DiPho_leadIDMVA = 0;
+	float DiPho_leadE = 0;
 	int DiPho_leadGenMatchType = 0;
 	float DiPho_subleadPt = 0;
 	float DiPho_subleadEta = 0;
 	float DiPho_subleadPhi = 0;
-	float DiPho_subleadIDMVA = 0;
+	float DiPho_subleadE = 0;
 	int DiPho_subleadGenMatchType = 0;
 	int Elec_Size = 0;
 	vector<int> *Elec_Charge = 0;
@@ -99,12 +99,12 @@ int main(int argc, char **argv)
 	T->SetBranchStatus("DiPhoInfo.leadPt", 1);
 	T->SetBranchStatus("DiPhoInfo.leadEta", 1);
 	T->SetBranchStatus("DiPhoInfo.leadPhi", 1);
-	T->SetBranchStatus("DiPhoInfo.leadIDMVA", 1);
+	T->SetBranchStatus("DiPhoInfo.leadE", 1);
 	T->SetBranchStatus("DiPhoInfo.leadGenMatchType", 1);
 	T->SetBranchStatus("DiPhoInfo.subleadPt", 1);
 	T->SetBranchStatus("DiPhoInfo.subleadEta", 1);
 	T->SetBranchStatus("DiPhoInfo.subleadPhi", 1);
-	T->SetBranchStatus("DiPhoInfo.subleadIDMVA", 1);
+	T->SetBranchStatus("DiPhoInfo.subleadE", 1);
 	T->SetBranchStatus("DiPhoInfo.subleadGenMatchType", 1);
 	T->SetBranchStatus("ElecInfo.Size", 1);
 	T->SetBranchStatus("ElecInfo.Charge", 1);
@@ -139,12 +139,12 @@ int main(int argc, char **argv)
 	T->SetBranchAddress("DiPhoInfo.leadPt", &DiPho_leadPt);
 	T->SetBranchAddress("DiPhoInfo.leadEta", &DiPho_leadEta);
 	T->SetBranchAddress("DiPhoInfo.leadPhi", &DiPho_leadPhi);
-	T->SetBranchAddress("DiPhoInfo.leadIDMVA", &DiPho_leadIDMVA);
+	T->SetBranchAddress("DiPhoInfo.leadE", &DiPho_leadE);
 	T->SetBranchAddress("DiPhoInfo.leadGenMatchType", &DiPho_leadGenMatchType);
 	T->SetBranchAddress("DiPhoInfo.subleadPt", &DiPho_subleadPt);
 	T->SetBranchAddress("DiPhoInfo.subleadEta", &DiPho_subleadEta);
 	T->SetBranchAddress("DiPhoInfo.subleadPhi", &DiPho_subleadPhi);
-	T->SetBranchAddress("DiPhoInfo.subleadIDMVA", &DiPho_subleadIDMVA);
+	T->SetBranchAddress("DiPhoInfo.subleadE", &DiPho_subleadE);
 	T->SetBranchAddress("DiPhoInfo.subleadGenMatchType", &DiPho_subleadGenMatchType);
 	T->SetBranchAddress("ElecInfo.Size", &Elec_Size);
 	T->SetBranchAddress("ElecInfo.Charge", &Elec_Charge);
@@ -185,31 +185,39 @@ int main(int argc, char **argv)
 	int bJet_idx = -1;
 	float bJet_Pt = -999;
 	float bJet_Eta = -999;
-	float bJet_Phi = -999;
 	float bJet_btag = -999;
 	// M1 jet (TT)
 	int M1Jet_idx = -1;
 	float M1Jet_Pt = -999;
 	float M1Jet_Eta = -999;
-	float M1Jet_Phi = -999;
 	float M1Jet_btag = -999;
 	// WJets (had)
 	int WJet1_idx = -1;
 	float WJet1_Pt = -999;
 	float WJet1_Eta = -999;
-	float WJet1_Phi = -999;
 	float WJet1_btag = -999;
 	int WJet2_idx = -1;
 	float WJet2_Pt = -999;
 	float WJet2_Eta = -999;
-	float WJet2_Phi = -999;
 	float WJet2_btag = -999;
 	// Lepton (lep)
 	int lep_idx = -1;
 	float lep_ID = -999;
 	float lep_Pt = -999;
 	float lep_Eta = -999;
-	float lep_Phi = -999;
+	// Invariance mass
+	float M1 = -999; // TThad SThad TTlep
+	float M2 = -999; // TT had
+	float MW = -999; // had
+	// Angle
+	float dR_qH = -999; // TT
+	float dR_bW = -999; // had
+	float dR_tt = -999; // TT had
+	float dR_tH = -999; // ST had
+	float dR_qq = -999; // had
+	float dR_lb = -999; // lep
+	float dR_lt = -999; // TT lep
+	float dR_lH = -999; // ST lep
 
 	// Create output file
 	TFile *fout = new TFile(fout_name, "update");
@@ -221,39 +229,37 @@ int main(int argc, char **argv)
 	T_tmp->Branch("NPerm", &NPerm);
 	T_tmp->Branch("idxPerm", &idxPerm);
 	T_tmp->Branch("match", &match);
-	T_tmp->Branch("LeadPho_Pt", &DiPho_leadPt);
-	T_tmp->Branch("LeadPho_Eta", &DiPho_leadEta);
-	T_tmp->Branch("LeadPho_Phi", &DiPho_leadPhi);
-	T_tmp->Branch("LeadPho_IDMVA", &DiPho_leadIDMVA);
-	T_tmp->Branch("SubleadPho_Pt", &DiPho_subleadPt);
-	T_tmp->Branch("SubleadPho_Eta", &DiPho_subleadEta);
-	T_tmp->Branch("SubleadPho_Phi", &DiPho_subleadPhi);
-	T_tmp->Branch("SubleadPho_IDMVA", &DiPho_subleadIDMVA);
 	T_tmp->Branch("bJet_idx", &bJet_idx);
 	T_tmp->Branch("bJet_Pt", &bJet_Pt);
 	T_tmp->Branch("bJet_Eta", &bJet_Eta);
-	T_tmp->Branch("bJet_Phi", &bJet_Phi);
 	T_tmp->Branch("bJet_btag", &bJet_btag);
 	T_tmp->Branch("M1Jet_idx", &M1Jet_idx);
 	T_tmp->Branch("M1Jet_Pt", &M1Jet_Pt);
 	T_tmp->Branch("M1Jet_Eta", &M1Jet_Eta);
-	T_tmp->Branch("M1Jet_Phi", &M1Jet_Phi);
 	T_tmp->Branch("M1Jet_btag", &M1Jet_btag);
 	T_tmp->Branch("WJet1_idx", &WJet1_idx);
 	T_tmp->Branch("WJet1_Pt", &WJet1_Pt);
 	T_tmp->Branch("WJet1_Eta", &WJet1_Eta);
-	T_tmp->Branch("WJet1_Phi", &WJet1_Phi);
 	T_tmp->Branch("WJet1_btag", &WJet1_btag);
 	T_tmp->Branch("WJet2_idx", &WJet2_idx);
 	T_tmp->Branch("WJet2_Pt", &WJet2_Pt);
 	T_tmp->Branch("WJet2_Eta", &WJet2_Eta);
-	T_tmp->Branch("WJet2_Phi", &WJet2_Phi);
 	T_tmp->Branch("WJet2_btag", &WJet2_btag);
 	T_tmp->Branch("lep_idx", &lep_idx);
 	T_tmp->Branch("lep_ID", &lep_ID);
 	T_tmp->Branch("lep_Pt", &lep_Pt);
 	T_tmp->Branch("lep_Eta", &lep_Eta);
-	T_tmp->Branch("lep_Phi", &lep_Phi);
+	T_tmp->Branch("M1", &M1);
+	T_tmp->Branch("M2", &M2);
+	T_tmp->Branch("MW", &MW);
+	T_tmp->Branch("dR_qH", &dR_qH);
+	T_tmp->Branch("dR_bW", &dR_bW);
+	T_tmp->Branch("dR_tt", &dR_tt);
+	T_tmp->Branch("dR_tH", &dR_tH);
+	T_tmp->Branch("dR_qq", &dR_qq);
+	T_tmp->Branch("dR_lb", &dR_lb);
+	T_tmp->Branch("dR_lt", &dR_lt);
+	T_tmp->Branch("dR_lH", &dR_lH);
 	TTree *TPerm_TT = 0;
 	TTree *TPerm_train = 0, *TPerm_test = 0;
 	if (is_signal) {
@@ -279,6 +285,7 @@ int main(int argc, char **argv)
 
 	TLorentzVector gen_bq, gen_lq, gen_Wq1, gen_Wq2, gen_lep;
 	TLorentzVector reco_bJet, reco_M1Jet, reco_WJet1, reco_WJet2, reco_lep;
+	TLorentzVector reco_pho1, reco_pho2, reco_H, reco_W, reco_M1, reco_M2;
 
 	// Start event loop
 	cout << "Start processing...\n";
@@ -296,28 +303,34 @@ int main(int argc, char **argv)
 		bJet_idx = -1;
 		bJet_Pt = -999;
 		bJet_Eta = -999;
-		bJet_Phi = -999;
 		bJet_btag = -999;
 		M1Jet_idx = -1;
 		M1Jet_Pt = -999;
 		M1Jet_Eta = -999;
-		M1Jet_Phi = -999;
 		M1Jet_btag = -999;
 		WJet1_idx = -1;
 		WJet1_Pt = -999;
 		WJet1_Eta = -999;
-		WJet1_Phi = -999;
 		WJet1_btag = -999;
 		WJet2_idx = -1;
 		WJet2_Pt = -999;
 		WJet2_Eta = -999;
-		WJet2_Phi = -999;
 		WJet2_btag = -999;
 		lep_idx = -1;
 		lep_ID = -999;
 		lep_Pt = -999;
 		lep_Eta = -999;
-		lep_Phi = -999;
+		M1 = -999;
+		M2 = -999;
+		MW = -999;
+		dR_qH = -999;
+		dR_bW = -999;
+		dR_tt = -999;
+		dR_tH = -999;
+		dR_qq = -999;
+		dR_lb = -999;
+		dR_lt = -999;
+		dR_lH = -999;
 
 		bool is_train = false;
 		if (is_signal && evt<Nevt_train) is_train = true;
@@ -370,6 +383,11 @@ int main(int argc, char **argv)
 		NPerm = jets_size * (jets_size-1) * Lep_Size;
 		idxPerm = 0;
 
+		// Set 4-momenta of photons & Higgs of this event
+		reco_pho1.SetPtEtaPhiE(DiPho_leadPt, DiPho_leadEta, DiPho_leadPhi, DiPho_leadE);
+		reco_pho2.SetPtEtaPhiE(DiPho_subleadPt, DiPho_subleadEta, DiPho_subleadPhi, DiPho_subleadE);
+		reco_H = reco_pho1 + reco_pho2;
+
 		// Start b-jet loop
 		for (int i=0; i<jets_size; ++i) {
 			// Start fcnc jet loop
@@ -378,14 +396,14 @@ int main(int argc, char **argv)
 				// Start lepton loop
 				for (int k=0; k<Lep_Size; ++k) {
 
+					// Set 4-momenta of reco objects
+					reco_bJet.SetPtEtaPhiE(Jet_Pt->at(i), Jet_Eta->at(i), Jet_Phi->at(i), Jet_Energy->at(i));
+					reco_M1Jet.SetPtEtaPhiE(Jet_Pt->at(j), Jet_Eta->at(j), Jet_Phi->at(j), Jet_Energy->at(j));
+					reco_lep.SetPtEtaPhiE(Lep_Pt[k], Lep_Eta[k], Lep_Phi[k], Lep_Energy[k]);
+
 					// Decide if reco & gen particles are matched if processing signal sample
 					// When producing bkg tree, variable `match` is not modified and stay at -1
 					if (is_signal) {
-						// Set 4-momenta of reco objects
-						reco_bJet.SetPtEtaPhiE(Jet_Pt->at(i), Jet_Eta->at(i), Jet_Phi->at(i), Jet_Energy->at(i));
-						reco_M1Jet.SetPtEtaPhiE(Jet_Pt->at(j), Jet_Eta->at(j), Jet_Phi->at(j), Jet_Energy->at(j));
-						reco_lep.SetPtEtaPhiE(Lep_Pt[k], Lep_Eta[k], Lep_Phi[k], Lep_Energy[k]);
-
 						match = 0;
 						if (reco_bJet.DeltaR(gen_bq)<dR_cut && reco_M1Jet.DeltaR(gen_lq)<dR_cut &&
 								reco_lep.DeltaR(gen_lep)<dR_cut && Lep_ID[k]==Gen_PdgID->at(Idx_lep) &&
@@ -400,19 +418,23 @@ int main(int argc, char **argv)
 					bJet_idx = i;
 					bJet_Pt = Jet_Pt->at(i);
 					bJet_Eta = Jet_Eta->at(i);
-					bJet_Phi = Jet_Phi->at(i);
 					bJet_btag = Jet_probb->at(i)+Jet_probbb->at(i);
 					M1Jet_idx = j;
 					M1Jet_Pt = Jet_Pt->at(j);
 					M1Jet_Eta = Jet_Eta->at(j);
-					M1Jet_Phi = Jet_Phi->at(j);
 					M1Jet_btag = Jet_probb->at(j)+Jet_probbb->at(j);
 					if (k >= Elec_Size) lep_idx = k-Elec_Size;
 					else lep_idx = k;
 					lep_ID = (float)(Lep_ID[k]);
 					lep_Pt = Lep_Pt[k];
 					lep_Eta = Lep_Eta[k];
-					lep_Phi = Lep_Phi[k];
+
+					reco_M1 = reco_M1Jet + reco_H;
+
+					M1 = reco_M1.M();
+					dR_qH = reco_M1Jet.DeltaR(reco_H);
+					dR_lb = reco_lep.DeltaR(reco_bJet);
+					dR_lt = reco_lep.DeltaR(reco_M1);
 
 					if (is_signal) {
 						if (is_train) {
