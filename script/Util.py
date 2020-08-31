@@ -47,11 +47,10 @@ def GenCode_FillHist(tag):
 	fout.close()
 	print '[INFO] %s is generated' % fout_name
 
-def GenCode_MVAreco_train(tag):
+def GenCode_MVAreco_train(fmethod_name, fout_name):
 	fmain = open( os.path.join(Path.dir_src, 'MVAreco_train.cc') )
-	fmethod = open( os.path.join(Path.dir_src, 'MVAreco_methods.cc') )
-	fout_name = 'MVAreco_train_'+tag+'.cc'
-	fout = open( os.path.join(Path.dir_tqHGG, 'tmp', fout_name), 'w' )
+	fmethod = open( fmethod_name )
+	fout = open( fout_name, 'w' )
 
 	for i in fmain:
 		fout.write(i)
@@ -62,7 +61,7 @@ def GenCode_MVAreco_train(tag):
 	fmain.close()
 	fmethod.close()
 	fout.close()
-	print '[INFO] %s is generated' % fout_name
+	print '[INFO] Source code generated:', fout_name
 
 def submit_job(cmd, jobname):
 	os.system( '{runner} --command="{cmd}" --name={name}'.format(runner=os.path.join(Path.dir_tqHGG,'qSub/submitJOB.py'), cmd=cmd, name=jobname) )

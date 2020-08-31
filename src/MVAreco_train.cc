@@ -1,7 +1,7 @@
 /*
  * Run MVA training on permutations for signal reconstruction.
  * Usage:
- *   ./MVAreco_train_xxx <fin> <outdir> <recotype> <channel> <train_tag>
+ *   ./MVAreco_train_xxx <fin> <outdir> <recotype=TT|ST> <channel=had|lep> <train_tag>
  *
  * <fin>:       Root file containing training & test permutation trees of signal MC
  * <outdir>:    Directory to save the result root file
@@ -71,38 +71,50 @@ int main(int argc, char **argv)
 	dataloader->AddBackgroundTree(TPerm_test, bkgWeight, "Test");
 
 	// Set discriminating variables
-	dataloader->AddVariable("LeadPho_Pt", 'F');
-	dataloader->AddVariable("LeadPho_Eta", 'F');
-	dataloader->AddVariable("LeadPho_Phi", 'F');
-	dataloader->AddVariable("LeadPho_IDMVA", 'F');
-	dataloader->AddVariable("SubleadPho_Pt", 'F');
-	dataloader->AddVariable("SubleadPho_Eta", 'F');
-	dataloader->AddVariable("SubleadPho_Phi", 'F');
-	dataloader->AddVariable("SubleadPho_IDMVA", 'F');
+	// Obj variables
 	dataloader->AddVariable("bJet_Pt", 'F');
 	dataloader->AddVariable("bJet_Eta", 'F');
-	dataloader->AddVariable("bJet_Phi", 'F');
 	dataloader->AddVariable("bJet_btag", 'F');
 	if (recotype == "TT") {
 		dataloader->AddVariable("M1Jet_Pt", 'F');
 		dataloader->AddVariable("M1Jet_Eta", 'F');
-		dataloader->AddVariable("M1Jet_Phi", 'F');
 		dataloader->AddVariable("M1Jet_btag", 'F');
 	}
 	if (channel == "had") {
 		dataloader->AddVariable("WJet1_Pt", 'F');
 		dataloader->AddVariable("WJet1_Eta", 'F');
-		dataloader->AddVariable("WJet1_Phi", 'F');
 		dataloader->AddVariable("WJet1_btag", 'F');
 		dataloader->AddVariable("WJet2_Pt", 'F');
 		dataloader->AddVariable("WJet2_Eta", 'F');
-		dataloader->AddVariable("WJet2_Phi", 'F');
 		dataloader->AddVariable("WJet2_btag", 'F');
 	} else if (channel == "lep") {
 		dataloader->AddVariable("lep_ID", 'F');
 		dataloader->AddVariable("lep_Pt", 'F');
 		dataloader->AddVariable("lep_Eta", 'F');
-		dataloader->AddVariable("lep_Phi", 'F');
+	}
+	// Inv. mass & relative angles
+	if (recotype=="TT" && channel=="had") {
+		dataloader->AddVariable("M1", 'F');
+		dataloader->AddVariable("M2", 'F');
+		dataloader->AddVariable("MW", 'F');
+		dataloader->AddVariable("dR_qH", 'F');
+		dataloader->AddVariable("dR_bW", 'F');
+		dataloader->AddVariable("dR_tt", 'F');
+		dataloader->AddVariable("dR_qq", 'F');
+	} else if (recotype=="ST" && channel=="had") {
+		dataloader->AddVariable("M1", 'F');
+		dataloader->AddVariable("MW", 'F');
+		dataloader->AddVariable("dR_bW", 'F');
+		dataloader->AddVariable("dR_tH", 'F');
+		dataloader->AddVariable("dR_qq", 'F');
+	} else if (recotype=="TT" && channel=="lep") {
+		dataloader->AddVariable("M1", 'F');
+		dataloader->AddVariable("dR_qH", 'F');
+		dataloader->AddVariable("dR_lb", 'F');
+		dataloader->AddVariable("dR_lt", 'F');
+	} else if (recotype=="ST" && channel=="lep") {
+		dataloader->AddVariable("dR_lb", 'F');
+		dataloader->AddVariable("dR_lH", 'F');
 	}
 
 	// Set individual event weight
