@@ -71,82 +71,79 @@ int main(int argc, char **argv)
 	int NPerm = 0;
 	int idxPerm = 0;
 	int match = 0;
-	// photons
-	float LeadPho_Pt = 0;
-	float LeadPho_Eta = 0;
-	float LeadPho_Phi = 0;
-	float LeadPho_IDMVA = 0;
-	float SubleadPho_Pt = 0;
-	float SubleadPho_Eta = 0;
-	float SubleadPho_Phi = 0;
-	float SubleadPho_IDMVA = 0;
 	// b-jet
 	int bJet_idx = 0;
 	float bJet_Pt = 0;
 	float bJet_Eta = 0;
-	float bJet_Phi = 0;
 	float bJet_btag = 0;
 	// M1 jet (TT)
 	int M1Jet_idx = 0;
 	float M1Jet_Pt = 0;
 	float M1Jet_Eta = 0;
-	float M1Jet_Phi = 0;
 	float M1Jet_btag = 0;
 	// WJets (had)
 	int WJet1_idx = 0;
 	float WJet1_Pt = 0;
 	float WJet1_Eta = 0;
-	float WJet1_Phi = 0;
 	float WJet1_btag = 0;
 	int WJet2_idx = 0;
 	float WJet2_Pt = 0;
 	float WJet2_Eta = 0;
-	float WJet2_Phi = 0;
 	float WJet2_btag = 0;
 	// Lepton (lep)
 	int lep_idx = 0;
 	float lep_ID = 0;
 	float lep_Pt = 0;
 	float lep_Eta = 0;
-	float lep_Phi = 0;
+	// Invariance mass
+	float M1 = 0; // TThad SThad TTlep
+	float M2 = 0; // TT had
+	float MW = 0; // had
+	// Angle
+	float dR_qH = 0; // TT
+	float dR_bW = 0; // had
+	float dR_tt = 0; // TT had
+	float dR_tH = 0; // ST had
+	float dR_qq = 0; // had
+	float dR_lb = 0; // lep
+	float dR_lt = 0; // TT lep
+	float dR_lH = 0; // ST lep
 
 	// Set input tree branches
 	inTree->SetBranchAddress("NPerm", &NPerm);
 	inTree->SetBranchAddress("idxPerm", &idxPerm);
 	inTree->SetBranchAddress("match", &match);
-	inTree->SetBranchAddress("LeadPho_Pt", &LeadPho_Pt);
-	inTree->SetBranchAddress("LeadPho_Eta", &LeadPho_Eta);
-	inTree->SetBranchAddress("LeadPho_Phi", &LeadPho_Phi);
-	inTree->SetBranchAddress("LeadPho_IDMVA", &LeadPho_IDMVA);
-	inTree->SetBranchAddress("SubleadPho_Pt", &SubleadPho_Pt);
-	inTree->SetBranchAddress("SubleadPho_Eta", &SubleadPho_Eta);
-	inTree->SetBranchAddress("SubleadPho_Phi", &SubleadPho_Phi);
-	inTree->SetBranchAddress("SubleadPho_IDMVA", &SubleadPho_IDMVA);
 	inTree->SetBranchAddress("bJet_idx", &bJet_idx);
 	inTree->SetBranchAddress("bJet_Pt", &bJet_Pt);
 	inTree->SetBranchAddress("bJet_Eta", &bJet_Eta);
-	inTree->SetBranchAddress("bJet_Phi", &bJet_Phi);
 	inTree->SetBranchAddress("bJet_btag", &bJet_btag);
 	inTree->SetBranchAddress("M1Jet_idx", &M1Jet_idx);
 	inTree->SetBranchAddress("M1Jet_Pt", &M1Jet_Pt);
 	inTree->SetBranchAddress("M1Jet_Eta", &M1Jet_Eta);
-	inTree->SetBranchAddress("M1Jet_Phi", &M1Jet_Phi);
 	inTree->SetBranchAddress("M1Jet_btag", &M1Jet_btag);
 	inTree->SetBranchAddress("WJet1_idx", &WJet1_idx);
 	inTree->SetBranchAddress("WJet1_Pt", &WJet1_Pt);
 	inTree->SetBranchAddress("WJet1_Eta", &WJet1_Eta);
-	inTree->SetBranchAddress("WJet1_Phi", &WJet1_Phi);
 	inTree->SetBranchAddress("WJet1_btag", &WJet1_btag);
 	inTree->SetBranchAddress("WJet2_idx", &WJet2_idx);
 	inTree->SetBranchAddress("WJet2_Pt", &WJet2_Pt);
 	inTree->SetBranchAddress("WJet2_Eta", &WJet2_Eta);
-	inTree->SetBranchAddress("WJet2_Phi", &WJet2_Phi);
 	inTree->SetBranchAddress("WJet2_btag", &WJet2_btag);
 	inTree->SetBranchAddress("lep_idx", &lep_idx);
 	inTree->SetBranchAddress("lep_ID", &lep_ID);
 	inTree->SetBranchAddress("lep_Pt", &lep_Pt);
 	inTree->SetBranchAddress("lep_Eta", &lep_Eta);
-	inTree->SetBranchAddress("lep_Phi", &lep_Phi);
+	inTree->SetBranchAddress("M1", &M1);
+	inTree->SetBranchAddress("M2", &M2);
+	inTree->SetBranchAddress("MW", &MW);
+	inTree->SetBranchAddress("dR_qH", &dR_qH);
+	inTree->SetBranchAddress("dR_bW", &dR_bW);
+	inTree->SetBranchAddress("dR_tt", &dR_tt);
+	inTree->SetBranchAddress("dR_tH", &dR_tH);
+	inTree->SetBranchAddress("dR_qq", &dR_qq);
+	inTree->SetBranchAddress("dR_lb", &dR_lb);
+	inTree->SetBranchAddress("dR_lt", &dR_lt);
+	inTree->SetBranchAddress("dR_lH", &dR_lH);
 
 	// Create output tree
 	TFile *fout = new TFile( fout_name, "update" );
@@ -166,39 +163,51 @@ int main(int argc, char **argv)
 	TMVA::Reader *reader = new TMVA::Reader("V");
 
 	// Set discriminating variables
-	reader->AddVariable("LeadPho_Pt", &LeadPho_Pt);
-	reader->AddVariable("LeadPho_Eta", &LeadPho_Eta);
-	reader->AddVariable("LeadPho_Phi", &LeadPho_Phi);
-	reader->AddVariable("LeadPho_IDMVA", &LeadPho_IDMVA);
-	reader->AddVariable("SubleadPho_Pt", &SubleadPho_Pt);
-	reader->AddVariable("SubleadPho_Eta", &SubleadPho_Eta);
-	reader->AddVariable("SubleadPho_Phi", &SubleadPho_Phi);
-	reader->AddVariable("SubleadPho_IDMVA", &SubleadPho_IDMVA);
+	// Obj variables
 	reader->AddVariable("bJet_Pt", &bJet_Pt);
 	reader->AddVariable("bJet_Eta", &bJet_Eta);
-	reader->AddVariable("bJet_Phi", &bJet_Phi);
 	reader->AddVariable("bJet_btag", &bJet_btag);
 	if (reco_type == "TT") {
 		reader->AddVariable("M1Jet_Pt", &M1Jet_Pt);
 		reader->AddVariable("M1Jet_Eta", &M1Jet_Eta);
-		reader->AddVariable("M1Jet_Phi", &M1Jet_Phi);
 		reader->AddVariable("M1Jet_btag", &M1Jet_btag);
 	}
 	if (channel == "had") {
 		reader->AddVariable("WJet1_Pt", &WJet1_Pt);
 		reader->AddVariable("WJet1_Eta", &WJet1_Eta);
-		reader->AddVariable("WJet1_Phi", &WJet1_Phi);
 		reader->AddVariable("WJet1_btag", &WJet1_btag);
 		reader->AddVariable("WJet2_Pt", &WJet2_Pt);
 		reader->AddVariable("WJet2_Eta", &WJet2_Eta);
-		reader->AddVariable("WJet2_Phi", &WJet2_Phi);
 		reader->AddVariable("WJet2_btag", &WJet2_btag);
 	}
 	else if (channel == "lep") {
 		reader->AddVariable("lep_ID", &lep_ID);
 		reader->AddVariable("lep_Pt", &lep_Pt);
 		reader->AddVariable("lep_Eta", &lep_Eta);
-		reader->AddVariable("lep_Phi", &lep_Phi);
+	}
+	// Inv. mass & relative angles
+	if (reco_type=="TT" && channel=="had") {
+		reader->AddVariable("M1", &M1);
+		reader->AddVariable("M2", &M2);
+		reader->AddVariable("MW", &MW);
+		reader->AddVariable("dR_qH", &dR_qH);
+		reader->AddVariable("dR_bW", &dR_bW);
+		reader->AddVariable("dR_tt", &dR_tt);
+		reader->AddVariable("dR_qq", &dR_qq);
+	} else if (reco_type=="ST" && channel=="had") {
+		reader->AddVariable("M1", &M1);
+		reader->AddVariable("MW", &MW);
+		reader->AddVariable("dR_bW", &dR_bW);
+		reader->AddVariable("dR_tH", &dR_tH);
+		reader->AddVariable("dR_qq", &dR_qq);
+	} else if (reco_type=="TT" && channel=="lep") {
+		reader->AddVariable("M1", &M1);
+		reader->AddVariable("dR_qH", &dR_qH);
+		reader->AddVariable("dR_lb", &dR_lb);
+		reader->AddVariable("dR_lt", &dR_lt);
+	} else if (reco_type=="ST" && channel=="lep") {
+		reader->AddVariable("dR_lb", &dR_lb);
+		reader->AddVariable("dR_lH", &dR_lH);
 	}
 
 	// Book MVA methods
