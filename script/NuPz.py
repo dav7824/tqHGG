@@ -24,7 +24,7 @@ evtdir_sig_lep = join(Path.dir_2017, 'Presel_lep_phID__MVAreco')
 evtdir_lep = join(Path.dir_2017, 'Presel_lep_phID')
 
 # Reconstruction tree dirs
-recodir_lep = join(Path.dir_2017, 'MVAreco_result_lep', train_tag)
+recodir_lep = join(Path.dir_2017, 'MVArecoV2_result_lep', train_tag)
 
 # Executable
 exe = join(Path.dir_bin, 'NuPz')

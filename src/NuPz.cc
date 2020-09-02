@@ -49,7 +49,9 @@ int main(int argc, char **argv)
 
 	// Tree variables
 	// Event tree
+	vector<float> *Elec_Phi = 0;
 	vector<float> *Elec_Energy = 0;
+	vector<float> *Muon_Phi = 0;
 	vector<float> *Muon_Energy = 0;
 	float met_Px = 0;
 	float met_Py = 0;
@@ -59,7 +61,6 @@ int main(int argc, char **argv)
 	float lep_ID = 0;
 	float lep_Pt = 0;
 	float lep_Eta = 0;
-	float lep_Phi = 0;
 	// Reconstruction tree additional
 	/* nu_Pz_real: -1: cannot be reconstructed, 0: D<0, 1: D>=0 */
 	int nu_Pz_real = 0;
@@ -69,11 +70,15 @@ int main(int argc, char **argv)
 	// Set tree branches
 	// Event tree
 	Tevt->SetBranchStatus("*", 0);
+	Tevt->SetBranchStatus("ElecInfo.Phi", 1);
 	Tevt->SetBranchStatus("ElecInfo.Energy", 1);
+	Tevt->SetBranchStatus("MuonInfo.Phi", 1);
 	Tevt->SetBranchStatus("MuonInfo.Energy", 1);
 	Tevt->SetBranchStatus("MetInfo.Px", 1);
 	Tevt->SetBranchStatus("MetInfo.Py", 1);
+	Tevt->SetBranchAddress("ElecInfo.Phi", &Elec_Phi);
 	Tevt->SetBranchAddress("ElecInfo.Energy", &Elec_Energy);
+	Tevt->SetBranchAddress("MuonInfo.Phi", &Muon_Phi);
 	Tevt->SetBranchAddress("MuonInfo.Energy", &Muon_Energy);
 	Tevt->SetBranchAddress("MetInfo.Px", &met_Px);
 	Tevt->SetBranchAddress("MetInfo.Py", &met_Py);
@@ -83,7 +88,6 @@ int main(int argc, char **argv)
 	Treco->SetBranchAddress("lep_ID", &lep_ID);
 	Treco->SetBranchAddress("lep_Pt", &lep_Pt);
 	Treco->SetBranchAddress("lep_Eta", &lep_Eta);
-	Treco->SetBranchAddress("lep_Phi", &lep_Phi);
 	// Reconstruction tree additional
 	Treco_->Branch("nu_Pz_real", &nu_Pz_real);
 	Treco_->Branch("nu_Pz_L", &nu_Pz_arr[0]);
@@ -91,6 +95,7 @@ int main(int argc, char **argv)
 	Treco_->Branch("nu_Pz_M", &nu_Pz_arr[2]);
 
 	TLorentzVector lep;
+	float lep_Phi = 0;
 	float lep_E = 0;
 
 	// Start event loop
@@ -106,8 +111,14 @@ int main(int argc, char **argv)
 		// For events that can't be reconstructed, fill null values to output
 		if (NPerm < 0) { Treco_->Fill();  continue; }
 
-		if ( fabs(lep_ID)==11 ) lep_E = Elec_Energy->at( lep_idx );
-		else lep_E = Muon_Energy->at( lep_idx );
+		if ( fabs(lep_ID)==11 ) {
+			lep_Phi = Elec_Phi->at( lep_idx );
+			lep_E = Elec_Energy->at( lep_idx );
+		}
+		else {
+			lep_Phi = Muon_Phi->at( lep_idx );
+			lep_E = Muon_Energy->at( lep_idx );
+		}
 		lep.SetPtEtaPhiE( lep_Pt, lep_Eta, lep_Phi, lep_E );
 
 		// Calculate neutrino Pz
