@@ -146,8 +146,11 @@ int main(int argc, char **argv)
 	inTree->SetBranchAddress("dR_lb", &dR_lb);
 	inTree->SetBranchAddress("dR_lt", &dR_lt);
 	inTree->SetBranchAddress("dR_lH", &dR_lH);
-	inTree->SetBranchAddress("dPhi_bMET", &dPhi_bMET);
-	inTree->SetBranchAddress("Met_Pt", &Met_Pt);
+	// Note: hadronic trees don't have the below variables, so they are put in the "if"
+	if (channel=="lep") {
+		inTree->SetBranchAddress("dPhi_bMET", &dPhi_bMET);
+		inTree->SetBranchAddress("Met_Pt", &Met_Pt);
+	}
 
 	// Create output tree
 	TFile *fout = new TFile( fout_name, "update" );
