@@ -10,7 +10,7 @@ indir_hadbkg = join(Path.dir_2017, 'Presel_had_phID_btag-L')
 indir_lepbkg = join(Path.dir_2017, 'Presel_lep_phID')
 outdir_had = join(Path.dir_2017, 'MVArecoV2_Perm_had')
 Util.CreateDir(outdir_had)
-outdir_lep = join(Path.dir_2017, 'MVArecoV2_Perm_lep')
+outdir_lep = join(Path.dir_2017, 'MVArecoV3_Perm_lep')
 Util.CreateDir(outdir_lep)
 
 # Sample names
@@ -37,7 +37,7 @@ cmd_TTlep_bkg = '{bin} {indir}/{{nt}}.root {outdir}/{{nt}}.root bkg'.format(bin=
 cmd_STlep_bkg = '{bin} {indir}/{{nt}}.root {outdir}/{{nt}}.root bkg'.format(bin=exe_STlep, indir=indir_lepbkg, outdir=outdir_lep)
 
 mesg_sample = '---Start running: {}'
-
+'''
 # Run TT hadronic GenPerm
 print 'Start processing: TThad'
 output = open( join(outdir_had,'summary_TT.txt'), 'w' )
@@ -87,7 +87,7 @@ output.write( fp.read() )
 fp.close()
 
 output.close()
-
+'''
 # Run TT leptonic GenPerm
 print 'Start processing: TTlep'
 output = open( join(outdir_lep,'summary_TT.txt'), 'w' )

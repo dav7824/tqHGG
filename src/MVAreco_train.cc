@@ -116,6 +116,10 @@ int main(int argc, char **argv)
 		dataloader->AddVariable("dR_lb", 'F');
 		dataloader->AddVariable("dR_lH", 'F');
 	}
+	if (channel=="lep") {
+		dataloader->AddVariable("dPhi_bMET", 'F');
+		dataloader->AddVariable("Met_Pt", 'F');
+	}
 
 	// Set individual event weight
 	dataloader->SetSignalWeightExpression("Evt_genweight");

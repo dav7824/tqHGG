@@ -26,6 +26,7 @@
 
 #include <iostream>
 #include <cstdlib>
+#include <cmath>
 #include <vector>
 using namespace std;
 
@@ -83,6 +84,8 @@ int main(int argc, char **argv)
 	vector<float> *Jet_Energy = 0;
 	vector<float> *Jet_probb = 0;
 	vector<float> *Jet_probbb = 0;
+	float Met_Pt = 0;
+	float Met_Phi = 0;
 	// Variables for signal samples only
 	vector<float> *Gen_Pt = 0;
 	vector<float> *Gen_Eta = 0;
@@ -124,6 +127,8 @@ int main(int argc, char **argv)
 	T->SetBranchStatus("JetInfo.Energy", 1);
 	T->SetBranchStatus("JetInfo.pfDeepCSVJetTags_probb", 1);
 	T->SetBranchStatus("JetInfo.pfDeepCSVJetTags_probbb", 1);
+	T->SetBranchStatus("MetInfo.Pt", 1);
+	T->SetBranchStatus("MetInfo.Phi", 1);
 	if (is_signal) {
 		T->SetBranchStatus("GenPartInfo.Pt", 1);
 		T->SetBranchStatus("GenPartInfo.Eta", 1);
@@ -163,6 +168,8 @@ int main(int argc, char **argv)
 	T->SetBranchAddress("JetInfo.Energy", &Jet_Energy);
 	T->SetBranchAddress("JetInfo.pfDeepCSVJetTags_probb", &Jet_probb);
 	T->SetBranchAddress("JetInfo.pfDeepCSVJetTags_probbb", &Jet_probbb);
+	T->SetBranchAddress("MetInfo.Pt", &Met_Pt);
+	T->SetBranchAddress("MetInfo.Phi", &Met_Phi);
 	if (is_signal) {
 		T->SetBranchAddress("GenPartInfo.Pt", &Gen_Pt);
 		T->SetBranchAddress("GenPartInfo.Eta", &Gen_Eta);
@@ -215,6 +222,7 @@ int main(int argc, char **argv)
 	float dR_lb = -999; // lep
 	float dR_lt = -999; // TT lep
 	float dR_lH = -999; // ST lep
+	float dPhi_bMET = -999; // lep
 
 	// Create output file
 	TFile *fout = new TFile(fout_name, "update");
@@ -257,6 +265,8 @@ int main(int argc, char **argv)
 	T_tmp->Branch("dR_lb", &dR_lb);
 	T_tmp->Branch("dR_lt", &dR_lt);
 	T_tmp->Branch("dR_lH", &dR_lH);
+	T_tmp->Branch("dPhi_bMET", &dPhi_bMET);
+	T_tmp->Branch("Met_Pt", &Met_Pt);
 	TTree *TPerm_ST = 0;
 	TTree *TPerm_train = 0, *TPerm_test = 0;
 	if (is_signal) {
@@ -326,6 +336,7 @@ int main(int argc, char **argv)
 		dR_lb = -999;
 		dR_lt = -999;
 		dR_lH = -999;
+		dPhi_bMET = -999;
 
 		bool is_train = false;
 		if (is_signal && evt<Nevt_train) is_train = true;
@@ -405,6 +416,10 @@ int main(int argc, char **argv)
 
 				dR_lb = reco_lep.DeltaR(reco_bJet);
 				dR_lH = reco_lep.DeltaR(reco_H);
+				// Note: Phi of each object has range of [-pi, +pi]
+				// Beware to use the "correct" delta_phi angle
+				dPhi_bMET = fabs( reco_bJet.Phi() - Met_Phi );
+				if (dPhi_bMET > TMath::Pi()) dPhi_bMET = 2 * TMath::Pi() - dPhi_bMET;
 
 				if (is_signal) {
 					if (is_train) {

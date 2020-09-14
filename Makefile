@@ -64,6 +64,10 @@ ${BIN}/MVAreco_application: ${BUI}/MVAreco_application.o
 	@echo "[MAKE] Making $@"
 	${CC} -o $@ $^ ${ROOTLIB} -lTMVA
 
+${BIN}/MVAreco_AdjustPermTree: ${BUI}/MVAreco_AdjustPermTree.o
+	@echo "[MAKE] Making $@"
+	${CC} -o $@ $^ ${ROOTLIB}
+
 ${BIN}/NuPz: ${BUI}/NuPz.o
 	@echo "[MAKE] Making $@"
 	${CC} -o $@ $^ ${ROOTLIB}

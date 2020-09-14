@@ -41,16 +41,16 @@ exe = join(Path.dir_bin, 'MVAreco_application')
 # Input dir
 indir = ''
 if ch=='had':
-	indir = join(Path.dir_2017, 'MVArecoV2_Perm_had')
+	indir = join(Path.dir_2017, 'MVArecoV3_Perm_had')
 elif ch=='lep':
-	indir = join(Path.dir_2017, 'MVArecoV2_Perm_lep')
+	indir = join(Path.dir_2017, 'MVArecoV3_Perm_lep')
 # Output dir
 outdir = ''
 logdir = ''
 if ch=='had':
-	outdir = join(Path.dir_2017, 'MVArecoV2_result_had', train_tag)
+	outdir = join(Path.dir_2017, 'MVArecoV3_result_had', train_tag)
 elif ch=='lep':
-	outdir = join(Path.dir_2017, 'MVArecoV2_result_lep', train_tag)
+	outdir = join(Path.dir_2017, 'MVArecoV3_result_lep', train_tag)
 logdir = join(outdir, 'log')
 Util.CreateDir(outdir)
 Util.CreateDir(logdir)

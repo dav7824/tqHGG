@@ -108,6 +108,8 @@ int main(int argc, char **argv)
 	float dR_lb = 0; // lep
 	float dR_lt = 0; // TT lep
 	float dR_lH = 0; // ST lep
+	float dPhi_bMET = 0; // lep
+	float Met_Pt = 0; // lep
 
 	// Set input tree branches
 	inTree->SetBranchAddress("NPerm", &NPerm);
@@ -144,6 +146,8 @@ int main(int argc, char **argv)
 	inTree->SetBranchAddress("dR_lb", &dR_lb);
 	inTree->SetBranchAddress("dR_lt", &dR_lt);
 	inTree->SetBranchAddress("dR_lH", &dR_lH);
+	inTree->SetBranchAddress("dPhi_bMET", &dPhi_bMET);
+	inTree->SetBranchAddress("Met_Pt", &Met_Pt);
 
 	// Create output tree
 	TFile *fout = new TFile( fout_name, "update" );
@@ -208,6 +212,10 @@ int main(int argc, char **argv)
 	} else if (reco_type=="ST" && channel=="lep") {
 		reader->AddVariable("dR_lb", &dR_lb);
 		reader->AddVariable("dR_lH", &dR_lH);
+	}
+	if (channel=="lep") {
+		reader->AddVariable("dPhi_bMET", &dPhi_bMET);
+		reader->AddVariable("Met_Pt", &Met_Pt);
 	}
 
 	// Book MVA methods

@@ -41,8 +41,8 @@ exe = join(Path.dir_bin, exe_name)
 
 # Set I/O directories
 indir_had = join(Path.dir_2017, 'MVArecoV2_Perm_had')
-indir_lep = join(Path.dir_2017, 'MVArecoV2_Perm_lep')
-outdir = join(Path.dir_2017, 'MVArecoV2_train')
+indir_lep = join(Path.dir_2017, 'MVArecoV3_Perm_lep')
+outdir = join(Path.dir_2017, 'MVArecoV3_train')
 Util.CreateDir(outdir)
 
 # Generate source code
