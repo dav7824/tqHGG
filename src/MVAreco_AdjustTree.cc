@@ -5,7 +5,7 @@
  * so that tree formats are the same for both hadronic and leptonic trees.
  *
  * Usage:
- *   ./MVAreco_AdjustTree <fin> <fout> <recotype=TT|ST>
+ *   ./MVAreco_AdjustTree <fin> <fout>
  */
 
 #include "TString.h"
@@ -21,34 +21,30 @@ int main(int argc, char **argv)
 	// Get command line arguments
 	TString fin_name = argv[1];
 	TString fout_name = argv[2];
-	TString recotype = argv[3];
-
-	if (recotype!="TT" && recotype!="ST") {
-		cout << "[ERROR] Invalid reconstruction type!\n";
-		exit(1);
-	}
 
 	// Get input tree
 	TFile *fin = new TFile(fin_name);
-	TString treename;
-	if (recotype=="TT")  treename = "Treco_TT";
-	else  treename = "Treco_ST";
-	TTree *Tin = (TTree*)fin->Get(treename);
+	TTree *Tin[2];
+	Tin[0] = (TTree*)fin->Get("Treco_TT");
+	Tin[1] = (TTree*)fin->Get("Treco_ST");
 	// Create output file
-	TFile *fout = new TFile(fout_name, "update");
-	TTree *Tout = Tin->CloneTree(0);
-
-	// New tree vairables
+	TFile *fout = new TFile(fout_name, "recreate");
+	TTree *Tout[2];
 	float dPhi_bMET = -999;
 	float Met_Pt = -999;
-	Tout->Branch("dPhi_bMET", &dPhi_bMET);
-	Tout->Branch("Met_Pt", &Met_Pt);
 
-	// Start event loop
-	for (int evt=0; evt<Tin->GetEntries(); ++evt) {
-		Tin->GetEntry(evt);
-		Tout->Fill();
-	} // End event loop
+	// Start tree loop
+	for (int i=0; i<2; ++i) {
+		Tout[i] = Tin[i]->CloneTree(0);
+		Tout[i]->Branch("dPhi_bMET", &dPhi_bMET);
+		Tout[i]->Branch("Met_Pt", &Met_Pt);
+
+		// Start event loop
+		for (int evt=0; evt<Tin[i]->GetEntries(); ++evt) {
+			Tin[i]->GetEntry(evt);
+			Tout[i]->Fill();
+		} // End event loop
+	} // End of tree loop
 
 	fout->Write();
 	fout->Close();

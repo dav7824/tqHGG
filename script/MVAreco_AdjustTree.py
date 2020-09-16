@@ -8,8 +8,9 @@ import Path, Util, Samples
 import sys, os
 from os.path import join, exists
 
-def RunProcess(nt, recotype):
-	fp = os.popen( cmd_t.format(nt=nt, recotype=recotype) )
+def Process(nt):
+	print 'Processing:', nt
+	fp = os.popen( cmd_t.format(nt=nt) )
 	fp.close()
 
 # Train tag
@@ -27,25 +28,17 @@ Util.CreateDir(outdir)
 exe = join(Path.dir_bin, 'MVAreco_AdjustTree')
 
 # Command tmeplate
-cmd_t = '{bin} {indir}/{{nt}}.root {outdir}/{{nt}}.root {{recotype}}'.format(bin=exe, indir=indir, outdir=outdir)
+cmd_t = '{bin} {indir}/{{nt}}.root {outdir}/{{nt}}.root'.format(bin=exe, indir=indir, outdir=outdir)
 
-# Process TT had signal
-for nt in Samples.sig_MC_expr_v2[('TT', 'had')]:
-	print 'Processing:', nt
-	RunProcess(nt, 'TT')
-# Process ST had signal
-for nt in Samples.sig_MC_expr_v2[('ST', 'had')]:
-	print 'Processing:', nt
-	RunProcess(nt, 'ST')
+# Process signal
+for recotype in ['TT', 'ST']:
+	for nt in Samples.sig_MC_expr_v2[(recotype, 'had')]:
+		Process(nt)
 # Process bkg
 for cat in Samples.bkg_MC_s:
 	for nt in Samples.bkg_MC_s[cat]:
-		print 'Processing:', nt
-		RunProcess(nt, 'TT')
-		RunProcess(nt, 'ST')
+		Process(nt)
 # Process data
-print 'Processing:', 'data'
-RunProcess('data', 'TT')
-RunProcess('data', 'ST')
+Process('data')
 
 print 'Complete!'
