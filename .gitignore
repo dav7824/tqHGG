@@ -6,3 +6,4 @@ build
 test
 tmp
 spec
+script/MVAreco_scan_input_*.txt
