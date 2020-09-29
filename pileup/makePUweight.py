@@ -87,8 +87,8 @@ def main():
         puweightsum = puweightsum + (mcpileup[i] * mcweight[i])
         print i, mcweight[i], mcpileup[i], datapuhist.GetBinContent(i + 1)
 
-        mcfile = ROOT.TFile.Open("./puInfo/MCPileUp.root","update")
-        mchist.Write()
+    mcfile = ROOT.TFile.Open("./puInfo/MCPileUp.root","update")
+    mchist.Write()
     puhist.Write()
     print puweightsum
     print orgweightsum
