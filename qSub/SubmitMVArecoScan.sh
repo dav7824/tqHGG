@@ -32,12 +32,12 @@
 
 
 #if [[ "$recotype" != "TT" && "$recotype" != "ST" ]]; then
-#	echo "[ERROR] Invalid recotype!"
-#	exit 1
+#    echo "[ERROR] Invalid recotype!"
+#    exit 1
 #fi
 #if [[ "$ch" != "had" && "$ch" != "lep" ]]; then
-#	echo "[ERROR] Invalid channel!"
-#	exit 1
+#    echo "[ERROR] Invalid channel!"
+#    exit 1
 #fi
 
 echo "[JOB] Hostname = `hostname`"
@@ -53,23 +53,23 @@ dir_job=$dir_prod/MVAreco_scan/${PBS_JOBNAME}
 env_set=true
 cd $dir_tqHGG && eval `scram runtime -sh` && cd $dir_job || env_set=false
 if ! $env_set; then
-	echo "[ERROR] Fail to set the environment!"
-	exit 1
+    echo "[ERROR] Fail to set the environment!"
+    exit 1
 fi
 
 # Set input files
 set -f    # Disable globbing
 if [[ "$ch" == "had" ]]; then
-	dir_in=$dir_prod/MVArecoV2_Perm_had
+    dir_in=$dir_prod/MVArecoV2_Perm_had
 else
-	dir_in=$dir_prod/MVArecoV3_Perm_lep
+    dir_in=$dir_prod/MVArecoV3_Perm_lep
 fi
 if [[ "$recotype" == "TT" ]]; then
-	fin_train=TT_FCNC*
-	fin_app="TT_FCNC-TtoHJ_aT${ch}_hct TT_FCNC-TtoHJ_aT${ch}_hut TT_FCNC-aTtoHJ_T${ch}_hct TT_FCNC-aTtoHJ_T${ch}_hut"
+    fin_train=TT_FCNC*
+    fin_app="TT_FCNC-TtoHJ_aT${ch}_hct TT_FCNC-TtoHJ_aT${ch}_hut TT_FCNC-aTtoHJ_T${ch}_hct TT_FCNC-aTtoHJ_T${ch}_hut"
 else
-	fin_train=ST_FCNC*
-	fin_app="ST_FCNC-TH_T${ch}_hct ST_FCNC-TH_T${ch}_hut"
+    fin_train=ST_FCNC*
+    fin_app="ST_FCNC-TH_T${ch}_hct ST_FCNC-TH_T${ch}_hut"
 fi
 
 # Run training
@@ -83,23 +83,23 @@ set +f    # Enable globbing
 fweight=$dir_job/dataset/weights/*.weights.xml
 # If weight file doesn't exist, exit job with 256
 if ! [ -a $fweight ]; then
-	echo "[ERROR] Training failed!"
-	exit 1
+    echo "[ERROR] Training failed!"
+    exit 1
 fi
 
 # Run applying
 echo -e "\n[MSG] Complete training!  Start applying...  (`date`)"
 for file in $fin_app; do
-	# ./MVAreco_application <fin> <fweight> <fout> <nt_type=sig|bkg> <reco_type=TT|ST> <channel=had|lep>
-	echo "[MSG] Processing: $file"
-	$exe_app $dir_in/$file.root $fweight $dir_job/$file.root sig $recotype $ch > ${PBS_JOBNAME}_application_${file}.log
+    # ./MVAreco_application <fin> <fweight> <fout> <nt_type=sig|bkg> <reco_type=TT|ST> <channel=had|lep>
+    echo "[MSG] Processing: $file"
+    $exe_app $dir_in/$file.root $fweight $dir_job/$file.root sig $recotype $ch > ${PBS_JOBNAME}_application_${file}.log
 done
 
 # Record matching rates
 result="$PBS_JOBNAME    $recotype${ch}_$tag    $opt_err  $opt_layout  $opt_strat"
 for file in $fin_app; do
-	rate=$(cat ${PBS_JOBNAME}_application_${file}.log | tail -1 | awk '{print $4}')
-	result=$result"    $rate"
+    rate=$(cat ${PBS_JOBNAME}_application_${file}.log | tail -1 | awk '{print $4}')
+    result=$result"    $rate"
 done
 summary=$dir_prod/MVAreco_scan/MatchRate_$recotype$ch.txt
 echo $result >> $summary

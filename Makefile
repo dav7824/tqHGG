@@ -44,7 +44,7 @@ ${BIN}/AddVar_%: ${BUI}/AddVar_%.o
 	@echo "[MAKE] Making $@"
 	${CC} -o $@ $^ ${ROOTLIB}
 
-${BIN}/FillHist_%: ${BUI}/FillHist_%.o
+${BIN}/FillHist%: ${BUI}/FillHist%.o
 	@echo "[MAKE] Making $@"
 	${CC} -o $@ $^ ${ROOTLIB}
 
@@ -81,6 +81,10 @@ ${BIN}/SFcalc_%: ${BUI}/SFcalc_%.o
 	${CC} -o $@ $^ ${ROOTLIB}
 
 ${BUI}/MVAreco_GenPerm_%.o: ${SRC}/MVAreco_GenPerm_%.cc ${INC}/MVAreco_GenPerm.h
+	@echo "[MAKE] Making $@"
+	${CC} -c -o $@ $< ${ROOTFLAG} -I. -Wno-write-strings
+
+${BUI}/FillHist%.o: ${SRC}/FillHist%.cc ${INC}/SFhelper.h ${INC}/utility.h
 	@echo "[MAKE] Making $@"
 	${CC} -c -o $@ $< ${ROOTFLAG} -I. -Wno-write-strings
 

@@ -5,69 +5,111 @@ import Path, Util, Samples
 import sys, os
 from os.path import join, exists
 
-# Tag for input samples (dir name)
-tag = sys.argv[1]
-# Channel of samples
-ch = sys.argv[2]
-# List of trees used (strings seperated by commas)
-#treelist = sys.argv[3]
-treelist = 'T'
-# Weight expression
-#weight_expr = sys.argv[4]
-weight_expr = 'EvtInfo.genweight'
 
-if ch!='all' and ch!='had' and ch!='lep':
-	print '[ERROR] Invalid channel!'
-	sys.exit(1)
+def RunFillHist(cmd, nt):
+    print 'Processing:', nt
+    fp = os.popen( cmd.format(nt=nt) )
+    print fp.read()
+    fp.close()
 
-# Generate FillHist_[tag].cc
-Util.GenCode_FillHist(tag)
-# Compile FillHist_[tag]
-fp = os.popen( 'cd $DIR_TQHGG; make bin/FillHist_{}'.format(tag) )
-print fp.read()
-fp.close()
 
-# Test if the compilation succeed
-exe = join( Path.dir_bin, 'FillHist_'+tag )
-if not exists(exe):
-	print '[ERROR] Compilation failed!\n'
-	sys.exit(1)
+def FillHist(exe_name, indir_name, tree_name, outdir_name, SF_flags, ch):
+    exe = join(Path.dir_bin, exe_name)
+    indir = join(Path.dir_2017, indir_name)
+    outdir = join(Path.dir_2017, outdir_name)
 
-# Input dir
-indir = join( Path.dir_2017, tag )
-# Output dir
-outdir = join( Path.dir_2017, 'stackedplots', 'hist_'+tag )
-Util.CreateDir(outdir)
+    if not exists(exe):
+        print '[ERROR] Executable doesn\'t exist!'
+        sys.exit(1)
+    if not exists(indir):
+        print '[ERROR] Input dir doesn\'t exist!'
+        sys.exit(1)
+    if ch!='had' and ch!='lep':
+        print '[ERROR] Invalid channel!'
+        sys.exit(1)
+    Util.CreateDirs(outdir)
 
-# Command template
-cmd_FillHist = '{bin} {{fin}} {trees} {{fout}} {ch} {weight}'.format(
-		bin=exe, trees=treelist, ch=ch, weight=weight_expr)
+    # Command template
+    cmd_temp = '{bin} {indir}/{{nt}}.root {trees} {outdir}/{{nt}}.root {SF_flags}'.format(
+            bin=exe, indir=indir, trees=tree_name, outdir=outdir, SF_flags=SF_flags)
+    cmd_data = '{bin} {indir}/{{nt}}.root {trees} {outdir}/{{nt}}.root {SF_flags}'.format(
+            bin=exe, indir=indir, trees=tree_name, outdir=outdir, SF_flags='000000')
 
-# Process sig MC
-for nt_type in Samples.sig_MC_s:
-	if ch=='had' and nt_type[1]=='lep':
-		continue
-	if ch=='lep' and nt_type[1]=='had':
-		continue
-	for nt in Samples.sig_MC_s[nt_type]:
-		print 'Processing:', nt
-		fp = os.popen( cmd_FillHist.format( fin=join(indir,nt+'.root'), fout=join(outdir,nt+'.root') ) )
-		print fp.read()
-		fp.close
+    # Process signal MC
+    for sigtype in Samples.sig_MC_s:
+        if sigtype[1]!=ch:
+            continue
+        for nt in Samples.sig_MC_s[sigtype]:
+            RunFillHist(cmd_temp, nt)
 
-# Process bkg MC
-for cat in Samples.bkg_MC_s:
-	for nt in Samples.bkg_MC_s[cat]:
-		print 'Processing:', nt
-		fp = os.popen( cmd_FillHist.format( fin=join(indir,nt+'.root'), fout=join(outdir,nt+'.root') ) )
-		print fp.read()
-		fp.close
+    # Process bkg MC
+    for cat in Samples.bkg_MC_s:
+        for nt in Samples.bkg_MC_s[cat]:
+            RunFillHist(cmd_temp, nt)
 
-# Process data
-print 'Processing: data'
-fp = os.popen( cmd_FillHist.format( fin=join(indir,'data.root'), fout=join(outdir,'data.root') ) )
-print fp.read()
-fp.close
+    # Process data
+    RunFillHist(cmd_data, 'data')
 
-os.system('rm {}'.format(exe))
-print 'End!'
+    print '[INFO] Complete FillHist'
+# End of function FillHist
+
+
+if __name__ == '__main__':
+    # Presel_had_phID_btag-L
+    '''
+    exe_name = 'FillHistV2_Presel_had_phID_btag-L'
+    indir_name = 'Presel_had_phID_btag-L'
+    tree_name = 'T'
+    outdir_name = 'Presel_had_phID_btag-L__hist/hist_ori_samples'
+    SF_flags = '000000'
+    ch = 'had'
+    '''
+    # Presel_had_phID_btag-L + PU + photon
+    '''
+    exe_name = 'FillHistV2_Presel_had_phID_btag-L'
+    indir_name = 'Presel_had_phID_btag-L'
+    tree_name = 'T+SF_pileup'
+    outdir_name = 'Presel_had_phID_btag-L__hist/hist_PU-pho_samples'
+    SF_flags = '100001'
+    ch = 'had'
+    '''
+    # Presel_lep_phID
+    '''
+    exe_name = 'FillHistV2_Presel_lep_phID'
+    indir_name = 'Presel_lep_phID'
+    tree_name = 'T'
+    outdir_name = 'Presel_lep_phID__hist/hist_ori_samples'
+    SF_flags = '000000'
+    ch = 'lep'
+    '''
+    # Presel_lep_phID + PU + eID + eReco + muID + muISO + photon
+    exe_name = 'FillHistV2_Presel_lep_phID'
+    indir_name = 'Presel_lep_phID'
+    tree_name = 'T+SF_pileup+SF_Elec+SF_Muon'
+    outdir_name = 'Presel_lep_phID__hist/hist_PU-e-mu-pho_samples'
+    SF_flags = '111111'
+    ch = 'lep'
+    # Input by command line
+    '''
+    exe_name = sys.argv[1]
+    indir_name = sys.argv[2]
+    tree_name = sys.argv[3]
+    outdir_name = sys.argv[4]
+    SF_flags = sys.argv[5]
+    ch = sys.argv[6]
+    '''
+
+    # Run
+    FillHist(exe_name, indir_name, tree_name, outdir_name, SF_flags, ch)
+    print 'Complete!'
+# End of main function
+
+
+'''
+To run:
+./FillHist_Presel_had_phID_btag-L <sample.root,SF.root,...> <T1a+T1b+...,T2a+T2b+...,...> <output.root> <weight_expression>
+
+Samples:
+1. hadronic signal MC in had channel
+2. bkg MC & data in had channel
+'''
