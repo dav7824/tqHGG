@@ -2,76 +2,76 @@
  *  Calculate event yield of each dataset.
  *
  *  Usage:
- *    ./CalcYield <input.root> <sample_name> <tree_name> <norm.root> <output.root> <summary.txt>
+ *    ./CalcYield <fin_list> <tree_list> <fnorm_name> <fout_name> <SF_flags>
  */
 
 #include "include/utility.h"
+#include "include/SFhelper.h"
 
 #include "TFile.h"
 #include "TTree.h"
 #include "TH1D.h"
 #include "TString.h"
 
-#include <iostream>
-#include <cstdio>
-#include <cstdlib>
-#include <cmath>
+#include <vector>
+#include <bitset>
 using namespace std;
 
 int main(int argc, char **argv)
 {
-	// Get command line arguments
-	TString fin_name = argv[1];
-	TString nt_name = argv[2];
-	TString tree_name = argv[3];
-	TString fnorm_name = argv[4];
-	TString fout_name = argv[5];
-	TString fsummary_name = argv[6];
+    // Get command line arguments
+    char *fin_list = argv[1];
+    char *tree_list = argv[2];
+    TString fnorm_name = argv[3];
+    TString fout_name = argv[4];
+    bitset<SFhelper::Nsf> SF_flags(argv[5]);
 
-	// Read input file
-	TFile *fin = new TFile(fin_name);
-	if (!fin) {
-		cout << "[ERROR] Cannot open file: " << fin_name << endl;
-		exit(1);
-	}
-	TTree *Tin = (TTree*)fin->Get(tree_name);
+    vector<TString> fins;
+    vector<TString> trees_tmp;
+    vector<vector<TString>> trees;
+    ParseCStringList(fin_list, fins);
+    ParseCStringList(tree_list, trees_tmp);
+    trees.resize(fins.size());
+    for (int i=0; i<fins.size(); ++i)
+        ParseCStringList(trees_tmp[i].Data(), trees[i], '+');
 
-	// Set branches
-	float genweight = 0;
-	Tin->SetBranchStatus("*", 0);
-	Tin->SetBranchStatus("EvtInfo.genweight", 1);
-	Tin->SetBranchAddress("EvtInfo.genweight", &genweight);
+    // Read input trees
+    TFile *fin = new TFile(fins[0]);
+    TTree *Tin = (TTree*)fin->Get(trees[0][0]);
+    for (int i=1; i<trees[0].size(); ++i)
+        Tin->AddFriend(trees[0][i].Data());
+    for (int i=1; i<fins.size(); ++i)
+        for (int j=0; j<trees[i].size(); ++j)
+            Tin->AddFriend(trees[i][j].Data(), fins[i].Data());
 
-	long long Nevt = Tin->GetEntries();
-	float sumweight = 0;
-	float sumweight2 = 0;
+    Tin->SetBranchStatus("*", 0);
+    SFhelper SFsource(SF_flags);
+    SFsource.SetTreeBranches(Tin);
 
-	// Loop throught events
-	for (long long evt=0; evt<Nevt; ++evt)
-	{
-		Tin->GetEntry(evt);
-		sumweight += genweight;
-		sumweight2 += genweight * genweight;
-	}
+    float weight = 0;
+    float sumweight = 0;
+    float sumweight2 = 0;
 
-	// Yield normalization
-	float nf = GetNormFactor(fnorm_name.Data());
-	float yield = sumweight * nf;
-	float yield2 = sumweight2 * nf * nf;
+    // Sum all event weight
+    for (int evt=0; evt<Tin->GetEntries(); ++evt) {
+        Tin->GetEntry(evt);
+        weight = SFsource.GetWeight();
+        sumweight += weight;
+        sumweight2 += weight * weight;
+    } // End of event loop
 
-	// Print result
-	FILE *fsummary = fopen(fsummary_name.Data(), "a");
-	fprintf(fsummary, "%35s\t\tYield: %15f +- %15f\t\tEntries: %15lld\n", nt_name.Data(), yield, sqrt(yield2), Nevt);
-	fclose(fsummary);
+    // Yield normalization
+    float nf = GetNormFactor(fnorm_name.Data());
+    float yield = sumweight * nf;
+    float yield2 = sumweight2 * nf * nf;
 
-	// Save results
-	TFile *fout = new TFile(fout_name, "recreate");
-	TH1D *h_yield = new TH1D("yield", "", 1, 0, 1);  h_yield->SetBinContent(1, yield);
-	TH1D *h_yield2 = new TH1D("yield2", "", 1, 0, 1);  h_yield2->SetBinContent(1, yield2);
-	fout->Write();
-	fout->Close();
+    // Save results
+    TFile *fout = new TFile(fout_name, "recreate");
+    TH1D *h_yield = new TH1D("yield", "", 1, 0, 1);  h_yield->SetBinContent(1, yield);
+    TH1D *h_yield2 = new TH1D("yield2", "", 1, 0, 1);  h_yield2->SetBinContent(1, yield2);
+    fout->Write();
+    fout->Close();
+    fin->Close();
 
-	fin->Close();
-
-	return 0;
+    return 0;
 }

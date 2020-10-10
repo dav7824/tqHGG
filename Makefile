@@ -88,6 +88,10 @@ ${BUI}/FillHist%.o: ${SRC}/FillHist%.cc ${INC}/SFhelper.h ${INC}/utility.h
 	@echo "[MAKE] Making $@"
 	${CC} -c -o $@ $< ${ROOTFLAG} -I. -Wno-write-strings
 
+${BUI}/CalcYield.o: ${SRC}/CalcYield.cc ${INC}/SFhelper.h ${INC}/utility.h
+	@echo "[MAKE] Making $@"
+	${CC} -c -o $@ $< ${ROOTFLAG} -I. -Wno-write-strings
+
 ${BUI}/%.o: ${SRC}/%.cc ${INC}/utility.h
 	@echo "[MAKE] Making $@"
 	${CC} -c -o $@ $< ${ROOTFLAG} -I. -Wno-write-strings
