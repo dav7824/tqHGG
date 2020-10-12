@@ -11,28 +11,28 @@ using namespace std;
 
 int main(int argc, char **argv)
 {
-	// Get input arguments
-	TString fin_name = argv[1];
-	TString inTree_name = argv[2];
-	TString fout_name = argv[3];
-	TString selection = argv[4];
+    // Get input arguments
+    TString fin_name = argv[1];
+    TString inTree_name = argv[2];
+    TString fout_name = argv[3];
+    TString selection = argv[4];
 
-	// Create TTree for input n-tuple
-	cout << "Openning input file: " << fin_name << endl;
-	TChain *inTree = new TChain(inTree_name);
-	inTree->Add(fin_name);
+    // Create TTree for input n-tuple
+    cout << "Openning input file: " << fin_name << endl;
+    TChain *inTree = new TChain(inTree_name);
+    inTree->Add(fin_name);
 
-	// Create TTree for output n-tuple
-	cout << "Creating output file: " << fout_name << endl;
-	TFile *fout = new TFile(fout_name, "recreate");
-	TTree *outTree = inTree->CopyTree(selection);
+    // Create TTree for output n-tuple
+    cout << "Creating output file: " << fout_name << endl;
+    TFile *fout = new TFile(fout_name, "recreate");
+    TTree *outTree = inTree->CopyTree(selection);
 
-	// Write output TTree to output TFile
-	outTree->Write();
-	// Close output TFile
-	fout->Close();
+    // Write output TTree to output TFile
+    outTree->Write();
+    // Close output TFile
+    fout->Close();
 
-	cout << "Completed!\n";
+    cout << "Completed!\n";
 
-	return 0;
+    return 0;
 }

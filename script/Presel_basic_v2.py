@@ -13,8 +13,8 @@ Util.CreateDir(outdir)
 cmd = 'set -o noglob; {bin} {{fin}} {tree} {{fout}}'.format(bin=exe, tree='flashggNtuples/flashggStdTree')
 
 for nt in bkg_file_multi:
-	print 'Processing:', nt[0]
-	fp = os.popen( cmd.format(fin=join(indir,nt[1]), fout=join(outdir,nt[0]+'.root')) )
-	fp.close()
+    print 'Processing:', nt[0]
+    fp = os.popen( cmd.format(fin=join(indir,nt[1]), fout=join(outdir,nt[0]+'.root')) )
+    fp.close()
 
 print 'Done!'
