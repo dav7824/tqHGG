@@ -5,9 +5,9 @@ import sys, os
 from os.path import join
 
 def RunDivTree(cmd):
-	fp = os.popen(cmd)
-	print fp.read()
-	fp.close()
+    fp = os.popen(cmd)
+    print fp.read()
+    fp.close()
 
 # Suffix for output dirs
 version = '__MVAreco'
@@ -40,12 +40,12 @@ cmd_divtree_lep = cmd_divtree.format(exe=bin, fin=join(indir_lep,'{nt}.root'), f
 
 # Run
 for key in Samples.sig_MC_had:
-	for nt in Samples.sig_MC_had[key]:
-		print 'Processing:', nt
-		RunDivTree( cmd_divtree_had.format(nt=nt) )
+    for nt in Samples.sig_MC_had[key]:
+        print 'Processing:', nt
+        RunDivTree( cmd_divtree_had.format(nt=nt) )
 for key in Samples.sig_MC_lep:
-	for nt in Samples.sig_MC_lep[key]:
-		print 'Processing:', nt
-		RunDivTree( cmd_divtree_lep.format(nt=nt) )
+    for nt in Samples.sig_MC_lep[key]:
+        print 'Processing:', nt
+        RunDivTree( cmd_divtree_lep.format(nt=nt) )
 
 print 'Complete!'

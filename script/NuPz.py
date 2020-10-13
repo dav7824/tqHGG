@@ -10,9 +10,9 @@ import os, sys
 from os.path import join
 
 def RunNuPz( cmd ):
-	fp = os.popen(cmd)
-	#print fp.read()
-	fp.close()
+    fp = os.popen(cmd)
+    #print fp.read()
+    fp.close()
 
 # Training tag
 train_tag = sys.argv[1]
@@ -40,26 +40,26 @@ cmd_ST = cmd_t.format( evtdir=evtdir_lep, recotype='ST' )
 # Run TT for signal samples
 print '[INFO] Start running: TTlep_%s' % train_tag
 for nt in Samples.sig_MC_expr_v2[('TT','lep')]:
-	print 'Processing:', nt
-	RunNuPz( cmd_TT_sig.format(nt=nt) )
+    print 'Processing:', nt
+    RunNuPz( cmd_TT_sig.format(nt=nt) )
 # Run TT for other samples
 for cat in Samples.bkg_MC_s:
-	for nt in Samples.bkg_MC_s[cat]:
-		print 'Processing:', nt
-		RunNuPz( cmd_TT.format(nt=nt) )
+    for nt in Samples.bkg_MC_s[cat]:
+        print 'Processing:', nt
+        RunNuPz( cmd_TT.format(nt=nt) )
 print 'Processing: data'
 RunNuPz( cmd_TT.format(nt='data') )
 
 # Run ST for signal samples
 print '[INFO] Start running: STlep_%s' % train_tag
 for nt in Samples.sig_MC_expr_v2[('ST','lep')]:
-	print 'Processing:', nt
-	RunNuPz( cmd_ST_sig.format(nt=nt) )
+    print 'Processing:', nt
+    RunNuPz( cmd_ST_sig.format(nt=nt) )
 # Run ST for other samples
 for cat in Samples.bkg_MC_s:
-	for nt in Samples.bkg_MC_s[cat]:
-		print 'Processing:', nt
-		RunNuPz( cmd_ST.format(nt=nt) )
+    for nt in Samples.bkg_MC_s[cat]:
+        print 'Processing:', nt
+        RunNuPz( cmd_ST.format(nt=nt) )
 print 'Processing: data'
 RunNuPz( cmd_ST.format(nt='data') )
 

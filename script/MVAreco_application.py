@@ -12,11 +12,11 @@ import sys, os
 from os.path import join, exists
 
 def RunApp(cmd, log):
-	out = open(log, 'w')
-	fp = os.popen( cmd )
-	out.write( fp.read() )
-	out.close()
-	fp.close()
+    out = open(log, 'w')
+    fp = os.popen( cmd )
+    out.write( fp.read() )
+    out.close()
+    fp.close()
 
 # Name tag for the MVA (used to specify the weight file and as part of the output directory names)
 # Should be the same as the "method name" specified when booking MVA in training code, so this script
@@ -71,48 +71,48 @@ log_STlep = logpath_t.format(dir=logdir_lep, reco_type='ST')
 # Run TThad reconstruction
 print '[INFO] Apply MVA TThad_%s' % train_tag
 for nt in Samples.sig_MC_expr_v2[('TT','had')]:
-	print 'Processing:', nt
-	RunApp(cmd_TThad_sig.format(nt=nt), log_TThad.format(nt=nt))
+    print 'Processing:', nt
+    RunApp(cmd_TThad_sig.format(nt=nt), log_TThad.format(nt=nt))
 for cat in Samples.bkg_MC_s:
-	for nt in Samples.bkg_MC_s[cat]:
-		print 'Processing:', nt
-		RunApp(cmd_TThad_bkg.format(nt=nt), log_TThad.format(nt=nt))
+    for nt in Samples.bkg_MC_s[cat]:
+        print 'Processing:', nt
+        RunApp(cmd_TThad_bkg.format(nt=nt), log_TThad.format(nt=nt))
 print 'Processing: Data'
 RunApp(cmd_TThad_bkg.format(nt='data'), log_TThad.format(nt='data'))
 
 # Run SThad reconstruction
 print '[INFO] Apply MVA SThad_%s' % train_tag
 for nt in Samples.sig_MC_expr_v2[('ST','had')]:
-	print 'Processing:', nt
-	RunApp(cmd_SThad_sig.format(nt=nt), log_SThad.format(nt=nt))
+    print 'Processing:', nt
+    RunApp(cmd_SThad_sig.format(nt=nt), log_SThad.format(nt=nt))
 for cat in Samples.bkg_MC_s:
-	for nt in Samples.bkg_MC_s[cat]:
-		print 'Processing:', nt
-		RunApp(cmd_SThad_bkg.format(nt=nt), log_SThad.format(nt=nt))
+    for nt in Samples.bkg_MC_s[cat]:
+        print 'Processing:', nt
+        RunApp(cmd_SThad_bkg.format(nt=nt), log_SThad.format(nt=nt))
 print 'Processing: Data'
 RunApp(cmd_SThad_bkg.format(nt='data'), log_SThad.format(nt='data'))
 
 # Run TTlep reconstruction
 print '[INFO] Apply MVA TTlep_%s' % train_tag
 for nt in Samples.sig_MC_expr_v2[('TT','lep')]:
-	print 'Processing:', nt
-	RunApp(cmd_TTlep_sig.format(nt=nt), log_TTlep.format(nt=nt))
+    print 'Processing:', nt
+    RunApp(cmd_TTlep_sig.format(nt=nt), log_TTlep.format(nt=nt))
 for cat in Samples.bkg_MC_s:
-	for nt in Samples.bkg_MC_s[cat]:
-		print 'Processing:', nt
-		RunApp(cmd_TTlep_bkg.format(nt=nt), log_TTlep.format(nt=nt))
+    for nt in Samples.bkg_MC_s[cat]:
+        print 'Processing:', nt
+        RunApp(cmd_TTlep_bkg.format(nt=nt), log_TTlep.format(nt=nt))
 print 'Processing: Data'
 RunApp(cmd_TTlep_bkg.format(nt='data'), log_TTlep.format(nt='data'))
 
 # Run STlep reconstruction
 print '[INFO] Apply MVA STlep_%s' % train_tag
 for nt in Samples.sig_MC_expr_v2[('ST','lep')]:
-	print 'Processing:', nt
-	RunApp(cmd_STlep_sig.format(nt=nt), log_STlep.format(nt=nt))
+    print 'Processing:', nt
+    RunApp(cmd_STlep_sig.format(nt=nt), log_STlep.format(nt=nt))
 for cat in Samples.bkg_MC_s:
-	for nt in Samples.bkg_MC_s[cat]:
-		print 'Processing:', nt
-		RunApp(cmd_STlep_bkg.format(nt=nt), log_STlep.format(nt=nt))
+    for nt in Samples.bkg_MC_s[cat]:
+        print 'Processing:', nt
+        RunApp(cmd_STlep_bkg.format(nt=nt), log_STlep.format(nt=nt))
 print 'Processing: Data'
 RunApp(cmd_STlep_bkg.format(nt='data'), log_STlep.format(nt='data'))
 

@@ -17,43 +17,43 @@ using namespace std;
 
 int main(int argc, char **argv)
 {
-	// Get command line arguments
-	TString fevt_in_name = argv[1];
-	TString fevt_out_name = argv[2];
-	TString fperm_name = argv[3];
+    // Get command line arguments
+    TString fevt_in_name = argv[1];
+    TString fevt_out_name = argv[2];
+    TString fperm_name = argv[3];
 
-	// Get input event file
-	cout << "[INFO] Get input event file: " << fevt_in_name << endl;
-	TFile *fevt_in = new TFile(fevt_in_name);
-	TTree *Tevt_in = (TTree*)fevt_in->Get("T");
-	// Get perm file
-	cout << "[INFO] Get permutation file: " << fperm_name << endl;
-	TFile *fperm = new TFile(fperm_name);
-	TTree *Tperm = (TTree*)fperm->Get("TPerm_test");
-	// Get output event file
-	TFile *fevt_out = new TFile(fevt_out_name, "recreate");
-	TTree *Tevt_out = Tevt_in->CloneTree(0);
+    // Get input event file
+    cout << "[INFO] Get input event file: " << fevt_in_name << endl;
+    TFile *fevt_in = new TFile(fevt_in_name);
+    TTree *Tevt_in = (TTree*)fevt_in->Get("T");
+    // Get perm file
+    cout << "[INFO] Get permutation file: " << fperm_name << endl;
+    TFile *fperm = new TFile(fperm_name);
+    TTree *Tperm = (TTree*)fperm->Get("TPerm_test");
+    // Get output event file
+    TFile *fevt_out = new TFile(fevt_out_name, "recreate");
+    TTree *Tevt_out = Tevt_in->CloneTree(0);
 
-	// Get the starting event index
-	int Evt_idx = 0;
-	Tperm->SetBranchAddress("Evt_idx", &Evt_idx);
-	Tperm->GetEntry(0);
-	int start_idx = Evt_idx;
+    // Get the starting event index
+    int Evt_idx = 0;
+    Tperm->SetBranchAddress("Evt_idx", &Evt_idx);
+    Tperm->GetEntry(0);
+    int start_idx = Evt_idx;
 
-	// Copy events to new tree
-	for (int evt=start_idx; evt<Tevt_in->GetEntries(); ++evt)
-	{
-		Tevt_in->GetEntry(evt);
+    // Copy events to new tree
+    for (int evt=start_idx; evt<Tevt_in->GetEntries(); ++evt)
+    {
+        Tevt_in->GetEntry(evt);
 
-		Tevt_out->Fill();
-	}
+        Tevt_out->Fill();
+    }
 
-	fevt_out->Write();
-	fevt_out->Close();
-	fperm->Close();
-	fevt_in->Close();
+    fevt_out->Write();
+    fevt_out->Close();
+    fperm->Close();
+    fevt_in->Close();
 
-	cout << "[INFO] Save output file: " << fevt_out_name << endl;
+    cout << "[INFO] Save output file: " << fevt_out_name << endl;
 
-	return 0;
+    return 0;
 }

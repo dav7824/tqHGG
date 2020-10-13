@@ -9,9 +9,9 @@ import sys, os
 from os.path import join, exists
 
 def Process(nt):
-	print 'Processing:', nt
-	fp = os.popen( cmd_t.format(nt=nt) )
-	fp.close()
+    print 'Processing:', nt
+    fp = os.popen( cmd_t.format(nt=nt) )
+    fp.close()
 
 # Train tag
 train_tag = sys.argv[1]
@@ -20,8 +20,8 @@ train_tag = sys.argv[1]
 indir = join(Path.dir_2017, 'MVArecoV2_result_had', train_tag)
 outdir = join(Path.dir_2017, 'MVArecoV3_result_had', train_tag)
 if not exists(indir):
-	print '[ERROR] Input dir does not exist!'
-	sys.exit(1)
+    print '[ERROR] Input dir does not exist!'
+    sys.exit(1)
 Util.CreateDir(outdir)
 
 # Executable
@@ -32,12 +32,12 @@ cmd_t = '{bin} {indir}/{{nt}}.root {outdir}/{{nt}}.root'.format(bin=exe, indir=i
 
 # Process signal
 for recotype in ['TT', 'ST']:
-	for nt in Samples.sig_MC_expr_v2[(recotype, 'had')]:
-		Process(nt)
+    for nt in Samples.sig_MC_expr_v2[(recotype, 'had')]:
+        Process(nt)
 # Process bkg
 for cat in Samples.bkg_MC_s:
-	for nt in Samples.bkg_MC_s[cat]:
-		Process(nt)
+    for nt in Samples.bkg_MC_s[cat]:
+        Process(nt)
 # Process data
 Process('data')
 

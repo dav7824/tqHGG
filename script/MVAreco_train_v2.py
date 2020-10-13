@@ -11,13 +11,13 @@ import os, sys
 from os.path import join
 
 def RunTrain(cmd, jobname):
-	print '---Start running job: {}'.format(jobname)
-	fp = os.popen( cmd )
-	out = open( join(outdir,'log',jobname+'.log'), 'w' )
-	out.write(fp.read())
-	fp.close()
-	out.close()
-	print '---Complete job: {}'.format(jobname)
+    print '---Start running job: {}'.format(jobname)
+    fp = os.popen( cmd )
+    out = open( join(outdir,'log',jobname+'.log'), 'w' )
+    out.write(fp.read())
+    fp.close()
+    out.close()
+    print '---Complete job: {}'.format(jobname)
 
 # Reconstruction type
 recotype = sys.argv[1]
@@ -29,11 +29,11 @@ train_tag = sys.argv[3]
 run_qsub = True
 
 if recotype!='TT' and recotype!='ST':
-	print '[ERROR] Invalid reconstruction type!'
-	sys.exit(1)
+    print '[ERROR] Invalid reconstruction type!'
+    sys.exit(1)
 if ch!='had' and ch!='lep':
-	print '[ERROR] Invalid channel!'
-	sys.exit(1)
+    print '[ERROR] Invalid channel!'
+    sys.exit(1)
 
 # Set executable name
 exe_name = 'MVAreco_train_{}{}_{}'.format(recotype, ch, train_tag)
@@ -53,8 +53,8 @@ Util.GenCode_MVAreco_train(fmethod, src)
 os.system('rm {}'.format(exe))
 os.system('cd {}; make bin/{}'.format(Path.dir_tqHGG, exe_name))
 if not os.path.exists(exe):
-	print '[ERROR] Compilation failed!'
-	sys.exit(1)
+    print '[ERROR] Compilation failed!'
+    sys.exit(1)
 
 # Command template
 # ./MVAreco_train_xxx <fin> <outdir> <recotype=TT|ST> <channel=had|lep> <train_tag>
@@ -64,13 +64,13 @@ fin_run = ''
 
 # Setting file name & dir name according to recotype & channel
 if recotype=='TT':
-	fin_run = 'TT_FCNC*'
+    fin_run = 'TT_FCNC*'
 elif recotype=='ST':
-	fin_run = 'ST_FCNC*'
+    fin_run = 'ST_FCNC*'
 if ch=='had':
-	indir_run = indir_had
+    indir_run = indir_had
 elif ch=='lep':
-	indir_run = indir_lep
+    indir_run = indir_lep
 
 # Complete command
 cmd_run = cmd_t.format( fin=join(indir_run,fin_run), recotype=recotype, ch=ch )
@@ -78,9 +78,9 @@ cmd_run = cmd_t.format( fin=join(indir_run,fin_run), recotype=recotype, ch=ch )
 # Run training
 jobname = recotype+ch+'_'+train_tag
 if run_qsub:
-	Util.submit_job( cmd_run, jobname )
+    Util.submit_job( cmd_run, jobname )
 else:
-	Util.CreateDir(join(outdir,'log'))
-	RunTrain( cmd_run, jobname )
+    Util.CreateDir(join(outdir,'log'))
+    RunTrain( cmd_run, jobname )
 
 print 'End!'

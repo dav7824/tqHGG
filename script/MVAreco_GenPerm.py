@@ -43,18 +43,18 @@ print 'Start processing: TThad'
 output = open( join(outdir_had,'summary_TT.txt'), 'w' )
 
 for sample in nt_sig_TThad:
-	print mesg_sample.format(sample)
-	output.write( '\n'+mesg_sample.format(sample)+'\n' )
-	fp = os.popen( cmd_TThad_sig.format(nt=sample) )
-	output.write( fp.read() )
-	fp.close()
+    print mesg_sample.format(sample)
+    output.write( '\n'+mesg_sample.format(sample)+'\n' )
+    fp = os.popen( cmd_TThad_sig.format(nt=sample) )
+    output.write( fp.read() )
+    fp.close()
 for cat in nt_bkg:
-	for sample in nt_bkg[cat]:
-		print mesg_sample.format(sample)
-		output.write( '\n'+mesg_sample.format(sample)+'\n' )
-		fp = os.popen( cmd_TThad_bkg.format(nt=sample) )
-		output.write( fp.read() )
-		fp.close()
+    for sample in nt_bkg[cat]:
+        print mesg_sample.format(sample)
+        output.write( '\n'+mesg_sample.format(sample)+'\n' )
+        fp = os.popen( cmd_TThad_bkg.format(nt=sample) )
+        output.write( fp.read() )
+        fp.close()
 print mesg_sample.format('data')
 output.write( '\n'+mesg_sample.format('data')+'\n' )
 fp = os.popen( cmd_TThad_bkg.format(nt='data') )
@@ -68,18 +68,18 @@ print 'Start processing: SThad'
 output = open( join(outdir_had,'summary_ST.txt'), 'w' )
 
 for sample in nt_sig_SThad:
-	print mesg_sample.format(sample)
-	output.write( '\n'+mesg_sample.format(sample)+'\n' )
-	fp = os.popen( cmd_SThad_sig.format(nt=sample) )
-	output.write( fp.read() )
-	fp.close()
+    print mesg_sample.format(sample)
+    output.write( '\n'+mesg_sample.format(sample)+'\n' )
+    fp = os.popen( cmd_SThad_sig.format(nt=sample) )
+    output.write( fp.read() )
+    fp.close()
 for cat in nt_bkg:
-	for sample in nt_bkg[cat]:
-		print mesg_sample.format(sample)
-		output.write( '\n'+mesg_sample.format(sample)+'\n' )
-		fp = os.popen( cmd_SThad_bkg.format(nt=sample) )
-		output.write( fp.read() )
-		fp.close()
+    for sample in nt_bkg[cat]:
+        print mesg_sample.format(sample)
+        output.write( '\n'+mesg_sample.format(sample)+'\n' )
+        fp = os.popen( cmd_SThad_bkg.format(nt=sample) )
+        output.write( fp.read() )
+        fp.close()
 print mesg_sample.format('data')
 output.write( '\n'+mesg_sample.format('data')+'\n' )
 fp = os.popen( cmd_SThad_bkg.format(nt='data') )
@@ -93,18 +93,18 @@ print 'Start processing: TTlep'
 output = open( join(outdir_lep,'summary_TT.txt'), 'w' )
 
 for sample in nt_sig_TTlep:
-	print mesg_sample.format(sample)
-	output.write( '\n'+mesg_sample.format(sample)+'\n' )
-	fp = os.popen( cmd_TTlep_sig.format(nt=sample) )
-	output.write( fp.read() )
-	fp.close()
+    print mesg_sample.format(sample)
+    output.write( '\n'+mesg_sample.format(sample)+'\n' )
+    fp = os.popen( cmd_TTlep_sig.format(nt=sample) )
+    output.write( fp.read() )
+    fp.close()
 for cat in nt_bkg:
-	for sample in nt_bkg[cat]:
-		print mesg_sample.format(sample)
-		output.write( '\n'+mesg_sample.format(sample)+'\n' )
-		fp = os.popen( cmd_TTlep_bkg.format(nt=sample) )
-		output.write( fp.read() )
-		fp.close()
+    for sample in nt_bkg[cat]:
+        print mesg_sample.format(sample)
+        output.write( '\n'+mesg_sample.format(sample)+'\n' )
+        fp = os.popen( cmd_TTlep_bkg.format(nt=sample) )
+        output.write( fp.read() )
+        fp.close()
 print mesg_sample.format('data')
 output.write( '\n'+mesg_sample.format('data')+'\n' )
 fp = os.popen( cmd_TTlep_bkg.format(nt='data') )
@@ -118,18 +118,18 @@ print 'Start processing: STlep'
 output = open( join(outdir_lep,'summary_ST.txt'), 'w' )
 
 for sample in nt_sig_STlep:
-	print mesg_sample.format(sample)
-	output.write( '\n'+mesg_sample.format(sample)+'\n' )
-	fp = os.popen( cmd_STlep_sig.format(nt=sample) )
-	output.write( fp.read() )
-	fp.close()
+    print mesg_sample.format(sample)
+    output.write( '\n'+mesg_sample.format(sample)+'\n' )
+    fp = os.popen( cmd_STlep_sig.format(nt=sample) )
+    output.write( fp.read() )
+    fp.close()
 for cat in nt_bkg:
-	for sample in nt_bkg[cat]:
-		print mesg_sample.format(sample)
-		output.write( '\n'+mesg_sample.format(sample)+'\n' )
-		fp = os.popen( cmd_STlep_bkg.format(nt=sample) )
-		output.write( fp.read() )
-		fp.close()
+    for sample in nt_bkg[cat]:
+        print mesg_sample.format(sample)
+        output.write( '\n'+mesg_sample.format(sample)+'\n' )
+        fp = os.popen( cmd_STlep_bkg.format(nt=sample) )
+        output.write( fp.read() )
+        fp.close()
 print mesg_sample.format('data')
 output.write( '\n'+mesg_sample.format('data')+'\n' )
 fp = os.popen( cmd_STlep_bkg.format(nt='data') )

@@ -17,9 +17,9 @@ import os, sys
 from os.path import join, exists
 
 def Process(cmd):
-	fp = os.popen(cmd)
-	log.write( fp.read() )
-	fp.close()
+    fp = os.popen(cmd)
+    log.write( fp.read() )
+    fp.close()
 
 # Channel
 ch = sys.argv[1]
@@ -28,18 +28,18 @@ indir_name = ''
 outdir_name = ''
 reco_exe = {}  # Executable to run for each reco type
 if ch=='had':
-	indir_name = 'Presel_had_phID_btag-L__MVAreco'
-	outdir_name = 'MVArecoV2_Perm_had'
-	reco_exe['TT'] = join(Path.dir_bin, 'MVAreco_GenPerm_SThad')
-	reco_exe['ST'] = join(Path.dir_bin, 'MVAreco_GenPerm_TThad')
+    indir_name = 'Presel_had_phID_btag-L__MVAreco'
+    outdir_name = 'MVArecoV2_Perm_had'
+    reco_exe['TT'] = join(Path.dir_bin, 'MVAreco_GenPerm_SThad')
+    reco_exe['ST'] = join(Path.dir_bin, 'MVAreco_GenPerm_TThad')
 elif ch=='lep':
-	indir_name = 'Presel_lep_phID__MVAreco'
-	outdir_name = 'MVArecoV3_Perm_lep'
-	reco_exe['TT'] = join(Path.dir_bin, 'MVAreco_GenPerm_STlep')
-	reco_exe['ST'] = join(Path.dir_bin, 'MVAreco_GenPerm_TTlep')
+    indir_name = 'Presel_lep_phID__MVAreco'
+    outdir_name = 'MVArecoV3_Perm_lep'
+    reco_exe['TT'] = join(Path.dir_bin, 'MVAreco_GenPerm_STlep')
+    reco_exe['ST'] = join(Path.dir_bin, 'MVAreco_GenPerm_TTlep')
 else:
-	print '[ERROR] Invalid channel!'
-	sys.exit(1)
+    print '[ERROR] Invalid channel!'
+    sys.exit(1)
 
 # I/O dirs
 indir = join(Path.dir_2017, indir_name)
@@ -51,10 +51,10 @@ cmd_t = '{bin} %s/{nt}.root %s/{nt}.root bkg' % (indir, outdir)
 # Run
 log = open( join(outdir,'summary_FalseSig.txt'), 'w' )
 for recotype in reco_exe:
-	for nt in Samples.sig_MC_expr_v2[(recotype, ch)]:
-		print 'Processing:', nt
-		log.write('*** Processing: %s' % nt)
-		Process( cmd_t.format(bin=reco_exe[recotype], nt=nt) )
+    for nt in Samples.sig_MC_expr_v2[(recotype, ch)]:
+        print 'Processing:', nt
+        log.write('*** Processing: %s' % nt)
+        Process( cmd_t.format(bin=reco_exe[recotype], nt=nt) )
 
 log.close()
 print 'Complete!'

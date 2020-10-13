@@ -18,27 +18,27 @@ ch = sys.argv[1]
 train_tag = sys.argv[2]
 
 def Process(cmd, log_):
-	log = open(log_, 'w')
-	fp = os.popen(cmd)
-	log.write(fp.read())
-	fp.close()
-	log.close()
+    log = open(log_, 'w')
+    fp = os.popen(cmd)
+    log.write(fp.read())
+    fp.close()
+    log.close()
 
 # Directory names
 indir_name = ''
 outdir_name = ''
 weidir_name = ''
 if ch=='had':
-	indir_name = 'MVArecoV2_Perm_had'
-	outdir_name = 'MVArecoV2_result_had'
-	weidir_name = 'MVArecoV2_train'
+    indir_name = 'MVArecoV2_Perm_had'
+    outdir_name = 'MVArecoV2_result_had'
+    weidir_name = 'MVArecoV2_train'
 elif ch=='lep':
-	indir_name = 'MVArecoV3_Perm_lep'
-	outdir_name = 'MVArecoV3_result_lep'
-	weidir_name = 'MVArecoV3_train'
+    indir_name = 'MVArecoV3_Perm_lep'
+    outdir_name = 'MVArecoV3_result_lep'
+    weidir_name = 'MVArecoV3_train'
 else:
-	print '[ERROR] Invalid channel!'
-	sys.exit(1)
+    print '[ERROR] Invalid channel!'
+    sys.exit(1)
 
 # Set directories
 indir = join(Path.dir_2017, indir_name)
@@ -46,8 +46,8 @@ outdir = join(Path.dir_2017, outdir_name, train_tag)
 weidir = join(Path.dir_2017, weidir_name, 'dataset/weights')
 logdir = join(outdir, 'log')
 if not (exists(indir) and exists(outdir) and exists(weidir) and exists(logdir)):
-	print '[ERROR] Incorrect path'
-	sys.exit(1)
+    print '[ERROR] Incorrect path'
+    sys.exit(1)
 
 # Executable
 exe = join(Path.dir_bin, 'MVAreco_application')
@@ -57,23 +57,23 @@ fweight = '{{reco}}{ch}_{tag}.weights.xml'.format(ch=ch, tag=train_tag)
 
 # Command template
 cmd_t = '{bin} {indir}/{{nt}}.root {fweight} {outdir}/{{nt}}.root bkg {{reco}} {ch}'.format(
-		bin=exe, indir=indir, fweight=join(weidir,fweight), outdir=outdir, ch=ch)
+        bin=exe, indir=indir, fweight=join(weidir,fweight), outdir=outdir, ch=ch)
 
 reco_false = {'TT':'ST', 'ST':'TT'}
 
 # Run
 for recotype in reco_false:
-	reco = reco_false[recotype]
-	for nt in Samples.sig_MC_expr_v2[(recotype, ch)]:
-		cmd = cmd_t.format(nt=nt, reco=reco)
-		log = '{}/{}__{}.log'.format(logdir, nt, reco)
-		if dbg_cmd:
-			print '[Run]', cmd
-			print '[Log]', log
-			print ''
-		else:
-			print 'Processing:', nt
-			Process( cmd, log )
+    reco = reco_false[recotype]
+    for nt in Samples.sig_MC_expr_v2[(recotype, ch)]:
+        cmd = cmd_t.format(nt=nt, reco=reco)
+        log = '{}/{}__{}.log'.format(logdir, nt, reco)
+        if dbg_cmd:
+            print '[Run]', cmd
+            print '[Log]', log
+            print ''
+        else:
+            print 'Processing:', nt
+            Process( cmd, log )
 
 print 'Complete!'
 
@@ -116,11 +116,11 @@ Weight file:
 
 command:
 - TThad sample ST reco:
-	./MVAreco_application ${indir_had}/${TThad_sample} ${weidir_had}/${SThad_fweight} ${outdir_had}/${TThad_sample} bkg ST had
+    ./MVAreco_application ${indir_had}/${TThad_sample} ${weidir_had}/${SThad_fweight} ${outdir_had}/${TThad_sample} bkg ST had
 - SThad sample TT reco:
-	./MVAreco_application ${indir_had}/${SThad_sample} ${weidir_had}/${TThad_fweight} ${outdir_had}/${SThad_sample} bkg TT had
+    ./MVAreco_application ${indir_had}/${SThad_sample} ${weidir_had}/${TThad_fweight} ${outdir_had}/${SThad_sample} bkg TT had
 - TTlep sample ST reco:
-	./MVAreco_application ${indir_lep}/${TTlep_sample} ${weidir_lep}/${STlep_fweight} ${outdir_lep}/${TTlep_sample} bkg ST lep
+    ./MVAreco_application ${indir_lep}/${TTlep_sample} ${weidir_lep}/${STlep_fweight} ${outdir_lep}/${TTlep_sample} bkg ST lep
 - STlep sample TT reco:
-	./MVAreco_application ${indir_lep}/${STlep_sample} ${weidir_lep}/${TTlep_fweight} ${outdir_lep}/${STlep_sample} bkg TT lep
+    ./MVAreco_application ${indir_lep}/${STlep_sample} ${weidir_lep}/${TTlep_fweight} ${outdir_lep}/${STlep_sample} bkg TT lep
 '''

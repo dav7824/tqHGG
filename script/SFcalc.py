@@ -7,23 +7,23 @@ import os, sys
 from os.path import join, exists
 
 def RunSF_elec( filename ):
-	fp = os.popen( cmd_SF_elec.format(file=filename) )
-	print fp.read()
-	fp.close()
+    fp = os.popen( cmd_SF_elec.format(file=filename) )
+    print fp.read()
+    fp.close()
 def RunSF_muon( filename ):
-	fp = os.popen( cmd_SF_muon.format(file=filename) )
-	print fp.read()
-	fp.close()
+    fp = os.popen( cmd_SF_muon.format(file=filename) )
+    print fp.read()
+    fp.close()
 def RunSF_PU( filename ):
-	fp = os.popen( cmd_SF_PU.format(file=filename) )
-	#print fp.read()
-	fp.close()
+    fp = os.popen( cmd_SF_PU.format(file=filename) )
+    #print fp.read()
+    fp.close()
 
 # I/O directories
 indir = join(Path.dir_2017, sys.argv[1])
 if not exists(indir):
-	print '[ERROR] Input dir doesn\'t exist!'
-	sys.exit(1)
+    print '[ERROR] Input dir doesn\'t exist!'
+    sys.exit(1)
 
 # SF root files
 SFdir = join(Path.dir_2017, 'SF')
@@ -41,27 +41,27 @@ exe_SF_PU = join(Path.dir_bin, 'SFcalc_PU')
 
 # Electron SF command template
 cmd_SF_elec = '{bin} {indir}/{{file}} {fSF_reco0} {fSF_reco1} {fSF_ID}'.format(
-		bin=exe_SF_elec, indir=indir, fSF_reco0=felec_reco0, fSF_reco1=felec_reco1, fSF_ID=felec_id
-	)
+        bin=exe_SF_elec, indir=indir, fSF_reco0=felec_reco0, fSF_reco1=felec_reco1, fSF_ID=felec_id
+        )
 # Muon SF command template
 cmd_SF_muon = '{bin} {indir}/{{file}} {fSF_ID} {fSF_ISO} '.format(
-		bin=exe_SF_muon, indir=indir, fSF_ID=fmuon_id, fSF_ISO=fmuon_iso
-	)
+        bin=exe_SF_muon, indir=indir, fSF_ID=fmuon_id, fSF_ISO=fmuon_iso
+        )
 # Pileup SF command template
 cmd_SF_PU = '{bin} {indir}/{{file}} {fSF}'.format(
-		bin=exe_SF_PU, indir=indir, fSF=fpu
-	)
+        bin=exe_SF_PU, indir=indir, fSF=fpu
+        )
 
 # Get input file list
 files = os.listdir(indir)
 
 # Run executables on input root files
 for file in files:
-	if not file.endswith('.root'):
-		continue
-	print 'Processing:', file
-	#RunSF_elec(file)
-	#RunSF_muon(file)
-	RunSF_PU(file)
+    if not file.endswith('.root'):
+        continue
+    print 'Processing:', file
+    #RunSF_elec(file)
+    #RunSF_muon(file)
+    RunSF_PU(file)
 
 print 'Complete!'
