@@ -49,6 +49,7 @@ int main(int argc, char **argv)
     inTree->SetBranchStatus("*", 0);
     inTree->SetBranchStatus("EvtInfo.NPu", 1);
     inTree->SetBranchStatus("EvtInfo.NVtx", 1);
+    inTree->SetBranchStatus("EvtInfo.EvtNo", 1);
     inTree->SetBranchStatus("EvtInfo.passTrigger", 1);
     inTree->SetBranchStatus("EvtInfo.genweight", 1);
     inTree->SetBranchStatus("EvtInfo.Rho", 1);
@@ -103,6 +104,7 @@ int main(int argc, char **argv)
     inTree->SetBranchStatus("JetInfo.pfDeepCSVJetTags_probudsg", 1);
     inTree->SetBranchStatus("JetInfo.JECScale", 1);
     inTree->SetBranchStatus("JetInfo.JERScale", 1);
+    inTree->SetBranchStatus("JetInfo.GenHadronFlavor", 1);
     inTree->SetBranchStatus("MetInfo.Pt", 1);
     inTree->SetBranchStatus("MetInfo.Phi", 1);
     inTree->SetBranchStatus("MetInfo.Px", 1);
@@ -134,6 +136,7 @@ int main(int argc, char **argv)
     // input branches
     float EvtInfo_NPu = 0;
     int EvtInfo_NVtx = 0;
+    int EvtInfo_EvtNo = 0;
     bool EvtInfo_passTrigger = 0;
     float EvtInfo_genweight = 0;
     float EvtInfo_Rho = 0;
@@ -188,6 +191,7 @@ int main(int argc, char **argv)
     vector<float> *JetInfo_pfDeepCSVJetTags_probudsg = 0;
     vector<float> *JetInfo_JECScale = 0;
     vector<float> *JetInfo_JERScale = 0;
+    vector<int> *JetInfo_GenHadronFlavor = 0;
     float MetInfo_Pt = 0;
     float MetInfo_Phi = 0;
     float MetInfo_Px = 0;
@@ -212,6 +216,7 @@ int main(int argc, char **argv)
     vector<float> *GenPartInfo_MomMass = 0;
     inTree->SetBranchAddress("EvtInfo.NPu", &EvtInfo_NPu);
     inTree->SetBranchAddress("EvtInfo.NVtx", &EvtInfo_NVtx);
+    inTree->SetBranchAddress("EvtInfo.EvtNo", &EvtInfo_EvtNo);
     inTree->SetBranchAddress("EvtInfo.passTrigger", &EvtInfo_passTrigger);
     inTree->SetBranchAddress("EvtInfo.genweight", &EvtInfo_genweight);
     inTree->SetBranchAddress("EvtInfo.Rho", &EvtInfo_Rho);
@@ -266,6 +271,7 @@ int main(int argc, char **argv)
     inTree->SetBranchAddress("JetInfo.pfDeepCSVJetTags_probudsg", &JetInfo_pfDeepCSVJetTags_probudsg);
     inTree->SetBranchAddress("JetInfo.JECScale", &JetInfo_JECScale);
     inTree->SetBranchAddress("JetInfo.JERScale", &JetInfo_JERScale);
+    inTree->SetBranchAddress("JetInfo.GenHadronFlavor", &JetInfo_GenHadronFlavor);
     inTree->SetBranchAddress("MetInfo.Pt", &MetInfo_Pt);
     inTree->SetBranchAddress("MetInfo.Phi", &MetInfo_Phi);
     inTree->SetBranchAddress("MetInfo.Px", &MetInfo_Px);
@@ -321,8 +327,10 @@ int main(int argc, char **argv)
     vector<float> *JetInfo_pfDeepCSVJetTags_probudsg_ = 0;
     vector<float> *JetInfo_JECScale_ = 0;
     vector<float> *JetInfo_JERScale_ = 0;
+    vector<int> *JetInfo_GenHadronFlavor_ = 0;
     outTree->Branch("EvtInfo.NPu", &EvtInfo_NPu);
     outTree->Branch("EvtInfo.NVtx", &EvtInfo_NVtx);
+    outTree->Branch("EvtInfo.EvtNo", &EvtInfo_EvtNo);
     outTree->Branch("EvtInfo.passTrigger", &EvtInfo_passTrigger);
     outTree->Branch("EvtInfo.genweight", &EvtInfo_genweight);
     outTree->Branch("EvtInfo.Rho", &EvtInfo_Rho);
@@ -377,6 +385,7 @@ int main(int argc, char **argv)
     outTree->Branch("JetInfo.pfDeepCSVJetTags_probudsg", &JetInfo_pfDeepCSVJetTags_probudsg_);
     outTree->Branch("JetInfo.JECScale", &JetInfo_JECScale_);
     outTree->Branch("JetInfo.JERScale", &JetInfo_JERScale_);
+    outTree->Branch("JetInfo.GenHadronFlavor", &JetInfo_GenHadronFlavor_);
     outTree->Branch("MetInfo.Pt", &MetInfo_Pt);
     outTree->Branch("MetInfo.Phi", &MetInfo_Phi);
     outTree->Branch("MetInfo.Px", &MetInfo_Px);
@@ -452,6 +461,7 @@ int main(int argc, char **argv)
         JetInfo_pfDeepCSVJetTags_probudsg_->clear();
         JetInfo_JECScale_->clear();
         JetInfo_JERScale_->clear();
+        JetInfo_GenHadronFlavor_->clear();
 
         // Create 4-momenta of leading photon and subleading photon (used when calculating deltaR with other objects)
         TLorentzVector leadPho, subleadPho;
@@ -549,6 +559,7 @@ int main(int argc, char **argv)
             JetInfo_pfDeepCSVJetTags_probudsg_->push_back( JetInfo_pfDeepCSVJetTags_probudsg->at(i) );
             JetInfo_JECScale_->push_back( JetInfo_JECScale->at(i) );
             JetInfo_JERScale_->push_back( JetInfo_JERScale->at(i) );
+            JetInfo_GenHadronFlavor_->push_back( JetInfo_GenHadronFlavor->at(i) );
         }
         /* END: Select jets */
 

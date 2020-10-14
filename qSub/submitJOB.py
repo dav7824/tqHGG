@@ -38,62 +38,62 @@ cd {3} && eval `scramv1 runtime -sh` && cd {4}
 
 
 def getCMSSWVersion():
-	import commands
-	baseDir = commands.getstatusoutput( 'echo $CMSSW_BASE' )
-	if baseDir[0]:
-		print '[ERROR] You haven\'t set CMSSW environment'
-		exit()
-	print '[INFO] Current CMSSW env: {0}'.format( baseDir[1] )
-	return '{}/src'.format( baseDir[1] )
+    import commands
+    baseDir = commands.getstatusoutput( 'echo $CMSSW_BASE' )
+    if baseDir[0]:
+        print '[ERROR] You haven\'t set CMSSW environment'
+        exit()
+    print '[INFO] Current CMSSW env: {0}'.format( baseDir[1] )
+    return '{}/src'.format( baseDir[1] )
 
 
 def getCurrentPath():
-	import commands
-	return commands.getoutput('echo $PWD')
+    import commands
+    return commands.getoutput('echo $PWD')
 
 
 # Parser for the script
 def addOption():
-	import argparse
-	parser = argparse.ArgumentParser( description='' )
-	parser.add_argument(
-		'--command', '-c', type=str, default=None,
-		help='The command to be executed'
-		)
-	parser.add_argument(
-		'--name', '-N', type=str, default='job',
-		help='Job name'
-		)
-	parser.add_argument(
-		'--user', '-u', type=str, default=USER,
-		help='User name'
-		)
-	parser.add_argument(
-		'--lowPriority', action='store_true',
-		help=''
-		)
-	return parser.parse_args()
+    import argparse
+    parser = argparse.ArgumentParser( description='' )
+    parser.add_argument(
+            '--command', '-c', type=str, default=None,
+            help='The command to be executed'
+            )
+    parser.add_argument(
+            '--name', '-N', type=str, default='job',
+            help='Job name'
+            )
+    parser.add_argument(
+            '--user', '-u', type=str, default=USER,
+            help='User name'
+            )
+    parser.add_argument(
+            '--lowPriority', action='store_true',
+            help=''
+            )
+    return parser.parse_args()
 
 
 # Main part of the script
 if __name__ == '__main__':
-	args = addOption()
-	if not args.command:
-		print '[ERROR] You have to specify the options! See [--help].'
-		exit()
+    args = addOption()
+    if not args.command:
+        print '[ERROR] You have to specify the options! See [--help].'
+        exit()
 
-	cmsEnv = getCMSSWVersion()
-	pwd = getCurrentPath()
+    cmsEnv = getCMSSWVersion()
+    pwd = getCurrentPath()
 
-	jobfile = '/wk_cms2/mc_cheng/FCNH/CMSSW_9_4_11/src/tqHGG/tmp/qjob_submit.sh'
-	file = open( jobfile, 'w' )
-	file.write( submitTemplate.format(defaultStorageFolder, defaultMessageFolder, defaultErrorFolder, cmsEnv, pwd, args.command) )
-	file.close()
+    jobfile = '/wk_cms2/mc_cheng/FCNH/CMSSW_9_4_11/src/tqHGG/tmp/qjob_submit.sh'
+    file = open( jobfile, 'w' )
+    file.write( submitTemplate.format(defaultStorageFolder, defaultMessageFolder, defaultErrorFolder, cmsEnv, pwd, args.command) )
+    file.close()
 
-	import os
-	if args.lowPriority:
-		os.system( 'qsub {} -N {} -p -500'.format(jobfile, args.name) )
-	else:
-		os.system( 'qsub {} -N {} -p 1'.format(jobfile, args.name) )
+    import os
+    if args.lowPriority:
+        os.system( 'qsub {} -N {} -p -500'.format(jobfile, args.name) )
+    else:
+        os.system( 'qsub {} -N {} -p 1'.format(jobfile, args.name) )
 
-	print '[INFO] End of job submit of "{}".'.format(args.name)
+    print '[INFO] End of job submit of "{}".'.format(args.name)

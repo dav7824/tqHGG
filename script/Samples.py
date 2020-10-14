@@ -60,7 +60,7 @@ data = {
 
 # Bkg MC
 bkg_MC = {
-    'GGJets': [('DiPhotonJetsBox', 'DiPhotonJetsBox_MGG-80toInf_13TeV-Sherpa/*.root')],
+    'GGJets': [('DiPhotonJetsBox', 'DiPhotonJetsBox_MGG-80toInf_13TeV-Sherpa/output/*.root')],
     'GJet': [
         ('GJet_Pt-20to40_MGG-80toInf', 'GJet_Pt-20to40_DoubleEMEnriched_MGG-80toInf_TuneCP5_13TeV_Pythia8.root'),
         ('GJet_Pt-20toInf_MGG-40to80', 'GJet_Pt-20toInf_DoubleEMEnriched_MGG-40to80_TuneCP5_13TeV_Pythia8.root'),
@@ -98,8 +98,8 @@ bkg_MC = {
         ('VBFHToGG', 'VBFHToGG_M125_13TeV_amcatnlo_pythia8.root'),
         ('VHToGG', 'VHToGG_M125_13TeV_amcatnloFXFX_madspin_pythia8.root'),
         ('ttHJetToGG', 'ttHJetToGG_M125_13TeV_amcatnloFXFX_madspin_pythia8.root'),
-        ('THQ_HToGG', 'THQ_ctcvcp_HToGG_M125_13TeV-madgraph-pythia8_TuneCP5.root'),
-        ('THW_HToGG', 'THW_ctcvcp_HToGG_M125_13TeV-madgraph-pythia8_TuneCP5.root')
+        #('THQ_HToGG', 'THQ_ctcvcp_HToGG_M125_13TeV-madgraph-pythia8_TuneCP5.root'),
+        #('THW_HToGG', 'THW_ctcvcp_HToGG_M125_13TeV-madgraph-pythia8_TuneCP5.root')
     ],
 }
 

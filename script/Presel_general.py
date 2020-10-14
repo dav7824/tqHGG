@@ -1,64 +1,62 @@
 #!/usr/bin/env python2
 
+import Path, Util
 import os, sys
+from Samples import sig_MC_s, bkg_MC_s
 from os.path import join, exists
-import Path, Util, Samples
 
-# Name of selection (executable name without prefix 'Presel_')
-select = sys.argv[1]
-# Tag of input samples (dir name without prefix 'Presel_')
-input = sys.argv[2]
-# Tag of output samples (dir name without prefix 'Presel_')
-output = sys.argv[3]
-# Channel
-ch = sys.argv[4]
-# Other options (in a string) to be passed to selection C++ code
-opt = sys.argv[5]
 
-if ch!='all' and ch!='had' and ch!='lep':
-	print '[ERROR] Invalid channel!'
-	sys.exit(1)
+def RunSelection(cmd, nt):
+    print 'Processing:', nt
+    fp = os.popen( cmd.format(nt=nt) )
+    print fp.read()
+    fp.close()
+# End of function RunSelection
 
-# A dash ('-') means no option will be used
-if opt == '-':
-	opt = ''
 
-# Executable
-exe = Path.dir_bin+'/Presel_'+select
-# Input dir
-indir = Path.dir_2017+'/Presel_'+input
-# Output dir
-outdir = Path.dir_2017+'/Presel_'+output
-Util.CreateDir(outdir)
+def Selection(exe_name, indir_name, outdir_name, ch, option=''):
+    exe = join(Path.dir_bin, exe_name)
+    indir = join(Path.dir_2017, indir_name)
+    outdir = join(Path.dir_2017, outdir_name)
 
-if not exists(exe):
-	print '[ERROR] %s does not exist!' % exe
-	sys.exit(1)
-if not exists(indir):
-	print '[ERROR] %s does not exist!' % indir
-	sys.exit(1)
+    if not exists(exe):
+        print '[ERROR] Executable does not exist!'
+        sys.exit(1)
+    if not exists(indir):
+        print '[ERROR] Input dir does not exist!'
+        sys.exit(1)
+    if ch != 'had' and ch != 'lep':
+        print '[ERROR] Invalid channel!'
+        sys.exit(1)
+    Util.CreateDir(outdir)
 
-samples = {}
-if ch=='had':
-	samples = Samples.MC_had
-elif ch=='lep':
-	samples = Samples.MC_lep
-elif ch=='all':
-	samples = Samples.MC_all
+    cmd = '{bin} {indir}/{{nt}}.root {tree} {outdir}/{{nt}}.root {option}'.format(
+            bin=exe, indir=indir, tree='T', outdir=outdir, option=option)
 
-# Command template
-cmd = '{bin} {{fin}} {tree} {{fout}} {{options}}'.format(bin=exe, tree='T')
+    # Process signal MC
+    for sigtype in sig_MC_s:
+        if sigtype[1] != ch:
+            continue
+        for nt in sig_MC_s[sigtype]:
+            RunSelection(cmd, nt)
+    # Process bkg MC
+    for cat in bkg_MC_s:
+        for nt in bkg_MC_s[cat]:
+            RunSelection(cmd, nt)
+    # Process data
+    RunSelection(cmd, 'data')
 
-# Run command on each MC
-for cat in samples:
-	for nt in samples[cat]:
-		print 'Processing:', nt
-		filename = nt+'.root'
-		fp = os.popen( cmd.format(fin=join(indir,filename), fout=join(outdir,filename), options=opt) )
-		fp.close()
-# Run command on data
-print 'Processing: data'
-fp = os.popen( cmd.format(fin=join(indir,'data.root'), fout=join(outdir,'data.root'), options=opt) )
-fp.close()
+    print 'Complete!'
+# End of function Selection
 
-print 'End!'
+
+if __name__ == '__main__':
+    # Hadronic selection
+    #Selection('Presel_had', 'Presel_basic', 'Presel_had', 'had')
+    # Leptonic selection
+    #Selection('Presel_lep', 'Presel_basic', 'Presel_lep', 'lep')
+    # Photon IDMVA
+    #Selection('Presel_photonIDMVA', 'Presel_had', 'Presel_had_phID', 'had')
+    #Selection('Presel_photonIDMVA', 'Presel_lep', 'Presel_lep_phID', 'lep')
+    # b-tag requirement
+    Selection('Presel_btag', 'Presel_had_phID', 'Presel_had_phID_btag-L', 'had', '2017 L')
