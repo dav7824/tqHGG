@@ -92,6 +92,10 @@ ${BUI}/CalcYield.o: ${SRC}/CalcYield.cc ${INC}/SFhelper.h ${INC}/utility.h
 	@echo "[MAKE] Making $@"
 	${CC} -c -o $@ $< ${ROOTFLAG} -I. -Wno-write-strings
 
+${BUI}/SFcalc_btag.o: ${SRC}/SFcalc_btag.cc ${INC}/BTagCalibrationStandalone.h ${INC}/BTagCalibrationStandalone.cpp
+	@echo "[MAKE] Making $@"
+	${CC} -c -o $@ $< ${ROOTFLAG} -I. -Wno-write-strings
+
 ${BUI}/%.o: ${SRC}/%.cc ${INC}/utility.h
 	@echo "[MAKE] Making $@"
 	${CC} -c -o $@ $< ${ROOTFLAG} -I. -Wno-write-strings
