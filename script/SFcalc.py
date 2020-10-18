@@ -59,9 +59,11 @@ files = os.listdir(indir)
 for file in files:
     if not file.endswith('.root'):
         continue
+    if file == 'data.root':
+        continue
     print 'Processing:', file
     #RunSF_elec(file)
-    #RunSF_muon(file)
-    RunSF_PU(file)
+    RunSF_muon(file)
+    #RunSF_PU(file)
 
 print 'Complete!'

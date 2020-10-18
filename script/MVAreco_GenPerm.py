@@ -37,7 +37,7 @@ cmd_TTlep_bkg = '{bin} {indir}/{{nt}}.root {outdir}/{{nt}}.root bkg'.format(bin=
 cmd_STlep_bkg = '{bin} {indir}/{{nt}}.root {outdir}/{{nt}}.root bkg'.format(bin=exe_STlep, indir=indir_lepbkg, outdir=outdir_lep)
 
 mesg_sample = '---Start running: {}'
-'''
+
 # Run TT hadronic GenPerm
 print 'Start processing: TThad'
 output = open( join(outdir_had,'summary_TT.txt'), 'w' )
@@ -87,7 +87,7 @@ output.write( fp.read() )
 fp.close()
 
 output.close()
-'''
+
 # Run TT leptonic GenPerm
 print 'Start processing: TTlep'
 output = open( join(outdir_lep,'summary_TT.txt'), 'w' )
