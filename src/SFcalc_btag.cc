@@ -6,6 +6,7 @@
 #include "TTree.h"
 
 #include <iostream>
+#include <cstdlib>
 #include <cmath>
 #include <vector>
 using namespace std;
@@ -18,8 +19,16 @@ int main(int argc, char **argv)
 
     cout << "[INFO] Openning csv: " << fin_csv << endl;
     BTagCalibration bc("csv", fin_csv.Data());
+    cout << "[INFO] Set reader...\n";
+    // Reshaping
     BTagCalibrationReader bcr(BTagEntry::OP_RESHAPING);
-    bcr.load(bc, BTagEntry::FLAV_B, "comb");
+    // Loose wp
+    //BTagCalibrationReader bcr(BTagEntry::OP_LOOSE);
+    cout << "[INFO] Load calib...\n";
+    // Reshaping
+    bcr.load(bc, BTagEntry::FLAV_B, "iterativefit");
+    // Loose wp
+    //bcr.load(bc, BTagEntry::FLAV_B, "comb");
 
     cout << "[INFO] Openning input file: " << fin_name << endl;
     TFile *fin = new TFile(fin_name);
@@ -45,17 +54,20 @@ int main(int argc, char **argv)
     T->SetBranchAddress("JetInfo.GenHadronFlavor", &Jet_GenHadronFlavor);
 
     TFile *fout = new TFile(fout_name, "recreate");
-    TTree *Tout = new TTree("btag", "");
-    float SF_btag = 0;
-    Tout->Branch("SF_btag", &SF_btag);
+    TTree *Tout = T->CloneTree(0);
+    vector<float> *SF_jet = 0;
+    float SF_evt = 0;
+    Tout->Branch("SF_jet", &SF_jet);
+    Tout->Branch("SF_evt", &SF_evt);
 
     // Start event loop
-    for (int evt=0; evt<100; ++evt)
+    for (int evt=0; evt<T->GetEntries()/100; ++evt)
     {
         T->GetEntry(evt);
-        cout << "Processing event " << evt << endl;
+        if (evt % 100 == 0) cout << "Processing event " << evt << endl;
 
-        SF_btag = 1;
+        SF_jet->clear();
+        SF_evt = 1;
 
         // Start jet loop
         for (int i=0; i<jets_size; ++i) {
@@ -70,8 +82,16 @@ int main(int argc, char **argv)
                 case 5:
                     flavor = BTagEntry::FLAV_B;
                     break;
+                default:
+                    cout << "[ERROR] Invalid hadron flavor!\n";
+                    exit(1);
             }
-            SF_btag *= bcr.eval_auto_bounds("central", flavor, fabs(Jet_Eta->at(i)), Jet_Pt->at(i), Jet_probb->at(i)+Jet_probbb->at(i));
+            // Reshaping
+            float sf = bcr.eval_auto_bounds("central", flavor, fabs(Jet_Eta->at(i)), Jet_Pt->at(i), Jet_probb->at(i)+Jet_probbb->at(i));
+            // Loose wp
+            //float sf = bcr.eval_auto_bounds("central", flavor, fabs(Jet_Eta->at(i)), Jet_Pt->at(i));
+            SF_jet->push_back( sf );
+            SF_evt *= sf;
         } // End of jet loop
 
         Tout->Fill();

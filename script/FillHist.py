@@ -56,48 +56,44 @@ def FillHist(exe_name, indir_name, tree_name, outdir_name, SF_flags, ch):
 
 if __name__ == '__main__':
     # Presel_had_phID_btag-L
-    '''
     exe_name = 'FillHistV2_Presel_had_phID_btag-L'
     indir_name = 'Presel_had_phID_btag-L'
     tree_name = 'T'
     outdir_name = 'Presel_had_phID_btag-L__hist/hist_ori_samples'
     SF_flags = '000000'
     ch = 'had'
-    '''
+
     # Presel_had_phID_btag-L + PU + photon
-    '''
-    exe_name = 'FillHistV2_Presel_had_phID_btag-L'
-    indir_name = 'Presel_had_phID_btag-L'
-    tree_name = 'T+SF_pileup'
-    outdir_name = 'Presel_had_phID_btag-L__hist/hist_PU-pho_samples'
-    SF_flags = '100001'
-    ch = 'had'
-    '''
+    #exe_name = 'FillHistV2_Presel_had_phID_btag-L'
+    #indir_name = 'Presel_had_phID_btag-L'
+    #tree_name = 'T+SF_pileup'
+    #outdir_name = 'Presel_had_phID_btag-L__hist/hist_PU-pho_samples'
+    #SF_flags = '100001'
+    #ch = 'had'
+
     # Presel_lep_phID
-    '''
-    exe_name = 'FillHistV2_Presel_lep_phID'
-    indir_name = 'Presel_lep_phID'
-    tree_name = 'T'
-    outdir_name = 'Presel_lep_phID__hist/hist_ori_samples'
-    SF_flags = '000000'
-    ch = 'lep'
-    '''
+    #exe_name = 'FillHistV2_Presel_lep_phID'
+    #indir_name = 'Presel_lep_phID'
+    #tree_name = 'T'
+    #outdir_name = 'Presel_lep_phID__hist/hist_ori_samples'
+    #SF_flags = '000000'
+    #ch = 'lep'
+
     # Presel_lep_phID + PU + eID + eReco + muID + muISO + photon
-    exe_name = 'FillHistV2_Presel_lep_phID'
-    indir_name = 'Presel_lep_phID'
-    tree_name = 'T+SF_pileup+SF_Elec+SF_Muon'
-    outdir_name = 'Presel_lep_phID__hist/hist_PU-e-mu-pho_samples'
-    SF_flags = '111111'
-    ch = 'lep'
+    #exe_name = 'FillHistV2_Presel_lep_phID'
+    #indir_name = 'Presel_lep_phID'
+    #tree_name = 'T+SF_pileup+SF_Elec+SF_Muon'
+    #outdir_name = 'Presel_lep_phID__hist/hist_PU-e-mu-pho_samples'
+    #SF_flags = '111111'
+    #ch = 'lep'
+
     # Input by command line
-    '''
-    exe_name = sys.argv[1]
-    indir_name = sys.argv[2]
-    tree_name = sys.argv[3]
-    outdir_name = sys.argv[4]
-    SF_flags = sys.argv[5]
-    ch = sys.argv[6]
-    '''
+    #exe_name = sys.argv[1]
+    #indir_name = sys.argv[2]
+    #tree_name = sys.argv[3]
+    #outdir_name = sys.argv[4]
+    #SF_flags = sys.argv[5]
+    #ch = sys.argv[6]
 
     # Run
     FillHist(exe_name, indir_name, tree_name, outdir_name, SF_flags, ch)

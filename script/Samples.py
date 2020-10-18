@@ -60,7 +60,7 @@ data = {
 
 # Bkg MC
 bkg_MC = {
-    'GGJets': [('DiPhotonJetsBox', 'DiPhotonJetsBox_MGG-80toInf_13TeV-Sherpa/output/*.root')],
+    'GGJets': [('DiPhotonJetsBox', 'DiPhotonJetsBox_MGG-80toInf_13TeV-Sherpa/*.root')],
     'GJet': [
         ('GJet_Pt-20to40_MGG-80toInf', 'GJet_Pt-20to40_DoubleEMEnriched_MGG-80toInf_TuneCP5_13TeV_Pythia8.root'),
         ('GJet_Pt-20toInf_MGG-40to80', 'GJet_Pt-20toInf_DoubleEMEnriched_MGG-40to80_TuneCP5_13TeV_Pythia8.root'),
