@@ -10,7 +10,7 @@ def RunDivTree(cmd):
     fp.close()
 
 # Suffix for output dirs
-version = '__MVAreco'
+version = '__MVAreco-test'
 
 # Preselection names
 presel_had = 'Presel_had_phID_btag-L'
@@ -27,8 +27,8 @@ Util.CreateDir(outdir_had)
 Util.CreateDir(outdir_lep)
 
 # Permutaiton dirs
-permdir_had = join(Path.dir_2017, 'MVAreco_Perm_had')
-permdir_lep = join(Path.dir_2017, 'MVAreco_Perm_lep')
+permdir_had = join(Path.dir_2017, 'MVArecoV2_Perm_had')
+permdir_lep = join(Path.dir_2017, 'MVArecoV3_Perm_lep')
 
 # Executable
 bin = join(Path.dir_bin, 'DivideTree')

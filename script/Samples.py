@@ -67,7 +67,7 @@ bkg_MC = {
         ('GJet_Pt-40toInf_MGG-80toInf', 'GJet_Pt-40toInf_DoubleEMEnriched_MGG-80toInf_TuneCP5_13TeV_Pythia8.root')
     ],
     'QCD': [
-        ('QCD_Pt-30to40_MGG-80toInf', 'QCD_Pt-30to40_DoubleEMEnriched_MGG-80toInf_TuneCP5_13TeV_Pythia8.root'),
+        ('QCD_Pt-30to40_MGG-80toInf', 'QCD_Pt-30to40_DoubleEMEnriched_MGG-80toInf_TuneCP5_13TeV_Pythia8.root'), # In leptonic channel, no event left after presel!
         ('QCD_Pt-30toInf_MGG-40to80', 'QCD_Pt-30toInf_DoubleEMEnriched_MGG-40to80_TuneCP5_13TeV_Pythia8.root'),
         ('QCD_Pt-40toInf_MGG-80toInf', 'QCD_Pt-40toInf_DoubleEMEnriched_MGG-80toInf_TuneCP5_13TeV_Pythia8.root')
     ],

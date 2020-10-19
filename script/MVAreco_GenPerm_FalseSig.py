@@ -28,12 +28,12 @@ indir_name = ''
 outdir_name = ''
 reco_exe = {}  # Executable to run for each reco type
 if ch=='had':
-    indir_name = 'Presel_had_phID_btag-L__MVAreco'
+    indir_name = 'Presel_had_phID_btag-L__MVAreco-test'
     outdir_name = 'MVArecoV2_Perm_had'
     reco_exe['TT'] = join(Path.dir_bin, 'MVAreco_GenPerm_SThad')
     reco_exe['ST'] = join(Path.dir_bin, 'MVAreco_GenPerm_TThad')
 elif ch=='lep':
-    indir_name = 'Presel_lep_phID__MVAreco'
+    indir_name = 'Presel_lep_phID__MVAreco-test'
     outdir_name = 'MVArecoV3_Perm_lep'
     reco_exe['TT'] = join(Path.dir_bin, 'MVAreco_GenPerm_STlep')
     reco_exe['ST'] = join(Path.dir_bin, 'MVAreco_GenPerm_TTlep')

@@ -31,11 +31,11 @@ weidir_name = ''
 if ch=='had':
     indir_name = 'MVArecoV2_Perm_had'
     outdir_name = 'MVArecoV2_result_had'
-    weidir_name = 'MVArecoV2_train'
+    weidir_name = 'MVAreco_train'
 elif ch=='lep':
     indir_name = 'MVArecoV3_Perm_lep'
     outdir_name = 'MVArecoV3_result_lep'
-    weidir_name = 'MVArecoV3_train'
+    weidir_name = 'MVAreco_train'
 else:
     print '[ERROR] Invalid channel!'
     sys.exit(1)
