@@ -9,7 +9,7 @@ def Run(nt):
     fout = 'test_'+nt+'.root'
     fcsv = 'DeepCSV_94XSF_V5_B_F.csv'
 
-    os.system('{} {} {} {}'.format(exe, fin, fcsv, fout))
+    os.system('./{} {} {} {}'.format(exe, fin, fcsv, fout))
     print 'Complete!'
 
 
@@ -27,6 +27,6 @@ def RunPrint(nt):
 
 if __name__ == '__main__':
     #Run('DiPhotonJetsBox')
-    #Run('TT_FCNC-TtoHJ_aThad_hct')
+    Run('TT_FCNC-TtoHJ_aThad_hct')
     #RunPrint('DiPhotonJetsBox')
-    RunPrint('TT_FCNC-TtoHJ_aThad_hct')
+    #RunPrint('TT_FCNC-TtoHJ_aThad_hct')

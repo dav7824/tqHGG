@@ -27,6 +27,8 @@ int main(int argc, char **argv)
     cout << "[INFO] Load calib...\n";
     // Reshaping
     bcr.load(bc, BTagEntry::FLAV_B, "iterativefit");
+    bcr.load(bc, BTagEntry::FLAV_C, "iterativefit");
+    bcr.load(bc, BTagEntry::FLAV_UDSG, "iterativefit");
     // Loose wp
     //bcr.load(bc, BTagEntry::FLAV_B, "comb");
 
