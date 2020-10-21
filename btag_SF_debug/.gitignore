@@ -1,3 +1,5 @@
 SFcalc_btag
 SFcalc_btag.o
+SFcalc_print
+SFcalc_print.o
 *.root
