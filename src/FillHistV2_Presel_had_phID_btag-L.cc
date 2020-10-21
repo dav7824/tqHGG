@@ -102,6 +102,8 @@ int main(int argc, char **argv)
     CreateHist(hists, "jet4_M", "jet4 mass", 20, 0, 40, "GeV");
     CreateHist(hists, "jet4_E", "jet4 energy", 20, 25, 505, "GeV");
     CreateHist(hists, "jet4_btag", "jet4 b-tag", 20, 0, 1, "");
+    CreateHist(hists, "jet_btag1", "jet max b-tag", 20, 0, 1, "");
+    CreateHist(hists, "jet_btag2", "jet 2nd max b-tag", 20, 0, 1, "");
     // MET
     CreateHist(hists, "met_pt", "MET pt", 20, 0, 140, "GeV");
     CreateHist(hists, "met_phi", "MET #phi", 20, -3.5, 3.5, "");
@@ -173,6 +175,45 @@ int main(int argc, char **argv)
     FillHist(Tin, "MetInfo.Px", "met_px", weight);
     FillHist(Tin, "MetInfo.Py", "met_py", weight);
     FillHist(Tin, "MetInfo.SumET", "met_sumET", weight);
+
+    // Fill histograms with loop
+    SFsource.SetTreeBranches(Tin);
+    // Set tree variables
+    // Jet
+    int jets_size = 0;
+    vector<float> *Jet_probb = 0;
+    vector<float> *Jet_probbb = 0;
+    // Set tree branches
+    // Jet
+    Tin->SetBranchAddress("jets_size", &jets_size);
+    Tin->SetBranchAddress("JetInfo.pfDeepCSVJetTags_probb", &Jet_probb);
+    Tin->SetBranchAddress("JetInfo.pfDeepCSVJetTags_probbb", &Jet_probbb);
+
+    // Start event loop
+    for (int evt=0; evt<Tin->GetEntries(); ++evt)
+    {
+        Tin->GetEntry(evt);
+        float evt_weight = SFsource.GetWeight();
+
+        // Create vector of jet b-tag scores
+        vector<float> Jet_btag(jets_size);
+        for (int i=0; i<Jet_btag.size(); ++i)  Jet_btag[i] = Jet_probb->at(i)+Jet_probbb->at(i);
+
+        // Perform insertion sort of b-tag scores
+        for (int i=1; i!=Jet_btag.size(); ++i) {
+            float key = Jet_btag[i];
+            int j = i-1;
+            while (j>=0 && Jet_btag[j]<key) {
+                Jet_btag[j+1] = Jet_btag[j];
+                --j;
+            }
+            Jet_btag[j+1] = key;
+        }
+
+        // Fill histograms
+        hists["jet_btag1"]->Fill(Jet_btag[0], evt_weight);
+        hists["jet_btag2"]->Fill(Jet_btag[1], evt_weight);
+    } // End of event loop
 
     // Save histograms
     for (map<TString,TH1D*>::iterator it=hists.begin(); it!=hists.end(); ++it)  it->second->Write();

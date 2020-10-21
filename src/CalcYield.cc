@@ -44,6 +44,19 @@ int main(int argc, char **argv)
         for (int j=0; j<trees[i].size(); ++j)
             Tin->AddFriend(trees[i][j].Data(), fins[i].Data());
 
+    // If no event in the tree, save yield = 0 and end
+    if (Tin->GetEntries() == 0) {
+        cout << "No entry in the tree! Save yield as 0\n";
+        TFile *fout = new TFile(fout_name, "recreate");
+        TH1D *h_yield = new TH1D("yield", "", 1, 0, 1);  h_yield->SetBinContent(1, 0);
+        TH1D *h_yield2 = new TH1D("yield2", "", 1, 0, 1);  h_yield2->SetBinContent(1, 0);
+        fout->Write();
+        fout->Close();
+        fin->Close();
+
+        return 0;
+    }
+
     Tin->SetBranchStatus("*", 0);
     SFhelper SFsource(SF_flags);
     SFsource.SetTreeBranches(Tin);

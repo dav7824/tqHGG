@@ -13,6 +13,9 @@ def RunFillHist(cmd, nt):
     fp.close()
 
 
+# Function FillHist: Fill histograms for all samples of given selection.
+# Parameter "tree_name" is only used for MC processing to specify the trees containing event
+# info and scale factors.  For data only an event info tree with name "T" is needed.
 def FillHist(exe_name, indir_name, tree_name, outdir_name, SF_flags, ch):
     exe = join(Path.dir_bin, exe_name)
     indir = join(Path.dir_2017, indir_name)
@@ -33,7 +36,7 @@ def FillHist(exe_name, indir_name, tree_name, outdir_name, SF_flags, ch):
     cmd_temp = '{bin} {indir}/{{nt}}.root {trees} {outdir}/{{nt}}.root {SF_flags}'.format(
             bin=exe, indir=indir, trees=tree_name, outdir=outdir, SF_flags=SF_flags)
     cmd_data = '{bin} {indir}/{{nt}}.root {trees} {outdir}/{{nt}}.root {SF_flags}'.format(
-            bin=exe, indir=indir, trees=tree_name, outdir=outdir, SF_flags='000000')
+            bin=exe, indir=indir, trees='T', outdir=outdir, SF_flags='000000')
 
     # Process signal MC
     for sigtype in Samples.sig_MC_s:
@@ -45,6 +48,9 @@ def FillHist(exe_name, indir_name, tree_name, outdir_name, SF_flags, ch):
     # Process bkg MC
     for cat in Samples.bkg_MC_s:
         for nt in Samples.bkg_MC_s[cat]:
+            # Skip the samples with 0 event yield
+            if ch == 'lep' and nt == 'QCD_Pt-30to40_MGG-80toInf':
+                continue
             RunFillHist(cmd_temp, nt)
 
     # Process data
@@ -56,12 +62,12 @@ def FillHist(exe_name, indir_name, tree_name, outdir_name, SF_flags, ch):
 
 if __name__ == '__main__':
     # Presel_had_phID_btag-L
-    exe_name = 'FillHistV2_Presel_had_phID_btag-L'
-    indir_name = 'Presel_had_phID_btag-L'
-    tree_name = 'T'
-    outdir_name = 'Presel_had_phID_btag-L__hist/hist_ori_samples'
-    SF_flags = '000000'
-    ch = 'had'
+    #exe_name = 'FillHistV2_Presel_had_phID_btag-L'
+    #indir_name = 'Presel_had_phID_btag-L'
+    #tree_name = 'T'
+    #outdir_name = 'Presel_had_phID_btag-L__hist/hist_ori_samples'
+    #SF_flags = '000000'
+    #ch = 'had'
 
     # Presel_had_phID_btag-L + PU + photon
     #exe_name = 'FillHistV2_Presel_had_phID_btag-L'
@@ -72,12 +78,12 @@ if __name__ == '__main__':
     #ch = 'had'
 
     # Presel_lep_phID
-    #exe_name = 'FillHistV2_Presel_lep_phID'
-    #indir_name = 'Presel_lep_phID'
-    #tree_name = 'T'
-    #outdir_name = 'Presel_lep_phID__hist/hist_ori_samples'
-    #SF_flags = '000000'
-    #ch = 'lep'
+    exe_name = 'FillHistV2_Presel_lep_phID'
+    indir_name = 'Presel_lep_phID'
+    tree_name = 'T'
+    outdir_name = 'Presel_lep_phID__hist/hist_ori_samples'
+    SF_flags = '000000'
+    ch = 'lep'
 
     # Presel_lep_phID + PU + eID + eReco + muID + muISO + photon
     #exe_name = 'FillHistV2_Presel_lep_phID'
