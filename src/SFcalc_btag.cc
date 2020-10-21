@@ -15,23 +15,19 @@ int main(int argc, char **argv)
 {
     TString fin_name = argv[1];
     TString fin_csv = argv[2];
-    TString fout_name = argv[3];
 
     cout << "[INFO] Openning csv: " << fin_csv << endl;
     BTagCalibration bc("csv", fin_csv.Data());
     cout << "[INFO] Set reader...\n";
     // Reshaping
     BTagCalibrationReader bcr(BTagEntry::OP_RESHAPING);
-    // Loose wp
-    //BTagCalibrationReader bcr(BTagEntry::OP_LOOSE);
     cout << "[INFO] Load calib...\n";
-    // Reshaping
     bcr.load(bc, BTagEntry::FLAV_B, "iterativefit");
-    // Loose wp
-    //bcr.load(bc, BTagEntry::FLAV_B, "comb");
+    bcr.load(bc, BTagEntry::FLAV_C, "iterativefit");
+    bcr.load(bc, BTagEntry::FLAV_UDSG, "iterativefit");
 
     cout << "[INFO] Openning input file: " << fin_name << endl;
-    TFile *fin = new TFile(fin_name);
+    TFile *fin = new TFile(fin_name, "update");
     TTree *T = (TTree*)fin->Get("T");
     int jets_size = 0;
     vector<float> *Jet_Pt = 0;
@@ -53,21 +49,20 @@ int main(int argc, char **argv)
     T->SetBranchAddress("JetInfo.pfDeepCSVJetTags_probbb", &Jet_probbb);
     T->SetBranchAddress("JetInfo.GenHadronFlavor", &Jet_GenHadronFlavor);
 
-    TFile *fout = new TFile(fout_name, "recreate");
-    TTree *Tout = T->CloneTree(0);
-    vector<float> *SF_jet = 0;
-    float SF_evt = 0;
-    Tout->Branch("SF_jet", &SF_jet);
-    Tout->Branch("SF_evt", &SF_evt);
+    TTree *Tbtag = new TTree("SF_btag", "");
+    vector<float> *SF_btag_jets = 0;    // vector with SF of each jet
+    float SF_btag = 0;    // SF of whole event
+    Tbtag->Branch("SF_btag_jets", &SF_btag_jets);
+    Tbtag->Branch("SF_btag", &SF_btag);
 
     // Start event loop
-    for (int evt=0; evt<T->GetEntries()/100; ++evt)
+    for (int evt=0; evt<T->GetEntries(); ++evt)
     {
         T->GetEntry(evt);
-        if (evt % 100 == 0) cout << "Processing event " << evt << endl;
+        //if (evt % 100 == 0) cout << "Processing event " << evt << endl;
 
-        SF_jet->clear();
-        SF_evt = 1;
+        SF_btag_jets->clear();
+        SF_btag = 1;
 
         // Start jet loop
         for (int i=0; i<jets_size; ++i) {
@@ -86,21 +81,16 @@ int main(int argc, char **argv)
                     cout << "[ERROR] Invalid hadron flavor!\n";
                     exit(1);
             }
-            // Reshaping
             float sf = bcr.eval_auto_bounds("central", flavor, fabs(Jet_Eta->at(i)), Jet_Pt->at(i), Jet_probb->at(i)+Jet_probbb->at(i));
-            // Loose wp
-            //float sf = bcr.eval_auto_bounds("central", flavor, fabs(Jet_Eta->at(i)), Jet_Pt->at(i));
-            SF_jet->push_back( sf );
-            SF_evt *= sf;
+            SF_btag_jets->push_back( sf );
+            SF_btag *= sf;
         } // End of jet loop
 
-        Tout->Fill();
+        Tbtag->Fill();
     } // End of event loop
 
-    fout->Write();
-    fout->Close();
+    fin->WriteTObject(Tbtag, "", "Overwrite");
     fin->Close();
-    cout << "[INFO] Output written to: " << fout_name << endl;
 
     return 0;
 }

@@ -12,12 +12,12 @@ class SFhelper
 {
 public:
     // Number of different kinds of scale factors
-    static const int Nsf = 6;
+    static const int Nsf = 7;
 
     // Constructor
     // Create event weight expression by default
     SFhelper(bitset<Nsf> &inTable) :
-        Weight(1), SF_pileup(1), SF_electronID(1), SF_electronReco(1), SF_muonID(1), SF_muonISO(1), SF_photon(1), //SF_btag(1),
+        Weight(1), SF_pileup(1), SF_electronID(1), SF_electronReco(1), SF_muonID(1), SF_muonISO(1), SF_photon(1), SF_btag(1),
         T(0), weightExpression("EvtInfo.genweight"), SFapplyTable(inTable)
     {
         if (SFapplyTable.test(0)) {
@@ -44,9 +44,10 @@ public:
             cout << "<SFHelper> Apply photon SF\n";
             weightExpression += "*DiPhoInfo.centralWeight";
         }
-        /*if (SFapplyTable.test(6)) {
+        if (SFapplyTable.test(6)) {
             cout << "<SFHelper> Apply b-tagging SF\n";
-        }*/
+            weightExpression += "*SF_btag.SF_btag";
+        }
     }
 
     // Get event weight expression which can be used in TTree::Draw()
@@ -84,10 +85,10 @@ public:
             T->SetBranchStatus("DiPhoInfo.centralWeight", 1);
             T->SetBranchAddress("DiPhoInfo.centralWeight", &SF_photon);
         }
-        /*if (SFapplyTable.test(6)) {
-            T->SetBranchStatus("", 1);
-            T->SetBranchAddress("", &);
-        }*/
+        if (SFapplyTable.test(6)) {
+            T->SetBranchStatus("SF_btag.SF_btag", 1);
+            T->SetBranchAddress("SF_btag.SF_btag", &SF_btag);
+        }
         cout << "<SFHelper> TTree branches set successfully!\n";
     }
 
@@ -95,7 +96,7 @@ public:
     // have to be looped.  Used only after calling SetTreeBranches(TTree*)
     float GetWeight()
     {
-        return Weight * SF_pileup * SF_electronID * SF_electronReco * SF_muonID * SF_muonISO * SF_photon;
+        return Weight * SF_pileup * SF_electronID * SF_electronReco * SF_muonID * SF_muonISO * SF_photon * SF_btag;
     }
 
 
@@ -114,7 +115,7 @@ public:
     // Photon SF
     float SF_photon;
     // b-tagging SF
-    //float SF_btag;
+    float SF_btag;
 
 private:
     // Bitset describing applied SF

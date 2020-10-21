@@ -18,6 +18,11 @@ def RunSF_PU( filename ):
     fp = os.popen( cmd_SF_PU.format(file=filename) )
     #print fp.read()
     fp.close()
+def RunSF_btag( filename ):
+    fp = os.popen( cmd_SF_btag.format(file=filename) )
+    print fp.read()
+    fp.close()
+
 
 # I/O directories
 indir = join(Path.dir_2017, sys.argv[1])
@@ -33,11 +38,14 @@ felec_id = join(SFdir, '2017_ElectronMedium.root')
 fmuon_id = join(SFdir, 'RunBCDEF_SF_ID.root')
 fmuon_iso = join(SFdir, 'RunBCDEF_SF_ISO.root')
 fpu = join(SFdir, 'MCPileUp.root')
+# SF CSV files
+fbtag = join(SFdir, 'DeepCSV_94XSF_V5_B_F.csv')
 
 # Executables
 exe_SF_elec = join(Path.dir_bin, 'SFcalc_Electron')
 exe_SF_muon = join(Path.dir_bin, 'SFcalc_Muon')
 exe_SF_PU = join(Path.dir_bin, 'SFcalc_PU')
+exe_SF_btag = join(Path.dir_bin, 'SFcalc_btag')
 
 # Electron SF command template
 cmd_SF_elec = '{bin} {indir}/{{file}} {fSF_reco0} {fSF_reco1} {fSF_ID}'.format(
@@ -51,6 +59,10 @@ cmd_SF_muon = '{bin} {indir}/{{file}} {fSF_ID} {fSF_ISO} '.format(
 cmd_SF_PU = '{bin} {indir}/{{file}} {fSF}'.format(
         bin=exe_SF_PU, indir=indir, fSF=fpu
         )
+# B-tagging SF command template
+cmd_SF_btag = '{bin} {indir}/{{file}} {fSF}'.format(
+        bin=exe_SF_btag, indir=indir, fSF=fbtag
+        )
 
 # Get input file list
 files = os.listdir(indir)
@@ -63,7 +75,8 @@ for file in files:
         continue
     print 'Processing:', file
     #RunSF_elec(file)
-    RunSF_muon(file)
+    #RunSF_muon(file)
     #RunSF_PU(file)
+    RunSF_btag(file)
 
 print 'Complete!'
