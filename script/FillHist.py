@@ -36,7 +36,7 @@ def FillHist(exe_name, indir_name, tree_name, outdir_name, SF_flags, ch):
     cmd_temp = '{bin} {indir}/{{nt}}.root {trees} {outdir}/{{nt}}.root {SF_flags}'.format(
             bin=exe, indir=indir, trees=tree_name, outdir=outdir, SF_flags=SF_flags)
     cmd_data = '{bin} {indir}/{{nt}}.root {trees} {outdir}/{{nt}}.root {SF_flags}'.format(
-            bin=exe, indir=indir, trees='T', outdir=outdir, SF_flags='000000')
+            bin=exe, indir=indir, trees='T', outdir=outdir, SF_flags='0000000')
 
     # Process signal MC
     for sigtype in Samples.sig_MC_s:
@@ -48,9 +48,6 @@ def FillHist(exe_name, indir_name, tree_name, outdir_name, SF_flags, ch):
     # Process bkg MC
     for cat in Samples.bkg_MC_s:
         for nt in Samples.bkg_MC_s[cat]:
-            # Skip the samples with 0 event yield
-            if ch == 'lep' and nt == 'QCD_Pt-30to40_MGG-80toInf':
-                continue
             RunFillHist(cmd_temp, nt)
 
     # Process data
@@ -66,7 +63,7 @@ if __name__ == '__main__':
     #indir_name = 'Presel_had_phID_btag-L'
     #tree_name = 'T'
     #outdir_name = 'Presel_had_phID_btag-L__hist/hist_ori_samples'
-    #SF_flags = '000000'
+    #SF_flags = '0000000'
     #ch = 'had'
 
     # Presel_had_phID_btag-L + PU + photon
@@ -74,24 +71,40 @@ if __name__ == '__main__':
     #indir_name = 'Presel_had_phID_btag-L'
     #tree_name = 'T+SF_pileup'
     #outdir_name = 'Presel_had_phID_btag-L__hist/hist_PU-pho_samples'
-    #SF_flags = '100001'
+    #SF_flags = '0100001'
+    #ch = 'had'
+
+    # Presel_had_phID_btag-L + PU + photon + btag
+    #exe_name = 'FillHistV2_Presel_had_phID_btag-L'
+    #indir_name = 'Presel_had_phID_btag-L'
+    #tree_name = 'T+SF_pileup+SF_btag'
+    #outdir_name = 'Presel_had_phID_btag-L__hist/hist_PU-pho-btag_samples'
+    #SF_flags = '1100001'
     #ch = 'had'
 
     # Presel_lep_phID
-    exe_name = 'FillHistV2_Presel_lep_phID'
-    indir_name = 'Presel_lep_phID'
-    tree_name = 'T'
-    outdir_name = 'Presel_lep_phID__hist/hist_ori_samples'
-    SF_flags = '000000'
-    ch = 'lep'
+    #exe_name = 'FillHistV2_Presel_lep_phID'
+    #indir_name = 'Presel_lep_phID'
+    #tree_name = 'T'
+    #outdir_name = 'Presel_lep_phID__hist/hist_ori_samples'
+    #SF_flags = '0000000'
+    #ch = 'lep'
 
     # Presel_lep_phID + PU + eID + eReco + muID + muISO + photon
     #exe_name = 'FillHistV2_Presel_lep_phID'
     #indir_name = 'Presel_lep_phID'
     #tree_name = 'T+SF_pileup+SF_Elec+SF_Muon'
     #outdir_name = 'Presel_lep_phID__hist/hist_PU-e-mu-pho_samples'
-    #SF_flags = '111111'
+    #SF_flags = '0111111'
     #ch = 'lep'
+
+    # Presel_lep_phID + PU + eID + eReco + muID + muISO + photon + btag
+    exe_name = 'FillHistV2_Presel_lep_phID'
+    indir_name = 'Presel_lep_phID'
+    tree_name = 'T+SF_pileup+SF_Elec+SF_Muon+SF_btag'
+    outdir_name = 'Presel_lep_phID__hist/hist_PU-e-mu-pho-btag_samples'
+    SF_flags = '1111111'
+    ch = 'lep'
 
     # Input by command line
     #exe_name = sys.argv[1]

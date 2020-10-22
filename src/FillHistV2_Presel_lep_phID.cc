@@ -127,6 +127,16 @@ int main(int argc, char **argv)
     CreateHist(hists, "lep1_phi", "leading lepton #phi", 10, -3.5, 3.5, "");
     CreateHist(hists, "lep1_E", "leading lepton energy", 10, 5, 325, "GeV");
 
+    // If input tree contains no event, save empty histograms and end
+    if (Tin->GetEntries() == 0) {
+        cout << "The tree contains 0 entries.  Save empty histograms.\n";
+        for (map<TString,TH1D*>::iterator it=hists.begin(); it!=hists.end(); ++it)  it->second->Write();
+        fout->Close();
+        fin->Close();
+
+        return 0;
+    }
+
     // Fill histograms without loop
     SFhelper SFsource(SF_flags);
     TString weight = SFsource.GetWeightExpression();

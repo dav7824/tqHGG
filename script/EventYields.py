@@ -171,7 +171,7 @@ if __name__ == '__main__':
     #outdir2_name = 'Presel_had_phID_btag-L__hist/yield_ori_cat'
     #trees = 'T'
     #ch = 'had'
-    #SF_flags = '000000'
+    #SF_flags = '0000000'
 
     # Presel_had_phID_btag-L + PU + photon
     #indir_name = 'Presel_had_phID_btag-L'
@@ -179,7 +179,15 @@ if __name__ == '__main__':
     #outdir2_name = 'Presel_had_phID_btag-L__hist/yield_PU-pho_cat'
     #trees = 'T+SF_pileup'
     #ch = 'had'
-    #SF_flags = '100001'
+    #SF_flags = '0100001'
+
+    # Presel_had_phID_btag-L + PU + photon + btag
+    #indir_name = 'Presel_had_phID_btag-L'
+    #outdir_name = 'Presel_had_phID_btag-L__hist/yield_PU-pho-btag_samples'
+    #outdir2_name = 'Presel_had_phID_btag-L__hist/yield_PU-pho-btag_cat'
+    #trees = 'T+SF_pileup+SF_btag'
+    #ch = 'had'
+    #SF_flags = '1100001'
 
     # Presel_lep_phID
     #indir_name = 'Presel_lep_phID'
@@ -187,15 +195,23 @@ if __name__ == '__main__':
     #outdir2_name = 'Presel_lep_phID__hist/yield_ori_cat'
     #trees = 'T'
     #ch = 'lep'
-    #SF_flags = '000000'
+    #SF_flags = '0000000'
 
     # Presel_lep_phID + PU + ElecID + ElecReco + MuonID + MuonISO + photon
+    #indir_name = 'Presel_lep_phID'
+    #outdir_name = 'Presel_lep_phID__hist/yield_PU-e-mu-pho_samples'
+    #outdir2_name = 'Presel_lep_phID__hist/yield_PU-e-mu-pho_cat'
+    #trees = 'T+SF_pileup+SF_Elec+SF_Muon'
+    #ch = 'lep'
+    #SF_flags = '0111111'
+
+    # Presel_lep_phID + PU + ElecID + ElecReco + MuonID + MuonISO + photon + btag
     indir_name = 'Presel_lep_phID'
-    outdir_name = 'Presel_lep_phID__hist/yield_PU-e-mu-pho_samples'
-    outdir2_name = 'Presel_lep_phID__hist/yield_PU-e-mu-pho_cat'
-    trees = 'T+SF_pileup+SF_Elec+SF_Muon'
+    outdir_name = 'Presel_lep_phID__hist/yield_PU-e-mu-pho-btag_samples'
+    outdir2_name = 'Presel_lep_phID__hist/yield_PU-e-mu-pho-btag_cat'
+    trees = 'T+SF_pileup+SF_Elec+SF_Muon+SF_btag'
     ch = 'lep'
-    SF_flags = '111111'
+    SF_flags = '1111111'
 
     # Run the work flow
     CalcYield(indir_name, outdir_name, trees, ch, SF_flags)

@@ -111,6 +111,16 @@ int main(int argc, char **argv)
     CreateHist(hists, "met_py", "MET py", 20, -150, 150, "GeV");
     CreateHist(hists, "met_sumET", "MET E_{T}^{sum}", 20, 0, 4000, "GeV");
 
+    // If input tree contains no event, save empty histograms and end
+    if (Tin->GetEntries() == 0) {
+        cout << "The tree contains 0 entries.  Save empty histograms.\n";
+        for (map<TString,TH1D*>::iterator it=hists.begin(); it!=hists.end(); ++it)  it->second->Write();
+        fout->Close();
+        fin->Close();
+
+        return 0;
+    }
+
     // Fill histograms without loop
     SFhelper SFsource(SF_flags);
     TString weight = SFsource.GetWeightExpression();
