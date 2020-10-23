@@ -182,12 +182,12 @@ if __name__ == '__main__':
     #SF_flags = '0100001'
 
     # Presel_had_phID_btag-L + PU + photon + btag
-    #indir_name = 'Presel_had_phID_btag-L'
-    #outdir_name = 'Presel_had_phID_btag-L__hist/yield_PU-pho-btag_samples'
-    #outdir2_name = 'Presel_had_phID_btag-L__hist/yield_PU-pho-btag_cat'
-    #trees = 'T+SF_pileup+SF_btag'
-    #ch = 'had'
-    #SF_flags = '1100001'
+    indir_name = 'Presel_had_phID_btag-L'
+    outdir_name = 'Presel_had_phID_btag-L__hist/yield_PU-pho-btag_samples'
+    outdir2_name = 'Presel_had_phID_btag-L__hist/yield_PU-pho-btag_cat'
+    trees = 'T+SF_pileup+SF_btag'
+    ch = 'had'
+    SF_flags = '1100001'
 
     # Presel_lep_phID
     #indir_name = 'Presel_lep_phID'
@@ -206,12 +206,12 @@ if __name__ == '__main__':
     #SF_flags = '0111111'
 
     # Presel_lep_phID + PU + ElecID + ElecReco + MuonID + MuonISO + photon + btag
-    indir_name = 'Presel_lep_phID'
-    outdir_name = 'Presel_lep_phID__hist/yield_PU-e-mu-pho-btag_samples'
-    outdir2_name = 'Presel_lep_phID__hist/yield_PU-e-mu-pho-btag_cat'
-    trees = 'T+SF_pileup+SF_Elec+SF_Muon+SF_btag'
-    ch = 'lep'
-    SF_flags = '1111111'
+    #indir_name = 'Presel_lep_phID'
+    #outdir_name = 'Presel_lep_phID__hist/yield_PU-e-mu-pho-btag_samples'
+    #outdir2_name = 'Presel_lep_phID__hist/yield_PU-e-mu-pho-btag_cat'
+    #trees = 'T+SF_pileup+SF_Elec+SF_Muon+SF_btag'
+    #ch = 'lep'
+    #SF_flags = '1111111'
 
     # Run the work flow
     CalcYield(indir_name, outdir_name, trees, ch, SF_flags)

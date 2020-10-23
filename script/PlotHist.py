@@ -197,20 +197,20 @@ if __name__ == '__main__':
     #ch = 'lep'
 
     # Presel_lep_phID + PU + elecID + elecReco + muonID + muonISO + photon
-    #indir_name = 'Presel_lep_phID__hist/hist_PU-e-mu-pho_samples'
-    #outdir_name = 'Presel_lep_phID__hist/hist_PU-e-mu-pho_norm'
-    #outdir2_name = 'Presel_lep_phID__hist/hist_PU-e-mu-pho_cat'
-    #plotdir_name = 'Presel_lep_phID__hist/stackedplots_PU-e-mu-pho'
-    #plotdir2_name = 'Presel_lep_phID__hist/stackedplots_log_PU-e-mu-pho'
-    #ch = 'lep'
+    indir_name = 'Presel_lep_phID__hist/hist_PU-e-mu-pho_samples'
+    outdir_name = 'Presel_lep_phID__hist/hist_PU-e-mu-pho_norm'
+    outdir2_name = 'Presel_lep_phID__hist/hist_PU-e-mu-pho_cat'
+    plotdir_name = 'Presel_lep_phID__hist/stackedplots_PU-e-mu-pho'
+    plotdir2_name = 'Presel_lep_phID__hist/stackedplots_log_PU-e-mu-pho'
+    ch = 'lep'
 
     # Presel_lep_phID + PU + elecID + elecReco + muonID + muonISO + photon + btag
-    indir_name = 'Presel_lep_phID__hist/hist_PU-e-mu-pho-btag_samples'
-    outdir_name = 'Presel_lep_phID__hist/hist_PU-e-mu-pho-btag_norm'
-    outdir2_name = 'Presel_lep_phID__hist/hist_PU-e-mu-pho-btag_cat'
-    plotdir_name = 'Presel_lep_phID__hist/stackedplots_PU-e-mu-pho-btag'
-    plotdir2_name = 'Presel_lep_phID__hist/stackedplots_log_PU-e-mu-pho-btag'
-    ch = 'lep'
+    #indir_name = 'Presel_lep_phID__hist/hist_PU-e-mu-pho-btag_samples'
+    #outdir_name = 'Presel_lep_phID__hist/hist_PU-e-mu-pho-btag_norm'
+    #outdir2_name = 'Presel_lep_phID__hist/hist_PU-e-mu-pho-btag_cat'
+    #plotdir_name = 'Presel_lep_phID__hist/stackedplots_PU-e-mu-pho-btag'
+    #plotdir2_name = 'Presel_lep_phID__hist/stackedplots_log_PU-e-mu-pho-btag'
+    #ch = 'lep'
 
     # Run the workflow
     HistNorm(indir_name, outdir_name, ch)

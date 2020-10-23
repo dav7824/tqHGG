@@ -80,6 +80,14 @@ ${BIN}/SFcalc_%: ${BUI}/SFcalc_%.o
 	@echo "[MAKE] Making $@"
 	${CC} -o $@ $^ ${ROOTLIB}
 
+${BIN}/SFbtag_extrapolation: ${BUI}/SFbtag_extrapolation.o
+	@echo "[MAKE] Making $@"
+	${CC} -o $@ $^ ${ROOTLIB}
+
+${BIN}/SFbtag_extrapolation_add: ${BUI}/SFbtag_extrapolation_add.o
+	@echo "[MAKE] Making $@"
+	${CC} -o $@ $^ ${ROOTLIB}
+
 ${BUI}/MVAreco_GenPerm_%.o: ${SRC}/MVAreco_GenPerm_%.cc ${INC}/MVAreco_GenPerm.h
 	@echo "[MAKE] Making $@"
 	${CC} -c -o $@ $< ${ROOTFLAG} -I. -Wno-write-strings
@@ -93,6 +101,10 @@ ${BUI}/CalcYield.o: ${SRC}/CalcYield.cc ${INC}/SFhelper.h ${INC}/utility.h
 	${CC} -c -o $@ $< ${ROOTFLAG} -I. -Wno-write-strings
 
 ${BUI}/SFcalc_btag.o: ${SRC}/SFcalc_btag.cc ${INC}/BTagCalibrationStandalone.h ${INC}/BTagCalibrationStandalone.cpp
+	@echo "[MAKE] Making $@"
+	${CC} -c -o $@ $< ${ROOTFLAG} -I. -Wno-write-strings
+
+${BUI}/SFbtag_extrapolation.o: ${SRC}/SFbtag_extrapolation.cc ${INC}/BTagCalibrationStandalone.h ${INC}/BTagCalibrationStandalone.cpp
 	@echo "[MAKE] Making $@"
 	${CC} -c -o $@ $< ${ROOTFLAG} -I. -Wno-write-strings
 

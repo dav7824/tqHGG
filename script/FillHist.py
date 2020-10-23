@@ -75,12 +75,12 @@ if __name__ == '__main__':
     #ch = 'had'
 
     # Presel_had_phID_btag-L + PU + photon + btag
-    #exe_name = 'FillHistV2_Presel_had_phID_btag-L'
-    #indir_name = 'Presel_had_phID_btag-L'
-    #tree_name = 'T+SF_pileup+SF_btag'
-    #outdir_name = 'Presel_had_phID_btag-L__hist/hist_PU-pho-btag_samples'
-    #SF_flags = '1100001'
-    #ch = 'had'
+    exe_name = 'FillHistV2_Presel_had_phID_btag-L'
+    indir_name = 'Presel_had_phID_btag-L'
+    tree_name = 'T+SF_pileup+SF_btag'
+    outdir_name = 'Presel_had_phID_btag-L__hist/hist_PU-pho-btag_samples'
+    SF_flags = '1100001'
+    ch = 'had'
 
     # Presel_lep_phID
     #exe_name = 'FillHistV2_Presel_lep_phID'
@@ -99,12 +99,12 @@ if __name__ == '__main__':
     #ch = 'lep'
 
     # Presel_lep_phID + PU + eID + eReco + muID + muISO + photon + btag
-    exe_name = 'FillHistV2_Presel_lep_phID'
-    indir_name = 'Presel_lep_phID'
-    tree_name = 'T+SF_pileup+SF_Elec+SF_Muon+SF_btag'
-    outdir_name = 'Presel_lep_phID__hist/hist_PU-e-mu-pho-btag_samples'
-    SF_flags = '1111111'
-    ch = 'lep'
+    #exe_name = 'FillHistV2_Presel_lep_phID'
+    #indir_name = 'Presel_lep_phID'
+    #tree_name = 'T+SF_pileup+SF_Elec+SF_Muon+SF_btag'
+    #outdir_name = 'Presel_lep_phID__hist/hist_PU-e-mu-pho-btag_samples'
+    #SF_flags = '1111111'
+    #ch = 'lep'
 
     # Input by command line
     #exe_name = sys.argv[1]
