@@ -72,7 +72,11 @@ ${BIN}/NuPz: ${BUI}/NuPz.o
 	@echo "[MAKE] Making $@"
 	${CC} -o $@ $^ ${ROOTLIB}
 
-${BIN}/DivideTree: ${BUI}/DivideTree.o
+${BIN}/DivideTree%: ${BUI}/DivideTree%.o
+	@echo "[MAKE] Making $@"
+	${CC} -o $@ $^ ${ROOTLIB}
+
+${BIN}/DivideSamples%: ${BUI}/DivideSamples%.o
 	@echo "[MAKE] Making $@"
 	${CC} -o $@ $^ ${ROOTLIB}
 
@@ -85,6 +89,10 @@ ${BIN}/SFbtag_extrapolation: ${BUI}/SFbtag_extrapolation.o
 	${CC} -o $@ $^ ${ROOTLIB}
 
 ${BIN}/SFbtag_extrapolation_add: ${BUI}/SFbtag_extrapolation_add.o
+	@echo "[MAKE] Making $@"
+	${CC} -o $@ $^ ${ROOTLIB}
+
+${BIN}/CountEvents: ${BUI}/CountEvents.o
 	@echo "[MAKE] Making $@"
 	${CC} -o $@ $^ ${ROOTLIB}
 
