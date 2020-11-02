@@ -167,8 +167,11 @@ int main(int argc, char **argv)
     /*factory->BookMethod(dataloader, TMVA::Types::kBDT, "BDT",
             "H:V:NTrees=800:MaxDepth=5:BoostType=AdaBoost:AdaBoostBeta=0.2");*/
     // BDT_v2 (ignore negative weights)
+    /*factory->BookMethod(dataloader, TMVA::Types::kBDT, "BDT",
+            "H:V:NTrees=800:MaxDepth=5:BoostType=AdaBoost:AdaBoostBeta=0.2:IgnoreNegWeightsInTraining");*/
+    // BDT_v3
     factory->BookMethod(dataloader, TMVA::Types::kBDT, "BDT",
-            "H:V:NTrees=800:MaxDepth=5:BoostType=AdaBoost:AdaBoostBeta=0.2:IgnoreNegWeightsInTraining");
+            "H:V:NTrees=800:MaxDepth=5:BoostType=AdaBoost:AdaBoostBeta=0.4:IgnoreNegWeightsInTraining");
 
     // Start training model
     cout << "[INFO] Start training!\n";

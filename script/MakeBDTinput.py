@@ -65,69 +65,73 @@ def RunNonResonantBkg(indir_name, outdir_name, ch):
 
 if __name__ == '__main__':
     # BDT had training
-    print '\n<BDT had training>'
-    indir = 'BDT_had/train'
-    outdir = 'BDT_had/train_BDT'
-    ch = 'had'
-    RunSignal(indir, outdir, ch)
-    RunResonantBkg(indir, outdir, ch)
-    RunNonResonantBkg(indir, outdir, ch) # No need to run this for optimization / model
+    #print '\n<BDT had training>'
+    #indir = 'BDT_had/train'
+    #outdir = 'BDT_had/train_BDT'
+    #ch = 'had'
+    #RunSignal(indir, outdir, ch)
+    #RunResonantBkg(indir, outdir, ch)
+    #RunNonResonantBkg(indir, outdir, ch) # No need to run this for optimization / model
 
     # BDT had testing
-    print '\n<BDT had testing>'
-    indir = 'BDT_had/test'
-    outdir = 'BDT_had/test_BDT'
-    ch = 'had'
-    RunSignal(indir, outdir, ch)
-    RunResonantBkg(indir, outdir, ch)
-    RunNonResonantBkg(indir, outdir, ch) # No need to run this for optimization / model
+    #print '\n<BDT had testing>'
+    #indir = 'BDT_had/test'
+    #outdir = 'BDT_had/test_BDT'
+    #ch = 'had'
+    #RunSignal(indir, outdir, ch)
+    #RunResonantBkg(indir, outdir, ch)
+    #RunNonResonantBkg(indir, outdir, ch) # No need to run this for optimization / model
 
     # BDT lep training
-    print '\n<BDT lep training>'
-    indir = 'BDT_lep/train'
-    outdir = 'BDT_lep/train_BDT'
-    ch = 'lep'
-    RunSignal(indir, outdir, ch)
-    RunResonantBkg(indir, outdir, ch)
-    RunNonResonantBkg(indir, outdir, ch) # No need to run this for optimization / model
+    #print '\n<BDT lep training>'
+    #indir = 'BDT_lep/train'
+    #outdir = 'BDT_lep/train_BDT'
+    #ch = 'lep'
+    #RunSignal(indir, outdir, ch)
+    #RunResonantBkg(indir, outdir, ch)
+    #RunNonResonantBkg(indir, outdir, ch) # No need to run this for optimization / model
 
     # BDT lep testing
-    print '\n<BDT lep testing>'
-    indir = 'BDT_lep/test'
-    outdir = 'BDT_lep/test_BDT'
-    ch = 'lep'
-    RunSignal(indir, outdir, ch)
-    RunResonantBkg(indir, outdir, ch)
-    RunNonResonantBkg(indir, outdir, ch) # No need to run this for optimization / model
+    #print '\n<BDT lep testing>'
+    #indir = 'BDT_lep/test'
+    #outdir = 'BDT_lep/test_BDT'
+    #ch = 'lep'
+    #RunSignal(indir, outdir, ch)
+    #RunResonantBkg(indir, outdir, ch)
+    #RunNonResonantBkg(indir, outdir, ch) # No need to run this for optimization / model
 
     # had optimization
-    print '\n<had optimization>'
-    indir = 'optimization_had/plain'
-    outdir = 'optimization_had/BDT'
-    ch = 'had'
-    RunSignal(indir, outdir, ch)
-    RunResonantBkg(indir, outdir, ch)
+    #print '\n<had optimization>'
+    #indir = 'optimization_had/plain'
+    #outdir = 'optimization_had/BDT'
+    #ch = 'had'
+    #RunSignal(indir, outdir, ch)
+    #RunResonantBkg(indir, outdir, ch)
+    #RunSample(indir, outdir, ch, 'data', 2)
 
     # lep optimization
     print '\n<lep optimization>'
     indir = 'optimization_lep/plain'
     outdir = 'optimization_lep/BDT'
     ch = 'lep'
-    RunSignal(indir, outdir, ch)
-    RunResonantBkg(indir, outdir, ch)
+    #RunSignal(indir, outdir, ch)
+    #RunResonantBkg(indir, outdir, ch)
+    RunSample(indir, outdir, ch, 'data', 2)
 
     # had model
     print '\n<had model>'
     indir = 'model_had/plain'
     outdir = 'model_had/BDT'
     ch = 'had'
-    RunSignal(indir, outdir, ch)
-    RunResonantBkg(indir, outdir, ch)
+    #RunSignal(indir, outdir, ch)
+    #RunResonantBkg(indir, outdir, ch)
+    RunSample(indir, outdir, ch, 'data', 2)
 
     # lep model
     print '\n<lep model>'
     indir = 'model_lep/plain'
     outdir = 'model_lep/BDT'
     ch = 'lep'
-    RunSignal(indir, outdir, ch)
-    RunResonantBkg(indir, outdir, ch)
+    #RunSignal(indir, outdir, ch)
+    #RunResonantBkg(indir, outdir, ch)
+    RunSample(indir, outdir, ch, 'data', 2)

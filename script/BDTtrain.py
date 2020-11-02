@@ -90,8 +90,9 @@ if __name__ == '__main__':
     #dir_test = 'BDT_had/test_BDT'
     #outdir = 'BDT_had/BDT_v1'
     #outdir = 'BDT_had/BDT_v1_noQCD'
-    #outdir = 'BDT_had/BDT_v2'  # ignore neg weights
-    #outdir = 'BDT_had/BDT_v2_noQCD'  # ignore neg weights
+    #outdir = 'BDT_had/BDT_v2'
+    #outdir = 'BDT_had/BDT_v2_noQCD'
+    #outdir = 'BDT_had/BDT_v3'
     #ch = 'had'
 
     # leptonic BDT
@@ -99,8 +100,9 @@ if __name__ == '__main__':
     dir_test = 'BDT_lep/test_BDT'
     #outdir = 'BDT_lep/BDT_v1'
     #outdir = 'BDT_lep/BDT_v1_noQCD'
-    #outdir = 'BDT_lep/BDT_v2'  # ignore neg weights
-    outdir = 'BDT_lep/BDT_v2_noQCD'  # ignore neg weights
+    #outdir = 'BDT_lep/BDT_v2'
+    #outdir = 'BDT_lep/BDT_v2_noQCD'
+    outdir = 'BDT_lep/BDT_v3'
     ch = 'lep'
 
     RunTraining(dir_train, dir_test, outdir, ch)

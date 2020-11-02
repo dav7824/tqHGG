@@ -122,6 +122,37 @@ def Divide_sig(indir_name, tree, outdir1_name, outdir2_name, outdir3_name, ch):
 # End of function Divide_sig
 
 
+def Divide_data(indir_name, tree, outdir1_name, outdir2_name, ch):
+    print 'Start dividing data tree:', tree
+    exe = join(Path.dir_bin, 'DivideSamples_v1')
+    indir = join(Path.dir_2017, indir_name)
+    outdir1 = join(Path.dir_2017, outdir1_name)
+    outdir2 = join(Path.dir_2017, outdir2_name)
+
+    if not exists(exe):
+        print '[ERROR] Executable does not exist'
+        sys.exit(1)
+    if not exists(indir):
+        print '[ERROR] Input dir does not exist'
+        sys.exit(1)
+    if ch != 'had' and ch != 'lep':
+        print '[ERROR] Invalid channel!'
+        sys.exit(1)
+    if not exists(outdir1):
+        Util.CreateDir(outdir1)
+    if not exists(outdir2):
+        Util.CreateDir(outdir2)
+
+    # Command template
+    cmd = '{bin} {indir}/{{nt}}.root {tree} {outdir1}/{{nt}}.root {outdir2}/{{nt}}.root'.format(
+            bin=exe, indir=indir, tree=tree, outdir1=outdir1, outdir2=outdir2)
+
+    Process(cmd, 'data')
+
+    print 'Complete dividing data tree:', tree
+# End of function Divide_data
+
+
 if __name__ == '__main__':
     # had signal
     #indir_name = 'Presel_had_phID_btag-L__MVAreco-test'
@@ -192,15 +223,41 @@ if __name__ == '__main__':
     #Divide_nonres_bkg(indir2_name, 'Treco_ST', outdir1_name, outdir2_name, ch)
 
     # lep non-res bkg
+    #indir_name = 'Presel_lep_phID'
+    #indir2_name = 'MVArecoV3_result_lep/ANN_opt'
+    #outdir1_name = 'BDT_lep/train'
+    #outdir2_name = 'BDT_lep/test'
+    #ch = 'lep'
+    #Divide_nonres_bkg(indir_name, 'T', outdir1_name, outdir2_name, ch)
+    #Divide_nonres_bkg(indir_name, 'SF_pileup', outdir1_name, outdir2_name, ch)
+    #Divide_nonres_bkg(indir_name, 'SF_btag', outdir1_name, outdir2_name, ch)
+    #Divide_nonres_bkg(indir_name, 'SF_Elec', outdir1_name, outdir2_name, ch)
+    #Divide_nonres_bkg(indir_name, 'SF_Muon', outdir1_name, outdir2_name, ch)
+    #Divide_nonres_bkg(indir2_name, 'Treco_TT', outdir1_name, outdir2_name, ch)
+    #Divide_nonres_bkg(indir2_name, 'Treco_ST', outdir1_name, outdir2_name, ch)
+
+    # had data
+    indir_name = 'Presel_had_phID_btag-L'
+    indir2_name = 'MVArecoV3_result_had/ANN_opt'
+    outdir1_name = 'optimization_had/plain'
+    outdir2_name = 'model_had/plain'
+    ch = 'had'
+    Divide_data(indir_name, 'T', outdir1_name, outdir2_name, ch)
+    Divide_data(indir_name, 'SF_pileup', outdir1_name, outdir2_name, ch)
+    Divide_data(indir_name, 'SF_btag', outdir1_name, outdir2_name, ch)
+    Divide_data(indir2_name, 'Treco_TT', outdir1_name, outdir2_name, ch)
+    Divide_data(indir2_name, 'Treco_ST', outdir1_name, outdir2_name, ch)
+
+    # lep data
     indir_name = 'Presel_lep_phID'
     indir2_name = 'MVArecoV3_result_lep/ANN_opt'
-    outdir1_name = 'BDT_lep/train'
-    outdir2_name = 'BDT_lep/test'
+    outdir1_name = 'optimization_lep/plain'
+    outdir2_name = 'model_lep/plain'
     ch = 'lep'
-    Divide_nonres_bkg(indir_name, 'T', outdir1_name, outdir2_name, ch)
-    Divide_nonres_bkg(indir_name, 'SF_pileup', outdir1_name, outdir2_name, ch)
-    Divide_nonres_bkg(indir_name, 'SF_btag', outdir1_name, outdir2_name, ch)
-    Divide_nonres_bkg(indir_name, 'SF_Elec', outdir1_name, outdir2_name, ch)
-    Divide_nonres_bkg(indir_name, 'SF_Muon', outdir1_name, outdir2_name, ch)
-    Divide_nonres_bkg(indir2_name, 'Treco_TT', outdir1_name, outdir2_name, ch)
-    Divide_nonres_bkg(indir2_name, 'Treco_ST', outdir1_name, outdir2_name, ch)
+    Divide_data(indir_name, 'T', outdir1_name, outdir2_name, ch)
+    Divide_data(indir_name, 'SF_pileup', outdir1_name, outdir2_name, ch)
+    Divide_data(indir_name, 'SF_btag', outdir1_name, outdir2_name, ch)
+    Divide_data(indir_name, 'SF_Elec', outdir1_name, outdir2_name, ch)
+    Divide_data(indir_name, 'SF_Muon', outdir1_name, outdir2_name, ch)
+    Divide_data(indir2_name, 'Treco_TT', outdir1_name, outdir2_name, ch)
+    Divide_data(indir2_name, 'Treco_ST', outdir1_name, outdir2_name, ch)
