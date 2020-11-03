@@ -81,6 +81,7 @@ if __name__ == '__main__':
     #RunSignal(indir, outdir, ch)
     #RunResonantBkg(indir, outdir, ch)
     #RunNonResonantBkg(indir, outdir, ch) # No need to run this for optimization / model
+    #RunSample(indir, outdir, ch, 'data', 1)
 
     # BDT lep training
     #print '\n<BDT lep training>'
@@ -93,12 +94,13 @@ if __name__ == '__main__':
 
     # BDT lep testing
     #print '\n<BDT lep testing>'
-    #indir = 'BDT_lep/test'
-    #outdir = 'BDT_lep/test_BDT'
-    #ch = 'lep'
+    indir = 'BDT_lep/test'
+    outdir = 'BDT_lep/test_BDT'
+    ch = 'lep'
     #RunSignal(indir, outdir, ch)
     #RunResonantBkg(indir, outdir, ch)
     #RunNonResonantBkg(indir, outdir, ch) # No need to run this for optimization / model
+    RunSample(indir, outdir, ch, 'data', 1)
 
     # had optimization
     #print '\n<had optimization>'
@@ -110,28 +112,28 @@ if __name__ == '__main__':
     #RunSample(indir, outdir, ch, 'data', 2)
 
     # lep optimization
-    print '\n<lep optimization>'
-    indir = 'optimization_lep/plain'
-    outdir = 'optimization_lep/BDT'
-    ch = 'lep'
+    #print '\n<lep optimization>'
+    #indir = 'optimization_lep/plain'
+    #outdir = 'optimization_lep/BDT'
+    #ch = 'lep'
     #RunSignal(indir, outdir, ch)
     #RunResonantBkg(indir, outdir, ch)
-    RunSample(indir, outdir, ch, 'data', 2)
+    #RunSample(indir, outdir, ch, 'data', 2)
 
     # had model
-    print '\n<had model>'
-    indir = 'model_had/plain'
-    outdir = 'model_had/BDT'
-    ch = 'had'
+    #print '\n<had model>'
+    #indir = 'model_had/plain'
+    #outdir = 'model_had/BDT'
+    #ch = 'had'
     #RunSignal(indir, outdir, ch)
     #RunResonantBkg(indir, outdir, ch)
-    RunSample(indir, outdir, ch, 'data', 2)
+    #RunSample(indir, outdir, ch, 'data', 2)
 
     # lep model
-    print '\n<lep model>'
-    indir = 'model_lep/plain'
-    outdir = 'model_lep/BDT'
-    ch = 'lep'
+    #print '\n<lep model>'
+    #indir = 'model_lep/plain'
+    #outdir = 'model_lep/BDT'
+    #ch = 'lep'
     #RunSignal(indir, outdir, ch)
     #RunResonantBkg(indir, outdir, ch)
-    RunSample(indir, outdir, ch, 'data', 2)
+    #RunSample(indir, outdir, ch, 'data', 2)

@@ -89,6 +89,9 @@ def HistAdd(indir_name, outdir_name, ch):
     # Process bkg MC
     ls_bkg = []
     for cat in bkg_MC_s:
+        # test: for leptonic channel, skip QCD samples
+        if ch=='lep' and cat=='QCD':
+            continue
         print 'Processing:', cat
         if len( bkg_MC_s[cat] ) == 1:
             os.system( cmd_1.format(ori_name=bkg_MC_s[cat][0], new_name=cat) )
@@ -127,6 +130,9 @@ def HistPlotter(indir_name, data_dir_name, outdir_name, ch, draw_sig=True, plot_
     ls_fbkgs = []
     ls_legbkgs = []
     for cat in Samples.bkg_MC_stack_order:
+        # test: Not include QCD MC for leptonic channel
+        if ch == 'lep' and cat == 'QCD':
+            continue
         ls_fbkgs.append(cat)
         ls_legbkgs.append(Samples.bkg_MC_leg[cat])
     fbkgs = ','.join(ls_fbkgs)
@@ -197,12 +203,12 @@ if __name__ == '__main__':
     #ch = 'lep'
 
     # Presel_lep_phID + PU + elecID + elecReco + muonID + muonISO + photon
-    indir_name = 'Presel_lep_phID__hist/hist_PU-e-mu-pho_samples'
-    outdir_name = 'Presel_lep_phID__hist/hist_PU-e-mu-pho_norm'
-    outdir2_name = 'Presel_lep_phID__hist/hist_PU-e-mu-pho_cat'
-    plotdir_name = 'Presel_lep_phID__hist/stackedplots_PU-e-mu-pho'
-    plotdir2_name = 'Presel_lep_phID__hist/stackedplots_log_PU-e-mu-pho'
-    ch = 'lep'
+    #indir_name = 'Presel_lep_phID__hist/hist_PU-e-mu-pho_samples'
+    #outdir_name = 'Presel_lep_phID__hist/hist_PU-e-mu-pho_norm'
+    #outdir2_name = 'Presel_lep_phID__hist/hist_PU-e-mu-pho_cat'
+    #plotdir_name = 'Presel_lep_phID__hist/stackedplots_PU-e-mu-pho'
+    #plotdir2_name = 'Presel_lep_phID__hist/stackedplots_log_PU-e-mu-pho'
+    #ch = 'lep'
 
     # Presel_lep_phID + PU + elecID + elecReco + muonID + muonISO + photon + btag
     #indir_name = 'Presel_lep_phID__hist/hist_PU-e-mu-pho-btag_samples'
@@ -213,7 +219,28 @@ if __name__ == '__main__':
     #ch = 'lep'
 
     # Run the workflow
-    HistNorm(indir_name, outdir_name, ch)
-    HistAdd(outdir_name, outdir2_name, ch)
-    HistPlotter(outdir2_name, indir_name, plotdir_name, ch)
-    HistPlotter(outdir2_name, indir_name, plotdir2_name, ch, use_logy=True)
+    #HistNorm(indir_name, outdir_name, ch)
+    #HistAdd(outdir_name, outdir2_name, ch)
+    #HistPlotter(outdir2_name, indir_name, plotdir_name, ch)
+    #HistPlotter(outdir2_name, indir_name, plotdir2_name, ch, use_logy=True)
+
+    # BDT HISTOGRAMS PLOTTING
+
+    # hadronic test samples
+    #indir = 'BDT_had__hist/BDT_v1'
+    #catdir = 'BDT_had__hist/BDT_v1_cat'
+    #plotdir = 'BDT_had__hist/BDT_v1_plot'
+    #plotdir2 = 'BDT_had__hist/BDT_v1_plot-log'
+    #ch = 'had'
+
+    # leptonic test samples
+    indir = 'BDT_lep__hist/BDT_v1'
+    catdir = 'BDT_lep__hist/BDT_v1_cat'
+    plotdir = 'BDT_lep__hist/BDT_v1_plot'
+    plotdir2 = 'BDT_lep__hist/BDT_v1_plot-log'
+    ch = 'lep'
+
+    # Work flow
+    HistAdd(indir, catdir, ch)
+    HistPlotter(catdir, indir, plotdir, ch)
+    HistPlotter(catdir, indir, plotdir2, ch, use_logy=True)

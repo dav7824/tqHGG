@@ -4,6 +4,7 @@
 import Path, Util, Samples
 import sys, os
 from os.path import join, exists
+from Samples import sig_MC_s, bkg_MC_s
 
 
 def RunFillHist(cmd, nt):
@@ -57,6 +58,43 @@ def FillHist(exe_name, indir_name, tree_name, outdir_name, SF_flags, ch):
 # End of function FillHist
 
 
+def FillHist_BDT(exe_name, indir_name, outdir_name, weight, ch):
+    exe = join(Path.dir_bin, exe_name)
+    indir = join(Path.dir_2017, indir_name)
+    outdir = join(Path.dir_2017, outdir_name)
+    if not exists(exe) or not exists(indir):
+        print '[ERROR] Required files not exist!'
+        sys.exit(1)
+    if ch!='had' and ch!='lep':
+        print '[ERROR] Invalid channel'
+        sys.exit(1)
+    if not exists(outdir):
+        Util.CreateDir(outdir)
+
+    # Command template
+    cmd = '{exe} {indir}/{{nt}}.root {outdir}/{{nt}}.root \'{weight}\''.format(
+            exe=exe, indir=indir, outdir=outdir, weight=weight)
+
+    '''
+    # Process signal MC
+    for sigtype in sig_MC_s:
+        if sigtype[1] != ch:
+            continue
+        for nt in sig_MC_s[sigtype]:
+            RunFillHist(cmd, nt)
+    # Process bkg MC
+    for cat in bkg_MC_s:
+        for nt in bkg_MC_s[cat]:
+            if not exists(join(indir,nt+'.root')):
+                continue
+            RunFillHist(cmd, nt)
+    '''
+    # Process data
+    RunFillHist(cmd ,'data')
+
+# End of function FillHist_BDT
+
+
 if __name__ == '__main__':
     # Presel_had_phID_btag-L
     #exe_name = 'FillHistV2_Presel_had_phID_btag-L'
@@ -75,12 +113,12 @@ if __name__ == '__main__':
     #ch = 'had'
 
     # Presel_had_phID_btag-L + PU + photon + btag
-    exe_name = 'FillHistV2_Presel_had_phID_btag-L'
-    indir_name = 'Presel_had_phID_btag-L'
-    tree_name = 'T+SF_pileup+SF_btag'
-    outdir_name = 'Presel_had_phID_btag-L__hist/hist_PU-pho-btag_samples'
-    SF_flags = '1100001'
-    ch = 'had'
+    #exe_name = 'FillHistV2_Presel_had_phID_btag-L'
+    #indir_name = 'Presel_had_phID_btag-L'
+    #tree_name = 'T+SF_pileup+SF_btag'
+    #outdir_name = 'Presel_had_phID_btag-L__hist/hist_PU-pho-btag_samples'
+    #SF_flags = '1100001'
+    #ch = 'had'
 
     # Presel_lep_phID
     #exe_name = 'FillHistV2_Presel_lep_phID'
@@ -114,8 +152,26 @@ if __name__ == '__main__':
     #SF_flags = sys.argv[5]
     #ch = sys.argv[6]
 
+    # FILL BDT HISTOGRAMS
+
+    # Weight expression
+    weight = 'genweight*Nscale*norm*SF_pileup*SF_btag*SF_photon*SF_ElecReco*SF_ElecID*SF_MuonID*SF_MuonIso'
+
+    # BDT hadronic test
+    #exe_name = 'FillHist_BDT_had'
+    #indir_name = 'BDT_had/output_BDT_v1'
+    #outdir_name = 'BDT_had__hist/BDT_v1'
+    #ch = 'had'
+
+    # BDT leptonic test
+    exe_name = 'FillHist_BDT_lep'
+    indir_name = 'BDT_lep/output_BDT_v1'
+    outdir_name = 'BDT_lep__hist/BDT_v1'
+    ch = 'lep'
+
     # Run
-    FillHist(exe_name, indir_name, tree_name, outdir_name, SF_flags, ch)
+    #FillHist(exe_name, indir_name, tree_name, outdir_name, SF_flags, ch)
+    FillHist_BDT(exe_name, indir_name, outdir_name, weight, ch)
     print 'Complete!'
 # End of main function
 
