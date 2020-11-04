@@ -40,7 +40,7 @@ ${BIN}/HistPlotter: ${BUI}/HistPlotter.o
 	@echo "[MAKE] Making $@"
 	${CC} -o $@ $^ ${ROOTLIB}
 
-${BIN}/AddVar_%: ${BUI}/AddVar_%.o
+${BIN}/AddTreeVar: ${BUI}/AddTreeVar.o
 	@echo "[MAKE] Making $@"
 	${CC} -o $@ $^ ${ROOTLIB}
 

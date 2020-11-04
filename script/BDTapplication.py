@@ -31,7 +31,6 @@ def RunBDTapp(indir_name, fweight_name, outdir_name, ch):
             exe=exe, indir=indir, fweight=fweight, outdir=outdir, ch=ch)
 
     log = open(join(outdir,'BDTapplication.log'), 'w')
-    '''
     # Process sig MC
     for sigtype in sig_MC_s:
         if sigtype[1] != ch:
@@ -44,7 +43,6 @@ def RunBDTapp(indir_name, fweight_name, outdir_name, ch):
             if not exists(join(indir,nt+'.root')):
                 continue
             Process(cmd, nt, log)
-    '''
     # Process data
     Process(cmd, 'data', log)
 
@@ -61,9 +59,33 @@ if __name__ == '__main__':
     #ch = 'had'
 
     # leptonic BDT test
-    indir = 'BDT_lep/test_BDT'
+    #indir = 'BDT_lep/test_BDT'
+    #fweight = 'BDT_lep/BDT_v1/dataset/weights/leptonic_SR_BDT.weights.xml'
+    #outdir = 'BDT_lep/output_BDT_v1'
+    #ch = 'lep'
+
+    # hadronic optimization
+    #indir = 'optimization_had/BDT'
+    #fweight = 'BDT_had/BDT_v1/dataset/weights/hadronic_SR_BDT.weights.xml'
+    #outdir = 'optimization_had/output_BDT_v1'
+    #ch = 'had'
+
+    # leptonic optimization
+    #indir = 'optimization_lep/BDT'
+    #fweight = 'BDT_lep/BDT_v1/dataset/weights/leptonic_SR_BDT.weights.xml'
+    #outdir = 'optimization_lep/output_BDT_v1'
+    #ch = 'lep'
+
+    # hadronic modeling
+    #indir = 'model_had/BDT'
+    #fweight = 'BDT_had/BDT_v1/dataset/weights/hadronic_SR_BDT.weights.xml'
+    #outdir = 'model_had/output_BDT_v1'
+    #ch = 'had'
+
+    # leptonic modeling
+    indir = 'model_lep/BDT'
     fweight = 'BDT_lep/BDT_v1/dataset/weights/leptonic_SR_BDT.weights.xml'
-    outdir = 'BDT_lep/output_BDT_v1'
+    outdir = 'model_lep/output_BDT_v1'
     ch = 'lep'
 
     RunBDTapp(indir, fweight, outdir, ch)
