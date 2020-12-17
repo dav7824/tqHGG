@@ -44,11 +44,21 @@ def RunSamples(indir_name, ch):
 
 if __name__ == '__main__':
     # hadronic optimization
-    indir = 'optimization_had/output_BDT_v1'
-    ch = 'had'
-    RunSamples(indir, ch)
+    #indir = 'optimization_had/output_BDT_v1'
+    #ch = 'had'
+    #RunSamples(indir, ch)
 
     # leptonic optimization
-    indir = 'optimization_lep/output_BDT_v1'
+    #indir = 'optimization_lep/output_BDT_v1'
+    #ch = 'lep'
+    #RunSamples(indir, ch)
+
+    # hadronic modeling
+    #indir = 'model_had/output_BDT_v1'
+    #ch = 'had'
+    #RunSamples(indir, ch)
+
+    # leptonic modeling
+    indir = 'model_lep/output_BDT_v1'
     ch = 'lep'
     RunSamples(indir, ch)
