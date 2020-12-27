@@ -94,7 +94,7 @@ void makeObsData(TString fin_, TString fout_, TString ch)
             Cut("100<=Mgg && Mgg<=180"));
     const char *cut_expr = Form("BDT_score>=%f", BDT_cut);
     // New dataset with BDT cut
-    RooDataSet *rdata = (RooDataSet*)data.reduce(Cut(cut_expr));
+    RooDataSet *rdata = (RooDataSet*)data.reduce(Cut(cut_expr), SelectVars(Mgg));
 
     // Save dataset
     RooWorkspace *w_combine = new RooWorkspace("w_combine", "combine input");
