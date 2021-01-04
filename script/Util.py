@@ -16,6 +16,7 @@ def CreateDirs(dirpath):
         print '[INFO] The dirpath "{}" already exists.'.format(dirpath)
 
 
+'''
 def ReadList(path):
     fin = open(path, 'r')
     ls = []
@@ -68,3 +69,4 @@ def GenCode_MVAreco_train(fmethod_name, fout_name):
 
 def submit_job(cmd, jobname):
     os.system( '{runner} --command="{cmd}" --name={name}'.format(runner=os.path.join(Path.dir_tqHGG,'qSub/submitJOB.py'), cmd=cmd, name=jobname) )
+'''

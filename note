@@ -1,0 +1,5 @@
+## Workflow
+
+src/Presel_CorrSyst.cc:
+Process flashgg n-tuples (central & systematics). Apply corrections and parts of preselection.
+Run with script/Presel_basic.py
