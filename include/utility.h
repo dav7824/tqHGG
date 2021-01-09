@@ -15,11 +15,12 @@ using namespace std;
 
 const int Nyear = 3;
 const int Nwp = 3;
+// DeepFlavourJet tagger
 const float list_btag[Nyear][Nwp] = {
     // loose  medium  tight
-    {0.2217, 0.6321, 0.8953},  // 2016 legacy
-    {0.1522, 0.4941, 0.8001},  // 2017
-    {0.1241, 0.4184, 0.7527}   // 2018
+    {-1, -1, -1},  // 2016 legacy
+    {0.0521, 0.3033, 0.7489},  // 2017
+    {-1, -1, -1}   // 2018
 };
 
 float GetBtagCut(TString &year, TString &wp)

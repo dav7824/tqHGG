@@ -25,6 +25,7 @@ def Presel_Central():
             cmd = cmd_t.format( indir=Path.dir_nt_2017_Higgs, fin=Samples.sig_MC_file[sigtype][idx],
                     nt=Samples.sig_MC[sigtype][idx] )
             os.system(cmd)
+    '''
     # Process resonant bkg MC
     for idx in range(len(Samples.bkg_MC['Higgs'])):
         print '---Start running: {}'.format(Samples.bkg_MC['Higgs'][idx])
@@ -44,11 +45,12 @@ def Presel_Central():
     print '---Start running: {}'.format('data')
     cmd = cmd_t.format( indir=Path.dir_nt_2017, fin='DoubleEG.root', nt='data' )
     os.system(cmd)
+    '''
 
     print '---Complete!'
 # End of Presel_Central
 
-
+'''
 def Presel_Syst_v1(syst, systdir='Up'):
     if systdir != 'Up' and systdir != 'Down':
         print '[ERROR] Systematic variation has to be "Up" or "Down"!'
@@ -112,11 +114,11 @@ def Presel_Syst_v2(syst, systdir='Up'):
 
     print '---Complete!'
 # End of Presel_Syst_v2
-
+'''
 
 if __name__ == '__main__':
     # Central
-    #Presel_Central()
+    Presel_Central()
 
     # Systematic v1
     #Presel_Syst_v1('MvaShift', 'Up')
@@ -171,15 +173,15 @@ if __name__ == '__main__':
     #Presel_Syst_v1('MCSmearLowR9EEPhi', 'Down')
 
     # Systematic v2
-    Presel_Syst_v2('JEC', 'Up')
-    Presel_Syst_v2('JEC', 'Down')
-    Presel_Syst_v2('JER', 'Up')
-    Presel_Syst_v2('JER', 'Down')
-    Presel_Syst_v2('METJetEn', 'Up')
-    Presel_Syst_v2('METJetEn', 'Down')
-    Presel_Syst_v2('METJetRes', 'Up')
-    Presel_Syst_v2('METJetRes', 'Down')
-    Presel_Syst_v2('METUncEn', 'Up')
-    Presel_Syst_v2('METUncEn', 'Down')
-    Presel_Syst_v2('METPhoEn', 'Up')
-    Presel_Syst_v2('METPhoEn', 'Down')
+    #Presel_Syst_v2('JEC', 'Up')
+    #Presel_Syst_v2('JEC', 'Down')
+    #Presel_Syst_v2('JER', 'Up')
+    #Presel_Syst_v2('JER', 'Down')
+    #Presel_Syst_v2('METJetEn', 'Up')
+    #Presel_Syst_v2('METJetEn', 'Down')
+    #Presel_Syst_v2('METJetRes', 'Up')
+    #Presel_Syst_v2('METJetRes', 'Down')
+    #Presel_Syst_v2('METUncEn', 'Up')
+    #Presel_Syst_v2('METUncEn', 'Down')
+    #Presel_Syst_v2('METPhoEn', 'Up')
+    #Presel_Syst_v2('METPhoEn', 'Down')

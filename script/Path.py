@@ -1,11 +1,11 @@
 #!/usr/bin/env python2
 import commands
 
-dir_tqHGG = commands.getoutput('echo $DIR_TQHGG')
+dir_tqHGG = '/wk_cms2/mc_cheng/FCNH/CMSSW_9_4_11/src/tqHGG_DeepJet/tqHGG'
 dir_res = commands.getoutput('echo $DIR_PROD')
 
 dir_2016 = dir_res + '/2016'
-dir_2017 = dir_res + '/2017'
+dir_2017 = dir_res + '/2017_DeepJet'
 dir_2018 = dir_res + '/2018'
 dir_run2 = dir_res + '/RunII'
 

@@ -39,11 +39,13 @@ int main(int argc, char **argv)
 
     // Set tree variables
     int jets_size = 0;
-    vector<float> *JetInfo_pfDeepCSVJetTags_probb = 0;
-    vector<float> *JetInfo_pfDeepCSVJetTags_probbb = 0;
+    vector<float> *JetInfo_pfDeepFlavourJetTags_probb = 0;
+    vector<float> *JetInfo_pfDeepFlavourJetTags_probbb = 0;
+    vector<float> *JetInfo_pfDeepFlavourJetTags_problepb = 0;
     inTree->SetBranchAddress("jets_size", &jets_size);
-    inTree->SetBranchAddress("JetInfo.pfDeepCSVJetTags_probb", &JetInfo_pfDeepCSVJetTags_probb);
-    inTree->SetBranchAddress("JetInfo.pfDeepCSVJetTags_probbb", &JetInfo_pfDeepCSVJetTags_probbb);
+    inTree->SetBranchAddress("JetInfo.pfDeepFlavourJetTags_probb", &JetInfo_pfDeepFlavourJetTags_probb);
+    inTree->SetBranchAddress("JetInfo.pfDeepFlavourJetTags_probbb", &JetInfo_pfDeepFlavourJetTags_probbb);
+    inTree->SetBranchAddress("JetInfo.pfDeepFlavourJetTags_problepb", &JetInfo_pfDeepFlavourJetTags_problepb);
 
     // Loop over input TTree to do preselection
     cout << "Start processing events...\n";
@@ -52,7 +54,8 @@ int main(int argc, char **argv)
         inTree->GetEntry(evt);
 
         for (int i=0; i<jets_size; ++i)
-            if ( JetInfo_pfDeepCSVJetTags_probb->at(i) + JetInfo_pfDeepCSVJetTags_probbb->at(i) > cut_btag ) {
+            if ( JetInfo_pfDeepFlavourJetTags_probb->at(i) + JetInfo_pfDeepFlavourJetTags_probbb->at(i) + JetInfo_pfDeepFlavourJetTags_problepb->at(i)
+                    > cut_btag ) {
                 outTree->Fill();
                 break;
             }

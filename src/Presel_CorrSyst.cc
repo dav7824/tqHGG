@@ -8,12 +8,12 @@
 Trigger:
     Diphoton triggers
 Photon:
-    (1) pt > 35(25) GeV
+    (1) pt > 35(25) GeV && pt > Mgg/3 (Mgg/4)
     (2) |eta| < 2.5, excluding [1.4442, 1.566] (EE-EB gap)
 Diphoton:
     Mgg > 100 GeV
 Electron:
-    (1) Cut-based medium ID
+    (1) MVA medium ID
     (2) pt > 10 GeV
     (3) |eta| < 2.4, excluding [1.4442, 1.566] (EE-EB gap)
     (4) delta_R(electron, photon) > 0.2
@@ -151,8 +151,8 @@ int main(int argc, char **argv)
     vector<float> *ElecInfo_Eta = 0;
     vector<float> *ElecInfo_Phi = 0;
     vector<float> *ElecInfo_Energy = 0;
-    vector<bool> *ElecInfo_EGMCutBasedIDMedium = 0;
-    vector<bool> *ElecInfo_EGMCutBasedIDTight = 0;
+    vector<bool> *ElecInfo_EGMMVAIDMedium = 0;
+    vector<bool> *ElecInfo_EGMMVAIDTight = 0;
     // Output
     int ElecInfo_Size_ = 0;
     vector<int> *ElecInfo_Charge_ = 0;
@@ -160,8 +160,8 @@ int main(int argc, char **argv)
     vector<float> *ElecInfo_Eta_ = 0;
     vector<float> *ElecInfo_Phi_ = 0;
     vector<float> *ElecInfo_Energy_ = 0;
-    vector<bool> *ElecInfo_EGMCutBasedIDMedium_ = 0;
-    vector<bool> *ElecInfo_EGMCutBasedIDTight_ = 0;
+    vector<bool> *ElecInfo_EGMMVAIDMedium_ = 0;
+    vector<bool> *ElecInfo_EGMMVAIDTight_ = 0;
     // Muons
     // Input
     int MuonInfo_Size = 0;
@@ -192,10 +192,12 @@ int main(int argc, char **argv)
     vector<float> *JetInfo_Eta = 0;
     vector<float> *JetInfo_Phi = 0;
     vector<float> *JetInfo_Energy = 0;
-    vector<float> *JetInfo_pfDeepCSVJetTags_probb = 0;
-    vector<float> *JetInfo_pfDeepCSVJetTags_probbb = 0;
-    vector<float> *JetInfo_pfDeepCSVJetTags_probc = 0;
-    vector<float> *JetInfo_pfDeepCSVJetTags_probudsg = 0;
+    vector<float> *JetInfo_pfDeepFlavourJetTags_probb = 0;
+    vector<float> *JetInfo_pfDeepFlavourJetTags_probbb = 0;
+    vector<float> *JetInfo_pfDeepFlavourJetTags_probc = 0;
+    vector<float> *JetInfo_pfDeepFlavourJetTags_probuds = 0;
+    vector<float> *JetInfo_pfDeepFlavourJetTags_probg = 0;
+    vector<float> *JetInfo_pfDeepFlavourJetTags_problepb = 0;
     vector<float> *JetInfo_JECUnc = 0;
     vector<float> *JetInfo_JERScale = 0;
     vector<int> *JetInfo_GenHadronFlavor = 0;
@@ -205,10 +207,12 @@ int main(int argc, char **argv)
     vector<float> *JetInfo_Eta_ = 0;
     vector<float> *JetInfo_Phi_ = 0;
     vector<float> *JetInfo_Energy_ = 0;
-    vector<float> *JetInfo_pfDeepCSVJetTags_probb_ = 0;
-    vector<float> *JetInfo_pfDeepCSVJetTags_probbb_ = 0;
-    vector<float> *JetInfo_pfDeepCSVJetTags_probc_ = 0;
-    vector<float> *JetInfo_pfDeepCSVJetTags_probudsg_ = 0;
+    vector<float> *JetInfo_pfDeepFlavourJetTags_probb_ = 0;
+    vector<float> *JetInfo_pfDeepFlavourJetTags_probbb_ = 0;
+    vector<float> *JetInfo_pfDeepFlavourJetTags_probc_ = 0;
+    vector<float> *JetInfo_pfDeepFlavourJetTags_probuds_ = 0;
+    vector<float> *JetInfo_pfDeepFlavourJetTags_probg_ = 0;
+    vector<float> *JetInfo_pfDeepFlavourJetTags_problepb_ = 0;
     vector<int> *JetInfo_GenHadronFlavor_ = 0;
     // MET
     float MetInfo_Pt = 0;
@@ -276,8 +280,8 @@ int main(int argc, char **argv)
     inTree->SetBranchAddress("ElecInfo.Eta", &ElecInfo_Eta);
     inTree->SetBranchAddress("ElecInfo.Phi", &ElecInfo_Phi);
     inTree->SetBranchAddress("ElecInfo.Energy", &ElecInfo_Energy);
-    inTree->SetBranchAddress("ElecInfo.EGMCutBasedIDMedium", &ElecInfo_EGMCutBasedIDMedium);
-    inTree->SetBranchAddress("ElecInfo.EGMCutBasedIDTight", &ElecInfo_EGMCutBasedIDTight);
+    inTree->SetBranchAddress("ElecInfo.EGMMVAIDMedium", &ElecInfo_EGMMVAIDMedium);
+    inTree->SetBranchAddress("ElecInfo.EGMMVAIDTight", &ElecInfo_EGMMVAIDTight);
     // Muons
     inTree->SetBranchAddress("MuonInfo.Size", &MuonInfo_Size);
     inTree->SetBranchAddress("MuonInfo.Charge", &MuonInfo_Charge);
@@ -295,10 +299,12 @@ int main(int argc, char **argv)
     inTree->SetBranchAddress("JetInfo.Eta", &JetInfo_Eta);
     inTree->SetBranchAddress("JetInfo.Phi", &JetInfo_Phi);
     inTree->SetBranchAddress("JetInfo.Energy", &JetInfo_Energy);
-    inTree->SetBranchAddress("JetInfo.pfDeepCSVJetTags_probb", &JetInfo_pfDeepCSVJetTags_probb);
-    inTree->SetBranchAddress("JetInfo.pfDeepCSVJetTags_probbb", &JetInfo_pfDeepCSVJetTags_probbb);
-    inTree->SetBranchAddress("JetInfo.pfDeepCSVJetTags_probc", &JetInfo_pfDeepCSVJetTags_probc);
-    inTree->SetBranchAddress("JetInfo.pfDeepCSVJetTags_probudsg", &JetInfo_pfDeepCSVJetTags_probudsg);
+    inTree->SetBranchAddress("JetInfo.pfDeepFlavourJetTags_probb", &JetInfo_pfDeepFlavourJetTags_probb);
+    inTree->SetBranchAddress("JetInfo.pfDeepFlavourJetTags_probbb", &JetInfo_pfDeepFlavourJetTags_probbb);
+    inTree->SetBranchAddress("JetInfo.pfDeepFlavourJetTags_probc", &JetInfo_pfDeepFlavourJetTags_probc);
+    inTree->SetBranchAddress("JetInfo.pfDeepFlavourJetTags_probuds", &JetInfo_pfDeepFlavourJetTags_probuds);
+    inTree->SetBranchAddress("JetInfo.pfDeepFlavourJetTags_probg", &JetInfo_pfDeepFlavourJetTags_probg);
+    inTree->SetBranchAddress("JetInfo.pfDeepFlavourJetTags_problepb", &JetInfo_pfDeepFlavourJetTags_problepb);
     // JEC
     if (systtype == JECUp || systtype == JECDown)
         inTree->SetBranchAddress("JetInfo.JECUnc", &JetInfo_JECUnc);
@@ -410,8 +416,8 @@ int main(int argc, char **argv)
     outTree->Branch("ElecInfo.Eta", &ElecInfo_Eta_);
     outTree->Branch("ElecInfo.Phi", &ElecInfo_Phi_);
     outTree->Branch("ElecInfo.Energy", &ElecInfo_Energy_);
-    outTree->Branch("ElecInfo.EGMCutBasedIDMedium", &ElecInfo_EGMCutBasedIDMedium_);
-    outTree->Branch("ElecInfo.EGMCutBasedIDTight", &ElecInfo_EGMCutBasedIDTight_);
+    outTree->Branch("ElecInfo.EGMMVAIDMedium", &ElecInfo_EGMMVAIDMedium_);
+    outTree->Branch("ElecInfo.EGMMVAIDTight", &ElecInfo_EGMMVAIDTight_);
     // Muons
     outTree->Branch("MuonInfo.Size", &MuonInfo_Size_);
     outTree->Branch("MuonInfo.Charge", &MuonInfo_Charge_);
@@ -429,10 +435,12 @@ int main(int argc, char **argv)
     outTree->Branch("JetInfo.Eta", &JetInfo_Eta_);
     outTree->Branch("JetInfo.Phi", &JetInfo_Phi_);
     outTree->Branch("JetInfo.Energy", &JetInfo_Energy_);
-    outTree->Branch("JetInfo.pfDeepCSVJetTags_probb", &JetInfo_pfDeepCSVJetTags_probb_);
-    outTree->Branch("JetInfo.pfDeepCSVJetTags_probbb", &JetInfo_pfDeepCSVJetTags_probbb_);
-    outTree->Branch("JetInfo.pfDeepCSVJetTags_probc", &JetInfo_pfDeepCSVJetTags_probc_);
-    outTree->Branch("JetInfo.pfDeepCSVJetTags_probudsg", &JetInfo_pfDeepCSVJetTags_probudsg_);
+    outTree->Branch("JetInfo.pfDeepFlavourJetTags_probb", &JetInfo_pfDeepFlavourJetTags_probb_);
+    outTree->Branch("JetInfo.pfDeepFlavourJetTags_probbb", &JetInfo_pfDeepFlavourJetTags_probbb_);
+    outTree->Branch("JetInfo.pfDeepFlavourJetTags_probc", &JetInfo_pfDeepFlavourJetTags_probc_);
+    outTree->Branch("JetInfo.pfDeepFlavourJetTags_probuds", &JetInfo_pfDeepFlavourJetTags_probuds_);
+    outTree->Branch("JetInfo.pfDeepFlavourJetTags_probg", &JetInfo_pfDeepFlavourJetTags_probg_);
+    outTree->Branch("JetInfo.pfDeepFlavourJetTags_problepb", &JetInfo_pfDeepFlavourJetTags_problepb_);
     outTree->Branch("JetInfo.GenHadronFlavor", &JetInfo_GenHadronFlavor_);
     // MET
     outTree->Branch("MetInfo.Pt", &MetInfo_Pt);
@@ -493,8 +501,8 @@ int main(int argc, char **argv)
 
         if (DiPhoInfo_mass < 100) continue;
 
-        if (DiPhoInfo_leadPt < 35) continue;
-        if (DiPhoInfo_subleadPt < 25) continue;
+        if (DiPhoInfo_leadPt < 35 || DiPhoInfo_leadPt < DiPhoInfo_mass/3.) continue;
+        if (DiPhoInfo_subleadPt < 25 || DiPhoInfo_subleadPt < DiPhoInfo_mass/4.) continue;
         if (fabs(DiPhoInfo_leadEta) > 2.5) continue;
         if (fabs(DiPhoInfo_subleadEta) > 2.5) continue;
         if (fabs(DiPhoInfo_leadEta) > 1.4442 && fabs(DiPhoInfo_leadEta) < 1.566) continue;
@@ -509,8 +517,8 @@ int main(int argc, char **argv)
         ElecInfo_Eta_->clear();
         ElecInfo_Phi_->clear();
         ElecInfo_Energy_->clear();
-        ElecInfo_EGMCutBasedIDMedium_->clear();
-        ElecInfo_EGMCutBasedIDTight_->clear();
+        ElecInfo_EGMMVAIDMedium_->clear();
+        ElecInfo_EGMMVAIDTight_->clear();
         MuonInfo_Size_ = 0;
         MuonInfo_Charge_->clear();
         MuonInfo_Pt_->clear();
@@ -526,10 +534,12 @@ int main(int argc, char **argv)
         JetInfo_Eta_->clear();
         JetInfo_Phi_->clear();
         JetInfo_Energy_->clear();
-        JetInfo_pfDeepCSVJetTags_probb_->clear();
-        JetInfo_pfDeepCSVJetTags_probbb_->clear();
-        JetInfo_pfDeepCSVJetTags_probc_->clear();
-        JetInfo_pfDeepCSVJetTags_probudsg_->clear();
+        JetInfo_pfDeepFlavourJetTags_probb_->clear();
+        JetInfo_pfDeepFlavourJetTags_probbb_->clear();
+        JetInfo_pfDeepFlavourJetTags_probc_->clear();
+        JetInfo_pfDeepFlavourJetTags_probuds_->clear();
+        JetInfo_pfDeepFlavourJetTags_probg_->clear();
+        JetInfo_pfDeepFlavourJetTags_problepb_->clear();
         JetInfo_GenHadronFlavor_->clear();
 
         // Create 4-momenta of leading photon and subleading photon (used when calculating deltaR with other objects)
@@ -544,7 +554,7 @@ int main(int argc, char **argv)
         // Selection of electrons
         for (int i=0; i<ElecInfo_Size; ++i)
         {
-            if (!ElecInfo_EGMCutBasedIDMedium->at(i)) continue;
+            if (!ElecInfo_EGMMVAIDMedium->at(i)) continue;
             if (ElecInfo_Pt->at(i) < 10) continue;
             if (fabs(ElecInfo_Eta->at(i)) > 2.4) continue;
             if (fabs(ElecInfo_Eta->at(i)) > 1.4442 && fabs(ElecInfo_Eta->at(i)) < 1.566) continue;
@@ -561,8 +571,8 @@ int main(int argc, char **argv)
             ElecInfo_Eta_->push_back( ElecInfo_Eta->at(i) );
             ElecInfo_Phi_->push_back( ElecInfo_Phi->at(i) );
             ElecInfo_Energy_->push_back( ElecInfo_Energy->at(i) );
-            ElecInfo_EGMCutBasedIDMedium_->push_back( ElecInfo_EGMCutBasedIDMedium->at(i) );
-            ElecInfo_EGMCutBasedIDTight_->push_back( ElecInfo_EGMCutBasedIDTight->at(i) );
+            ElecInfo_EGMMVAIDMedium_->push_back( ElecInfo_EGMMVAIDMedium->at(i) );
+            ElecInfo_EGMMVAIDTight_->push_back( ElecInfo_EGMMVAIDTight->at(i) );
         }
 
         // Selection of muons
@@ -615,10 +625,12 @@ int main(int argc, char **argv)
             JetInfo_Eta_->push_back( JetInfo_Eta->at(i) );
             JetInfo_Phi_->push_back( JetInfo_Phi->at(i) );
             JetInfo_Energy_->push_back( JetInfo_Energy->at(i) );
-            JetInfo_pfDeepCSVJetTags_probb_->push_back( JetInfo_pfDeepCSVJetTags_probb->at(i) );
-            JetInfo_pfDeepCSVJetTags_probbb_->push_back( JetInfo_pfDeepCSVJetTags_probbb->at(i) );
-            JetInfo_pfDeepCSVJetTags_probc_->push_back( JetInfo_pfDeepCSVJetTags_probc->at(i) );
-            JetInfo_pfDeepCSVJetTags_probudsg_->push_back( JetInfo_pfDeepCSVJetTags_probudsg->at(i) );
+            JetInfo_pfDeepFlavourJetTags_probb_->push_back( JetInfo_pfDeepFlavourJetTags_probb->at(i) );
+            JetInfo_pfDeepFlavourJetTags_probbb_->push_back( JetInfo_pfDeepFlavourJetTags_probbb->at(i) );
+            JetInfo_pfDeepFlavourJetTags_probc_->push_back( JetInfo_pfDeepFlavourJetTags_probc->at(i) );
+            JetInfo_pfDeepFlavourJetTags_probuds_->push_back( JetInfo_pfDeepFlavourJetTags_probuds->at(i) );
+            JetInfo_pfDeepFlavourJetTags_probg_->push_back( JetInfo_pfDeepFlavourJetTags_probg->at(i) );
+            JetInfo_pfDeepFlavourJetTags_problepb_->push_back( JetInfo_pfDeepFlavourJetTags_problepb->at(i) );
             JetInfo_GenHadronFlavor_->push_back( JetInfo_GenHadronFlavor->at(i) );
         }
 

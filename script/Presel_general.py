@@ -2,7 +2,7 @@
 
 import Path, Util
 import os, sys
-from Samples import sig_MC_s, bkg_MC_s
+from Samples import sig_MC, bkg_MC
 from os.path import join, exists
 
 
@@ -34,17 +34,11 @@ def Selection(exe_name, indir_name, outdir_name, ch, option=''):
             bin=exe, indir=indir, tree='T', outdir=outdir, option=option)
 
     # Process signal MC
-    for sigtype in sig_MC_s:
+    for sigtype in sig_MC:
         if sigtype[1] != ch:
             continue
-        for nt in sig_MC_s[sigtype]:
+        for nt in sig_MC[sigtype]:
             RunSelection(cmd, nt)
-    # Process bkg MC
-    for cat in bkg_MC_s:
-        for nt in bkg_MC_s[cat]:
-            RunSelection(cmd, nt)
-    # Process data
-    RunSelection(cmd, 'data')
 
     print 'Complete!'
 # End of function Selection
