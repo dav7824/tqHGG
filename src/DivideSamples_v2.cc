@@ -2,7 +2,7 @@
  * Divide a tree as 3 parts.
  *
  * Usage:
- *   ./DivideSamples_v1 <fin> <tree> <fout1> <fout2> <fout3>
+ *   ./DivideSamples_v2 <fin> <tree> <fout1> <fout2> <fout3>
  */
 
 #include "TString.h"

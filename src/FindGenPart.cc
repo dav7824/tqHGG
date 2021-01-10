@@ -1,6 +1,6 @@
 // Find the gen particle that corresponds to hard interaction final states.
 // Usage:
-//   ./FindGenPart <fin_name> <inTree_name> <TT or ST> <had or lep>
+//   ./FindGenPart <fin_name> <inTree_name> <TT|ST> <had|lep>
 
 #include "TString.h"
 #include "TFile.h"

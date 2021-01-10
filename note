@@ -1,5 +1,38 @@
 ## Workflow
+#
+# This branch is for MVA reconstruction of the main analysis.
+# Only signal MCs are processed. No systematics. Scale factors are not applied.
+# DeepJet scores are saved in selected trees instead of DeepCSV scores.
+#
+# Preselection modifications:
+# 1) Electron uses MVA ID
+# 2) Photon pt cuts lead (sublead): Mgg/3 (Mgg/4)
+# 3) b-tag score cut uses DeepJet loose
 
 src/Presel_CorrSyst.cc:
-Process flashgg n-tuples (central & systematics). Apply corrections and parts of preselection.
+Process flashgg n-tuples. Apply corrections.
 Run with script/Presel_basic.py
+Output dir: Presel_basic/
+
+src/Presel_had.cc src/Presel_lep.cc src/Presel_photon_IDMVA.cc src/Presel_btag.cc:
+Process further preselections for both channels.
+Run with script/Presel_general.py
+Output dir:
+    Hadronic: Presel_had_phID_btag-L/
+    Leptonic: Presel_lep_phID/
+
+src/FindGenPart.cc:
+Find the indices of the gen-level particles from the hard processes.
+Run with script/FindGenPart.py
+Output dir:
+    Hadronic: FindGenPart_had/
+    Leptonic: FindGenPart_lep/
+
+src/DivideSamples_v3.cc:
+Divide TTree by the values of the variable "EvtInfo.EvtNo".
+Run with script/DivideSamples.py
+The script processes signal MCs of each channel and divide them into 3 parts:
+training set, optimization set, and fitting set
+Output dir:
+    Hadronic: GenPermInput_had/
+    Leptonic: GenPermInput_lep/
