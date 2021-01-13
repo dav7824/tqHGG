@@ -36,3 +36,12 @@ training set, optimization set, and fitting set
 Output dir:
     Hadronic: GenPermInput_had/
     Leptonic: GenPermInput_lep/
+
+src/DeepJet_Adjust.cc:
+Change the value of "unknown" for DeepJet b-tagger from -1000 to -1.
+Run with script/DeepJet_Adjust.py
+The script processes each MC set for each channel.
+The files are modified and overwritten.
+Processed dir:
+    Hadronic: GenPermInput_had/
+    Leptonic: GenPermInput_lep/
