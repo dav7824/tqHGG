@@ -1,65 +1,52 @@
 #!/usr/bin/env python2
-#
-# Run MVA reconstruction training on signal MC permutation trees.
-# Usage:
-#   ./MVAreco_train.py <train_tag>
 
-import Path, Util, Samples
+import Path, Util
+from Samples import sig_MC, bkg_MC
 import os, sys
-from os.path import join
+from os.path import join, exists
 
-def RunTrain(cmd, jobname):
-    print '---Start running job: {}'.format(jobname)
-    fp = os.popen( cmd )
-    out = open( join(outdir,'log',jobname+'.log'), 'w' )
-    out.write(fp.read())
-    fp.close()
-    out.close()
-    print '---Complete job: {}'.format(jobname)
 
-# Name tag for TMVA factory root file and job names
-train_tag = sys.argv[1]
-# Set whether to run qsub
-run_qsub = True
+def MVAreco_train(indir_train_name, indir_test_name, outdir_name, type, ch):
+    print '---MVA reconstruction training: {} {}'.format(type, ch)
+    # Set paths
+    exe_name = 'MVAreco_train'
+    exe = join(Path.dir_bin, exe_name)
+    indir_train = join(Path.dir_2017, indir_train_name)
+    indir_test = join(Path.dir_2017, indir_test_name)
+    outdir = join(Path.dir_2017, outdir_name)
+    if type!='TT' and type!='ST':
+        print '[ERROR] Invalid signal type'
+        return
+    if ch!='had' and ch!='lep':
+        print '[ERROR] Invalid channel'
+        return
+    if not exists(exe):
+        print '[ERROR] Executable not exist'
+        return
+    if not exists(indir_train):
+        print '[ERROR] Training input dir not exist'
+        return
+    if not exists(indir_test):
+        print '[ERROR] Testing input dir not exist'
+        return
+    Util.CreateDirs(outdir)
 
-# Set executable name
-exe_name = 'MVAreco_train_{}'.format(train_tag)
-exe = join(Path.dir_bin, exe_name)
+    # Command template
+    if type=='TT':
+        filename = 'TT_FCNC*'
+    else:
+        filename = 'ST_FCNC*'
+    cmd = 'set -f; cd {outdir};  {exe} {indir_train}/{filename} {indir_test}/{filename} {outdir} {type} {ch}'.format(
+            exe=exe, indir_train=indir_train, indir_test=indir_test, filename=filename, outdir=outdir, type=type, ch=ch)
 
-# Set I/O directories
-indir_had = join(Path.dir_2017, 'MVAreco_Perm_had_v2')
-indir_lep = join(Path.dir_2017, 'MVAreco_Perm_lep_v2')
-outdir = join(Path.dir_2017, 'MVAreco_train_v2')
-Util.CreateDir(outdir)
+    # Submit job
+    jobname = 'MVAreco_{}{}'.format(type, ch)
+    Util.submit_job(cmd, jobname)
+# End of function MVAreco_train
 
-# Generate source code
-Util.GenCode_MVAreco_train(train_tag)
-# Compile source code
-os.system('rm {}'.format(exe))
-os.system('cd {}; make bin/{}'.format(Path.dir_tqHGG, exe_name))
-if not os.path.exists(exe):
-    print '[ERROR] Compilation failed!'
-    sys.exit(1)
 
-# Command template
-cmd_train = 'set -o noglob; cd {outdir}; {bin} {{fin}} . {{recotype}} {{ch}} {tag}'.format(bin=exe, outdir=outdir, tag=train_tag)
-
-cmd_TThad = cmd_train.format(fin=join(indir_had,'TT_FCNC*'), recotype='TT', ch='had')
-cmd_SThad = cmd_train.format(fin=join(indir_had,'ST_FCNC*'), recotype='ST', ch='had')
-cmd_TTlep = cmd_train.format(fin=join(indir_lep,'TT_FCNC*'), recotype='TT', ch='lep')
-cmd_STlep = cmd_train.format(fin=join(indir_lep,'ST_FCNC*'), recotype='ST', ch='lep')
-
-# Run training
-if run_qsub:
-    Util.submit_job( cmd_TThad, 'TThad_'+train_tag )
-    #Util.submit_job( cmd_SThad, 'SThad_'+train_tag )
-    #Util.submit_job( cmd_TTlep, 'TTlep_'+train_tag )
-    #Util.submit_job( cmd_STlep, 'STlep_'+train_tag )
-else:
-    Util.CreateDir(join(outdir,'log'))
-    RunTrain( cmd_TThad, 'TThad_'+train_tag )
-    RunTrain( cmd_SThad, 'SThad_'+train_tag )
-    RunTrain( cmd_TTlep, 'TTlep_'+train_tag )
-    RunTrain( cmd_STlep, 'STlep_'+train_tag )
-
-print 'End!'
+if __name__ == '__main__':
+    MVAreco_train('MVAreco_perm_had/Train_input', 'MVAreco_perm_had/opt_set', 'MVAreco_model', 'TT', 'had')
+    MVAreco_train('MVAreco_perm_had/Train_input', 'MVAreco_perm_had/opt_set', 'MVAreco_model', 'ST', 'had')
+    MVAreco_train('MVAreco_perm_lep/Train_input', 'MVAreco_perm_lep/opt_set', 'MVAreco_model', 'TT', 'lep')
+    MVAreco_train('MVAreco_perm_lep/Train_input', 'MVAreco_perm_lep/opt_set', 'MVAreco_model', 'ST', 'lep')

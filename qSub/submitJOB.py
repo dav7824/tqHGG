@@ -30,6 +30,8 @@ submitTemplate = '''
 #PBS -o {1}
 #PBS -e {2}
 
+set -eo pipefail
+
 # Setup CMSSW env
 cd {3} && eval `scramv1 runtime -sh` && cd {4}
 # Commands to be run
@@ -85,7 +87,7 @@ if __name__ == '__main__':
     cmsEnv = getCMSSWVersion()
     pwd = getCurrentPath()
 
-    jobfile = '/wk_cms2/mc_cheng/FCNH/CMSSW_9_4_11/src/tqHGG/tmp/qjob_submit.sh'
+    jobfile = '/wk_cms2/mc_cheng/FCNH/CMSSW_9_4_11/src/tqHGG_DeepJet/tqHGG/tmp/qjob_submit.sh'
     file = open( jobfile, 'w' )
     file.write( submitTemplate.format(defaultStorageFolder, defaultMessageFolder, defaultErrorFolder, cmsEnv, pwd, args.command) )
     file.close()

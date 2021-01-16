@@ -1,16 +1,13 @@
 /*
  * Run MVA training on permutations for signal reconstruction.
  * Usage:
- *   ./MVAreco_train_xxx <fin> <outdir> <recotype=TT|ST> <channel=had|lep> <train_tag>
+ *   ./MVAreco_train <fin_train> <fin_test> <outdir> <recotype=TT|ST> <channel=had|lep>
  *
- * <fin>:       Root file containing training & test permutation trees of signal MC
- * <outdir>:    Directory to save the result root file
- * <recotype>:  Signal type to be run (TT or ST)
- * <channel>:   Channel to be run (had or lep)
- * <train_tag>: Name tag for TMVA factory root file
- *
- * Add the codes for booking MVA methods in src/MVAreco_methods.cc.
- * Use script/MVAreco_train.py to generate final source code and run.
+ * <fin_train>:   Root file containing training tree
+ * <fin_test>:    Root file containing test tree
+ * <outdir>:      Directory to save the result root file
+ * <recotype>:    Signal type to be run (TT or ST)
+ * <channel>:     Channel to be run (had or lep)
  *
  * Besides the root file, TMVA will produce weight files in current working directory.
  * cd to the output path you want before running this code.
@@ -19,12 +16,10 @@
 #include "TMVA/Tools.h"
 #include "TMVA/Factory.h"
 #include "TMVA/DataLoader.h"
-
 #include "TString.h"
 #include "TChain.h"
 #include "TFile.h"
 #include "TCut.h"
-
 #include <iostream>
 #include <cstdlib>
 using namespace std;
@@ -32,11 +27,11 @@ using namespace std;
 int main(int argc, char **argv)
 {
     // Get command line arguments
-    TString fin_name = argv[1];
-    TString outdir = argv[2];
-    TString recotype = argv[3];
-    TString channel = argv[4];
-    TString train_tag = argv[5];
+    TString fin_train_name = argv[1];
+    TString fin_test_name = argv[2];
+    TString outdir = argv[3];
+    TString recotype = argv[4];
+    TString channel = argv[5];
 
     if (recotype != "TT" && recotype != "ST") {
         cout << "[ERROR] Invalid reconstruction type\n";
@@ -48,11 +43,15 @@ int main(int argc, char **argv)
     }
 
     // Read input trees
-    cout << "[INFO] Openning input files: " << fin_name << endl;
-    TChain *TPerm_train = new TChain("TPerm_train");
-    TChain *TPerm_test = new TChain("TPerm_test");
-    TPerm_train->Add(fin_name);
-    TPerm_test->Add(fin_name);
+    cout << "[INFO] Openning training input files: " << fin_train_name << endl;
+    cout << "[INFO] Openning testing input files: " << fin_test_name << endl;
+    TString treename;
+    if (recotype == "TT")  treename = "TPerm_TT";
+    else  treename = "TPerm_ST";
+    TChain *TPerm_train = new TChain(treename);
+    TChain *TPerm_test = new TChain(treename);
+    TPerm_train->Add(fin_train_name);
+    TPerm_test->Add(fin_test_name);
 
     // Load TMVA library
     TMVA::Tools::Instance();
@@ -126,16 +125,28 @@ int main(int argc, char **argv)
     dataloader->SetBackgroundWeightExpression("Evt_genweight");
 
     // Cut on input events and set dataloader options
-    TCut sigcut = "match == 1";
-    TCut bkgcut = "match == 0";
+    TCut sigcut = "Perm_match == 1";
+    TCut bkgcut = "Perm_match == 0";
     dataloader->PrepareTrainingAndTestTree(sigcut, bkgcut, "V:NormMode=EqualNumEvents");
 
     // Create TMVA factory
     TString factory_name = recotype + channel;
-    TFile *fSummary = new TFile( outdir+"/result_"+factory_name+'_'+train_tag+".root", "recreate" );
+    TFile *fSummary = new TFile( outdir+"/result_"+factory_name+".root", "recreate" );
     TMVA::Factory *factory = new TMVA::Factory(factory_name, fSummary, "V:AnalysisType=Classification");
 
-    /* BOOK_MVA_METHOD */
+    // Book MVA method
+    if (recotype == "TT" && channel == "had")
+        factory->BookMethod(dataloader, TMVA::Types::kMLP, "ANN",
+                "H:V:IgnoreNegWeightsInTraining:VarTransform=N:NCycles=500:HiddenLayers=N,N-1:LearningRate=0.02:DecayRate=0.01");
+    else if (recotype == "ST" && channel == "had")
+        factory->BookMethod(dataloader, TMVA::Types::kMLP, "ANN",
+                "H:V:IgnoreNegWeightsInTraining:VarTransform=N:NCycles=500:HiddenLayers=N,N-1:LearningRate=0.02:DecayRate=0.01");
+    else if (recotype == "TT" && channel == "lep")
+        factory->BookMethod(dataloader, TMVA::Types::kMLP, "ANN",
+                "H:V:IgnoreNegWeightsInTraining:VarTransform=N:NCycles=500:HiddenLayers=N,N-1:LearningRate=0.02:DecayRate=0.01");
+    else
+        factory->BookMethod(dataloader, TMVA::Types::kMLP, "ANN",
+                "H:V:IgnoreNegWeightsInTraining:VarTransform=N:NCycles=500:HiddenLayers=N,N-1:LearningRate=0.02:DecayRate=0.01");
 
     // Start training model
     cout << "[INFO] Start training!\n";
