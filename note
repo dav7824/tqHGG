@@ -45,3 +45,23 @@ The files are modified and overwritten.
 Processed dir:
     Hadronic: GenPermInput_had/
     Leptonic: GenPermInput_lep/
+
+src/MVAreco_GenPerm_[TT|ST][had|lep].cc:
+Generate permutations for MVA event reconstruction.
+Run with script/MVAreco_GenPerm.py
+Input dir:
+    Had: GenPermInput_had/
+    Lep: GenPermInput_lep/
+Output dir:
+    Had: MVAreco_perm_had/
+    Lep: MVAreco_perm_lep/
+
+src/MVAreco_train.cc:
+Train MVA model for each signal type/channel.
+Run with script/MVAreco_train.py and submit qsub jobs.
+Output includes weight files and summary root files of each reconstruction type/channel.
+Input dir:
+    Had: MVAreco_perm_had/
+    Lep: MVAreco_perm_lep/
+Output dir:
+    MVAreco_model/

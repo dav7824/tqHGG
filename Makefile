@@ -68,6 +68,10 @@ ${BIN}/MVAreco_AdjustTree: ${BUI}/MVAreco_AdjustTree.o
 	@echo "[MAKE] Making $@"
 	${CC} -o $@ $^ ${ROOTLIB}
 
+${BIN}/MVAreco_train: ${BUI}/MVAreco_train.o
+	@echo "[MAKE] Making $@"
+	${CC} -o $@ $^ ${ROOTLIB} -lTMVA
+
 ${BIN}/NuPz: ${BUI}/NuPz.o
 	@echo "[MAKE] Making $@"
 	${CC} -o $@ $^ ${ROOTLIB}

@@ -1,141 +1,192 @@
 #!/usr/bin/env python2
 
-import Path, Util, Samples
+import Path, Util
+from Samples import sig_MC, bkg_MC
 import os, sys
-from os.path import join
+from os.path import join, exists
 
-# I/O directories
-indir_sig = join(Path.dir_2017, 'MVAreco_GenPerm')
-indir_hadbkg = join(Path.dir_2017, 'Presel_had_phID_btag-L')
-indir_lepbkg = join(Path.dir_2017, 'Presel_lep_phID')
-outdir_had = join(Path.dir_2017, 'MVArecoV2_Perm_had')
-Util.CreateDir(outdir_had)
-outdir_lep = join(Path.dir_2017, 'MVArecoV3_Perm_lep')
-Util.CreateDir(outdir_lep)
 
-# Sample names
-nt_sig_TThad = ['TT_FCNC-TtoHJ_aThad_hct', 'TT_FCNC-aTtoHJ_Thad_hct', 'TT_FCNC-TtoHJ_aThad_hut', 'TT_FCNC-aTtoHJ_Thad_hut']
-nt_sig_SThad = ['ST_FCNC-TH_Thad_hct', 'ST_FCNC-TH_Thad_hut']
-nt_sig_TTlep = ['TT_FCNC-TtoHJ_aTlep_hct', 'TT_FCNC-aTtoHJ_Tlep_hct', 'TT_FCNC-TtoHJ_aTlep_hut', 'TT_FCNC-aTtoHJ_Tlep_hut']
-nt_sig_STlep = ['ST_FCNC-TH_Tlep_hct', 'ST_FCNC-TH_Tlep_hut']
-nt_bkg = Samples.bkg_MC_s
+# Executable for each type of signal MC
+dict_normal = {
+        ('TT', 'had'): 'MVAreco_GenPerm_TThad',
+        ('ST', 'had'): 'MVAreco_GenPerm_SThad',
+        ('TT', 'lep'): 'MVAreco_GenPerm_TTlep',
+        ('ST', 'lep'): 'MVAreco_GenPerm_STlep',
+        }
+# Executable for each type of signal MC, but wrong type
+dict_false = {
+        ('TT', 'had'): 'MVAreco_GenPerm_SThad',
+        ('ST', 'had'): 'MVAreco_GenPerm_TThad',
+        ('TT', 'lep'): 'MVAreco_GenPerm_STlep',
+        ('ST', 'lep'): 'MVAreco_GenPerm_TTlep',
+        }
 
-# Executables
-exe_TThad = join(Path.dir_bin, 'MVAreco_GenPerm_TThad')
-exe_SThad = join(Path.dir_bin, 'MVAreco_GenPerm_SThad')
-exe_TTlep = join(Path.dir_bin, 'MVAreco_GenPerm_TTlep')
-exe_STlep = join(Path.dir_bin, 'MVAreco_GenPerm_STlep')
 
-# Command template
-cmd_TThad_sig = '{bin} {indir}/{{nt}}.root {outdir}/{{nt}}.root sig'.format(bin=exe_TThad, indir=indir_sig, outdir=outdir_had)
-cmd_SThad_sig = '{bin} {indir}/{{nt}}.root {outdir}/{{nt}}.root sig'.format(bin=exe_SThad, indir=indir_sig, outdir=outdir_had)
-cmd_TTlep_sig = '{bin} {indir}/{{nt}}.root {outdir}/{{nt}}.root sig'.format(bin=exe_TTlep, indir=indir_sig, outdir=outdir_lep)
-cmd_STlep_sig = '{bin} {indir}/{{nt}}.root {outdir}/{{nt}}.root sig'.format(bin=exe_STlep, indir=indir_sig, outdir=outdir_lep)
-cmd_TThad_bkg = '{bin} {indir}/{{nt}}.root {outdir}/{{nt}}.root bkg'.format(bin=exe_TThad, indir=indir_hadbkg, outdir=outdir_had)
-cmd_SThad_bkg = '{bin} {indir}/{{nt}}.root {outdir}/{{nt}}.root bkg'.format(bin=exe_SThad, indir=indir_hadbkg, outdir=outdir_had)
-cmd_TTlep_bkg = '{bin} {indir}/{{nt}}.root {outdir}/{{nt}}.root bkg'.format(bin=exe_TTlep, indir=indir_lepbkg, outdir=outdir_lep)
-cmd_STlep_bkg = '{bin} {indir}/{{nt}}.root {outdir}/{{nt}}.root bkg'.format(bin=exe_STlep, indir=indir_lepbkg, outdir=outdir_lep)
-
-mesg_sample = '---Start running: {}'
-
-# Run TT hadronic GenPerm
-print 'Start processing: TThad'
-output = open( join(outdir_had,'summary_TT.txt'), 'w' )
-
-for sample in nt_sig_TThad:
-    print mesg_sample.format(sample)
-    output.write( '\n'+mesg_sample.format(sample)+'\n' )
-    fp = os.popen( cmd_TThad_sig.format(nt=sample) )
-    output.write( fp.read() )
+def Process(cmd, nt):
+    print '---Start processing: {}'.format(nt)
+    fp = os.popen( cmd.format(nt=nt) )
+    print fp.read()
     fp.close()
-for cat in nt_bkg:
-    for sample in nt_bkg[cat]:
-        print mesg_sample.format(sample)
-        output.write( '\n'+mesg_sample.format(sample)+'\n' )
-        fp = os.popen( cmd_TThad_bkg.format(nt=sample) )
-        output.write( fp.read() )
-        fp.close()
-print mesg_sample.format('data')
-output.write( '\n'+mesg_sample.format('data')+'\n' )
-fp = os.popen( cmd_TThad_bkg.format(nt='data') )
-output.write( fp.read() )
-fp.close()
 
-output.close()
 
-# Run ST hadronic GenPerm
-print 'Start processing: SThad'
-output = open( join(outdir_had,'summary_ST.txt'), 'w' )
+def GenPerm_sig_train(indir_name, outdir_name, type, ch):
+    print '---Start running: GenPerm_sig_train'
+    print '---Input dir: {}'.format(indir_name)
+    print '---Output dir: {}'.format(outdir_name)
+    print '---Signal type/channel: {}/{}'.format(type, ch)
+    if type!='TT' and type!='ST':
+        print '[ERROR] Invalid signal type'
+        return
+    if ch!='had' and ch!='lep':
+        print '[ERROR] Invalid channel'
+        return
+    # Set paths
+    exe_name = dict_normal[(type, ch)]
+    exe = join(Path.dir_bin, exe_name)
+    indir = join(Path.dir_2017, indir_name)
+    outdir = join(Path.dir_2017, outdir_name)
+    if not exists(exe):
+        print '[ERROR] Executable not exist'
+        return
+    if not exists(indir):
+        print '[ERROR] Input dir not exist'
+        return
+    Util.CreateDirs(outdir)
 
-for sample in nt_sig_SThad:
-    print mesg_sample.format(sample)
-    output.write( '\n'+mesg_sample.format(sample)+'\n' )
-    fp = os.popen( cmd_SThad_sig.format(nt=sample) )
-    output.write( fp.read() )
-    fp.close()
-for cat in nt_bkg:
-    for sample in nt_bkg[cat]:
-        print mesg_sample.format(sample)
-        output.write( '\n'+mesg_sample.format(sample)+'\n' )
-        fp = os.popen( cmd_SThad_bkg.format(nt=sample) )
-        output.write( fp.read() )
-        fp.close()
-print mesg_sample.format('data')
-output.write( '\n'+mesg_sample.format('data')+'\n' )
-fp = os.popen( cmd_SThad_bkg.format(nt='data') )
-output.write( fp.read() )
-fp.close()
+    # Command template
+    cmd = '{exe} {indir}/{{nt}}.root {outdir}/{{nt}}.root {mode}'.format(
+            exe=exe, indir=indir, outdir=outdir, mode='sig_train')
 
-output.close()
+    # Process signal MC
+    for sigtype in sig_MC:
+        if sigtype[0]!=type or sigtype[1]!=ch:
+            continue
+        for nt in sig_MC[sigtype]:
+            Process(cmd, nt)
 
-# Run TT leptonic GenPerm
-print 'Start processing: TTlep'
-output = open( join(outdir_lep,'summary_TT.txt'), 'w' )
+    print '---Complete!\n\n\n'
+# End of function GenPerm_sig_train
 
-for sample in nt_sig_TTlep:
-    print mesg_sample.format(sample)
-    output.write( '\n'+mesg_sample.format(sample)+'\n' )
-    fp = os.popen( cmd_TTlep_sig.format(nt=sample) )
-    output.write( fp.read() )
-    fp.close()
-for cat in nt_bkg:
-    for sample in nt_bkg[cat]:
-        print mesg_sample.format(sample)
-        output.write( '\n'+mesg_sample.format(sample)+'\n' )
-        fp = os.popen( cmd_TTlep_bkg.format(nt=sample) )
-        output.write( fp.read() )
-        fp.close()
-print mesg_sample.format('data')
-output.write( '\n'+mesg_sample.format('data')+'\n' )
-fp = os.popen( cmd_TTlep_bkg.format(nt='data') )
-output.write( fp.read() )
-fp.close()
 
-output.close()
+def GenPerm_sig_test(indir_name, outdir_name, type, ch):
+    print '---Start running: GenPerm_sig_test'
+    print '---Input dir: {}'.format(indir_name)
+    print '---Output dir: {}'.format(outdir_name)
+    print '---Signal type/channel: {}/{}'.format(type, ch)
+    if type!='TT' and type!='ST':
+        print '[ERROR] Invalid signal type'
+        return
+    if ch!='had' and ch!='lep':
+        print '[ERROR] Invalid channel'
+        return
+    # Set paths
+    exe_name = dict_normal[(type, ch)]
+    exe = join(Path.dir_bin, exe_name)
+    indir = join(Path.dir_2017, indir_name)
+    outdir = join(Path.dir_2017, outdir_name)
+    if not exists(exe):
+        print '[ERROR] Executable not exist'
+        return
+    if not exists(indir):
+        print '[ERROR] Input dir not exist'
+        return
+    Util.CreateDirs(outdir)
 
-# Run ST leptonic GenPerm
-print 'Start processing: STlep'
-output = open( join(outdir_lep,'summary_ST.txt'), 'w' )
+    # Command template
+    cmd = '{exe} {indir}/{{nt}}.root {outdir}/{{nt}}.root {mode}'.format(
+            exe=exe, indir=indir, outdir=outdir, mode='sig_test')
 
-for sample in nt_sig_STlep:
-    print mesg_sample.format(sample)
-    output.write( '\n'+mesg_sample.format(sample)+'\n' )
-    fp = os.popen( cmd_STlep_sig.format(nt=sample) )
-    output.write( fp.read() )
-    fp.close()
-for cat in nt_bkg:
-    for sample in nt_bkg[cat]:
-        print mesg_sample.format(sample)
-        output.write( '\n'+mesg_sample.format(sample)+'\n' )
-        fp = os.popen( cmd_STlep_bkg.format(nt=sample) )
-        output.write( fp.read() )
-        fp.close()
-print mesg_sample.format('data')
-output.write( '\n'+mesg_sample.format('data')+'\n' )
-fp = os.popen( cmd_STlep_bkg.format(nt='data') )
-output.write( fp.read() )
-fp.close()
+    # Process signal MC
+    for sigtype in sig_MC:
+        if sigtype[0]!=type or sigtype[1]!=ch:
+            continue
+        for nt in sig_MC[sigtype]:
+            Process(cmd, nt)
 
-output.close()
+    print '---Complete!\n\n\n'
+# End of function GenPerm_sig_test
 
-print 'End!'
+
+def GenPerm_sig_false(indir_name, outdir_name, type, ch):
+    print '---Start running: GenPerm_sig_false'
+    print '---Input dir: {}'.format(indir_name)
+    print '---Output dir: {}'.format(outdir_name)
+    print '---Signal type/channel: {}/{}'.format(type, ch)
+    if type!='TT' and type!='ST':
+        print '[ERROR] Invalid signal type'
+        return
+    if ch!='had' and ch!='lep':
+        print '[ERROR] Invalid channel'
+        return
+    # Set paths
+    exe_name = dict_false[(type, ch)]
+    exe = join(Path.dir_bin, exe_name)
+    indir = join(Path.dir_2017, indir_name)
+    outdir = join(Path.dir_2017, outdir_name)
+    if not exists(exe):
+        print '[ERROR] Executable not exist'
+        return
+    if not exists(indir):
+        print '[ERROR] Input dir not exist'
+        return
+    Util.CreateDirs(outdir)
+
+    # Command template
+    cmd = '{exe} {indir}/{{nt}}.root {outdir}/{{nt}}.root {mode}'.format(
+            exe=exe, indir=indir, outdir=outdir, mode='bkg')
+
+    # Process signal MC
+    for sigtype in sig_MC:
+        if sigtype[0]!=type or sigtype[1]!=ch:
+            continue
+        for nt in sig_MC[sigtype]:
+            Process(cmd, nt)
+
+    print '---Complete!\n\n\n'
+# End of function GenPerm_sig_false
+
+
+#def GenPerm_bkg(indir_name, outdir_name, type, ch):
+# End of function GenPerm_bkg
+
+
+if __name__ == '__main__':
+    ### Hadronic signal
+    ## Input for MVA training
+    #GenPerm_sig_train('GenPermInput_had/train_set', 'MVAreco_perm_had/Train_input', 'TT', 'had')
+    #GenPerm_sig_train('GenPermInput_had/train_set', 'MVAreco_perm_had/Train_input', 'ST', 'had')
+    ## Training set
+    #GenPerm_sig_test('GenPermInput_had/train_set', 'MVAreco_perm_had/train_set', 'TT', 'had')
+    #GenPerm_sig_test('GenPermInput_had/train_set', 'MVAreco_perm_had/train_set', 'ST', 'had')
+    #GenPerm_sig_false('GenPermInput_had/train_set', 'MVAreco_perm_had/train_set', 'TT', 'had')
+    #GenPerm_sig_false('GenPermInput_had/train_set', 'MVAreco_perm_had/train_set', 'ST', 'had')
+    ## Optimization set
+    #GenPerm_sig_test('GenPermInput_had/opt_set', 'MVAreco_perm_had/opt_set', 'TT', 'had')
+    #GenPerm_sig_test('GenPermInput_had/opt_set', 'MVAreco_perm_had/opt_set', 'ST', 'had')
+    #GenPerm_sig_false('GenPermInput_had/opt_set', 'MVAreco_perm_had/opt_set', 'TT', 'had')
+    #GenPerm_sig_false('GenPermInput_had/opt_set', 'MVAreco_perm_had/opt_set', 'ST', 'had')
+    ## Fitting set
+    #GenPerm_sig_test('GenPermInput_had/fit_set', 'MVAreco_perm_had/fit_set', 'TT', 'had')
+    #GenPerm_sig_test('GenPermInput_had/fit_set', 'MVAreco_perm_had/fit_set', 'ST', 'had')
+    #GenPerm_sig_false('GenPermInput_had/fit_set', 'MVAreco_perm_had/fit_set', 'TT', 'had')
+    #GenPerm_sig_false('GenPermInput_had/fit_set', 'MVAreco_perm_had/fit_set', 'ST', 'had')
+
+    ## Leptonic signal
+    # Input for MVA training
+    GenPerm_sig_train('GenPermInput_lep/train_set', 'MVAreco_perm_lep/Train_input', 'TT', 'lep')
+    GenPerm_sig_train('GenPermInput_lep/train_set', 'MVAreco_perm_lep/Train_input', 'ST', 'lep')
+    # Training set
+    GenPerm_sig_test('GenPermInput_lep/train_set', 'MVAreco_perm_lep/train_set', 'TT', 'lep')
+    GenPerm_sig_test('GenPermInput_lep/train_set', 'MVAreco_perm_lep/train_set', 'ST', 'lep')
+    GenPerm_sig_false('GenPermInput_lep/train_set', 'MVAreco_perm_lep/train_set', 'TT', 'lep')
+    GenPerm_sig_false('GenPermInput_lep/train_set', 'MVAreco_perm_lep/train_set', 'ST', 'lep')
+    # Optimization set
+    GenPerm_sig_test('GenPermInput_lep/opt_set', 'MVAreco_perm_lep/opt_set', 'TT', 'lep')
+    GenPerm_sig_test('GenPermInput_lep/opt_set', 'MVAreco_perm_lep/opt_set', 'ST', 'lep')
+    GenPerm_sig_false('GenPermInput_lep/opt_set', 'MVAreco_perm_lep/opt_set', 'TT', 'lep')
+    GenPerm_sig_false('GenPermInput_lep/opt_set', 'MVAreco_perm_lep/opt_set', 'ST', 'lep')
+    # Fitting set
+    GenPerm_sig_test('GenPermInput_lep/fit_set', 'MVAreco_perm_lep/fit_set', 'TT', 'lep')
+    GenPerm_sig_test('GenPermInput_lep/fit_set', 'MVAreco_perm_lep/fit_set', 'ST', 'lep')
+    GenPerm_sig_false('GenPermInput_lep/fit_set', 'MVAreco_perm_lep/fit_set', 'TT', 'lep')
+    GenPerm_sig_false('GenPermInput_lep/fit_set', 'MVAreco_perm_lep/fit_set', 'ST', 'lep')
