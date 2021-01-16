@@ -3,3 +3,16 @@
 src/Presel_CorrSyst.cc:
 Process flashgg n-tuples (central & systematics). Apply corrections and parts of preselection.
 Run with script/Presel_basic.py
+Output:
+    Presel_basic/
+    Systematics/Presel_basic/
+
+src/Presel_had.cc Presel_lep.cc Presel_photonIDMVA.cc Presel_btag.cc:
+Apply further preselection on each sample.
+Run with script/Presel_general.py
+Central:
+    input: Presel_basic/
+    output: Presel_had_phID_btag-L/ Presel_lep_phID/
+Systematics:
+    input: Systematics/Presel_basic/
+    output: Systematics/Presel_had_phID_btag-L/ Systematics/Presel_lep_phID

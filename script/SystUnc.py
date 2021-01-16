@@ -43,3 +43,14 @@ Syst_weight_1 = [
         'electronVetoSF',
         'TriggerWeight',
         ]
+
+Syst_weight_2 = [
+        'ElecReco',
+        'ElecID',
+        'MuonID',
+        'MuonISO',
+        ]
+
+Syst_weight_3 = [
+        'btagJES',
+        ]
