@@ -1,5 +1,7 @@
 ## Workflow
 
+---Preselection---
+
 src/Presel_CorrSyst.cc:
 Process flashgg n-tuples (central & systematics). Apply corrections and parts of preselection.
 Run with script/Presel_basic.py
@@ -15,4 +17,16 @@ Central:
     output: Presel_had_phID_btag-L/ Presel_lep_phID/
 Systematics:
     input: Systematics/Presel_basic/
-    output: Systematics/Presel_had_phID_btag-L/ Systematics/Presel_lep_phID
+    output: Systematics/Presel_had_phID_btag-L/ Systematics/Presel_lep_phID/
+
+
+---Normalization---
+
+macro/NormFactor/NormFactor.cc:
+Calculate and save norm factors for MC samples.
+For samples with multiple root files, call SumWeight.sh to calculate sum of genweight.
+SumWeight.sh uses CreateWeight.cc & src/AddWeight.cc.
+Input: flashgg n-tuples
+Output:
+    sumweight/
+    normfactor/
