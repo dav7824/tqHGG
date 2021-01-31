@@ -84,14 +84,6 @@ ${BIN}/SFcalc_%: ${BUI}/SFcalc_%.o
 	@echo "[MAKE] Making $@"
 	${CC} -o $@ $^ ${ROOTLIB}
 
-${BIN}/SFbtag_extrapolation: ${BUI}/SFbtag_extrapolation.o
-	@echo "[MAKE] Making $@"
-	${CC} -o $@ $^ ${ROOTLIB}
-
-${BIN}/SFbtag_extrapolation_add: ${BUI}/SFbtag_extrapolation_add.o
-	@echo "[MAKE] Making $@"
-	${CC} -o $@ $^ ${ROOTLIB}
-
 ${BIN}/CountEvents: ${BUI}/CountEvents.o
 	@echo "[MAKE] Making $@"
 	${CC} -o $@ $^ ${ROOTLIB}
@@ -120,6 +112,10 @@ ${BIN}/MakeWeight: ${BUI}/MakeWeight.o
 	@echo "[MAKE] Making $@"
 	${CC} -o $@ $^ ${ROOTLIB}
 
+${BIN}/MakeWeight_data: ${BUI}/MakeWeight_data.o
+	@echo "[MAKE] Making $@"
+	${CC} -o $@ $^ ${ROOTLIB}
+
 ${BIN}/AddWeight: ${BUI}/AddWeight.o
 	@echo "[MAKE] Making $@"
 	${CC} -o $@ $^ ${ROOTLIB}
@@ -140,7 +136,7 @@ ${BUI}/SFcalc_btag.o: ${SRC}/SFcalc_btag.cc ${INC}/BTagCalibrationStandalone.h $
 	@echo "[MAKE] Making $@"
 	${CC} -c -o $@ $< ${ROOTFLAG} -I. -Wno-write-strings
 
-${BUI}/SFbtag_extrapolation.o: ${SRC}/SFbtag_extrapolation.cc ${INC}/BTagCalibrationStandalone.h ${INC}/BTagCalibrationStandalone.cpp
+${BUI}/SFcalc_btag_factor.o: ${SRC}/SFcalc_btag_factor.cc ${INC}/BTagCalibrationStandalone.h ${INC}/BTagCalibrationStandalone.cpp
 	@echo "[MAKE] Making $@"
 	${CC} -c -o $@ $< ${ROOTFLAG} -I. -Wno-write-strings
 

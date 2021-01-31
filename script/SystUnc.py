@@ -38,19 +38,27 @@ Syst_tree_2 = [
         ]
 
 Syst_weight_1 = [
-        'LooseMvaSF',
-        'PreselSF',
-        'electronVetoSF',
-        'TriggerWeight',
+        'DiPhoLooseMvaSF',
+        'DiPhoPreselSF',
+        'DiPhoelectronVetoSF',
+        'DiPhoTriggerWeight',
         ]
 
 Syst_weight_2 = [
         'ElecReco',
-        'ElecID',
-        'MuonID',
-        'MuonISO',
+        'ElecId',
+        'MuonId',
+        'MuonIso',
         ]
 
 Syst_weight_3 = [
-        'btagJES',
+        'btagjes',
+        'btaglf',
+        'btaghf',
+        'btaglfstats1',
+        'btaglfstats2',
+        'btaghfstats1',
+        'btaghfstats2',
+        'btagcferr1',
+        'btagcferr2',
         ]

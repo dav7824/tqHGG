@@ -19,6 +19,10 @@ Systematics:
     input: Systematics/Presel_basic/
     output: Systematics/Presel_had_phID_btag-L/ Systematics/Presel_lep_phID/
 
+Note:
+- After preselection, in leptonic channel "QCD_Pt-30to40_MGG-80toInf" sample doesn't have any
+  event left.
+
 
 ---Normalization---
 
@@ -30,3 +34,49 @@ Input: flashgg n-tuples
 Output:
     sumweight/
     normfactor/
+
+
+---Scale Factors---
+
+src/SFcalc_PU.cc SFcalc_Electron.cc SFcalc_Muon.cc:
+Calculate SFs and add them to event tree. The original tree is overwritten.
+Run with script/AddScaleFactors.py
+For signal MC & resonant bkg MC, systematic uncertainty weights are also saved.
+Input:
+    hadronic: Presel_had_phID_btag-L/
+    leptonic: Presel_lep_phID/
+
+src/SFcalc_btag_factor.cc:
+Calculate b-tagging SF extrapolation factor for each MC sample.
+Run with script/AddScaleFactors.py
+Run before applying any cut on b-tagging score.
+Input:
+    hadronic: Presel_had_phID/
+    leptonic: Presel_lep_phID/
+Output:
+    hadronic: SFbtag_extrapolation_had/
+    leptonic: SFbtag_extrapolation_lep/
+Note: Run SFcalc_PU, SFcalc_Electron, SFcalc_Muon first on the samples.
+
+src/SFcalc_btag.cc:
+Calculate b-tagging SF & add them to event tree. The original tree is overwritten.
+Run with script/AddScaleFactors.py
+For signal MC & resonant bkg MC, systematic uncertainty weights are also saved.
+Input:
+    hadronic: Presel_had_phID_btag-L/ SFbtag_extrapolation_had/
+    leptonic: Presel_lep_phID/ SFbtag_extrapolation_lep/
+
+src/MakeWeight.cc:
+Calculate event weight for MC samples after getting all SFs.
+Run with script/AddScaleFactors.py
+For signal MC & resonant bkg MC, event weight with syst uncertainty variation is also saved.
+Input:
+    hadronic: Presel_had_phID_btag-L/
+    leptonic: Presel_lep_phID/
+
+src/MakeWeight_data.cc:
+Adding SFs & event weights to data tree to make it consistent with MC trees.
+Central SFs & weight are saved as 1 and syst uncertainty SFs & weights are saved as -999.
+Input:
+    hadronic: Presel_had_phID_btag-L/data.root
+    leptonic: Presel_lep_phID/data.root

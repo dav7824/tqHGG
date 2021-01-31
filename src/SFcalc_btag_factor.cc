@@ -1,19 +1,17 @@
 /*
- * Calculate extrapolation factor of b-tagging SF.
- * More info: https://twiki.cern.ch/twiki/bin/viewauth/CMS/BTagShapeCalibration
+ * Calculate b-tagging SF extrapolation.
+ * Do it before apply b-tag score cut.
  *
  * Usage:
- *   ./SFbtag_extrapolation <fin> <csv> <fout>
+ *   ./SFcalc_btag_factor <fin> <fout> <csv>
  */
 
 #include "include/BTagCalibrationStandalone.h"
 #include "include/BTagCalibrationStandalone.cpp"
-
 #include "TString.h"
 #include "TFile.h"
 #include "TTree.h"
 #include "TH1D.h"
-
 #include <iostream>
 #include <cstdlib>
 #include <cmath>
@@ -22,63 +20,46 @@ using namespace std;
 
 int main(int argc, char **argv)
 {
-    // Command line arguments
-    TString fin_name = argv[1];
-    TString csv_name = argv[2];
-    TString fout_name = argv[3];
+    // Get command line arguments
+    TString fin_name(argv[1]);
+    TString fout_name(argv[2]);
+    TString fin_csv(argv[3]);
 
-    // Read & set input tree
-    cout << "[INFO] Openning file: " << fin_name << endl;
+    // Read SF CSV
+    BTagCalibration bc("csv", fin_csv.Data());
+    // Reshaping
+    BTagCalibrationReader bcr(BTagEntry::OP_RESHAPING);
+    bcr.load(bc, BTagEntry::FLAV_B, "iterativefit");
+    bcr.load(bc, BTagEntry::FLAV_C, "iterativefit");
+    bcr.load(bc, BTagEntry::FLAV_UDSG, "iterativefit");
+
+    // Read input tree
+    cout << "[INFO] Reading file: " << fin_name << endl;
     TFile *fin = new TFile(fin_name);
     TTree *T = (TTree*)fin->Get("T");
-    float genweight = 0;
+    // Set branches
+    float Evt_genweight = 0;
+    float DiPho_centralWeight = 0;
     int jets_size = 0;
     vector<float> *Jet_Pt = 0;
     vector<float> *Jet_Eta = 0;
     vector<float> *Jet_probb = 0;
     vector<float> *Jet_probbb = 0;
     vector<int> *Jet_GenHadronFlavor = 0;
-    T->SetBranchStatus("*", 0);
-    T->SetBranchStatus("EvtInfo.genweight", 1);
-    T->SetBranchStatus("jets_size", 1);
-    T->SetBranchStatus("JetInfo.Pt", 1);
-    T->SetBranchStatus("JetInfo.Eta", 1);
-    T->SetBranchStatus("JetInfo.pfDeepCSVJetTags_probb", 1);
-    T->SetBranchStatus("JetInfo.pfDeepCSVJetTags_probbb", 1);
-    T->SetBranchStatus("JetInfo.GenHadronFlavor", 1);
-    T->SetBranchAddress("EvtInfo.genweight", &genweight);
+    float SF_pileup = 0;
+    float SF_Elec = 0;
+    float SF_Muon = 0;
+    T->SetBranchAddress("EvtInfo.genweight", &Evt_genweight);
+    T->SetBranchAddress("DiPhoInfo.centralWeight", &DiPho_centralWeight);
     T->SetBranchAddress("jets_size", &jets_size);
     T->SetBranchAddress("JetInfo.Pt", &Jet_Pt);
     T->SetBranchAddress("JetInfo.Eta", &Jet_Eta);
     T->SetBranchAddress("JetInfo.pfDeepCSVJetTags_probb", &Jet_probb);
     T->SetBranchAddress("JetInfo.pfDeepCSVJetTags_probbb", &Jet_probbb);
     T->SetBranchAddress("JetInfo.GenHadronFlavor", &Jet_GenHadronFlavor);
-
-    // If the tree has 0 entries, save extrapolation factor as 1
-    if (T->GetEntries() == 0) {
-        cout << "The tree has 0 entries.  Save extrapolation factor as 1.\n";
-        // Save result
-        TFile *fout = new TFile(fout_name, "recreate");
-        TH1D *hh = new TH1D("btag_factor", "", 1, 0, 1);
-        hh->SetBinContent(1, 1);
-        fout->Write();
-        fout->Close();
-
-        fin->Close();
-
-        cout << "[INFO] Output saved: " << fout_name << endl;
-
-        return 0;
-    }
-
-    // Read b-tagging SF csv
-    cout << "[INFO] Openning csv: " << csv_name << endl;
-    BTagCalibration bc("csv", csv_name.Data());
-    // Reshaping
-    BTagCalibrationReader bcr(BTagEntry::OP_RESHAPING);
-    bcr.load(bc, BTagEntry::FLAV_B, "iterativefit");
-    bcr.load(bc, BTagEntry::FLAV_C, "iterativefit");
-    bcr.load(bc, BTagEntry::FLAV_UDSG, "iterativefit");
+    T->SetBranchAddress("SF_pileup", &SF_pileup);
+    T->SetBranchAddress("SF_Elec", &SF_Elec);
+    T->SetBranchAddress("SF_Muon", &SF_Muon);
 
     float sumwei_before = 0;  // Sum of weight before applying b-tagging SF
     float sumwei_after = 0;  // Sum of weight after applying b-tagging SF
@@ -88,8 +69,9 @@ int main(int argc, char **argv)
     {
         T->GetEntry(evt);
         float SF_btag = 1;
+        float wei_before = Evt_genweight * DiPho_centralWeight * SF_pileup * SF_Elec * SF_Muon;
 
-        sumwei_before += genweight;
+        sumwei_before += wei_before;
 
         // Start jet loop
         for (int i=0; i<jets_size; ++i) {
@@ -112,19 +94,21 @@ int main(int argc, char **argv)
             SF_btag *= sf;
         } // End of jet loop
 
-        sumwei_after += genweight * SF_btag;
+        sumwei_after += wei_before * SF_btag;
     } // End event loop
+
+    fin->Close();
+
+    // b-tagging SF factor
+    float bfactor = sumwei_before / sumwei_after;
+    cout << "[INFO] b-tag factor = " << bfactor << endl;
 
     // Save result
     TFile *fout = new TFile(fout_name, "recreate");
     TH1D *hh = new TH1D("btag_factor", "", 1, 0, 1);
-    hh->SetBinContent(1, sumwei_before/sumwei_after);
-    fout->Write();
+    hh->SetBinContent(1, bfactor);
+    hh->Write();
     fout->Close();
-
-    fin->Close();
-
-    cout << "[INFO] Output saved: " << fout_name << endl;
 
     return 0;
 }
