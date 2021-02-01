@@ -80,3 +80,13 @@ Central SFs & weight are saved as 1 and syst uncertainty SFs & weights are saved
 Input:
     hadronic: Presel_had_phID_btag-L/data.root
     leptonic: Presel_lep_phID/data.root
+
+script/AddScaleFactors_syst.py:  (to be run)
+Add SFs to systematic trees.
+Warning: Run all trees together will occupy hundreds of GBs volumn!
+Input:
+    hadronic: Systematics/Presel_had_phID_btag-L/
+    leptonic: Systematics/Presel_lep_phID/
+b-tag factor:
+    hadronic: SFbtag_extrapolation_had/
+    leptonic: SFbtag_extrapolation_lep/
