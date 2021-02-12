@@ -28,21 +28,21 @@ int main(int argc, char **argv)
     CreateHist(hists, "dipho_mass", "diphoton mass", 8, 100, 180, "GeV");
     CreateHist(hists, "dipho_pt", "diphoton pt", 10, 0, 260, "GeV");
     CreateHist(hists, "dipho_mva", "diphoton MVA", 10, -1, 1, "");
-    CreateHist(hists, "dipho_idmva1", "#gamma IDMVA high", 10, -1, 1, "");
-    CreateHist(hists, "dipho_idmva2", "#gamma IDMVA low", 10, -1, 1, "");
+    CreateHist(hists, "dipho_idmva1", "#gamma IDMVA high", 10, -0.7, 1, "");
+    CreateHist(hists, "dipho_idmva2", "#gamma IDMVA low", 10, -0.7, 1, "");
     // Leading photon
     CreateHist(hists, "pho1_pt", "lead #gamma pt", 10, 35, 245, "GeV");
     CreateHist(hists, "pho1_eta", "lead #gamma #eta", 10, -2.5, 2.5, "");
     CreateHist(hists, "pho1_phi", "lead #gamma #phi", 10, -3.5, 3.5, "");
     CreateHist(hists, "pho1_E", "lead #gamma energy", 10, 35, 585, "GeV");
-    CreateHist(hists, "pho1_idmva", "lead #gamma IDMVA", 10, -1, 1, "");
+    CreateHist(hists, "pho1_idmva", "lead #gamma IDMVA", 10, -0.7, 1, "");
     CreateHist(hists, "pho1_PixelSeed", "lead #gamma pixel seed", 2, 0, 2, "");
     // Subleading photon
     CreateHist(hists, "pho2_pt", "sublead #gamma pt", 10, 25, 125, "GeV");
     CreateHist(hists, "pho2_eta", "sublead #gamma #eta", 10, -2.5, 2.5, "");
     CreateHist(hists, "pho2_phi", "sublead #gamma #phi", 10, -3.5, 3.5, "");
     CreateHist(hists, "pho2_E", "sublead #gamma energy", 10, 25, 305, "GeV");
-    CreateHist(hists, "pho2_idmva", "sublead #gamma IDMVA", 10, -1, 1, "");
+    CreateHist(hists, "pho2_idmva", "sublead #gamma IDMVA", 10, -0.7, 1, "");
     CreateHist(hists, "pho2_PixelSeed", "sublead #gamma pixel seed", 2, 0, 2, "");
     // Jet
     CreateHist(hists, "jet_N", "# of jets", 13, -0.5, 12.5, "");

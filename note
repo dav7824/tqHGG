@@ -81,6 +81,7 @@ Input:
     hadronic: Presel_had_phID_btag-L/data.root
     leptonic: Presel_lep_phID/data.root
 
+---
 script/AddScaleFactors_syst.py:  (to be run)
 Add SFs to systematic trees.
 Warning: Run all trees together will occupy hundreds of GBs volumn!
@@ -90,3 +91,62 @@ Input:
 b-tag factor:
     hadronic: SFbtag_extrapolation_had/
     leptonic: SFbtag_extrapolation_lep/
+---
+
+
+---Event yield---
+
+macro/yields/GetYields_had.cc:
+Calculate event yields for hadronic preselection. (without data-driven QCD)
+Input: Presel_had_phID_btag-L/
+Output: Presel_had_phID_btag-L/yields.log
+
+macro/yields/GetYields_lep.cc
+Calculate event yields for leptonic preselection.
+Input: Presel_lep_phID/
+Output: Presel_lep_phID/yields.log
+
+
+---Fill histograms---
+
+src/FillHist_had.cc FillHist_lep.cc:
+Fill histograms for each sample using their event trees.
+Run with script/FillHist.py.
+Hadronic channel:
+  Input: Presel_had_phID_btag-L/
+  Output: Presel_had_phID_btag-L/hist/
+Leptonic channel:
+  Input: Presel_lep_phID/
+  Output: Presel_lep_phID/hist/
+
+
+---Make stacked plots---
+
+macro/PlotHist/PlotHist_had_v2.cc:
+Make stacked plots using histograms from all hadronic samples.
+Input: Presel_had_phID_btag-L/hist/
+Output: Presel_had_phID_btag-L/plots/
+
+macro/PlotHist/PlotHist_lep_v2.cc:
+Make stacked plots using histograms from all leptonic samples.
+Input: Presel_lep_phID/hist/
+Output: Presel_lep_phID/plots/
+
+
+---Data-driven QCD---
+
+src/Presel_had_phIDSB.cc:
+Select events in photon MVA ID sideband (hadronic channel).
+Run with script/Presel_general.py.
+Input: Presel_had/
+Output: Presel_had_phIDSB/
+
+macro/Data-driven_QCD/:
+Macros for producing data-driven QCD samples.
+See macro/Data-driven_QCD/note for more info.
+
+macro/yields/GetYields_had_DDqcd.cc:
+Calculating event yields using data-driven sample tree.
+
+macro/PlotHist/PlotHist_had_DDqcd.cc:
+Making stacked plots using data-driven sample histograms.

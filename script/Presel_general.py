@@ -138,4 +138,7 @@ if __name__ == '__main__':
     #ProcSysts('Presel_photonIDMVA', 'Presel_had', 'Presel_had_phID', 'had')
     #ProcSysts('Presel_photonIDMVA', 'Presel_lep', 'Presel_lep_phID', 'lep')
     # b-tag requirement
-    ProcSysts('Presel_btag', 'Presel_had_phID', 'Presel_had_phID_btag-L', 'had', '2017 L')
+    #ProcSysts('Presel_btag', 'Presel_had_phID', 'Presel_had_phID_btag-L', 'had', '2017 L')
+
+    ## Photon MVA ID sideband (central)
+    Selection('Presel_had_phIDSB', 'Presel_had', 'Presel_had_phIDSB', 'had')

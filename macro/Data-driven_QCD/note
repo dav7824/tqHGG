@@ -1,0 +1,20 @@
+---Deriving fake photon PDF:
+Sample: GJet_*
+Selection: Hadronic selection, without photon IDMVA cuts & b-tag criterion
+
+-Fitting:
+Fitted NLL values:
+6th poly = 6420.63    (0,0,-1,0,0,2)
+7th poly = 6413.4    (0,1,0,0,0,0,-1)
+8th poly = 6408.22    (0,0,-1,0,0,0,0,2)
+
+
+---Readme
+-GetFakeHist.cc:
+Fill fake photon IDMVA histogram with MC tree.
+-GetFakePdf.cc:
+Fit the histogram for fake photon PDF.
+-ReweightData.cc:
+Use IDMVA sideband data to produce data-driven QCD sample.
+-TemplateFit.cc:
+Perform template fit to get SFs. Also a few other operations.

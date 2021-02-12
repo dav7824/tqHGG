@@ -86,5 +86,5 @@ def FillHist_BDT(exe_name, indir_name, outdir_name, weight, ch):
 '''
 
 if __name__ == '__main__':
-    #FillHist('FillHist_had', 'Presel_had_phID_btag-L', 'Presel_had_phID_btag-L/hist', 'had')
+    FillHist('FillHist_had', 'Presel_had_phID_btag-L', 'Presel_had_phID_btag-L/hist', 'had')
     FillHist('FillHist_lep', 'Presel_lep_phID', 'Presel_lep_phID/hist', 'lep')
