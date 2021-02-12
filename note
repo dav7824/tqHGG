@@ -150,3 +150,14 @@ Calculating event yields using data-driven sample tree.
 
 macro/PlotHist/PlotHist_had_DDqcd.cc:
 Making stacked plots using data-driven sample histograms.
+
+
+---Find gen-particles---
+
+src/FindGenPart.cc:
+Find hard-interacting gen-particles for signal MC events. (needed for MVA event reconstruction)
+New trees containing gen-particle indices are added to the input files.
+Run with script/FindGenPart.py.
+Input:
+  Hadronic: Presel_had_phID_btag-L/
+  Leptonic: Presel_lep_phID/
