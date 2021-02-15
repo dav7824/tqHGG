@@ -36,6 +36,9 @@ def GetEntries(indir_name, ch):
     # Process bkg MC
     for cat in bkg_MC:
         for nt in bkg_MC[cat]:
+            # Skip empty sample
+            if ch=='lep' and nt=='QCD_Pt-30to40_MGG-80toInf':
+                continue
             fin = join(indir, nt+'.root')
             entries.append( (nt, Process(fin, treename)) )
     # Process data

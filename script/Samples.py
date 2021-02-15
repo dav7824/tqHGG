@@ -97,37 +97,3 @@ bkg_MC_file = {
             'ttHJetToGG_M125_13TeV_amcatnloFXFX_madspin_pythia8/*.root'
             ],
         }
-
-'''
-bkg_MC_leg = {
-        'GGJets': '#gamma#gamma+jets',
-        'GJet': '#gamma+jets',
-        'QCD': 'QCD',
-        'TGJets': 't#gamma+jets',
-        'tW': 't+W',
-        'TTGG': 't#bar{t}#gamma#gamma',
-        'TTGJets': 't#bar{t}#gamma+jets',
-        'TTJets': 't#bar{t}+jets',
-        'TTV': 't#bar{t}+V',
-        'DY': 'DY',
-        'VG': 'V#gamma',
-        'VV': 'VV',
-        'Higgs': 'SM_Higgs',
-        }
-
-bkg_MC_stack_order = [
-        'Higgs',
-        'TTGG',
-        'TTGJets',
-        'TTJets',
-        'TTV',
-        'TGJets',
-        'tW',
-        'VG',
-        'VV',
-        'DY',
-        'GGJets',
-        'GJet',
-        'QCD',
-        ]
-        '''

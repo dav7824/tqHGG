@@ -1,9 +1,18 @@
 #!/usr/bin/env python2
 
-import Path, Util, Samples
+import Path, Util
 import os, sys
 from os.path import join, exists
-from Samples import sig_MC_s, bkg_MC_s
+from Samples import sig_MC, bkg_MC
+
+# For the following samples & data-driven QCD (derived from data), run DivideSamples_v4.
+# For the other samples, run DivideSamples_v3.
+sample_evtidx = [
+        'GJet_Pt-20to40_MGG-80toInf',
+        'QCD_Pt-30to40_MGG-80toInf',
+        'QCD_Pt-30toInf_MGG-40to80',
+        'QCD_Pt-40toInf_MGG-80toInf',
+        ]
 
 
 def Process(cmd, nt):
@@ -13,251 +22,238 @@ def Process(cmd, nt):
     fp.close()
 
 
-# Divide non-resonant bkg MC as 2 parts
-def Divide_nonres_bkg(indir_name, tree, outdir1_name, outdir2_name, ch):
-    print 'Start dividing non-resonant bkg tree:', tree
-    exe = join(Path.dir_bin, 'DivideSamples_v1')
+def DivideSig(indir_name, tree_list, outdir_name_list, ch):
+    # Set paths
+    exe = join(Path.dir_bin, 'DivideSamples_v3')
     indir = join(Path.dir_2017, indir_name)
-    outdir1 = join(Path.dir_2017, outdir1_name)
-    outdir2 = join(Path.dir_2017, outdir2_name)
-
     if not exists(exe):
         print '[ERROR] Executable does not exist'
-        sys.exit(1)
+        return
     if not exists(indir):
         print '[ERROR] Input dir does not exist'
-        sys.exit(1)
+        return
     if ch != 'had' and ch != 'lep':
         print '[ERROR] Invalid channel!'
-        sys.exit(1)
-    Util.CreateDir(outdir1)
-    Util.CreateDir(outdir2)
+        return
+
+    outdir_list = []
+    fout_list = []
+    for i in outdir_name_list:
+        outdir_list.append( join(Path.dir_2017,i) )
+    for i in outdir_list:
+        Util.CreateDirs(i)
+        fout_list.append( join(i,'{nt}.root') )
 
     # Command template
-    cmd = '{bin} {indir}/{{nt}}.root {tree} {outdir1}/{{nt}}.root {outdir2}/{{nt}}.root'.format(
-            bin=exe, indir=indir, tree=tree, outdir1=outdir1, outdir2=outdir2)
-
-    # Process non-resonant bkg MC
-    for cat in bkg_MC_s:
-        if cat == 'Higgs':
-            continue
-        for nt in bkg_MC_s[cat]:
-            # Skip empty tree
-            if ch == 'lep' and nt == 'QCD_Pt-30to40_MGG-80toInf':
-                continue
-            Process(cmd, nt)
-
-    print 'Complete dividing non-resonant bkg tree:', tree
-# End of function Divide_nonres_bkg
-
-
-# Divide resonant bkg MC as 3 parts
-def Divide_res_bkg(indir_name, tree, outdir1_name, outdir2_name, outdir3_name, ch):
-    print 'Start dividing resonant bkg tree:', tree
-    exe = join(Path.dir_bin, 'DivideSamples_v2')
-    indir = join(Path.dir_2017, indir_name)
-    outdir1 = join(Path.dir_2017, outdir1_name)
-    outdir2 = join(Path.dir_2017, outdir2_name)
-    outdir3 = join(Path.dir_2017, outdir3_name)
-
-    if not exists(exe):
-        print '[ERROR] Executable does not exist'
-        sys.exit(1)
-    if not exists(indir):
-        print '[ERROR] Input dir does not exist'
-        sys.exit(1)
-    if ch != 'had' and ch != 'lep':
-        print '[ERROR] Invalid channel!'
-        sys.exit(1)
-    Util.CreateDir(outdir1)
-    Util.CreateDir(outdir2)
-    Util.CreateDir(outdir3)
-
-    # Command template
-    cmd = '{bin} {indir}/{{nt}}.root {tree} {outdir1}/{{nt}}.root {outdir2}/{{nt}}.root {outdir3}/{{nt}}.root'.format(
-            bin=exe, indir=indir, tree=tree, outdir1=outdir1, outdir2=outdir2, outdir3=outdir3)
-
-    # Process resonant bkg MC
-    for nt in bkg_MC_s['Higgs']:
-        Process(cmd, nt)
-
-    print 'Complete dividing resonant bkg tree:', tree
-# End of function Divide_res_bkg
-
-
-# Divide signal MC as 3 parts
-def Divide_sig(indir_name, tree, outdir1_name, outdir2_name, outdir3_name, ch):
-    print 'Start dividing signal tree:', tree
-    exe = join(Path.dir_bin, 'DivideSamples_v2')
-    indir = join(Path.dir_2017, indir_name)
-    outdir1 = join(Path.dir_2017, outdir1_name)
-    outdir2 = join(Path.dir_2017, outdir2_name)
-    outdir3 = join(Path.dir_2017, outdir3_name)
-
-    if not exists(exe):
-        print '[ERROR] Executable does not exist'
-        sys.exit(1)
-    if not exists(indir):
-        print '[ERROR] Input dir does not exist'
-        sys.exit(1)
-    if ch != 'had' and ch != 'lep':
-        print '[ERROR] Invalid channel!'
-        sys.exit(1)
-    Util.CreateDir(outdir1)
-    Util.CreateDir(outdir2)
-    Util.CreateDir(outdir3)
-
-    # Command template
-    cmd = '{bin} {indir}/{{nt}}.root {tree} {outdir1}/{{nt}}.root {outdir2}/{{nt}}.root {outdir3}/{{nt}}.root'.format(
-            bin=exe, indir=indir, tree=tree, outdir1=outdir1, outdir2=outdir2, outdir3=outdir3)
+    cmd = '{bin} {indir}/{{nt}}.root {tree_list} {fout_list}'.format(
+            bin=exe, indir=indir, tree_list=','.join(tree_list), fout_list=','.join(fout_list) )
 
     # Process signal MC
-    for sigtype in sig_MC_s:
+    for sigtype in sig_MC:
         if sigtype[1] != ch:
             continue
-        for nt in sig_MC_s[sigtype]:
+        for nt in sig_MC[sigtype]:
             Process(cmd, nt)
-
-    print 'Complete dividing signal tree:', tree
-# End of function Divide_sig
+# End of function DivideSig
 
 
-def Divide_data(indir_name, tree, outdir1_name, outdir2_name, ch):
-    print 'Start dividing data tree:', tree
-    exe = join(Path.dir_bin, 'DivideSamples_v1')
+def DivideResBkg(indir_name, tree_list, outdir_name_list, ch):
+    # Set paths
+    exe = join(Path.dir_bin, 'DivideSamples_v3')
     indir = join(Path.dir_2017, indir_name)
-    outdir1 = join(Path.dir_2017, outdir1_name)
-    outdir2 = join(Path.dir_2017, outdir2_name)
-
     if not exists(exe):
         print '[ERROR] Executable does not exist'
-        sys.exit(1)
+        return
     if not exists(indir):
         print '[ERROR] Input dir does not exist'
-        sys.exit(1)
+        return
     if ch != 'had' and ch != 'lep':
         print '[ERROR] Invalid channel!'
-        sys.exit(1)
-    if not exists(outdir1):
-        Util.CreateDir(outdir1)
-    if not exists(outdir2):
-        Util.CreateDir(outdir2)
+        return
+
+    outdir_list = []
+    fout_list = []
+    for i in outdir_name_list:
+        outdir_list.append( join(Path.dir_2017,i) )
+    for i in outdir_list:
+        Util.CreateDirs(i)
+        fout_list.append( join(i,'{nt}.root') )
 
     # Command template
-    cmd = '{bin} {indir}/{{nt}}.root {tree} {outdir1}/{{nt}}.root {outdir2}/{{nt}}.root'.format(
-            bin=exe, indir=indir, tree=tree, outdir1=outdir1, outdir2=outdir2)
+    cmd = '{bin} {indir}/{{nt}}.root {tree_list} {fout_list}'.format(
+            bin=exe, indir=indir, tree_list=','.join(tree_list), fout_list=','.join(fout_list) )
 
-    Process(cmd, 'data')
+    # Process resonant bkg MC
+    for nt in bkg_MC['Higgs']:
+        Process(cmd, nt)
+# End of function DivideResBkg
 
-    print 'Complete dividing data tree:', tree
-# End of function Divide_data
+
+def DivideNonres(indir_name, tree_list, outdir_name_list, ch):
+    # Set paths
+    exe1 = join(Path.dir_bin, 'DivideSamples_v3')
+    exe2 = join(Path.dir_bin, 'DivideSamples_v4')
+    indir = join(Path.dir_2017, indir_name)
+    if not exists(exe1) or not exists(exe2):
+        print '[ERROR] Executable does not exist'
+        return
+    if not exists(indir):
+        print '[ERROR] Input dir does not exist'
+        return
+    if ch != 'had' and ch != 'lep':
+        print '[ERROR] Invalid channel!'
+        return
+
+    outdir_list = []
+    fout_list = []
+    for i in outdir_name_list:
+        outdir_list.append( join(Path.dir_2017,i) )
+    for i in outdir_list:
+        Util.CreateDirs(i)
+        fout_list.append( join(i,'{nt}.root') )
+
+    # Command template
+    cmd1 = '{bin} {indir}/{{nt}}.root {tree_list} {fout_list}'.format(
+            bin=exe1, indir=indir, tree_list=','.join(tree_list), fout_list=','.join(fout_list) )
+    cmd2 = '{bin} {indir}/{{nt}}.root {tree_list} {fout_list}'.format(
+            bin=exe2, indir=indir, tree_list=','.join(tree_list), fout_list=','.join(fout_list) )
+
+    # Process non-resonant bkg MC
+    for cat in bkg_MC:
+        if cat == 'Higgs':
+            continue
+        for nt in bkg_MC[cat]:
+            if ch=='lep' and nt=='QCD_Pt-30to40_MGG-80toInf':
+                continue
+            if nt in sample_evtidx:
+                Process(cmd2, nt)
+            else:
+                Process(cmd1, nt)
+    # Process data-driven QCD samples
+    if ch == 'had':
+        Process(cmd1, 'DiPhotonJetsBox_scaled')  # scaled DiPhotonJetsBox
+        Process(cmd2, 'Data-driven_QCD')  # data-driven QCD
+# End of function DivideNonres
+
+
+# Scale event weight after dividing samples
+# Note: For leptonic channel, 'QCD_Pt-30toInf_MGG-40to80' sample is not used anymore after
+# dividing samples for too few events. You can remove them manually.
+
+def ScaleWeight(indir_name, ch):
+    exe = join(Path.dir_bin, 'ScaleWeight')
+    indir = join(Path.dir_2017, indir_name)
+    if ch!='had' and ch!='lep':
+        print '[ERROR] Invalid channel'
+        return
+    if not exists(exe):
+        print '[ERROR] Executable not exist'
+        return
+    if not exists(indir):
+        print '[ERROR] Input dir not exist'
+        return
+
+    # Command template (process each divided set)
+    # signal & resonant bkg
+    cmd_3p = '''{exe} {indir}/train_set/{{nt}}.root {SF} {syst};
+    {exe} {indir}/opt_set/{{nt}}.root {SF} {syst};
+    {exe} {indir}/fit_set/{{nt}}.root {SF} {syst}'''.format(
+            exe=exe, indir=indir, SF='3', syst='syst')
+    # non-resonant bkg
+    cmd_2p = '''{exe} {indir}/train_set/{{nt}}.root {SF} {syst};
+    {exe} {indir}/opt_set/{{nt}}.root {SF} {syst}'''.format(
+            exe=exe, indir=indir, SF='2', syst='nosyst')
+
+    # Process signal
+    for sigtype in sig_MC:
+        if ch != sigtype[1]:
+            continue
+        for nt in sig_MC[sigtype]:
+            Process(cmd_3p, nt)
+    # Process resonant bkg
+    for nt in bkg_MC['Higgs']:
+        Process(cmd_3p, nt)
+    # Process non-resonant bkg
+    for cat in bkg_MC:
+        if cat == 'Higgs':
+            continue
+        for nt in bkg_MC[cat]:
+            if ch=='lep' and (nt=='QCD_Pt-30to40_MGG-80toInf' or nt=='QCD_Pt-30toInf_MGG-40to80'):
+                continue
+            Process(cmd_2p, nt)
+    # Process data-driven QCD samples
+    if ch == 'had':
+        Process(cmd_2p, 'DiPhotonJetsBox_scaled')
+        Process(cmd_2p, 'Data-driven_QCD')
+# End of function ScaleWeight
 
 
 if __name__ == '__main__':
-    # had signal
-    #indir_name = 'Presel_had_phID_btag-L__MVAreco-test'
-    #indir2_name = 'MVArecoV3_result_had/ANN_opt'
-    #outdir1_name = 'BDT_had/train'
-    #outdir2_name = 'optimization_had'
-    #outdir3_name = 'model_had'
-    #ch = 'had'
-    #Divide_sig(indir_name, 'T', outdir1_name, outdir2_name, outdir3_name, ch)
-    #Divide_sig(indir_name, 'SF_pileup', outdir1_name, outdir2_name, outdir3_name, ch)
-    #Divide_sig(indir_name, 'SF_btag', outdir1_name, outdir2_name, outdir3_name, ch)
-    #Divide_sig(indir2_name, 'Treco_TT', outdir1_name, outdir2_name, outdir3_name, ch)
-    #Divide_sig(indir2_name, 'Treco_ST', outdir1_name, outdir2_name, outdir3_name, ch)
+    ## hadronic channel
+    ## hadronic signal
+    #DivideSig(
+            #indir_name = 'Presel_had_phID_btag-L',
+            #tree_list = ['T', 'TGenPart'],
+            #outdir_name_list = [
+                #'Presel_had_phID_btag-L/train_set',
+                #'Presel_had_phID_btag-L/opt_set',
+                #'Presel_had_phID_btag-L/fit_set',
+                #],
+            #ch = 'had')
+    ## hadronic res-bkg
+    #DivideResBkg(
+            #indir_name = 'Presel_had_phID_btag-L',
+            #tree_list = ['T'],
+            #outdir_name_list = [
+                #'Presel_had_phID_btag-L/train_set',
+                #'Presel_had_phID_btag-L/opt_set',
+                #'Presel_had_phID_btag-L/fit_set',
+                #],
+            #ch = 'had')
+    ## hadronic non-res bkg
+    #DivideNonres(
+            #indir_name = 'Presel_had_phID_btag-L',
+            #tree_list = ['T'],
+            #outdir_name_list = [
+                #'Presel_had_phID_btag-L/train_set',
+                #'Presel_had_phID_btag-L/opt_set',
+                #],
+            #ch = 'had')
 
-    # lep signal
-    #indir_name = 'Presel_lep_phID__MVAreco-test'
-    #indir2_name = 'MVArecoV3_result_lep/ANN_opt'
-    #outdir1_name = 'BDT_lep/train'
-    #outdir2_name = 'optimization_lep'
-    #outdir3_name = 'model_lep'
-    #ch = 'lep'
-    #Divide_sig(indir_name, 'T', outdir1_name, outdir2_name, outdir3_name, ch)
-    #Divide_sig(indir_name, 'SF_pileup', outdir1_name, outdir2_name, outdir3_name, ch)
-    #Divide_sig(indir_name, 'SF_btag', outdir1_name, outdir2_name, outdir3_name, ch)
-    #Divide_sig(indir_name, 'SF_Elec', outdir1_name, outdir2_name, outdir3_name, ch)
-    #Divide_sig(indir_name, 'SF_Muon', outdir1_name, outdir2_name, outdir3_name, ch)
-    #Divide_sig(indir2_name, 'Treco_TT', outdir1_name, outdir2_name, outdir3_name, ch)
-    #Divide_sig(indir2_name, 'Treco_ST', outdir1_name, outdir2_name, outdir3_name, ch)
+    ## leptonic channel
+    ## leptonic signal
+    #DivideSig(
+            #indir_name = 'Presel_lep_phID',
+            #tree_list = ['T', 'TGenPart'],
+            #outdir_name_list = [
+                #'Presel_lep_phID/train_set',
+                #'Presel_lep_phID/opt_set',
+                #'Presel_lep_phID/fit_set',
+                #],
+            #ch = 'lep')
+    ## leptonic res-bkg
+    #DivideResBkg(
+            #indir_name = 'Presel_lep_phID',
+            #tree_list = ['T'],
+            #outdir_name_list = [
+                #'Presel_lep_phID/train_set',
+                #'Presel_lep_phID/opt_set',
+                #'Presel_lep_phID/fit_set',
+                #],
+            #ch = 'lep')
+    ## leptonic non-res bkg
+    #DivideNonres(
+            #indir_name = 'Presel_lep_phID',
+            #tree_list = ['T'],
+            #outdir_name_list = [
+                #'Presel_lep_phID/train_set',
+                #'Presel_lep_phID/opt_set',
+                #],
+            #ch = 'lep')
 
-    # had res bkg
-    #indir_name = 'Presel_had_phID_btag-L'
-    #indir2_name = 'MVArecoV3_result_had/ANN_opt'
-    #outdir1_name = 'BDT_had/train'
-    #outdir2_name = 'optimization_had'
-    #outdir3_name = 'model_had'
-    #ch = 'had'
-    #Divide_res_bkg(indir_name, 'T', outdir1_name, outdir2_name, outdir3_name, ch)
-    #Divide_res_bkg(indir_name, 'SF_pileup', outdir1_name, outdir2_name, outdir3_name, ch)
-    #Divide_res_bkg(indir_name, 'SF_btag', outdir1_name, outdir2_name, outdir3_name, ch)
-    #Divide_res_bkg(indir2_name, 'Treco_TT', outdir1_name, outdir2_name, outdir3_name, ch)
-    #Divide_res_bkg(indir2_name, 'Treco_ST', outdir1_name, outdir2_name, outdir3_name, ch)
 
-    # lep res bkg
-    #indir_name = 'Presel_lep_phID'
-    #indir2_name = 'MVArecoV3_result_lep/ANN_opt'
-    #outdir1_name = 'BDT_lep/train'
-    #outdir2_name = 'optimization_lep'
-    #outdir3_name = 'model_lep'
-    #ch = 'lep'
-    #Divide_res_bkg(indir_name, 'T', outdir1_name, outdir2_name, outdir3_name, ch)
-    #Divide_res_bkg(indir_name, 'SF_pileup', outdir1_name, outdir2_name, outdir3_name, ch)
-    #Divide_res_bkg(indir_name, 'SF_btag', outdir1_name, outdir2_name, outdir3_name, ch)
-    #Divide_res_bkg(indir_name, 'SF_Elec', outdir1_name, outdir2_name, outdir3_name, ch)
-    #Divide_res_bkg(indir_name, 'SF_Muon', outdir1_name, outdir2_name, outdir3_name, ch)
-    #Divide_res_bkg(indir2_name, 'Treco_TT', outdir1_name, outdir2_name, outdir3_name, ch)
-    #Divide_res_bkg(indir2_name, 'Treco_ST', outdir1_name, outdir2_name, outdir3_name, ch)
-
-    # had non-res bkg
-    #indir_name = 'Presel_had_phID_btag-L'
-    #indir2_name = 'MVArecoV3_result_had/ANN_opt'
-    #outdir1_name = 'BDT_had/train'
-    #outdir2_name = 'BDT_had/test'
-    #ch = 'had'
-    #Divide_nonres_bkg(indir_name, 'T', outdir1_name, outdir2_name, ch)
-    #Divide_nonres_bkg(indir_name, 'SF_pileup', outdir1_name, outdir2_name, ch)
-    #Divide_nonres_bkg(indir_name, 'SF_btag', outdir1_name, outdir2_name, ch)
-    #Divide_nonres_bkg(indir2_name, 'Treco_TT', outdir1_name, outdir2_name, ch)
-    #Divide_nonres_bkg(indir2_name, 'Treco_ST', outdir1_name, outdir2_name, ch)
-
-    # lep non-res bkg
-    #indir_name = 'Presel_lep_phID'
-    #indir2_name = 'MVArecoV3_result_lep/ANN_opt'
-    #outdir1_name = 'BDT_lep/train'
-    #outdir2_name = 'BDT_lep/test'
-    #ch = 'lep'
-    #Divide_nonres_bkg(indir_name, 'T', outdir1_name, outdir2_name, ch)
-    #Divide_nonres_bkg(indir_name, 'SF_pileup', outdir1_name, outdir2_name, ch)
-    #Divide_nonres_bkg(indir_name, 'SF_btag', outdir1_name, outdir2_name, ch)
-    #Divide_nonres_bkg(indir_name, 'SF_Elec', outdir1_name, outdir2_name, ch)
-    #Divide_nonres_bkg(indir_name, 'SF_Muon', outdir1_name, outdir2_name, ch)
-    #Divide_nonres_bkg(indir2_name, 'Treco_TT', outdir1_name, outdir2_name, ch)
-    #Divide_nonres_bkg(indir2_name, 'Treco_ST', outdir1_name, outdir2_name, ch)
-
-    # had data
-    indir_name = 'Presel_had_phID_btag-L'
-    indir2_name = 'MVArecoV3_result_had/ANN_opt'
-    outdir1_name = 'optimization_had/plain'
-    outdir2_name = 'model_had/plain'
-    ch = 'had'
-    Divide_data(indir_name, 'T', outdir1_name, outdir2_name, ch)
-    Divide_data(indir_name, 'SF_pileup', outdir1_name, outdir2_name, ch)
-    Divide_data(indir_name, 'SF_btag', outdir1_name, outdir2_name, ch)
-    Divide_data(indir2_name, 'Treco_TT', outdir1_name, outdir2_name, ch)
-    Divide_data(indir2_name, 'Treco_ST', outdir1_name, outdir2_name, ch)
-
-    # lep data
-    indir_name = 'Presel_lep_phID'
-    indir2_name = 'MVArecoV3_result_lep/ANN_opt'
-    outdir1_name = 'optimization_lep/plain'
-    outdir2_name = 'model_lep/plain'
-    ch = 'lep'
-    Divide_data(indir_name, 'T', outdir1_name, outdir2_name, ch)
-    Divide_data(indir_name, 'SF_pileup', outdir1_name, outdir2_name, ch)
-    Divide_data(indir_name, 'SF_btag', outdir1_name, outdir2_name, ch)
-    Divide_data(indir_name, 'SF_Elec', outdir1_name, outdir2_name, ch)
-    Divide_data(indir_name, 'SF_Muon', outdir1_name, outdir2_name, ch)
-    Divide_data(indir2_name, 'Treco_TT', outdir1_name, outdir2_name, ch)
-    Divide_data(indir2_name, 'Treco_ST', outdir1_name, outdir2_name, ch)
+    # Scale event weights
+    # hadronic channel
+    #ScaleWeight('Presel_had_phID_btag-L', 'had')
+    # leptonic channel
+    ScaleWeight('Presel_lep_phID', 'lep')

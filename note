@@ -1,3 +1,12 @@
+## Event number description
+---Strange event number branch:
+DoubleEG
+GJet_Pt-20to40_DoubleEMEnriched_MGG-80toInf_TuneCP5_13TeV_Pythia8
+QCD_Pt-30to40_DoubleEMEnriched_MGG-80toInf_TuneCP5_13TeV_Pythia8
+QCD_Pt-30toInf_DoubleEMEnriched_MGG-40to80_TuneCP5_13TeV_Pythia8
+QCD_Pt-40toInf_DoubleEMEnriched_MGG-80toInf_TuneCP5_13TeV_Pythia8
+
+
 ## Workflow
 
 ---Preselection---
@@ -161,3 +170,34 @@ Run with script/FindGenPart.py.
 Input:
   Hadronic: Presel_had_phID_btag-L/
   Leptonic: Presel_lep_phID/
+
+
+---Divide MC samples---
+
+src/DivideSamples_v3.cc: (not used)
+Divide MC samples as seperate parts, using branch "EvtInfo.EvtNo".
+src/DivideSamples_v4.cc: (not used)
+Divide MC samples as seperate parts, using event index.
+Run with script/DivideSamples.py.
+Input:
+  Hadronic: Presel_had_phID_btag-L/
+  Leptonic: Presel_lep_phID/
+Output:
+  Hadronic: Presel_had_phID_btag-L/train_set/, opt_set/, fit_set/
+  Leptonic: Presel_lep_phID/train_set/, opt_set/, fit_set/
+
+Note:
+After dividing leptonic samples, "QCD_Pt-30toInf_MGG-40to80" samples are discarded since no event
+left for some divided parts.
+
+src/ScaleWeight.cc: (not used)
+Scale event weights after dividing samples.
+Run with script/DivideSamples.py.
+Input:
+  Hadronic: Presel_had_phID_btag-L/
+  Leptonic: Presel_lep_phID/
+
+macro/AddEventIdx.cc
+Set event index for samples having strange index. (see the above)
+
+Note: "QCD_Pt-30toInf_MGG-40to80" has only one event and is not used in the following steps.
