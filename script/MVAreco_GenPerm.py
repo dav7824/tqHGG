@@ -1,141 +1,79 @@
 #!/usr/bin/env python2
 
-import Path, Util, Samples
+import Path, Util
+from Samples import sig_MC, bkg_MC
 import os, sys
-from os.path import join
+from os.path import exists, join
 
-# I/O directories
-indir_sig = join(Path.dir_2017, 'MVAreco_GenPerm')
-indir_hadbkg = join(Path.dir_2017, 'Presel_had_phID_btag-L')
-indir_lepbkg = join(Path.dir_2017, 'Presel_lep_phID')
-outdir_had = join(Path.dir_2017, 'MVArecoV2_Perm_had')
-Util.CreateDir(outdir_had)
-outdir_lep = join(Path.dir_2017, 'MVArecoV3_Perm_lep')
-Util.CreateDir(outdir_lep)
 
-# Sample names
-nt_sig_TThad = ['TT_FCNC-TtoHJ_aThad_hct', 'TT_FCNC-aTtoHJ_Thad_hct', 'TT_FCNC-TtoHJ_aThad_hut', 'TT_FCNC-aTtoHJ_Thad_hut']
-nt_sig_SThad = ['ST_FCNC-TH_Thad_hct', 'ST_FCNC-TH_Thad_hut']
-nt_sig_TTlep = ['TT_FCNC-TtoHJ_aTlep_hct', 'TT_FCNC-aTtoHJ_Tlep_hct', 'TT_FCNC-TtoHJ_aTlep_hut', 'TT_FCNC-aTtoHJ_Tlep_hut']
-nt_sig_STlep = ['ST_FCNC-TH_Tlep_hct', 'ST_FCNC-TH_Tlep_hut']
-nt_bkg = Samples.bkg_MC_s
-
-# Executables
-exe_TThad = join(Path.dir_bin, 'MVAreco_GenPerm_TThad')
-exe_SThad = join(Path.dir_bin, 'MVAreco_GenPerm_SThad')
-exe_TTlep = join(Path.dir_bin, 'MVAreco_GenPerm_TTlep')
-exe_STlep = join(Path.dir_bin, 'MVAreco_GenPerm_STlep')
-
-# Command template
-cmd_TThad_sig = '{bin} {indir}/{{nt}}.root {outdir}/{{nt}}.root sig'.format(bin=exe_TThad, indir=indir_sig, outdir=outdir_had)
-cmd_SThad_sig = '{bin} {indir}/{{nt}}.root {outdir}/{{nt}}.root sig'.format(bin=exe_SThad, indir=indir_sig, outdir=outdir_had)
-cmd_TTlep_sig = '{bin} {indir}/{{nt}}.root {outdir}/{{nt}}.root sig'.format(bin=exe_TTlep, indir=indir_sig, outdir=outdir_lep)
-cmd_STlep_sig = '{bin} {indir}/{{nt}}.root {outdir}/{{nt}}.root sig'.format(bin=exe_STlep, indir=indir_sig, outdir=outdir_lep)
-cmd_TThad_bkg = '{bin} {indir}/{{nt}}.root {outdir}/{{nt}}.root bkg'.format(bin=exe_TThad, indir=indir_hadbkg, outdir=outdir_had)
-cmd_SThad_bkg = '{bin} {indir}/{{nt}}.root {outdir}/{{nt}}.root bkg'.format(bin=exe_SThad, indir=indir_hadbkg, outdir=outdir_had)
-cmd_TTlep_bkg = '{bin} {indir}/{{nt}}.root {outdir}/{{nt}}.root bkg'.format(bin=exe_TTlep, indir=indir_lepbkg, outdir=outdir_lep)
-cmd_STlep_bkg = '{bin} {indir}/{{nt}}.root {outdir}/{{nt}}.root bkg'.format(bin=exe_STlep, indir=indir_lepbkg, outdir=outdir_lep)
-
-mesg_sample = '---Start running: {}'
-
-# Run TT hadronic GenPerm
-print 'Start processing: TThad'
-output = open( join(outdir_had,'summary_TT.txt'), 'w' )
-
-for sample in nt_sig_TThad:
-    print mesg_sample.format(sample)
-    output.write( '\n'+mesg_sample.format(sample)+'\n' )
-    fp = os.popen( cmd_TThad_sig.format(nt=sample) )
-    output.write( fp.read() )
+def Process(cmd, nt, mode):
+    fp = os.popen( cmd.format(nt=nt,mode=mode) )
+    print fp.read()
     fp.close()
-for cat in nt_bkg:
-    for sample in nt_bkg[cat]:
-        print mesg_sample.format(sample)
-        output.write( '\n'+mesg_sample.format(sample)+'\n' )
-        fp = os.popen( cmd_TThad_bkg.format(nt=sample) )
-        output.write( fp.read() )
-        fp.close()
-print mesg_sample.format('data')
-output.write( '\n'+mesg_sample.format('data')+'\n' )
-fp = os.popen( cmd_TThad_bkg.format(nt='data') )
-output.write( fp.read() )
-fp.close()
 
-output.close()
 
-# Run ST hadronic GenPerm
-print 'Start processing: SThad'
-output = open( join(outdir_had,'summary_ST.txt'), 'w' )
+def GenPerm(indir_name, outdir_name, ch):
+    # Check channel
+    if ch == 'had':
+        exeTT = join(Path.dir_bin, 'MVAreco_GenPerm_TThad')
+        exeST = join(Path.dir_bin, 'MVAreco_GenPerm_SThad')
+    elif ch == 'lep':
+        exeTT = join(Path.dir_bin, 'MVAreco_GenPerm_TTlep')
+        exeST = join(Path.dir_bin, 'MVAreco_GenPerm_STlep')
+    else:
+        print '[ERROR] Invalid channel'
+        sys.exit(1)
+    # Input dir
+    indir = join(Path.dir_2017, indir_name)
+    if not exists(indir):
+        print '[ERROR] Input dir not exist'
+        sys.exit(1)
+    # Output dir
+    outdir = join(Path.dir_2017, outdir_name)
+    Util.CreateDir(outdir)
 
-for sample in nt_sig_SThad:
-    print mesg_sample.format(sample)
-    output.write( '\n'+mesg_sample.format(sample)+'\n' )
-    fp = os.popen( cmd_SThad_sig.format(nt=sample) )
-    output.write( fp.read() )
-    fp.close()
-for cat in nt_bkg:
-    for sample in nt_bkg[cat]:
-        print mesg_sample.format(sample)
-        output.write( '\n'+mesg_sample.format(sample)+'\n' )
-        fp = os.popen( cmd_SThad_bkg.format(nt=sample) )
-        output.write( fp.read() )
-        fp.close()
-print mesg_sample.format('data')
-output.write( '\n'+mesg_sample.format('data')+'\n' )
-fp = os.popen( cmd_SThad_bkg.format(nt='data') )
-output.write( fp.read() )
-fp.close()
+    # Command template
+    cmdTT = '{exe} {indir}/{{nt}}.root {outdir}/{{nt}}.root {{mode}}'.format(
+            exe=exeTT, indir=indir, outdir=outdir)
+    cmdST = '{exe} {indir}/{{nt}}.root {outdir}/{{nt}}.root {{mode}}'.format(
+            exe=exeST, indir=indir, outdir=outdir)
 
-output.close()
+    # Process signal MC
+    for sigtype in sig_MC:
+        if sigtype[1] != ch:
+            continue
+        if sigtype[0] == 'TT':
+            cmdSig = cmdTT
+            cmdBkg = cmdST
+        else:    # sigtype[0] == 'ST'
+            cmdSig = cmdST
+            cmdBkg = cmdTT
+        for nt in sig_MC[sigtype]:
+            # Run
+            print '---Processing:', nt
+            Process( cmdSig, nt, 'sig' )
+            Process( cmdBkg, nt ,'bkg' )
+    # Process bkg MC
+    for cat in bkg_MC:
+        for nt in bkg_MC[cat]:
+            if ch=='lep' and nt=='QCD_Pt-30to40_MGG-80toInf':
+                continue
+            # Run
+            print '---Processing:', nt
+            Process( cmdTT, nt, 'bkg' )
+            Process( cmdST, nt, 'bkg' )
+    # Process data-driven QCD
+    if ch == 'had':
+        print '---Processing:', 'Data-driven_QCD'
+        Process( cmdTT, 'Data-driven_QCD', 'bkg' )
+        Process( cmdST, 'Data-driven_QCD', 'bkg' )
+    # Process data
+    print '---Processing:', 'data'
+    Process( cmdTT, 'data', 'bkg' )
+    Process( cmdST, 'data', 'bkg' )
+# End of function GenPerm
 
-# Run TT leptonic GenPerm
-print 'Start processing: TTlep'
-output = open( join(outdir_lep,'summary_TT.txt'), 'w' )
 
-for sample in nt_sig_TTlep:
-    print mesg_sample.format(sample)
-    output.write( '\n'+mesg_sample.format(sample)+'\n' )
-    fp = os.popen( cmd_TTlep_sig.format(nt=sample) )
-    output.write( fp.read() )
-    fp.close()
-for cat in nt_bkg:
-    for sample in nt_bkg[cat]:
-        print mesg_sample.format(sample)
-        output.write( '\n'+mesg_sample.format(sample)+'\n' )
-        fp = os.popen( cmd_TTlep_bkg.format(nt=sample) )
-        output.write( fp.read() )
-        fp.close()
-print mesg_sample.format('data')
-output.write( '\n'+mesg_sample.format('data')+'\n' )
-fp = os.popen( cmd_TTlep_bkg.format(nt='data') )
-output.write( fp.read() )
-fp.close()
-
-output.close()
-
-# Run ST leptonic GenPerm
-print 'Start processing: STlep'
-output = open( join(outdir_lep,'summary_ST.txt'), 'w' )
-
-for sample in nt_sig_STlep:
-    print mesg_sample.format(sample)
-    output.write( '\n'+mesg_sample.format(sample)+'\n' )
-    fp = os.popen( cmd_STlep_sig.format(nt=sample) )
-    output.write( fp.read() )
-    fp.close()
-for cat in nt_bkg:
-    for sample in nt_bkg[cat]:
-        print mesg_sample.format(sample)
-        output.write( '\n'+mesg_sample.format(sample)+'\n' )
-        fp = os.popen( cmd_STlep_bkg.format(nt=sample) )
-        output.write( fp.read() )
-        fp.close()
-print mesg_sample.format('data')
-output.write( '\n'+mesg_sample.format('data')+'\n' )
-fp = os.popen( cmd_STlep_bkg.format(nt='data') )
-output.write( fp.read() )
-fp.close()
-
-output.close()
-
-print 'End!'
+if __name__ == '__main__':
+    #GenPerm('Presel_had_phID_btag-L', 'MVAreco_perms_had', 'had')
+    GenPerm('Presel_lep_phID', 'MVAreco_perms_lep', 'lep')
