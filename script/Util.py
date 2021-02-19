@@ -66,7 +66,6 @@ def GenCode_MVAreco_train(fmethod_name, fout_name):
     fout.close()
     print '[INFO] Source code generated:', fout_name
 
-
+'''
 def submit_job(cmd, jobname):
     os.system( '{runner} --command="{cmd}" --name={name}'.format(runner=os.path.join(Path.dir_tqHGG,'qSub/submitJOB.py'), cmd=cmd, name=jobname) )
-'''
