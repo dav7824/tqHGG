@@ -1,29 +1,27 @@
 /*
  * Apply the trained MVA to get the reconstruction result.
  * Usage:
- *   ./MVAreco_application <fin> <fweight> <fout> <nt_type=sig|bkg> <reco_type=TT|ST> <channel=had|lep>
+ *   ./MVAreco_application <fin> <fweight> <fout> <tree_type=sig|bkg> <reco_type=TT|ST> <channel=had|lep>
  *
  * <fin>:       Input root file with permutation tree
- * <fweight>:   Weight file containing the training result for given (TT|ST)x(had|lep) signal
+ * <fweight>:   Weight file containing the training result for given (TT|ST)x(had|lep) reconstruction
  * <fout>:      Output file where the best permutation of each event is saved
- * <nt_type>:   Specify input n-tuple type
+ * <tree_type>: Specify input tree type
  * <reco_type>: Specify signal type to be reconstructed
  * <channel>:   Specify channel type
  *
- * Run this on each signal MC file to apply MVA on permutation test samples. The matching rate will be calculated.
+ * The matching rate will be calculated for signal tree.
  *
- * For each bkg MC and data, run this code twice with the two weight files for TT and ST reconstruction.  The best
+ * For each sample, run this code twice with the two weight files for TT and ST reconstruction.  The best
  * permutation for TT & ST reconstruction are respectively saved in trees "Treco_TT" & "Treco_ST" in output.
  */
 
 #include "TMVA/Tools.h"
 #include "TMVA/Reader.h"
-
 #include "TString.h"
 #include "TChain.h"
 #include "TFile.h"
 #include "TTree.h"
-
 #include <iostream>
 #include <cstdlib>
 using namespace std;
@@ -34,11 +32,11 @@ int main(int argc, char **argv)
     TString fin_name        = argv[1];
     TString fweight_name    = argv[2];
     TString fout_name       = argv[3];
-    TString nt_type         = argv[4];
+    TString tree_type       = argv[4];
     TString reco_type       = argv[5];
     TString channel         = argv[6];
-    if (nt_type!="sig" && nt_type!="bkg") {
-        cout << "[ERROR] Invalid n-tuple type\n";
+    if (tree_type!="sig" && tree_type!="bkg") {
+        cout << "[ERROR] Invalid tree type\n";
         exit(1);
     }
     if (reco_type!="TT" && reco_type!="ST") {
@@ -49,28 +47,23 @@ int main(int argc, char **argv)
         cout << "[ERROR] Invalid channel\n";
         exit(1);
     }
-    cout << "[INFO] Start application of trained MVA:\n";
-    cout << "--File input:             " << fin_name << endl;
-    cout << "--Weight file:            " << fweight_name << endl;
-    cout << "--Output:                 " << fout_name << endl;
-    cout << "--Type of n-tuple:        " << nt_type << endl;
-    cout << "--Type of reconstruction: " << reco_type << endl;
-    cout << "--Channel:                " << channel << endl;
-    cout << endl;
+    bool is_signal = false;
+    if (tree_type == "sig")  is_signal = true;
 
     // Read permutation tree
     cout << "[INFO] Reading input file: " << fin_name << endl;
     TChain *inTree = 0;
-    if (nt_type == "bkg") {
-        if (reco_type == "TT") inTree = new TChain("TPerm_TT");
-        else if (reco_type == "ST") inTree = new TChain("TPerm_ST");
-    } else inTree = new TChain("TPerm_test");
+    if (reco_type == "TT")
+        inTree = new TChain("TPerm_TT");
+    else
+        inTree = new TChain("TPerm_ST");
     inTree->Add( fin_name );
 
     /* Input tree variables */
-    int NPerm = 0;
-    int idxPerm = 0;
-    int match = 0;
+    int Evt_no = 0;
+    int Perm_N = 0;
+    int Perm_idx = 0;
+    int Perm_match = 0;
     // b-jet
     int bJet_idx = 0;
     float bJet_Pt = 0;
@@ -112,9 +105,10 @@ int main(int argc, char **argv)
     float Met_Pt = 0; // lep
 
     // Set input tree branches
-    inTree->SetBranchAddress("NPerm", &NPerm);
-    inTree->SetBranchAddress("idxPerm", &idxPerm);
-    inTree->SetBranchAddress("match", &match);
+    inTree->SetBranchAddress("Evt_no", &Evt_no);
+    inTree->SetBranchAddress("Perm_N", &Perm_N);
+    inTree->SetBranchAddress("Perm_idx", &Perm_idx);
+    inTree->SetBranchAddress("Perm_match", &Perm_match);
     inTree->SetBranchAddress("bJet_idx", &bJet_idx);
     inTree->SetBranchAddress("bJet_Pt", &bJet_Pt);
     inTree->SetBranchAddress("bJet_Eta", &bJet_Eta);
@@ -146,11 +140,8 @@ int main(int argc, char **argv)
     inTree->SetBranchAddress("dR_lb", &dR_lb);
     inTree->SetBranchAddress("dR_lt", &dR_lt);
     inTree->SetBranchAddress("dR_lH", &dR_lH);
-    // Note: hadronic trees don't have the below variables, so they are put in the "if"
-    if (channel=="lep") {
-        inTree->SetBranchAddress("dPhi_bMET", &dPhi_bMET);
-        inTree->SetBranchAddress("Met_Pt", &Met_Pt);
-    }
+    inTree->SetBranchAddress("dPhi_bMET", &dPhi_bMET);
+    inTree->SetBranchAddress("Met_Pt", &Met_Pt);
 
     // Create output tree
     TFile *fout = new TFile( fout_name, "update" );
@@ -160,7 +151,6 @@ int main(int argc, char **argv)
 
     /* Additional output tree variables */
     float MVA_score = 0;
-
     outTree->Branch("MVA_score", &MVA_score);
 
     // Load TMVA library
@@ -222,61 +212,53 @@ int main(int argc, char **argv)
     }
 
     // Book MVA methods
-    TString mva_name = reco_type+channel+"_MVA";
+    TString mva_name = reco_type+channel;
     reader->BookMVA(mva_name, fweight_name);
 
-    // Number of permutations to be reconstructed
-    int Nperm_reco = 0;
-
-    // Number of events that cannot be reconstructed
-    int Nevt_noreco = 0;
-    // Number of events that can be reconstructed
+    /* Calculating matching rates (for signal tree) */
+    // Number of events that can be reconstructed (only count non-training events (Evt_no%3!=0))
     int Nevt_reco = 0;
-    // Number of reconstructed events that are truth matched
+    // Number of reconstructed events that are truth matched (only count non-training events (Evt_no%3!=0))
     int Nevt_reco_match = 0;
-    // Number of all events
-    int Nevt_tot = 0;
 
     int best_perm = -1;
     float best_score = -999;
-    float score = 0;
 
     // Start permutation loop
     for (int perm=0; perm<inTree->GetEntries(); ++perm) {
         inTree->GetEntry(perm);
 
+        // Initialize output branch
         MVA_score = -999;
 
-        // Some samples contain events that cannot be reconstructed. (for, e.g., not enough jets)
-        // These events have NPerm=-1.
-        if (NPerm < 0) {
-            ++Nevt_noreco;
-            ++Nevt_tot;
+        // For events that can't be reconstructed (Perm_N = -1), fill null values
+        if (Perm_N < 0) {
             outTree->Fill();
             continue;
         }
 
-        ++Nperm_reco;
-
-        // For reconstructable permutations, there will be "NPerm" continuous entries that are different permutations of a single event.
-        // For each iteration in the entries, calculate the corresponding MVA score, and record the highest score so far.
-        score = reader->EvaluateMVA( mva_name );
+        // For reconstructable events, there will be "Perm_N" continuous entries of permutations.
+        // For each of them, calculate the corresponding MVA score, and record the highest score so far.
+        float score = reader->EvaluateMVA( mva_name );
         if (score > best_score) {
             best_score = score;
             best_perm = perm;
         }
-        // In the last iteration (index=NPerm-1), fill the highest score and the corresponding permutation to output.
-        if (idxPerm == NPerm-1) {
+        // In the last iteration, fill the highest score and the corresponding permutation to output.
+        if (Perm_idx == Perm_N-1) {
             inTree->GetEntry(best_perm);
             MVA_score = best_score;
             outTree->Fill();
 
+            // Reset for next event
             best_perm = -1;
             best_score = -999;
 
-            ++Nevt_reco;
-            ++Nevt_tot;
-            if (nt_type == "sig" && match == 1) ++Nevt_reco_match;
+            // Update counter
+            if (is_signal && (Evt_no%3 != 0)) {
+                ++Nevt_reco;
+                if (Perm_match == 1)  ++Nevt_reco_match;
+            }
         }
     } // End of permutation loop
 
@@ -286,14 +268,10 @@ int main(int argc, char **argv)
 
     cout << "[INFO] Saved output: " << fout_name << endl;
 
-    cout << "\n[Summary]\n";
-    cout << "--Number of reconstructable permutations: " << Nperm_reco << endl;
-    cout << "--Number of events cannot be reconstructed: " << Nevt_noreco << endl;
-    cout << "--Number of events can be reconstructed: " << Nevt_reco << endl;
-    cout << "--Number of events: " << Nevt_tot << endl;
-    if (nt_type == "sig") {
-        cout << "--Number of matched events: " << Nevt_reco_match << endl;
-        cout << "--Reconstruction matching rate: " << (float)Nevt_reco_match / Nevt_reco << endl;
+    // If processing signal tree, print matching rate
+    if (is_signal) {
+        cout << "[INFO] Reconstruction matching rate: " << (float)Nevt_reco_match / Nevt_reco
+            << "  (" << Nevt_reco_match << '/' << Nevt_reco << ")\n";
     }
 
     return 0;

@@ -201,3 +201,37 @@ macro/AddEventIdx.cc
 Set event index for samples having strange index. (see the above)
 
 Note: "QCD_Pt-30toInf_MGG-40to80" has only one event and is not used in the following steps.
+
+
+---MVA reconstruction---
+
+src/MVAreco_GenPerm_TThad.cc MVAreco_GenPerm_SThad.cc MVAreco_GenPerm_TTlep.cc MVAreco_GenPerm_STlep.cc:
+Generate permutation tree from event tree.
+Run with script/MVAreco_GenPerm.py.
+Input:
+  Hadronic: Presel_had_phID_btag-L/
+  Leptonic: Presel_lep_phID/
+Output:
+  Hadronic: MVAreco_perms_had/
+  Leptonic: MVAreco_perms_lep/
+
+src/MVAreco_train.cc:
+Begin reconstruction MVA training.
+Run with script/MVAreco_train.py.
+Input:
+  Hadronic: MVAreco_perms_had/
+  Leptonic: MVAreco_perms_lep/
+Output:
+  MVAreco_model/
+
+src/MVAreco_application.cc:
+Apply trained MVA models to permutation trees.
+Run with script/MVAreco_application.py.
+Input:
+  Hadronic: MVAreco_perms_had/
+  Leptonic: MVAreco_perms_lep/
+TMVA models:
+  MVAreco_model/
+Output:
+  Hadronic: MVAreco_result_had/
+  Leptonic: MVAreco_result_lep/
