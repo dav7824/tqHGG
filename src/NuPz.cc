@@ -1,7 +1,7 @@
 /*
  * Given reconstructed leptonic signal, reconstruct Pz of neutrino.
  * Usage:
- *   ./NuPz <event_file> <reco_file> <reco_type=TT|ST>
+ *   ./NuPz <event_file> <reco_file> <reco_type=TT|ST> <channel=had|lep>
  *
  * The new tree containing nu Pz info will overwrite original tree in <reco_file>.
  */
@@ -10,7 +10,6 @@
 #include "TFile.h"
 #include "TTree.h"
 #include "TLorentzVector.h"
-
 #include <iostream>
 #include <cstdlib>
 #include <cmath>
@@ -21,7 +20,7 @@ float W_mass = 80.379;
 /* mu_mass = 0.1 GeV */
 // Mass of muon and electron can be neglected in computation compared to W mass
 
-int CalcNuPz( TLorentzVector &lep, float met_Px, float met_Py, float *nu_Pz );
+float CalcNuPz( TLorentzVector &lep, float met_Pt, float met_Phi );
 
 int main(int argc, char **argv)
 {
@@ -29,17 +28,20 @@ int main(int argc, char **argv)
     TString fevt_name = argv[1];
     TString freco_name = argv[2];
     TString recotype = argv[3];
+    TString ch = argv[4];
     if (recotype!="TT" && recotype!="ST") {
         cout << "[ERROR] Invalid reconstruction type\n";
         exit(1);
     }
+    if (ch!="had" && ch!="lep") {
+        cout << "[ERROR] Invalid channel\n";
+        exit(1);
+    }
 
     // Read event tree
-    cout << "[INFO] Reading event file: " << fevt_name << endl;
     TFile *fevt = new TFile( fevt_name );
     TTree *Tevt = (TTree*)fevt->Get("T");
     // Read reconstruction tree
-    cout << "[INFO] Reading reco file: " << freco_name << endl;
     TFile *freco = new TFile( freco_name, "update" );
     TString Treco_name;
     if (recotype=="TT") Treco_name = "Treco_TT";
@@ -53,46 +55,46 @@ int main(int argc, char **argv)
     vector<float> *Elec_Energy = 0;
     vector<float> *Muon_Phi = 0;
     vector<float> *Muon_Energy = 0;
-    float met_Px = 0;
-    float met_Py = 0;
+    float Met_Pt = 0;
+    float Met_Phi = 0;
     // Reconstruction tree
-    int NPerm = 0;
+    int Perm_N = 0;
     int lep_idx = 0;
     float lep_ID = 0;
     float lep_Pt = 0;
     float lep_Eta = 0;
     // Reconstruction tree additional
-    /* nu_Pz_real: -1: cannot be reconstructed, 0: D<0, 1: D>=0 */
-    int nu_Pz_real = 0;
-    /* nu_Pz_arr: [0]=real large solution, [1]=real small solution, [2]=real part of complex solution */
-    float nu_Pz_arr[3] = {0.};
+    float nu_Pz = -999;
 
     // Set tree branches
     // Event tree
-    Tevt->SetBranchStatus("*", 0);
-    Tevt->SetBranchStatus("ElecInfo.Phi", 1);
-    Tevt->SetBranchStatus("ElecInfo.Energy", 1);
-    Tevt->SetBranchStatus("MuonInfo.Phi", 1);
-    Tevt->SetBranchStatus("MuonInfo.Energy", 1);
-    Tevt->SetBranchStatus("MetInfo.Px", 1);
-    Tevt->SetBranchStatus("MetInfo.Py", 1);
     Tevt->SetBranchAddress("ElecInfo.Phi", &Elec_Phi);
     Tevt->SetBranchAddress("ElecInfo.Energy", &Elec_Energy);
     Tevt->SetBranchAddress("MuonInfo.Phi", &Muon_Phi);
     Tevt->SetBranchAddress("MuonInfo.Energy", &Muon_Energy);
-    Tevt->SetBranchAddress("MetInfo.Px", &met_Px);
-    Tevt->SetBranchAddress("MetInfo.Py", &met_Py);
+    Tevt->SetBranchAddress("MetInfo.Pt", &Met_Pt);
+    Tevt->SetBranchAddress("MetInfo.Phi", &Met_Phi);
     // Reconstruction tree
-    Treco->SetBranchAddress("NPerm", &NPerm);
+    Treco->SetBranchAddress("Perm_N", &Perm_N);
     Treco->SetBranchAddress("lep_idx", &lep_idx);
     Treco->SetBranchAddress("lep_ID", &lep_ID);
     Treco->SetBranchAddress("lep_Pt", &lep_Pt);
     Treco->SetBranchAddress("lep_Eta", &lep_Eta);
     // Reconstruction tree additional
-    Treco_->Branch("nu_Pz_real", &nu_Pz_real);
-    Treco_->Branch("nu_Pz_L", &nu_Pz_arr[0]);
-    Treco_->Branch("nu_Pz_S", &nu_Pz_arr[1]);
-    Treco_->Branch("nu_Pz_M", &nu_Pz_arr[2]);
+    Treco_->Branch("nu_Pz", &nu_Pz);
+
+    // For hadronic samples, save null values as nu Pz
+    if (ch == "had") {
+        for (int evt=0; evt<Treco->GetEntries(); ++evt) {
+            Treco->GetEntry(evt);
+            Treco_->Fill();
+        }
+        fevt->Close();
+        freco->WriteTObject(Treco_, "", "Overwrite");
+        freco->Close();
+
+        return 0;
+    }
 
     TLorentzVector lep;
     float lep_Phi = 0;
@@ -105,24 +107,23 @@ int main(int argc, char **argv)
         Treco->GetEntry(evt);
 
         // Initialize output variables
-        nu_Pz_real = -1;
-        for (int i=0; i<3; ++i) nu_Pz_arr[i] = -99999;
+        nu_Pz = -999;
 
         // For events that can't be reconstructed, fill null values to output
-        if (NPerm < 0) { Treco_->Fill();  continue; }
+        if (Perm_N < 0) { Treco_->Fill();  continue; }
 
-        if ( fabs(lep_ID)==11 ) {
+        if ( fabs(lep_ID)==11 ) { // electrons
             lep_Phi = Elec_Phi->at( lep_idx );
             lep_E = Elec_Energy->at( lep_idx );
         }
-        else {
+        else { // fabs(lep_ID) == 13 (muons)
             lep_Phi = Muon_Phi->at( lep_idx );
             lep_E = Muon_Energy->at( lep_idx );
         }
         lep.SetPtEtaPhiE( lep_Pt, lep_Eta, lep_Phi, lep_E );
 
         // Calculate neutrino Pz
-        nu_Pz_real = CalcNuPz( lep, met_Px, met_Py, nu_Pz_arr );
+        nu_Pz = CalcNuPz( lep, Met_Pt, Met_Phi );
 
         Treco_->Fill();
     } // End of event loop
@@ -130,13 +131,15 @@ int main(int argc, char **argv)
     fevt->Close();
     freco->WriteTObject(Treco_, "", "Overwrite");
     freco->Close();
-    cout << "[INFO] Nu Pz info is saved in original reco file\n";
 
     return 0;
 }
 
-int CalcNuPz(TLorentzVector &lep, float met_Px, float met_Py, float *nu_Pz)
+float CalcNuPz(TLorentzVector &lep, float met_Pt, float met_Phi)
 {
+    float met_Px = met_Pt * TMath::Cos(met_Phi);
+    float met_Py = met_Pt * TMath::Sin(met_Phi);
+
     float lep_Px = lep.Px();
     float lep_Py = lep.Py();
     float lep_Pz = lep.Pz();
@@ -147,11 +150,12 @@ int CalcNuPz(TLorentzVector &lep, float met_Px, float met_Py, float *nu_Pz)
     float D = 4 * ( pow(A,2) * (pow(lep_Pt,2) + pow(lep_Pz,2)) - pow(lep_E,2) * pow(lep_Pt,2) * (pow(met_Px,2) + pow(met_Py,2)) );
 
     if (D >= 0) {
-        nu_Pz[0] = ( 2*A*lep_Pz + sqrt(D) ) / ( 2*pow(lep_Pt,2) );
-        nu_Pz[1] = ( 2*A*lep_Pz - sqrt(D) ) / ( 2*pow(lep_Pt,2) );
-        return 1;
+        // For the case of 2 real roots, take the one with smaller abs value as nu Pz
+        float sol_max = ( 2*A*lep_Pz + sqrt(D) ) / ( 2*pow(lep_Pt,2) );
+        float sol_min = ( 2*A*lep_Pz - sqrt(D) ) / ( 2*pow(lep_Pt,2) );
+        return ( fabs(sol_max) > fabs(sol_min) ) ? sol_min : sol_max;
     } else {
-        nu_Pz[2] = ( 2*A*lep_Pz ) / ( 2*pow(lep_Pt,2) );
-        return 0;
+        // For the case of no real root, take the real part of solution as nu Pz
+        return ( 2*A*lep_Pz ) / ( 2*pow(lep_Pt,2) );
     }
 }

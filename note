@@ -235,3 +235,12 @@ TMVA models:
 Output:
   Hadronic: MVAreco_result_had/
   Leptonic: MVAreco_result_lep/
+
+src/NuPz.cc:
+Reconstruct neutrino Pz with result from reco NN for leptonic samples.
+Add null values for hadronic samples.
+New branch is added to and overwrite the reco trees.
+Run with script/MVAreco_application.py.
+Input:
+  Hadronic: Presel_had_phID_btag-L/  MVAreco_result_had/
+  Leptonic: Presel_lep_phID/  MVAreco_result_lep/
