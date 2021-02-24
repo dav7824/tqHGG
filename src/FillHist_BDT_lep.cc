@@ -1,18 +1,14 @@
 /*
  * Fill histograms for BDT input variables.
  * Usage:
- *   ./FillHist_BDT_lep <fin> <fout> <weight_expr>
- *
- * <weight_expr>: Event weight expression by tree branches
+ *   ./FillHist_BDT_lep <fin> <fout> <expr_weight> <expr_cut>
  */
 
 #include "include/utility.h"
-
 #include "TString.h"
 #include "TFile.h"
 #include "TTree.h"
 #include "TH1D.h"
-
 #include <iostream>
 #include <cstdlib>
 #include <map>
@@ -23,11 +19,10 @@ int main(int argc, char **argv)
     // Command line arguments
     TString fin_name = argv[1];
     TString fout_name = argv[2];
-    TString weight_expr = argv[3];
+    TString expr_weight = argv[3];
+    TString expr_cut = argv[4];
 
     // Get input tree
-    cout << "[INFO] Read input file: " << fin_name << endl;
-    cout << "Weight expression: " << weight_expr << endl;
     TFile *fin = new TFile(fin_name);
     TTree *T = (TTree*)fin->Get("T");
 
@@ -42,8 +37,8 @@ int main(int argc, char **argv)
     CreateHist(hists, "pho2_ptOverMgg", "sublead #gamma pt/M_{#gamma#gamma}", 10, 0, 0.7, "");
     CreateHist(hists, "pho2_eta", "sublead #gamma #eta", 10, -2.5, 2.5, "");
     CreateHist(hists, "pho2_PixelSeed", "sublead #gamma pixel seed", 2, 0, 2, "");
-    CreateHist(hists, "pho_maxIDMVA", "max #gamma IDMVA", 10, -1, 1, "");
-    CreateHist(hists, "pho_minIDMVA", "min #gamma IDMVA", 10, -1, 1, "");
+    CreateHist(hists, "pho_maxIDMVA", "max #gamma IDMVA", 10, -0.7, 1, "");
+    CreateHist(hists, "pho_minIDMVA", "min #gamma IDMVA", 10, -0.7, 1, "");
     // diphoton
     CreateHist(hists, "dipho_ptOverMgg", "p_{T}^{#gamma#gamma}/M_{#gamma#gamma}", 10, 0, 1.8, "");
     CreateHist(hists, "dipho_eta", "#eta_{#gamma#gamma}", 10, -5, 5, "");
@@ -67,10 +62,10 @@ int main(int argc, char **argv)
     CreateHist(hists, "jet3_btag", "jet3 b-tag", 10, 0, 1, "");
     CreateHist(hists, "jet_btag1", "jet max b-tag", 10, 0, 1, "");
     CreateHist(hists, "jet_btag2", "jet 2nd max b-tag", 10, 0, 1, "");
-    CreateHist(hists, "njets", "N_jet", 8, -0.5, 7.5, "");
-    CreateHist(hists, "H_t", "H_T", 10, 25, 425, "GeV");
+    CreateHist(hists, "jet_N", "N_{jet}", 8, -0.5, 7.5, "");
+    CreateHist(hists, "jet_Ht", "H_{T}", 10, 25, 425, "GeV");
     // MET
-    CreateHist(hists, "Et_miss", "MET pt", 10, 0, 200, "GeV");
+    CreateHist(hists, "met_Pt", "MET pt", 10, 0, 200, "GeV");
     // reco TT
     CreateHist(hists, "TT_tqH_ptOverM", "TT top(tqH) pt/M", 10, 0, 1.5, "");
     CreateHist(hists, "TT_tqH_eta", "TT top(tqH) #eta", 10, -5, 5, "");
@@ -89,81 +84,69 @@ int main(int argc, char **argv)
     CreateHist(hists, "ST_dR_tbW_H", "ST #DeltaR(top(tbW),H)", 10, 0, 6, "");
     CreateHist(hists, "ST_score", "ST reco score", 10, 0, 1, "");
     // BDT score
-    CreateHist(hists, "BDT_score", "BDT leptonic", 10, -0.6, 0.6, "");
-
-    // If input tree contains no event, save empty histograms and end
-    if (T->GetEntries() == 0) {
-        cout << "The tree contains 0 entries.  Save empty histograms.\n";
-        for (map<TString,TH1D*>::iterator it=hists.begin(); it!=hists.end(); ++it)  it->second->Write();
-        fout->Close();
-        fin->Close();
-
-        return 0;
-    }
+    //CreateHist(hists, "BDT_score", "BDT leptonic", 10, -0.6, 0.6, "");
 
     // Fill histograms without loop
-    TString weight = weight_expr;
     // photons
-    FillHist(T, "pho1_ptOverMgg", "pho1_ptOverMgg", weight);
-    FillHist(T, "pho1_eta", "pho1_eta", weight);
-    FillHist(T, "pho1_PixelSeed", "pho1_PixelSeed", weight);
-    FillHist(T, "pho2_ptOverMgg", "pho2_ptOverMgg", weight);
-    FillHist(T, "pho2_eta", "pho2_eta", weight);
-    FillHist(T, "pho2_PixelSeed", "pho2_PixelSeed", weight);
-    FillHist(T, "pho_maxIDMVA", "pho_maxIDMVA", weight);
-    FillHist(T, "pho_minIDMVA", "pho_minIDMVA", weight);
+    FillHist(T, "pho1_ptOverMgg", "pho1_ptOverMgg", expr_weight, expr_cut);
+    FillHist(T, "pho1_eta", "pho1_eta", expr_weight, expr_cut);
+    FillHist(T, "pho1_PixelSeed", "pho1_PixelSeed", expr_weight, expr_cut);
+    FillHist(T, "pho2_ptOverMgg", "pho2_ptOverMgg", expr_weight, expr_cut);
+    FillHist(T, "pho2_eta", "pho2_eta", expr_weight, expr_cut);
+    FillHist(T, "pho2_PixelSeed", "pho2_PixelSeed", expr_weight, expr_cut);
+    FillHist(T, "pho_maxIDMVA", "pho_maxIDMVA", expr_weight, expr_cut);
+    FillHist(T, "pho_minIDMVA", "pho_minIDMVA", expr_weight, expr_cut);
     // diphoton
-    FillHist(T, "dipho_ptOverMgg", "dipho_ptOverMgg", weight);
-    FillHist(T, "dipho_eta", "dipho_eta", weight);
-    FillHist(T, "dipho_dPhi", "dipho_dPhi", weight);
-    FillHist(T, "dipho_dR", "dipho_dR", weight);
-    FillHist(T, "dipho_heliAngle", "dipho_heliAngle", weight);
+    FillHist(T, "dipho_ptOverMgg", "dipho_ptOverMgg", expr_weight, expr_cut);
+    FillHist(T, "dipho_eta", "dipho_eta", expr_weight, expr_cut);
+    FillHist(T, "dipho_dPhi", "dipho_dPhi", expr_weight, expr_cut);
+    FillHist(T, "dipho_dR", "dipho_dR", expr_weight, expr_cut);
+    FillHist(T, "dipho_heliAngle", "dipho_heliAngle", expr_weight, expr_cut);
     // leptons
-    FillHist(T, "lepton_ID", "lepton_ID", weight);
-    FillHist(T, "lepton_pt", "lepton_pt", weight);
-    FillHist(T, "lepton_eta", "lepton_eta", weight);
-    FillHist(T, "lepton_ntight", "lepton_ntight", weight);
+    FillHist(T, "lepton_ID", "lepton_ID", expr_weight, expr_cut);
+    FillHist(T, "lepton_pt", "lepton_pt", expr_weight, expr_cut);
+    FillHist(T, "lepton_eta", "lepton_eta", expr_weight, expr_cut);
+    FillHist(T, "lepton_ntight", "lepton_ntight", expr_weight, expr_cut);
     // jets
-    FillHist(T, "jet1_pt", "jet1_pt", weight);
-    FillHist(T, "jet1_eta", "jet1_eta", weight);
-    FillHist(T, "jet1_btag", "jet1_btag", weight);
-    FillHist(T, "jet2_pt", "jet2_pt", weight);
-    FillHist(T, "jet2_eta", "jet2_eta", weight);
-    FillHist(T, "jet2_btag", "jet2_btag", weight);
-    FillHist(T, "jet3_pt", "jet3_pt", weight);
-    FillHist(T, "jet3_eta", "jet3_eta", weight);
-    FillHist(T, "jet3_btag", "jet3_btag", weight);
-    FillHist(T, "jet_btag1", "jet_btag1", weight);
-    FillHist(T, "jet_btag2", "jet_btag2", weight);
-    FillHist(T, "njets", "njets", weight);
-    FillHist(T, "H_t", "H_t", weight);
+    FillHist(T, "jet1_pt", "jet1_pt", expr_weight, expr_cut);
+    FillHist(T, "jet1_eta", "jet1_eta", expr_weight, expr_cut);
+    FillHist(T, "jet1_btag", "jet1_btag", expr_weight, expr_cut);
+    FillHist(T, "jet2_pt", "jet2_pt", expr_weight, expr_cut);
+    FillHist(T, "jet2_eta", "jet2_eta", expr_weight, expr_cut);
+    FillHist(T, "jet2_btag", "jet2_btag", expr_weight, expr_cut);
+    FillHist(T, "jet3_pt", "jet3_pt", expr_weight, expr_cut);
+    FillHist(T, "jet3_eta", "jet3_eta", expr_weight, expr_cut);
+    FillHist(T, "jet3_btag", "jet3_btag", expr_weight, expr_cut);
+    FillHist(T, "jet_btag1", "jet_btag1", expr_weight, expr_cut);
+    FillHist(T, "jet_btag2", "jet_btag2", expr_weight, expr_cut);
+    FillHist(T, "jet_N", "jet_N", expr_weight, expr_cut);
+    FillHist(T, "jet_Ht", "jet_Ht", expr_weight, expr_cut);
     // MET
-    FillHist(T, "Et_miss", "Et_miss", weight);
+    FillHist(T, "met_Pt", "met_Pt", expr_weight, expr_cut);
     // reco TT
-    FillHist(T, "TT_tqH_ptOverM", "TT_tqH_ptOverM", weight);
-    FillHist(T, "TT_tqH_eta", "TT_tqH_eta", weight);
-    FillHist(T, "TT_dR_tqH_H", "TT_dR_tqH_H", weight);
-    FillHist(T, "TT_dR_qH", "TT_dR_qH", weight);
-    FillHist(T, "TT_dR_tt", "TT_dR_tt", weight);
-    FillHist(T, "TT_tbW_pt", "TT_tbW_pt", weight);
-    FillHist(T, "TT_tbW_eta", "TT_tbW_eta", weight);
-    FillHist(T, "TT_tbW_M", "TT_tbW_M", weight);
-    FillHist(T, "TT_dR_tbW_H", "TT_dR_tbW_H", weight);
-    FillHist(T, "TT_score", "TT_score", weight);
+    FillHist(T, "TT_tqH_ptOverM", "TT_tqH_ptOverM", expr_weight, expr_cut);
+    FillHist(T, "TT_tqH_eta", "TT_tqH_eta", expr_weight, expr_cut);
+    FillHist(T, "TT_dR_tqH_H", "TT_dR_tqH_H", expr_weight, expr_cut);
+    FillHist(T, "TT_dR_qH", "TT_dR_qH", expr_weight, expr_cut);
+    FillHist(T, "TT_dR_tt", "TT_dR_tt", expr_weight, expr_cut);
+    FillHist(T, "TT_tbW_pt", "TT_tbW_pt", expr_weight, expr_cut);
+    FillHist(T, "TT_tbW_eta", "TT_tbW_eta", expr_weight, expr_cut);
+    FillHist(T, "TT_tbW_M", "TT_tbW_M", expr_weight, expr_cut);
+    FillHist(T, "TT_dR_tbW_H", "TT_dR_tbW_H", expr_weight, expr_cut);
+    FillHist(T, "TT_score", "TT_score", expr_weight, expr_cut);
     // reco ST
-    FillHist(T, "ST_tbW_pt", "ST_tbW_pt", weight);
-    FillHist(T, "ST_tbW_eta", "ST_tbW_eta", weight);
-    FillHist(T, "ST_tbW_M", "ST_tbW_M", weight);
-    FillHist(T, "ST_dR_tbW_H", "ST_dR_tbW_H", weight);
-    FillHist(T, "ST_score", "ST_score", weight);
+    FillHist(T, "ST_tbW_pt", "ST_tbW_pt", expr_weight, expr_cut);
+    FillHist(T, "ST_tbW_eta", "ST_tbW_eta", expr_weight, expr_cut);
+    FillHist(T, "ST_tbW_M", "ST_tbW_M", expr_weight, expr_cut);
+    FillHist(T, "ST_dR_tbW_H", "ST_dR_tbW_H", expr_weight, expr_cut);
+    FillHist(T, "ST_score", "ST_score", expr_weight, expr_cut);
     // BDT score
-    FillHist(T, "BDT_score", "BDT_score", weight);
+    //FillHist(T, "BDT_score", "BDT_score", expr_weight, expr_cut);
 
     // Save histograms
     for (map<TString,TH1D*>::iterator it=hists.begin(); it!=hists.end(); ++it)  it->second->Write();
     fout->Close();
     fin->Close();
-    cout << "[INFO] Save output: " << fout_name << endl;
 
     return 0;
 }

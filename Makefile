@@ -128,10 +128,6 @@ ${BUI}/MVAreco_GenPerm_%.o: ${SRC}/MVAreco_GenPerm_%.cc ${INC}/MVAreco_GenPerm.h
 	@echo "[MAKE] Making $@"
 	${CC} -c -o $@ $< ${ROOTFLAG} -I. -Wno-write-strings
 
-${BUI}/FillHist%.o: ${SRC}/FillHist%.cc ${INC}/SFhelper.h ${INC}/utility.h
-	@echo "[MAKE] Making $@"
-	${CC} -c -o $@ $< ${ROOTFLAG} -I. -Wno-write-strings
-
 ${BUI}/CalcYield.o: ${SRC}/CalcYield.cc ${INC}/SFhelper.h ${INC}/utility.h
 	@echo "[MAKE] Making $@"
 	${CC} -c -o $@ $< ${ROOTFLAG} -I. -Wno-write-strings

@@ -244,3 +244,37 @@ Run with script/MVAreco_application.py.
 Input:
   Hadronic: Presel_had_phID_btag-L/  MVAreco_result_had/
   Leptonic: Presel_lep_phID/  MVAreco_result_lep/
+
+
+---Make BDT input variables---
+
+src/MakeBDTinput_had.cc MakeBDTinput_lep.cc:
+Produce trees with BDT input variables from event trees & reco trees.
+As far as I know TMVA can only handle a single tree, so one has to merge necessary variables manually.
+Run with script/MakeBDTinput.py.
+Input:
+  Hadronic: Presel_had_phID_btag-L/  MVAreco_result_had/
+  Leptonic: Presel_lep_phID/  MVAreco_result_lep/
+  Norm factor: normfactor/
+Output:
+  Hadronic: BDT_input_had/
+  Leptonic: BDT_input_lep/
+
+src/FillHist_BDT_had.cc FillHist_BDT_lep.cc:
+Make histograms of BDT input variables for each sample.
+Run with script/FillHist.py.
+Input:
+  Hadronic: BDT_input_had/
+  Leptonic: BDT_input_lep/
+Output:
+  Hadronic: BDT_input_had/hist/
+  Leptonic: BDT_input_lep/hist/
+
+macro/PlotHist/PlotHist_BDT_had.cc PlotHist_BDT_lep.cc:
+Make stacked plots from histograms of BDT variables.
+Input:
+  Hadronic: BDT_input_had/hist/
+  Leptonic: BDT_input_lep/hist/
+Output:
+  Hadronic: BDT_input_had/plots/
+  Leptonic: BDT_input_lep/plots/

@@ -1,20 +1,15 @@
 /*
  * Calculate BDT input variables for hadronic channel.
- * Required trees: T, SF_xxx, Treco_TT, Treco_ST
  *
  * Usage:
- *   ./MakeBDTinput_had <fin> <fout> <fnorm> <N_scale>
- *
- * <N_scale>: (int) number to be multiplied to event weight
+ *   ./MakeBDTinput_had <fevt> <freco> <fout> <fnorm> <syst|nosyst> <evtwei_scale>
  */
 
 #include "include/utility.h"
-
 #include "TFile.h"
 #include "TTree.h"
 #include "TString.h"
 #include "TLorentzVector.h"
-
 #include <iostream>
 #include <cstdlib>
 #include <vector>
@@ -24,28 +19,27 @@ using namespace std;
 int main(int argc, char **argv)
 {
     // Get command line arguments
-    TString fin_name = argv[1];
-    TString fout_name = argv[2];
-    char *fnorm_name = argv[3];
-    float Nscale = atoi(argv[4]);
+    TString fevt_name = argv[1];
+    TString freco_name = argv[2];
+    TString fout_name = argv[3];
+    char *fnorm_name = argv[4];
+    TString syst_ = argv[5];
+    int evtwei_scale = atoi(argv[6]);
+    bool syst = false;
+    if (syst_ == "syst")  syst = true;
 
     // Get normalization
     float norm = GetNormFactor(fnorm_name);
 
     // Get input trees
-    cout << "[INFO] Open: " << fin_name << endl;
-    TFile *fin = new TFile(fin_name);
-    TTree *T = (TTree*)fin->Get("T");
-    TTree *Tpu = (TTree*)fin->Get("SF_pileup");
-    TTree *Tbtag = (TTree*)fin->Get("SF_btag");
-    TTree *Treco_TT = (TTree*)fin->Get("Treco_TT");
-    TTree *Treco_ST = (TTree*)fin->Get("Treco_ST");
+    TFile *fevt = new TFile(fevt_name);
+    TTree *Tevt = (TTree*)fevt->Get("T");
+    TFile *freco = new TFile(freco_name);
+    TTree *Treco_TT = (TTree*)freco->Get("Treco_TT");
+    TTree *Treco_ST = (TTree*)freco->Get("Treco_ST");
+
     // Input variables
-    // Weight & SF
-    float genweight = 0;
-    float SF_pileup = 0;
-    float SF_btag = 0;
-    float SF_photon = 0;
+    int EvtInfo_EvtNo = 0;
     // leading photon
     float DiPhoInfo_leadPt = 0;
     float DiPhoInfo_leadEta = 0;
@@ -63,6 +57,22 @@ int main(int argc, char **argv)
     // diphoton
     float DiPhoInfo_mass = 0;
     float DiPhoInfo_pt = 0;
+    // electrons
+    int ElecInfo_Size = 0;
+    vector<int> *ElecInfo_Charge = 0;
+    vector<float> *ElecInfo_Pt = 0;
+    vector<float> *ElecInfo_Eta = 0;
+    vector<float> *ElecInfo_Phi = 0;
+    vector<float> *ElecInfo_Energy = 0;
+    vector<bool> *ElecInfo_EGMCutBasedIDTight = 0;
+    // muons
+    int MuonInfo_Size = 0;
+    vector<int> *MuonInfo_Charge = 0;
+    vector<float> *MuonInfo_Pt = 0;
+    vector<float> *MuonInfo_Eta = 0;
+    vector<float> *MuonInfo_Phi = 0;
+    vector<float> *MuonInfo_Energy = 0;
+    vector<bool> *MuonInfo_CutBasedIdTight = 0;
     // jets
     int jets_size = 0;
     vector<float> *JetInfo_Pt = 0;
@@ -73,117 +83,253 @@ int main(int argc, char **argv)
     vector<float> *JetInfo_pfDeepCSVJetTags_probbb = 0;
     // MET
     float MetInfo_Pt = 0;
+    float MetInfo_Phi = 0;
+    // Event weight
+    // Central
+    float evtwei_central = 0;
+    // Photon syst
+    float evtwei_DiPhoLooseMvaSFUp = 0;
+    float evtwei_DiPhoLooseMvaSFDown = 0;
+    float evtwei_DiPhoPreselSFUp = 0;
+    float evtwei_DiPhoPreselSFDown = 0;
+    float evtwei_DiPhoelectronVetoSFUp = 0;
+    float evtwei_DiPhoelectronVetoSFDown = 0;
+    float evtwei_DiPhoTriggerWeightUp = 0;
+    float evtwei_DiPhoTriggerWeightDown = 0;
+    // Electron syst
+    float evtwei_ElecRecoUp = 0;
+    float evtwei_ElecRecoDown = 0;
+    float evtwei_ElecIdUp = 0;
+    float evtwei_ElecIdDown = 0;
+    // Muon syst
+    float evtwei_MuonIdUp = 0;
+    float evtwei_MuonIdDown = 0;
+    float evtwei_MuonIsoUp = 0;
+    float evtwei_MuonIsoDown = 0;
+    // b-tag syst
+    float evtwei_btagjesUp = 0;
+    float evtwei_btagjesDown = 0;
+    float evtwei_btaglfUp = 0;
+    float evtwei_btaglfDown = 0;
+    float evtwei_btaghfUp = 0;
+    float evtwei_btaghfDown = 0;
+    float evtwei_btaglfstats1Up = 0;
+    float evtwei_btaglfstats1Down = 0;
+    float evtwei_btaglfstats2Up = 0;
+    float evtwei_btaglfstats2Down = 0;
+    float evtwei_btaghfstats1Up = 0;
+    float evtwei_btaghfstats1Down = 0;
+    float evtwei_btaghfstats2Up = 0;
+    float evtwei_btaghfstats2Down = 0;
+    float evtwei_btagcferr1Up = 0;
+    float evtwei_btagcferr1Down = 0;
+    float evtwei_btagcferr2Up = 0;
+    float evtwei_btagcferr2Down = 0;
     // TT reco
+    // b-jet
     int TT_bJet_idx = 0;
     float TT_bJet_Pt = 0;
     float TT_bJet_Eta = 0;
     float TT_bJet_btag = 0;
+    // M1 jet
     int TT_M1Jet_idx = 0;
     float TT_M1Jet_Pt = 0;
     float TT_M1Jet_Eta = 0;
     float TT_M1Jet_btag = 0;
+    // W jet 1
     int TT_WJet1_idx = 0;
     float TT_WJet1_Pt = 0;
     float TT_WJet1_Eta = 0;
     float TT_WJet1_btag = 0;
+    // W jet 2
     int TT_WJet2_idx = 0;
     float TT_WJet2_Pt = 0;
     float TT_WJet2_Eta = 0;
     float TT_WJet2_btag = 0;
+    // lepton
+    int TT_lep_idx = 0;
+    float TT_lep_ID = 0;
+    float TT_lep_Pt = 0;
+    float TT_lep_Eta = 0;
+    // nu
+    float TT_nu_Pz = 0;
+    // MVA score
     float TT_MVA_score = 0;
     // ST reco
+    // b-jet
     int ST_bJet_idx = 0;
     float ST_bJet_Pt = 0;
     float ST_bJet_Eta = 0;
     float ST_bJet_btag = 0;
+    // W jet 1
     int ST_WJet1_idx = 0;
     float ST_WJet1_Pt = 0;
     float ST_WJet1_Eta = 0;
     float ST_WJet1_btag = 0;
+    // W jet 2
     int ST_WJet2_idx = 0;
     float ST_WJet2_Pt = 0;
     float ST_WJet2_Eta = 0;
     float ST_WJet2_btag = 0;
+    // lepton
+    int ST_lep_idx = 0;
+    float ST_lep_ID = 0;
+    float ST_lep_Pt = 0;
+    float ST_lep_Eta = 0;
+    // nu
+    float ST_nu_Pz = 0;
+    // MVA score
     float ST_MVA_score = 0;
+
     // Set branches
-    // Weight & SF
-    T->SetBranchAddress("EvtInfo.genweight", &genweight);
-    Tpu->SetBranchAddress("SF_pileup", &SF_pileup);
-    Tbtag->SetBranchAddress("SF_btag", &SF_btag);
-    T->SetBranchAddress("DiPhoInfo.centralWeight", &SF_photon);
+    Tevt->SetBranchAddress("EvtInfo.EvtNo", &EvtInfo_EvtNo);
     // leading photon
-    T->SetBranchAddress("DiPhoInfo.leadPt", &DiPhoInfo_leadPt);
-    T->SetBranchAddress("DiPhoInfo.leadEta", &DiPhoInfo_leadEta);
-    T->SetBranchAddress("DiPhoInfo.leadPhi", &DiPhoInfo_leadPhi);
-    T->SetBranchAddress("DiPhoInfo.leadE", &DiPhoInfo_leadE);
-    T->SetBranchAddress("DiPhoInfo.leadIDMVA", &DiPhoInfo_leadIDMVA);
-    T->SetBranchAddress("DiPhoInfo.leadhasPixelSeed", &DiPhoInfo_leadhasPixelSeed);
+    Tevt->SetBranchAddress("DiPhoInfo.leadPt", &DiPhoInfo_leadPt);
+    Tevt->SetBranchAddress("DiPhoInfo.leadEta", &DiPhoInfo_leadEta);
+    Tevt->SetBranchAddress("DiPhoInfo.leadPhi", &DiPhoInfo_leadPhi);
+    Tevt->SetBranchAddress("DiPhoInfo.leadE", &DiPhoInfo_leadE);
+    Tevt->SetBranchAddress("DiPhoInfo.leadIDMVA", &DiPhoInfo_leadIDMVA);
+    Tevt->SetBranchAddress("DiPhoInfo.leadhasPixelSeed", &DiPhoInfo_leadhasPixelSeed);
     // subleading photon
-    T->SetBranchAddress("DiPhoInfo.subleadPt", &DiPhoInfo_subleadPt);
-    T->SetBranchAddress("DiPhoInfo.subleadEta", &DiPhoInfo_subleadEta);
-    T->SetBranchAddress("DiPhoInfo.subleadPhi", &DiPhoInfo_subleadPhi);
-    T->SetBranchAddress("DiPhoInfo.subleadE", &DiPhoInfo_subleadE);
-    T->SetBranchAddress("DiPhoInfo.subleadIDMVA", &DiPhoInfo_subleadIDMVA);
-    T->SetBranchAddress("DiPhoInfo.subleadhasPixelSeed", &DiPhoInfo_subleadhasPixelSeed);
+    Tevt->SetBranchAddress("DiPhoInfo.subleadPt", &DiPhoInfo_subleadPt);
+    Tevt->SetBranchAddress("DiPhoInfo.subleadEta", &DiPhoInfo_subleadEta);
+    Tevt->SetBranchAddress("DiPhoInfo.subleadPhi", &DiPhoInfo_subleadPhi);
+    Tevt->SetBranchAddress("DiPhoInfo.subleadE", &DiPhoInfo_subleadE);
+    Tevt->SetBranchAddress("DiPhoInfo.subleadIDMVA", &DiPhoInfo_subleadIDMVA);
+    Tevt->SetBranchAddress("DiPhoInfo.subleadhasPixelSeed", &DiPhoInfo_subleadhasPixelSeed);
     // diphoton
-    T->SetBranchAddress("DiPhoInfo.mass", &DiPhoInfo_mass);
-    T->SetBranchAddress("DiPhoInfo.pt", &DiPhoInfo_pt);
+    Tevt->SetBranchAddress("DiPhoInfo.mass", &DiPhoInfo_mass);
+    Tevt->SetBranchAddress("DiPhoInfo.pt", &DiPhoInfo_pt);
+    // electrons
+    Tevt->SetBranchAddress("ElecInfo.Size", &ElecInfo_Size);
+    Tevt->SetBranchAddress("ElecInfo.Charge", &ElecInfo_Charge);
+    Tevt->SetBranchAddress("ElecInfo.Pt", &ElecInfo_Pt);
+    Tevt->SetBranchAddress("ElecInfo.Eta", &ElecInfo_Eta);
+    Tevt->SetBranchAddress("ElecInfo.Phi", &ElecInfo_Phi);
+    Tevt->SetBranchAddress("ElecInfo.Energy", &ElecInfo_Energy);
+    Tevt->SetBranchAddress("ElecInfo.EGMCutBasedIDTight", &ElecInfo_EGMCutBasedIDTight);
+    // muons
+    Tevt->SetBranchAddress("MuonInfo.Size", &MuonInfo_Size);
+    Tevt->SetBranchAddress("MuonInfo.Charge", &MuonInfo_Charge);
+    Tevt->SetBranchAddress("MuonInfo.Pt", &MuonInfo_Pt);
+    Tevt->SetBranchAddress("MuonInfo.Eta", &MuonInfo_Eta);
+    Tevt->SetBranchAddress("MuonInfo.Phi", &MuonInfo_Phi);
+    Tevt->SetBranchAddress("MuonInfo.Energy", &MuonInfo_Energy);
+    Tevt->SetBranchAddress("MuonInfo.CutBasedIdTight", &MuonInfo_CutBasedIdTight);
     // jets
-    T->SetBranchAddress("jets_size", &jets_size);
-    T->SetBranchAddress("JetInfo.Pt", &JetInfo_Pt);
-    T->SetBranchAddress("JetInfo.Eta", &JetInfo_Eta);
-    T->SetBranchAddress("JetInfo.Phi", &JetInfo_Phi);
-    T->SetBranchAddress("JetInfo.Energy", &JetInfo_Energy);
-    T->SetBranchAddress("JetInfo.pfDeepCSVJetTags_probb", &JetInfo_pfDeepCSVJetTags_probb);
-    T->SetBranchAddress("JetInfo.pfDeepCSVJetTags_probbb", &JetInfo_pfDeepCSVJetTags_probbb);
+    Tevt->SetBranchAddress("jets_size", &jets_size);
+    Tevt->SetBranchAddress("JetInfo.Pt", &JetInfo_Pt);
+    Tevt->SetBranchAddress("JetInfo.Eta", &JetInfo_Eta);
+    Tevt->SetBranchAddress("JetInfo.Phi", &JetInfo_Phi);
+    Tevt->SetBranchAddress("JetInfo.Energy", &JetInfo_Energy);
+    Tevt->SetBranchAddress("JetInfo.pfDeepCSVJetTags_probb", &JetInfo_pfDeepCSVJetTags_probb);
+    Tevt->SetBranchAddress("JetInfo.pfDeepCSVJetTags_probbb", &JetInfo_pfDeepCSVJetTags_probbb);
     // MET
-    T->SetBranchAddress("MetInfo.Pt", &MetInfo_Pt);
+    Tevt->SetBranchAddress("MetInfo.Pt", &MetInfo_Pt);
+    Tevt->SetBranchAddress("MetInfo.Phi", &MetInfo_Phi);
+    // Event weight
+    // Central
+    Tevt->SetBranchAddress("evtwei_central", &evtwei_central);
+    // Photon syst
+    Tevt->SetBranchAddress("evtwei_DiPhoLooseMvaSFUp", &evtwei_DiPhoLooseMvaSFUp);
+    Tevt->SetBranchAddress("evtwei_DiPhoLooseMvaSFDown", &evtwei_DiPhoLooseMvaSFDown);
+    Tevt->SetBranchAddress("evtwei_DiPhoPreselSFUp", &evtwei_DiPhoPreselSFUp);
+    Tevt->SetBranchAddress("evtwei_DiPhoPreselSFDown", &evtwei_DiPhoPreselSFDown);
+    Tevt->SetBranchAddress("evtwei_DiPhoelectronVetoSFUp", &evtwei_DiPhoelectronVetoSFUp);
+    Tevt->SetBranchAddress("evtwei_DiPhoelectronVetoSFDown", &evtwei_DiPhoelectronVetoSFDown);
+    Tevt->SetBranchAddress("evtwei_DiPhoTriggerWeightUp", &evtwei_DiPhoTriggerWeightUp);
+    Tevt->SetBranchAddress("evtwei_DiPhoTriggerWeightDown", &evtwei_DiPhoTriggerWeightDown);
+    // Electron syst
+    Tevt->SetBranchAddress("evtwei_ElecRecoUp", &evtwei_ElecRecoUp);
+    Tevt->SetBranchAddress("evtwei_ElecRecoDown", &evtwei_ElecRecoDown);
+    Tevt->SetBranchAddress("evtwei_ElecIdUp", &evtwei_ElecIdUp);
+    Tevt->SetBranchAddress("evtwei_ElecIdDown", &evtwei_ElecIdDown);
+    // Muon syst
+    Tevt->SetBranchAddress("evtwei_MuonIdUp", &evtwei_MuonIdUp);
+    Tevt->SetBranchAddress("evtwei_MuonIdDown", &evtwei_MuonIdDown);
+    Tevt->SetBranchAddress("evtwei_MuonIsoUp", &evtwei_MuonIsoUp);
+    Tevt->SetBranchAddress("evtwei_MuonIsoDown", &evtwei_MuonIsoDown);
+    // b-tag syst
+    Tevt->SetBranchAddress("evtwei_btagjesUp", &evtwei_btagjesUp);
+    Tevt->SetBranchAddress("evtwei_btagjesDown", &evtwei_btagjesDown);
+    Tevt->SetBranchAddress("evtwei_btaglfUp", &evtwei_btaglfUp);
+    Tevt->SetBranchAddress("evtwei_btaglfDown", &evtwei_btaglfDown);
+    Tevt->SetBranchAddress("evtwei_btaghfUp", &evtwei_btaghfUp);
+    Tevt->SetBranchAddress("evtwei_btaghfDown", &evtwei_btaghfDown);
+    Tevt->SetBranchAddress("evtwei_btaglfstats1Up", &evtwei_btaglfstats1Up);
+    Tevt->SetBranchAddress("evtwei_btaglfstats1Down", &evtwei_btaglfstats1Down);
+    Tevt->SetBranchAddress("evtwei_btaglfstats2Up", &evtwei_btaglfstats2Up);
+    Tevt->SetBranchAddress("evtwei_btaglfstats2Down", &evtwei_btaglfstats2Down);
+    Tevt->SetBranchAddress("evtwei_btaghfstats1Up", &evtwei_btaghfstats1Up);
+    Tevt->SetBranchAddress("evtwei_btaghfstats1Down", &evtwei_btaghfstats1Down);
+    Tevt->SetBranchAddress("evtwei_btaghfstats2Up", &evtwei_btaghfstats2Up);
+    Tevt->SetBranchAddress("evtwei_btaghfstats2Down", &evtwei_btaghfstats2Down);
+    Tevt->SetBranchAddress("evtwei_btagcferr1Up", &evtwei_btagcferr1Up);
+    Tevt->SetBranchAddress("evtwei_btagcferr1Down", &evtwei_btagcferr1Down);
+    Tevt->SetBranchAddress("evtwei_btagcferr2Up", &evtwei_btagcferr2Up);
+    Tevt->SetBranchAddress("evtwei_btagcferr2Down", &evtwei_btagcferr2Down);
     // TT reco
+    // b-jet
     Treco_TT->SetBranchAddress("bJet_idx", &TT_bJet_idx);
     Treco_TT->SetBranchAddress("bJet_Pt", &TT_bJet_Pt);
     Treco_TT->SetBranchAddress("bJet_Eta", &TT_bJet_Eta);
     Treco_TT->SetBranchAddress("bJet_btag", &TT_bJet_btag);
+    // M1 jet
     Treco_TT->SetBranchAddress("M1Jet_idx", &TT_M1Jet_idx);
     Treco_TT->SetBranchAddress("M1Jet_Pt", &TT_M1Jet_Pt);
     Treco_TT->SetBranchAddress("M1Jet_Eta", &TT_M1Jet_Eta);
     Treco_TT->SetBranchAddress("M1Jet_btag", &TT_M1Jet_btag);
+    // W jet 1
     Treco_TT->SetBranchAddress("WJet1_idx", &TT_WJet1_idx);
     Treco_TT->SetBranchAddress("WJet1_Pt", &TT_WJet1_Pt);
     Treco_TT->SetBranchAddress("WJet1_Eta", &TT_WJet1_Eta);
     Treco_TT->SetBranchAddress("WJet1_btag", &TT_WJet1_btag);
+    // W jet 2
     Treco_TT->SetBranchAddress("WJet2_idx", &TT_WJet2_idx);
     Treco_TT->SetBranchAddress("WJet2_Pt", &TT_WJet2_Pt);
     Treco_TT->SetBranchAddress("WJet2_Eta", &TT_WJet2_Eta);
     Treco_TT->SetBranchAddress("WJet2_btag", &TT_WJet2_btag);
-    Treco_TT->SetBranchAddress("MVA_score", &TT_MVA_score);;
+    // lepton
+    Treco_TT->SetBranchAddress("lep_idx", &TT_lep_idx);
+    Treco_TT->SetBranchAddress("lep_ID", &TT_lep_ID);
+    Treco_TT->SetBranchAddress("lep_Pt", &TT_lep_Pt);
+    Treco_TT->SetBranchAddress("lep_Eta", &TT_lep_Eta);
+    // nu
+    Treco_TT->SetBranchAddress("nu_Pz", &TT_nu_Pz);
+    // MVA score
+    Treco_TT->SetBranchAddress("MVA_score", &TT_MVA_score);
     // ST reco
+    // b-jet
     Treco_ST->SetBranchAddress("bJet_idx", &ST_bJet_idx);
     Treco_ST->SetBranchAddress("bJet_Pt", &ST_bJet_Pt);
     Treco_ST->SetBranchAddress("bJet_Eta", &ST_bJet_Eta);
     Treco_ST->SetBranchAddress("bJet_btag", &ST_bJet_btag);
+    // W jet 1
     Treco_ST->SetBranchAddress("WJet1_idx", &ST_WJet1_idx);
     Treco_ST->SetBranchAddress("WJet1_Pt", &ST_WJet1_Pt);
     Treco_ST->SetBranchAddress("WJet1_Eta", &ST_WJet1_Eta);
     Treco_ST->SetBranchAddress("WJet1_btag", &ST_WJet1_btag);
+    // W jet 2
     Treco_ST->SetBranchAddress("WJet2_idx", &ST_WJet2_idx);
     Treco_ST->SetBranchAddress("WJet2_Pt", &ST_WJet2_Pt);
     Treco_ST->SetBranchAddress("WJet2_Eta", &ST_WJet2_Eta);
     Treco_ST->SetBranchAddress("WJet2_btag", &ST_WJet2_btag);
+    // lepton
+    Treco_ST->SetBranchAddress("lep_idx", &ST_lep_idx);
+    Treco_ST->SetBranchAddress("lep_ID", &ST_lep_ID);
+    Treco_ST->SetBranchAddress("lep_Pt", &ST_lep_Pt);
+    Treco_ST->SetBranchAddress("lep_Eta", &ST_lep_Eta);
+    // nu
+    Treco_ST->SetBranchAddress("nu_Pz", &ST_nu_Pz);
+    // MVA score
     Treco_ST->SetBranchAddress("MVA_score", &ST_MVA_score);
 
     // Create output tree
     TFile *fout = new TFile(fout_name, "recreate");
     TTree *Tout = new TTree("T", "");
+
     // Output variables
-    int evt_idx = 0;
-    float genweight_ = 0;
-    float SF_pileup_ = 0;
-    float SF_btag_ = 0;
-    float SF_photon_ = 0;
-    float SF_ElecReco_ = 0;
-    float SF_ElecID_ = 0;
-    float SF_MuonID_ = 0;
-    float SF_MuonIso_ = 0;
+    int evt_no = 0;
     // photon
     float pho1_ptOverMgg = 0;
     float pho1_eta = 0;
@@ -199,6 +345,11 @@ int main(int argc, char **argv)
     float dipho_dPhi = 0;
     float dipho_dR = 0;
     float dipho_heliAngle = 0;
+    // leptons
+    float lepton_ID = 0;
+    float lepton_pt = 0;
+    float lepton_eta = 0;
+    float lepton_ntight = 0;
     // jets
     float jet1_pt = 0;
     float jet1_eta = 0;
@@ -214,10 +365,10 @@ int main(int argc, char **argv)
     float jet4_btag = 0;
     float jet_btag1 = 0;
     float jet_btag2 = 0;
-    float njets = 0;
-    float H_t = 0;
+    float jet_N = 0;
+    float jet_Ht = 0;
     // MET
-    float Et_miss = 0;
+    float met_Pt = 0;
     // reco TT
     float TT_tqH_ptOverM = 0; // top (tqH) pt over inv mass
     float TT_tqH_eta = 0; // top (tqH) eta
@@ -235,18 +386,9 @@ int main(int argc, char **argv)
     float ST_tbW_M = 0; // top (tbW) inv mass
     float ST_dR_tbW_H = 0; // angle top (tbW) & H
     float ST_score = 0;
+
     // Set branches
-    Tout->Branch("evt_idx", &evt_idx);
-    Tout->Branch("Nscale", &Nscale);
-    Tout->Branch("norm", &norm);
-    Tout->Branch("genweight", &genweight_);
-    Tout->Branch("SF_pileup", &SF_pileup_);
-    Tout->Branch("SF_btag", &SF_btag_);
-    Tout->Branch("SF_photon", &SF_photon_);
-    Tout->Branch("SF_ElecReco", &SF_ElecReco_);
-    Tout->Branch("SF_ElecID", &SF_ElecID_);
-    Tout->Branch("SF_MuonID", &SF_MuonID_);
-    Tout->Branch("SF_MuonIso", &SF_MuonIso_);
+    Tout->Branch("evt_no", &evt_no);
     // photons
     Tout->Branch("pho1_ptOverMgg", &pho1_ptOverMgg);
     Tout->Branch("pho1_eta", &pho1_eta);
@@ -262,6 +404,11 @@ int main(int argc, char **argv)
     Tout->Branch("dipho_dPhi", &dipho_dPhi);
     Tout->Branch("dipho_dR", &dipho_dR);
     Tout->Branch("dipho_heliAngle", &dipho_heliAngle);
+    // leptons
+    Tout->Branch("lepton_ID", &lepton_ID);
+    Tout->Branch("lepton_pt", &lepton_pt);
+    Tout->Branch("lepton_eta", &lepton_eta);
+    Tout->Branch("lepton_ntight", &lepton_ntight);
     // jets
     Tout->Branch("jet1_pt", &jet1_pt);
     Tout->Branch("jet1_eta", &jet1_eta);
@@ -277,10 +424,10 @@ int main(int argc, char **argv)
     Tout->Branch("jet4_btag", &jet4_btag);
     Tout->Branch("jet_btag1", &jet_btag1);
     Tout->Branch("jet_btag2", &jet_btag2);
-    Tout->Branch("njets", &njets);
-    Tout->Branch("H_t", &H_t);
+    Tout->Branch("jet_N", &jet_N);
+    Tout->Branch("jet_Ht", &jet_Ht);
     // MET
-    Tout->Branch("Et_miss", &Et_miss);
+    Tout->Branch("met_Pt", &met_Pt);
     // reco TT
     Tout->Branch("TT_tqH_ptOverM", &TT_tqH_ptOverM);
     Tout->Branch("TT_tqH_eta", &TT_tqH_eta);
@@ -298,9 +445,51 @@ int main(int argc, char **argv)
     Tout->Branch("ST_tbW_M", &ST_tbW_M);
     Tout->Branch("ST_dR_tbW_H", &ST_dR_tbW_H);
     Tout->Branch("ST_score", &ST_score);
+    // Event weight
+    Tout->Branch("evtwei_scale", &evtwei_scale);
+    // Central
+    Tout->Branch("evtwei_central", &evtwei_central);
+    // Photon syst
+    Tout->Branch("evtwei_DiPhoLooseMvaSFUp", &evtwei_DiPhoLooseMvaSFUp);
+    Tout->Branch("evtwei_DiPhoLooseMvaSFDown", &evtwei_DiPhoLooseMvaSFDown);
+    Tout->Branch("evtwei_DiPhoPreselSFUp", &evtwei_DiPhoPreselSFUp);
+    Tout->Branch("evtwei_DiPhoPreselSFDown", &evtwei_DiPhoPreselSFDown);
+    Tout->Branch("evtwei_DiPhoelectronVetoSFUp", &evtwei_DiPhoelectronVetoSFUp);
+    Tout->Branch("evtwei_DiPhoelectronVetoSFDown", &evtwei_DiPhoelectronVetoSFDown);
+    Tout->Branch("evtwei_DiPhoTriggerWeightUp", &evtwei_DiPhoTriggerWeightUp);
+    Tout->Branch("evtwei_DiPhoTriggerWeightDown", &evtwei_DiPhoTriggerWeightDown);
+    // Electron syst
+    Tout->Branch("evtwei_ElecRecoUp", &evtwei_ElecRecoUp);
+    Tout->Branch("evtwei_ElecRecoDown", &evtwei_ElecRecoDown);
+    Tout->Branch("evtwei_ElecIdUp", &evtwei_ElecIdUp);
+    Tout->Branch("evtwei_ElecIdDown", &evtwei_ElecIdDown);
+    // Muon syst
+    Tout->Branch("evtwei_MuonIdUp", &evtwei_MuonIdUp);
+    Tout->Branch("evtwei_MuonIdDown", &evtwei_MuonIdDown);
+    Tout->Branch("evtwei_MuonIsoUp", &evtwei_MuonIsoUp);
+    Tout->Branch("evtwei_MuonIsoDown", &evtwei_MuonIsoDown);
+    // b-tag syst
+    Tout->Branch("evtwei_btagjesUp", &evtwei_btagjesUp);
+    Tout->Branch("evtwei_btagjesDown", &evtwei_btagjesDown);
+    Tout->Branch("evtwei_btaglfUp", &evtwei_btaglfUp);
+    Tout->Branch("evtwei_btaglfDown", &evtwei_btaglfDown);
+    Tout->Branch("evtwei_btaghfUp", &evtwei_btaghfUp);
+    Tout->Branch("evtwei_btaghfDown", &evtwei_btaghfDown);
+    Tout->Branch("evtwei_btaglfstats1Up", &evtwei_btaglfstats1Up);
+    Tout->Branch("evtwei_btaglfstats1Down", &evtwei_btaglfstats1Down);
+    Tout->Branch("evtwei_btaglfstats2Up", &evtwei_btaglfstats2Up);
+    Tout->Branch("evtwei_btaglfstats2Down", &evtwei_btaglfstats2Down);
+    Tout->Branch("evtwei_btaghfstats1Up", &evtwei_btaghfstats1Up);
+    Tout->Branch("evtwei_btaghfstats1Down", &evtwei_btaghfstats1Down);
+    Tout->Branch("evtwei_btaghfstats2Up", &evtwei_btaghfstats2Up);
+    Tout->Branch("evtwei_btaghfstats2Down", &evtwei_btaghfstats2Down);
+    Tout->Branch("evtwei_btagcferr1Up", &evtwei_btagcferr1Up);
+    Tout->Branch("evtwei_btagcferr1Down", &evtwei_btagcferr1Down);
+    Tout->Branch("evtwei_btagcferr2Up", &evtwei_btagcferr2Up);
+    Tout->Branch("evtwei_btagcferr2Down", &evtwei_btagcferr2Down);
 
     // 4-momenta
-    TLorentzVector leadpho, subleadpho;
+    TLorentzVector leadPho, subleadPho;
     TLorentzVector diphoton;
     TLorentzVector TT_bJet, TT_M1Jet, TT_WJet1, TT_WJet2;
     TLorentzVector TT_tqH, TT_tbW, TT_W;
@@ -308,19 +497,17 @@ int main(int argc, char **argv)
     TLorentzVector ST_tbW, ST_W;
 
     // Start event loop
-    for (int evt=0; evt<T->GetEntries(); ++evt)
+    for (int evt=0; evt<Tevt->GetEntries(); ++evt)
     {
-        T->GetEntry(evt);
-        Tpu->GetEntry(evt);
-        Tbtag->GetEntry(evt);
+        Tevt->GetEntry(evt);
         Treco_TT->GetEntry(evt);
         Treco_ST->GetEntry(evt);
 
         // Set 4-momenta
         // photons
-        leadpho.SetPtEtaPhiE(DiPhoInfo_leadPt, DiPhoInfo_leadEta, DiPhoInfo_leadPhi, DiPhoInfo_leadE);
-        subleadpho.SetPtEtaPhiE(DiPhoInfo_subleadPt, DiPhoInfo_subleadEta, DiPhoInfo_subleadPhi, DiPhoInfo_subleadE);
-        diphoton = leadpho + subleadpho;
+        leadPho.SetPtEtaPhiE(DiPhoInfo_leadPt, DiPhoInfo_leadEta, DiPhoInfo_leadPhi, DiPhoInfo_leadE);
+        subleadPho.SetPtEtaPhiE(DiPhoInfo_subleadPt, DiPhoInfo_subleadEta, DiPhoInfo_subleadPhi, DiPhoInfo_subleadE);
+        diphoton = leadPho + subleadPho;
         // TT reco
         if (TT_bJet_idx >= 0) {
             float TT_bJet_Phi = JetInfo_Phi->at(TT_bJet_idx);
@@ -353,20 +540,13 @@ int main(int argc, char **argv)
         ST_tbW = ST_W + ST_bJet;
 
         // Calculate output values
-        evt_idx = evt;
-        genweight_ = genweight;
-        SF_pileup_ = SF_pileup;
-        SF_btag_ = SF_btag;
-        SF_photon_ = SF_photon;
-        SF_ElecReco_ = 1;
-        SF_ElecID_ = 1;
-        SF_MuonID_ = 1;
-        SF_MuonIso_ = 1;
+        evt_no = EvtInfo_EvtNo;
+
         // photons
-        pho1_ptOverMgg = DiPhoInfo_leadPt/DiPhoInfo_mass;
+        pho1_ptOverMgg = DiPhoInfo_leadPt / DiPhoInfo_mass;
         pho1_eta = DiPhoInfo_leadEta;
         pho1_PixelSeed = (float)DiPhoInfo_leadhasPixelSeed;
-        pho2_ptOverMgg = DiPhoInfo_subleadPt/DiPhoInfo_mass;
+        pho2_ptOverMgg = DiPhoInfo_subleadPt / DiPhoInfo_mass;
         pho2_eta = DiPhoInfo_subleadEta;
         pho2_PixelSeed = (float)DiPhoInfo_subleadhasPixelSeed;
         if (DiPhoInfo_leadIDMVA > DiPhoInfo_subleadIDMVA) {
@@ -378,23 +558,29 @@ int main(int argc, char **argv)
         }
 
         // diphoton
-        dipho_ptOverMgg = DiPhoInfo_pt/DiPhoInfo_mass;
+        dipho_ptOverMgg = DiPhoInfo_pt / DiPhoInfo_mass;
         dipho_eta = diphoton.Eta();
         // |cos(dPhi)|
         dipho_dPhi = fabs(DiPhoInfo_leadPhi - DiPhoInfo_subleadPhi);
         if (dipho_dPhi > TMath::Pi()) dipho_dPhi = 2*TMath::Pi() - dipho_dPhi;
         dipho_dPhi = fabs(TMath::Cos(dipho_dPhi));
         // dR
-        dipho_dR = leadpho.DeltaR(subleadpho);
+        dipho_dR = leadPho.DeltaR(subleadPho);
         // |cos(helicity angle)|
         TVector3 dipho_v = diphoton.BoostVector(); // velocity of diphoton
-        TLorentzVector leadpho_boost(leadpho);
+        TLorentzVector leadpho_boost(leadPho);
         // Note: Boost() perform transformation of 4-vectors from "rod frame" to "original frame"
         // Here we need transformation from "original" to "rod", so the extra minus sign
         // See: https://root.cern/doc/master/classTLorentzVector.html
         leadpho_boost.Boost(-dipho_v);
         dipho_heliAngle = (diphoton.Vect()).Angle(leadpho_boost.Vect()); // angle btw spacial components
         dipho_heliAngle = fabs( TMath::Cos(dipho_heliAngle) );
+
+        // leptons
+        lepton_ID = -999;
+        lepton_pt = -999;
+        lepton_eta = -999;
+        lepton_ntight = -999;
 
         // jets
         vector<float> Jet_btag(jets_size);
@@ -424,16 +610,18 @@ int main(int argc, char **argv)
         }
         jet_btag1 = Jet_btag[0];
         jet_btag2 = Jet_btag[1];
-        njets = (float)jets_size;
-        H_t = 0;
-        for (int i=0; i<jets_size; ++i) H_t += JetInfo_Pt->at(i);
+        // Jet number
+        jet_N = (float)jets_size;
+        // Jet H_t
+        jet_Ht = 0;
+        for (int i=0; i<jets_size; ++i) jet_Ht += JetInfo_Pt->at(i);
 
         // MET
-        Et_miss = MetInfo_Pt;
+        met_Pt = MetInfo_Pt;
 
         // reco TT
         if (TT_bJet_idx >= 0) { // If the event can be reconstructed
-            TT_tqH_ptOverM = TT_tqH.Pt()/TT_tqH.M();
+            TT_tqH_ptOverM = TT_tqH.Pt() / TT_tqH.M();
             TT_tqH_eta = TT_tqH.Eta();
             TT_dR_tqH_H = TT_tqH.DeltaR(diphoton);
             TT_dR_qH = diphoton.DeltaR(TT_M1Jet);
@@ -463,14 +651,58 @@ int main(int argc, char **argv)
         ST_dR_tbW_H = ST_tbW.DeltaR(diphoton);
         ST_score = ST_MVA_score;
 
+        // Event weight
+        // Central
+        evtwei_central *= norm;
+        if (syst) {
+            // Photon syst
+            evtwei_DiPhoLooseMvaSFUp *= norm;
+            evtwei_DiPhoLooseMvaSFDown *= norm;
+            evtwei_DiPhoPreselSFUp *= norm;
+            evtwei_DiPhoPreselSFDown *= norm;
+            evtwei_DiPhoelectronVetoSFUp *= norm;
+            evtwei_DiPhoelectronVetoSFDown *= norm;
+            evtwei_DiPhoTriggerWeightUp *= norm;
+            evtwei_DiPhoTriggerWeightDown *= norm;
+            // Electron syst
+            evtwei_ElecRecoUp *= norm;
+            evtwei_ElecRecoDown *= norm;
+            evtwei_ElecIdUp *= norm;
+            evtwei_ElecIdDown *= norm;
+            // Muon syst
+            evtwei_MuonIdUp *= norm;
+            evtwei_MuonIdDown *= norm;
+            evtwei_MuonIsoUp *= norm;
+            evtwei_MuonIsoDown *= norm;
+            // b-tag syst
+            evtwei_btagjesUp *= norm;
+            evtwei_btagjesDown *= norm;
+            evtwei_btaglfUp *= norm;
+            evtwei_btaglfDown *= norm;
+            evtwei_btaghfUp *= norm;
+            evtwei_btaghfDown *= norm;
+            evtwei_btaglfstats1Up *= norm;
+            evtwei_btaglfstats1Down *= norm;
+            evtwei_btaglfstats2Up *= norm;
+            evtwei_btaglfstats2Down *= norm;
+            evtwei_btaghfstats1Up *= norm;
+            evtwei_btaghfstats1Down *= norm;
+            evtwei_btaghfstats2Up *= norm;
+            evtwei_btaghfstats2Down *= norm;
+            evtwei_btagcferr1Up *= norm;
+            evtwei_btagcferr1Down *= norm;
+            evtwei_btagcferr2Up *= norm;
+            evtwei_btagcferr2Down *= norm;
+        }
+
         Tout->Fill();
     } // End of event loop
 
     // Save results
     fout->WriteTObject(Tout);
     fout->Close();
-    fin->Close();
-    cout << "[INFO] Output saved: " << fout_name << endl;
+    freco->Close();
+    fevt->Close();
 
     return 0;
 }

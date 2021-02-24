@@ -1,12 +1,21 @@
 #!/usr/bin/env python2
 
-import Path, Util, Samples
+import Path, Util
 import os, sys
 from os.path import join, exists
-from Samples import sig_MC_s, bkg_MC_s
+from Samples import sig_MC, bkg_MC
 
 
-def RunSample(indir_name, outdir_name, ch, sample, nscale):
+def Process(cmd, nt, scale):
+    print '---Processing:', nt
+    fp = os.popen( cmd.format(nt=nt, scale=scale) )
+    print fp.read()
+    fp.close()
+
+
+def MakeBDTinput(evtdir_name, recodir_name, outdir_name, ch):
+    # Note:
+    # For data & data-driven_QCD, add normfactor histograms with value 1
     if ch == 'had':
         exe = join(Path.dir_bin, 'MakeBDTinput_had')
     elif ch == 'lep':
@@ -14,126 +23,60 @@ def RunSample(indir_name, outdir_name, ch, sample, nscale):
     else:
         print '[ERROR] Invalid channel'
         sys.exit(1)
-    filename = sample + '.root'
-    fin = join(Path.dir_2017, indir_name, filename)
+    evtdir = join(Path.dir_2017, evtdir_name)
+    recodir = join(Path.dir_2017, recodir_name)
     outdir = join(Path.dir_2017, outdir_name)
-    fout = join(outdir, filename)
-    fnorm = join(Path.dir_2017, 'normfactor', filename)
+    normdir = join(Path.dir_2017, 'normfactor')
 
     if not exists(exe):
         print '[ERROR] Executable not exist'
         sys.exit(1)
-    # If the input file does not exist, return
-    if not exists(fin):
-        print '[Warning] Input file not exist: {}\n'.format(filename)
-        return
+    if not exists(evtdir) or not exists(recodir):
+        print '[ERROR] Input dir not exist'
+        sys.exit(1)
     if not exists(outdir):
         Util.CreateDir(outdir)
 
     # Command template
-    cmd = '{bin} {fin} {fout} {fnorm} {nscale}'.format(
-            bin=exe, fin=fin, fout=fout, fnorm=fnorm, nscale=nscale)
+    cmd_syst = '{exe} {evtdir}/{{nt}}.root {recodir}/{{nt}}.root {outdir}/{{nt}}.root {normdir}/{{nt}}.root {syst} {{scale}}'.format(
+            exe=exe, evtdir=evtdir, recodir=recodir, outdir=outdir, normdir=normdir, syst='syst')
+    cmd_nosyst = '{exe} {evtdir}/{{nt}}.root {recodir}/{{nt}}.root {outdir}/{{nt}}.root {normdir}/{{nt}}.root {syst} {{scale}}'.format(
+            exe=exe, evtdir=evtdir, recodir=recodir, outdir=outdir, normdir=normdir, syst='nosyst')
 
-    # Run
-    print 'Processing:', sample
-    fp = os.popen(cmd)
-    print fp.read()
-    fp.close()
-# End of function RunSample
-
-
-def RunSignal(indir_name, outdir_name, ch):
-    for sigtype in sig_MC_s:
+    # Process signal MC
+    for sigtype in sig_MC:
         if sigtype[1] != ch:
             continue
-        for nt in sig_MC_s[sigtype]:
-            RunSample(indir_name, outdir_name, ch, nt, 4)
-
-
-def RunResonantBkg(indir_name, outdir_name, ch):
-    for nt in bkg_MC_s['Higgs']:
-        RunSample(indir_name, outdir_name, ch, nt, 3)
-
-
-def RunNonResonantBkg(indir_name, outdir_name, ch):
-    for cat in bkg_MC_s:
+        for nt in sig_MC[sigtype]:
+            Process(cmd_syst, nt, 3)
+    # Process resonant bkg
+    for nt in bkg_MC['Higgs']:
+        Process(cmd_syst, nt, 3)
+    # Process non-res bkg
+    for cat in bkg_MC:
         if cat == 'Higgs':
             continue
-        for nt in bkg_MC_s[cat]:
-            RunSample(indir_name, outdir_name, ch, nt, 2)
+        for nt in bkg_MC[cat]:
+            if ch=='lep' and nt=='QCD_Pt-30to40_MGG-80toInf':
+                continue
+            Process(cmd_nosyst, nt, 2)
+    # Process data-driven QCD
+    if ch == 'had':
+        # Data-driven QCD
+        Process(cmd_nosyst, 'Data-driven_QCD', 2)
+        # Scaled DiPhotonJetsBox
+        cmd_sc = '''{exe} {evtdir}/DiPhotonJetsBox_scaled.root {recodir}/DiPhotonJetsBox.root \
+                {outdir}/DiPhotonJetsBox_scaled.root {normdir}/DiPhotonJetsBox.root nosyst 2'''.format(
+                exe=exe, evtdir=evtdir, recodir=recodir, outdir=outdir, normdir=normdir)
+        print '---Processing: DiPhotonJetsBox_scaled'
+        fp = os.popen(cmd_sc)
+        print fp.read()
+        fp.close()
+    # Process data
+    Process(cmd_nosyst, 'data', 1)
+# End of function MakeBDTinput
 
 
 if __name__ == '__main__':
-    # BDT had training
-    #print '\n<BDT had training>'
-    #indir = 'BDT_had/train'
-    #outdir = 'BDT_had/train_BDT'
-    #ch = 'had'
-    #RunSignal(indir, outdir, ch)
-    #RunResonantBkg(indir, outdir, ch)
-    #RunNonResonantBkg(indir, outdir, ch) # No need to run this for optimization / model
-
-    # BDT had testing
-    #print '\n<BDT had testing>'
-    #indir = 'BDT_had/test'
-    #outdir = 'BDT_had/test_BDT'
-    #ch = 'had'
-    #RunSignal(indir, outdir, ch)
-    #RunResonantBkg(indir, outdir, ch)
-    #RunNonResonantBkg(indir, outdir, ch) # No need to run this for optimization / model
-    #RunSample(indir, outdir, ch, 'data', 1)
-
-    # BDT lep training
-    #print '\n<BDT lep training>'
-    #indir = 'BDT_lep/train'
-    #outdir = 'BDT_lep/train_BDT'
-    #ch = 'lep'
-    #RunSignal(indir, outdir, ch)
-    #RunResonantBkg(indir, outdir, ch)
-    #RunNonResonantBkg(indir, outdir, ch) # No need to run this for optimization / model
-
-    # BDT lep testing
-    #print '\n<BDT lep testing>'
-    indir = 'BDT_lep/test'
-    outdir = 'BDT_lep/test_BDT'
-    ch = 'lep'
-    #RunSignal(indir, outdir, ch)
-    #RunResonantBkg(indir, outdir, ch)
-    #RunNonResonantBkg(indir, outdir, ch) # No need to run this for optimization / model
-    RunSample(indir, outdir, ch, 'data', 1)
-
-    # had optimization
-    #print '\n<had optimization>'
-    #indir = 'optimization_had/plain'
-    #outdir = 'optimization_had/BDT'
-    #ch = 'had'
-    #RunSignal(indir, outdir, ch)
-    #RunResonantBkg(indir, outdir, ch)
-    #RunSample(indir, outdir, ch, 'data', 2)
-
-    # lep optimization
-    #print '\n<lep optimization>'
-    #indir = 'optimization_lep/plain'
-    #outdir = 'optimization_lep/BDT'
-    #ch = 'lep'
-    #RunSignal(indir, outdir, ch)
-    #RunResonantBkg(indir, outdir, ch)
-    #RunSample(indir, outdir, ch, 'data', 2)
-
-    # had model
-    #print '\n<had model>'
-    #indir = 'model_had/plain'
-    #outdir = 'model_had/BDT'
-    #ch = 'had'
-    #RunSignal(indir, outdir, ch)
-    #RunResonantBkg(indir, outdir, ch)
-    #RunSample(indir, outdir, ch, 'data', 2)
-
-    # lep model
-    #print '\n<lep model>'
-    #indir = 'model_lep/plain'
-    #outdir = 'model_lep/BDT'
-    #ch = 'lep'
-    #RunSignal(indir, outdir, ch)
-    #RunResonantBkg(indir, outdir, ch)
-    #RunSample(indir, outdir, ch, 'data', 2)
+    #MakeBDTinput('Presel_had_phID_btag-L', 'MVAreco_result_had', 'BDT_input_had', 'had')
+    MakeBDTinput('Presel_lep_phID', 'MVAreco_result_lep', 'BDT_input_lep', 'lep')
