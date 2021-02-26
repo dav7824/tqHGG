@@ -278,3 +278,30 @@ Input:
 Output:
   Hadronic: BDT_input_had/plots/
   Leptonic: BDT_input_lep/plots/
+
+
+---BDT training---
+src/BDT_train.cc:
+Train BDT for hadronic or leptonic channel.
+Run with script/BDT_train.py.
+Input:
+  Hadronic: BDT_input_had/
+  Leptonic: BDT_input_lep/
+Output:
+  BDT_model/
+
+macro/PlotBDTscore.cc:
+Make BDT score plots for training/test signal/background samples.
+The only reason that this macro exists is that TMVA somehow cannot make the plot for hadronic channel
+using TMVA::TMVAGui(filename).
+WTF TMVA!?
+
+
+---BDT application---
+
+src/BDT_application.cc:
+Applied BDT to hadronic or leptonic channel. BDT score is attached to input tree.
+Run with script/BDT_application.py.
+Input:
+  Hadronic: BDT_input_had/
+  Leptonic: BDT_input_lep/

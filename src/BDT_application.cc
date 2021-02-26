@@ -2,7 +2,7 @@
  * Apply trained BDT to samples.
  *
  * Usage:
- *   ./BDTapplication <fin> <fweight> <fout> <ch>
+ *   ./BDT_application <fin> <fweight> <ch>
  */
 
 #include "TMVA/Tools.h"
@@ -10,7 +10,6 @@
 #include "TString.h"
 #include "TFile.h"
 #include "TTree.h"
-
 #include <iostream>
 #include <cstdlib>
 using namespace std;
@@ -20,8 +19,7 @@ int main(int argc, char **argv)
     // Get command line arguments
     TString fin_name = argv[1];
     TString fweight_name = argv[2];
-    TString fout_name = argv[3];
-    TString ch = argv[4];
+    TString ch = argv[3];
     if (ch!="had" && ch!="lep") {
         cout << "[ERROR] Invalid channel!\n";
         exit(1);
@@ -29,7 +27,7 @@ int main(int argc, char **argv)
 
     // Read input
     cout << "[INFO] Openning file: " << fin_name << endl;
-    TFile *fin = new TFile(fin_name);
+    TFile *fin = new TFile(fin_name, "update");
     TTree *Tin = (TTree*)fin->Get("T");
 
     // Input tree variables for BDT
@@ -68,10 +66,10 @@ int main(int argc, char **argv)
     float jet4_btag = 0;
     float jet_btag1 = 0;
     float jet_btag2 = 0;
-    float njets = 0;
-    float H_t = 0;
+    float jet_N = 0;
+    float jet_Ht = 0;
     // MET
-    float Et_miss = 0;
+    float met_Pt = 0;
     // reco TT
     float TT_tqH_ptOverM = 0;
     float TT_tqH_eta = 0;
@@ -107,12 +105,10 @@ int main(int argc, char **argv)
     Tin->SetBranchAddress("dipho_dR", &dipho_dR);
     Tin->SetBranchAddress("dipho_heliAngle", &dipho_heliAngle);
     // leptons
-    if (ch == "lep") {
-        Tin->SetBranchAddress("lepton_ID", &lepton_ID);
-        Tin->SetBranchAddress("lepton_pt", &lepton_pt);
-        Tin->SetBranchAddress("lepton_eta", &lepton_eta);
-        Tin->SetBranchAddress("lepton_ntight", &lepton_ntight);
-    }
+    Tin->SetBranchAddress("lepton_ID", &lepton_ID);
+    Tin->SetBranchAddress("lepton_pt", &lepton_pt);
+    Tin->SetBranchAddress("lepton_eta", &lepton_eta);
+    Tin->SetBranchAddress("lepton_ntight", &lepton_ntight);
     // jets
     Tin->SetBranchAddress("jet1_pt", &jet1_pt);
     Tin->SetBranchAddress("jet1_eta", &jet1_eta);
@@ -123,17 +119,15 @@ int main(int argc, char **argv)
     Tin->SetBranchAddress("jet3_pt", &jet3_pt);
     Tin->SetBranchAddress("jet3_eta", &jet3_eta);
     Tin->SetBranchAddress("jet3_btag", &jet3_btag);
-    if (ch == "had") {
-        Tin->SetBranchAddress("jet4_pt", &jet4_pt);
-        Tin->SetBranchAddress("jet4_eta", &jet4_eta);
-        Tin->SetBranchAddress("jet4_btag", &jet4_btag);
-    }
+    Tin->SetBranchAddress("jet4_pt", &jet4_pt);
+    Tin->SetBranchAddress("jet4_eta", &jet4_eta);
+    Tin->SetBranchAddress("jet4_btag", &jet4_btag);
     Tin->SetBranchAddress("jet_btag1", &jet_btag1);
     Tin->SetBranchAddress("jet_btag2", &jet_btag2);
-    Tin->SetBranchAddress("njets", &njets);
-    Tin->SetBranchAddress("H_t", &H_t);
+    Tin->SetBranchAddress("jet_N", &jet_N);
+    Tin->SetBranchAddress("jet_Ht", &jet_Ht);
     // MET
-    Tin->SetBranchAddress("Et_miss", &Et_miss);
+    Tin->SetBranchAddress("met_Pt", &met_Pt);
     // reco TT
     Tin->SetBranchAddress("TT_tqH_ptOverM", &TT_tqH_ptOverM);
     Tin->SetBranchAddress("TT_tqH_eta", &TT_tqH_eta);
@@ -153,7 +147,6 @@ int main(int argc, char **argv)
     Tin->SetBranchAddress("ST_score", &ST_score);
 
     // Create output tree
-    TFile *fout = new TFile(fout_name, "recreate");
     TTree *Tout = Tin->CloneTree(0);
     // BDT score
     float BDT_score = 0;
@@ -205,10 +198,10 @@ int main(int argc, char **argv)
     }
     reader->AddVariable("jet_btag1", &jet_btag1);
     reader->AddVariable("jet_btag2", &jet_btag2);
-    reader->AddVariable("njets", &njets);
-    reader->AddVariable("H_t", &H_t);
+    reader->AddVariable("jet_N", &jet_N);
+    reader->AddVariable("jet_Ht", &jet_Ht);
     // MET
-    reader->AddVariable("Et_miss", &Et_miss);
+    reader->AddVariable("met_Pt", &met_Pt);
     // reco TT
     reader->AddVariable("TT_tqH_ptOverM", &TT_tqH_ptOverM);
     reader->AddVariable("TT_tqH_eta", &TT_tqH_eta);
@@ -241,12 +234,11 @@ int main(int argc, char **argv)
     } // End of event loop
 
     // Save result
-    fout->Write();
-    fout->Close();
+    fin->WriteTObject(Tout, "", "Overwrite");
     fin->Close();
     delete reader;
 
-    cout << "[INFO] Output tree saved: " << fout_name << endl;
+    cout << "[INFO] MVA application completed!\n";
 
     return 0;
 }

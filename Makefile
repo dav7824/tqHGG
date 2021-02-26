@@ -92,7 +92,7 @@ ${BIN}/MakeBDTinput_%: ${BUI}/MakeBDTinput_%.o
 	@echo "[MAKE] Making $@"
 	${CC} -o $@ $^ ${ROOTLIB}
 
-${BIN}/BDTtrain_%: ${BUI}/BDTtrain_%.o
+${BIN}/BDT_train: ${BUI}/BDT_train.o
 	@echo "[MAKE] Making $@"
 	${CC} -o $@ $^ ${ROOTLIB} -lTMVA
 
@@ -100,7 +100,7 @@ ${BIN}/MakeDataDummySFtree: ${BUI}/MakeDataDummySFtree.o
 	@echo "[MAKE] Making $@"
 	${CC} -o $@ $^ ${ROOTLIB}
 
-${BIN}/BDTapplication: ${BUI}/BDTapplication.o
+${BIN}/BDT_application: ${BUI}/BDT_application.o
 	@echo "[MAKE] Making $@"
 	${CC} -o $@ $^ ${ROOTLIB} -lTMVA
 
