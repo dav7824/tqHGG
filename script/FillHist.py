@@ -89,7 +89,11 @@ def FillHist_BDT(exe_name, indir_name, outdir_name, ch):
     for cat in bkg_MC:
         if cat == 'Higgs':
             continue
+        # For hadronic channel, skip QCD MC
+        if ch=='had' and (cat in ['GGJets','GJet','QCD']):
+            continue
         for nt in bkg_MC[cat]:
+            # Skip empty sample
             if ch=='lep' and nt=='QCD_Pt-30to40_MGG-80toInf':
                 continue
             Proc(cmd, nt, 'evt_no%2==1')

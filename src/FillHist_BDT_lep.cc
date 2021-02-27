@@ -62,7 +62,7 @@ int main(int argc, char **argv)
     CreateHist(hists, "jet3_btag", "jet3 b-tag", 10, 0, 1, "");
     CreateHist(hists, "jet_btag1", "jet max b-tag", 10, 0, 1, "");
     CreateHist(hists, "jet_btag2", "jet 2nd max b-tag", 10, 0, 1, "");
-    CreateHist(hists, "jet_N", "N_{jet}", 8, -0.5, 7.5, "");
+    CreateHist(hists, "jet_N", "N_{jet}", 11, -0.5, 10.5, "");
     CreateHist(hists, "jet_Ht", "H_{T}", 10, 25, 425, "GeV");
     // MET
     CreateHist(hists, "met_Pt", "MET pt", 10, 0, 200, "GeV");
@@ -84,7 +84,7 @@ int main(int argc, char **argv)
     CreateHist(hists, "ST_dR_tbW_H", "ST #DeltaR(top(tbW),H)", 10, 0, 6, "");
     CreateHist(hists, "ST_score", "ST reco score", 10, 0, 1, "");
     // BDT score
-    //CreateHist(hists, "BDT_score", "BDT leptonic", 10, -0.6, 0.6, "");
+    CreateHist(hists, "BDT_score", "BDT leptonic", 10, -0.5, 0.4, "");
 
     // Fill histograms without loop
     // photons
@@ -141,7 +141,7 @@ int main(int argc, char **argv)
     FillHist(T, "ST_dR_tbW_H", "ST_dR_tbW_H", expr_weight, expr_cut);
     FillHist(T, "ST_score", "ST_score", expr_weight, expr_cut);
     // BDT score
-    //FillHist(T, "BDT_score", "BDT_score", expr_weight, expr_cut);
+    FillHist(T, "BDT_score", "BDT_score", expr_weight, expr_cut);
 
     // Save histograms
     for (map<TString,TH1D*>::iterator it=hists.begin(); it!=hists.end(); ++it)  it->second->Write();
