@@ -77,6 +77,55 @@ def MakeBDTinput(evtdir_name, recodir_name, outdir_name, ch):
 # End of function MakeBDTinput
 
 
+def Proc(cmd, nt):
+    print '---Processing:', nt
+    fp = os.popen( cmd.format(nt=nt) )
+    print fp.read()
+    fp.close()
+
+
+def AddBdtVar(evtdir_name, bdtdir_name, ch):
+    exe = join(Path.dir_bin, 'AddBdtVar')
+    evtdir = join(Path.dir_2017, evtdir_name)
+    bdtdir = join(Path.dir_2017, bdtdir_name)
+    if ch!='had' and ch!='lep':
+        print '[ERROR] Invalid channel'
+        sys.exit(1)
+    if not exists(exe) or not exists(evtdir) or not exists(bdtdir):
+        print '[ERROR] Required files not exist'
+        sys.exit(1)
+
+    # Command template
+    cmd = '{exe} {evtdir}/{{nt}}.root {bdtdir}/{{nt}}.root'.format(
+            exe=exe, evtdir=evtdir, bdtdir=bdtdir)
+
+    # Process signal MC
+    for sigtype in sig_MC:
+        if sigtype[1] != ch:
+            continue
+        for nt in sig_MC[sigtype]:
+            Proc(cmd, nt)
+    # Process bkg MC
+    for cat in bkg_MC:
+        # For had channel, skip MCs replaced by data-driven QCD
+        if ch=='had' and (cat in ['GGJets','GJet','QCD']):
+            continue
+        for nt in bkg_MC[cat]:
+            # Skip empty sample
+            if ch=='lep' and nt=='QCD_Pt-30to40_MGG-80toInf':
+                continue
+            Proc(cmd, nt)
+    # Process data-driven
+    if ch=='had':
+        Proc(cmd, 'Data-driven_QCD')
+        Proc(cmd, 'DiPhotonJetsBox_scaled')
+    # Process data
+    Proc(cmd, 'data')
+# End of function AddBdtVar
+
+
 if __name__ == '__main__':
     #MakeBDTinput('Presel_had_phID_btag-L', 'MVAreco_result_had', 'BDT_input_had', 'had')
-    MakeBDTinput('Presel_lep_phID', 'MVAreco_result_lep', 'BDT_input_lep', 'lep')
+    #MakeBDTinput('Presel_lep_phID', 'MVAreco_result_lep', 'BDT_input_lep', 'lep')
+    #AddBdtVar('Presel_had_phID_btag-L', 'BDT_input_had', 'had')
+    AddBdtVar('Presel_lep_phID', 'BDT_input_lep', 'lep')

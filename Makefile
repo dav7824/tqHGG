@@ -124,6 +124,10 @@ ${BIN}/ScaleWeight: ${BUI}/ScaleWeight.o
 	@echo "[MAKE] Making $@"
 	${CC} -o $@ $^ ${ROOTLIB}
 
+${BIN}/AddBdtVar: ${BUI}/AddBdtVar.o
+	@echo "[MAKE] Making $@"
+	${CC} -o $@ $^ ${ROOTLIB}
+
 ${BUI}/MVAreco_GenPerm_%.o: ${SRC}/MVAreco_GenPerm_%.cc ${INC}/MVAreco_GenPerm.h
 	@echo "[MAKE] Making $@"
 	${CC} -c -o $@ $< ${ROOTFLAG} -I. -Wno-write-strings

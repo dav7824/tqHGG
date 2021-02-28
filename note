@@ -305,3 +305,17 @@ Run with script/BDT_application.py.
 Input:
   Hadronic: BDT_input_had/
   Leptonic: BDT_input_lep/
+
+
+---Add BDT variables---
+
+src/AddBdtVar.cc:
+Add variables from event tree to BDT tree.
+Some variables are needed in later stage of analysis but are not included in BDT trees when generated,
+e.g., diphoton mass. This code reads event trees & BDT trees and adds additional variables to BDT trees.
+(In principle, events in event trees and BDT trees have 1-to-1 correspondence.) The original BDT trees
+are overwritten.
+Run with script/MakeBDTinput.py.
+Input:
+    Hadronic: Presel_had_phID_btag-L/  BDT_input_had/
+    Leptonic: Presel_lep_phID/  BDT_input_lep/
