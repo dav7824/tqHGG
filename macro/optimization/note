@@ -1,0 +1,16 @@
+---BDT scan range:
+
+-Hadronic:
+-0.24 ~ 0.38
+
+-Leptonic:
+-0.22 ~ 0.24
+
+
+--Models:
+- Signal & resonant bkg: 2 gaussians
+- Non-resonant bkg: 1 exponential
+
+--Note:
+- For hadronic channel, 98th and 99th cuts are not fitted well
+  and are not considered.

@@ -319,3 +319,38 @@ Run with script/MakeBDTinput.py.
 Input:
     Hadronic: Presel_had_phID_btag-L/  BDT_input_had/
     Leptonic: Presel_lep_phID/  BDT_input_lep/
+
+
+---Signal region optimization---
+
+macro/optimization/Opt_RoughScan.cc:
+Sketch codes for trying different functions for fitting and determining scanning range for BDT scores.
+Input:
+    Hadronic: BDT_input_had/
+    Leptonic: BDT_input_lep/
+Output plots:
+    Hadronic: optimization_had/Test*/
+    Leptonic: optimization_lep/Test*/
+Note:
+    macro/optimization/note
+
+macro/optimization/Opt_FitYield.cc:
+Estimate event yields under Mgg interval [115,135].
+For hadronic resonant bkg a few BDT cuts need different initial fitting values.
+Input:
+    Hadronic: BDT_input_had/
+    Leptonic: BDT_input_lep/
+Output:
+    Hadronic: optimization_had/Fit_*
+    Leptonic: optimization_lep/Fit_*
+Note:
+    macro/optimization/note
+
+macro/optimization/Opt_ZA.cc:
+Calculate significance and make plots.
+Input:
+    Hadronic: optimization_had/Fit_*/param.log
+    Leptonic: optimization_lep/Fit_*/param.log
+Output:
+    Hadronic: optimization_had/significance/
+    Leptonic: optimization_lep/significance/
