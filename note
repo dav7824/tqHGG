@@ -354,3 +354,20 @@ Input:
 Output:
     Hadronic: optimization_had/significance/
     Leptonic: optimization_lep/significance/
+
+
+---Make samples for model fitting---
+
+src/CutBDTscore.cc:
+Needed samples for model building are: signal MCs, resonant bkg MCs, and data (for non-resonant bkg).
+So other non-resonant MCs are not processed.
+The events are selected by (100<=Mgg<=180 GeV) && (BDT score > cut for that channel).
+For MCs, only events with evt_no%3==2 are preserved.
+Event yield after selection is calculated.
+Run with script/CutBDTscore.py.
+Input:
+    Hadronic: BDT_input_had/
+    Leptonic: BDT_input_lep/
+Output:
+    Hadronic: model_had/trees/
+    Leptonic: model_lep/trees/
