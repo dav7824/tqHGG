@@ -393,3 +393,10 @@ Non-resonant bkg models are fitted with this method.
 macro/modeling/BiasTest.cc: (not finished yet)
 Combine resonant & non-resonant bkg models.
 Calculate bias for non-res bkg model.
+
+
+---Signal & bkg modeling for MASTER---
+
+macro/modeling_for_master/MakeModels.cc:
+Fit signal & resonant bkg events to get models for discrete profiling method.
+For each channel, the models are saved together with data into a single RooWorkspace.
