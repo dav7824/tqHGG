@@ -371,3 +371,25 @@ Input:
 Output:
     Hadronic: model_had/trees/
     Leptonic: model_lep/trees/
+
+
+---Signal & bkg modeling---
+
+macro/modeling/Model_Higgs.cc:
+Fit diphoton mass with sum of gaussians.
+2 channels are fitted respectively.
+Signal models are fitted with this method.
+
+macro/modeling/Model_Higgs_v2.cc:
+Fit diphoton mass with sum of gaussians.
+2 channels are combined and fitted simultaneously.
+Resonant bkg models are fitted with this method.
+
+macro/modeling/Model_nonres.cc:
+Fit diphoton mass with various functional forms.
+2 channels are combined and fitted simultaneously.
+Non-resonant bkg models are fitted with this method.
+
+macro/modeling/BiasTest.cc: (not finished yet)
+Combine resonant & non-resonant bkg models.
+Calculate bias for non-res bkg model.
