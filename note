@@ -400,3 +400,45 @@ Calculate bias for non-res bkg model.
 macro/modeling_for_master/MakeModels.cc:
 Fit signal & resonant bkg events to get models for discrete profiling method.
 For each channel, the models are saved together with data into a single RooWorkspace.
+
+
+---Preparing datacard for HiggsCombine (using workspace from MASTER)---
+Root file location: /wk_cms2/youying/public/forMengCheng/
+Code & datacard location: /wk_cms2/mc_cheng/FCNH/CMSSW_8_1_0/src/tqHGG/
+Stuffs needed for limit calculation:
+- RooAddPdf::pdf_sigHut_
+- RooAddPdf::pdf_sigHct_
+- RooAddPdf::pdf_resbkg_
+- RooAddPdf::bestPdf (non-resonant bkg model)
+- RooDataSet::data (observed data)
+
+* The normalization of signal & resonant bkg can be found from "N_xxx" variables
+* The models for signal and resonant bkg are fitted myself and their parameters should already be set constant
+* Set the normalization of non-resonant bkg as 1. Combine will take care of the rest of the works.
+* The parameters of non-resonant bkg models are not set constant by MASTER. I would just let them float in Combine fit.
+
+
+---Systematic uncertainty (by event weight)---
+
+src/CutBDT_syst_signal.cc:
+Calculate systematic event yields (upward & downward) of signal (TT & ST), for given systematic, coupling, and channel.
+Events are required to have evt_no % 3 == 2, and have BDT score larger than cut value and Mgg be between [100,180] GeV.
+Run with script/CutBDT_syst_weight.py.
+Input dir:
+    hadronic: BDT_input_had/
+    leptonic: BDT_input_lep/
+Output dir:
+    Datacard: Datacard_syst_weight/
+
+src/CutBDT_syst_resbkg.cc:
+Calculate systematic event yields (upward & downward) of total resonant bkg, for given systematic and channel.
+Events are required to have evt_no % 3 == 2, and have BDT score larger than cut value and Mgg be between [100,180] GeV.
+Run with script/CutBDT_syst_weight.py.
+Input dir:
+    hadronic: BDT_input_had/
+    leptonic: BDT_input_lep/
+Output dir:
+    Datacard: Datacard_syst_weight/
+
+"MakeDatacard" function in script/CutBDT_syst_weight.py rearranges numbers to make the format fit the requirements of
+Combine datacards.
