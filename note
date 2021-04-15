@@ -90,18 +90,6 @@ Input:
     hadronic: Presel_had_phID_btag-L/data.root
     leptonic: Presel_lep_phID/data.root
 
----
-script/AddScaleFactors_syst.py:  (to be run)
-Add SFs to systematic trees.
-Warning: Run all trees together will occupy hundreds of GBs volumn!
-Input:
-    hadronic: Systematics/Presel_had_phID_btag-L/
-    leptonic: Systematics/Presel_lep_phID/
-b-tag factor:
-    hadronic: SFbtag_extrapolation_had/
-    leptonic: SFbtag_extrapolation_lep/
----
-
 
 ---Event yield---
 
@@ -186,10 +174,6 @@ Output:
   Hadronic: Presel_had_phID_btag-L/train_set/, opt_set/, fit_set/
   Leptonic: Presel_lep_phID/train_set/, opt_set/, fit_set/
 
-Note:
-After dividing leptonic samples, "QCD_Pt-30toInf_MGG-40to80" samples are discarded since no event
-left for some divided parts.
-
 src/ScaleWeight.cc: (not used)
 Scale event weights after dividing samples.
 Run with script/DivideSamples.py.
@@ -199,8 +183,6 @@ Input:
 
 macro/AddEventIdx.cc
 Set event index for samples having strange index. (see the above)
-
-Note: "QCD_Pt-30toInf_MGG-40to80" has only one event and is not used in the following steps.
 
 
 ---MVA reconstruction---
@@ -390,7 +372,7 @@ Fit diphoton mass with various functional forms.
 2 channels are combined and fitted simultaneously.
 Non-resonant bkg models are fitted with this method.
 
-macro/modeling/BiasTest.cc: (not finished yet)
+macro/modeling/BiasTest.cc: (not used)
 Combine resonant & non-resonant bkg models.
 Calculate bias for non-res bkg model.
 
@@ -403,6 +385,7 @@ For each channel, the models are saved together with data into a single RooWorks
 
 
 ---Preparing datacard for HiggsCombine (using workspace from MASTER)---
+
 Root file location: /wk_cms2/youying/public/forMengCheng/
 Code & datacard location: /wk_cms2/mc_cheng/FCNH/CMSSW_8_1_0/src/tqHGG/
 Stuffs needed for limit calculation:
@@ -442,3 +425,30 @@ Output dir:
 
 "MakeDatacard" function in script/CutBDT_syst_weight.py rearranges numbers to make the format fit the requirements of
 Combine datacards.
+
+
+<<< Systematic uncertainty (by TTree) >>>
+
+Due to limited space on grid5, systematic trees are processed in batches.
+Only signal and resonant background MCs need systematic.
+
+script/ProcSystTree.py:
+Run the whole processing sequence for systematic trees.
+This script runs the following 4 scripts:
+---script/AddScaleFactors_syst.py:
+Add scale factors and event weights to systematic trees.
+---script/MVAreco_syst.py:
+Generate permutations, apply MVA reconstruction, and reconstruct neutrino Pz for systematic trees.
+---script/BDT_syst.py:
+Produce BDT input tree, apply trained BDT, and add tree variables for systematic trees.
+---script/CutBDT_syst_tree.py:
+Calculate systematic variation for signal & resonant bkg.
+Uses compiled C++ code from src/CutBDT_syst_signal_tree.cc, CutBDT_syst_resbkg_tree.cc.
+The output text files are saved at Datacard_syst_tree/.
+
+
+---Prepare datacards with systematics----
+Merge manually systematics for each kind of samples (TT, ST, resonant bkg) in Datacard_syst_weight/ and Datacard_syst_tree/,
+and save result to Datacard_syst/. Then run MakeDatacard function in script/MakeDatacard.py to produce datacard systematics
+for each kind of coupling.
+Add other datacard contents and systematics manually to the datacards.

@@ -7,15 +7,12 @@ from os.path import exists, join
 
 
 def Process(cmd, nt):
-    print 'Processing:', nt
     fp = os.popen( cmd.format(nt=nt) )
-    #print fp.read()
     fp.close()
 
 
+# Add pileup SF to samples of given channel, systematic type, and variation (Up or Down)
 def ApplyPileupSF(indir_name, ch, syst, systdir):
-    print '---Calculating pileup SF:', indir_name
-    print '---Systematic:', syst+systdir
     exe = join(Path.dir_bin, 'SFcalc_PU')
     fhist = join(Path.dir_2017, 'SF', 'MCPileUp.root')
     indir = join(Path.dir_2017, 'Systematics', indir_name, syst+systdir)
@@ -53,9 +50,8 @@ def ApplyPileupSF(indir_name, ch, syst, systdir):
 # End of function ApplyPileupSF
 
 
+# Add electron SF to samples of given channel, systematic type, and variation (Up or Down)
 def ApplyElecSF(indir_name, ch, syst, systdir):
-    print '---Calculating electron SF:', indir_name
-    print '---Systematic:', syst+systdir
     exe = join(Path.dir_bin, 'SFcalc_Electron')
     freco0 = join(Path.dir_2017, 'SF', 'egammaEffi.txt_EGM2D_runBCDEF_passingRECO_lowEt.root')
     freco1 = join(Path.dir_2017, 'SF', 'egammaEffi.txt_EGM2D_runBCDEF_passingRECO.root')
@@ -96,9 +92,8 @@ def ApplyElecSF(indir_name, ch, syst, systdir):
 # End of function ApplyElecSF
 
 
+# Add muon SF to samples of given channel, systematic type, and variation (Up or Down)
 def ApplyMuonSF(indir_name, ch, syst, systdir):
-    print '---Calculating muon SF:', indir_name
-    print '---Systematic:', syst+systdir
     exe = join(Path.dir_bin, 'SFcalc_Muon')
     fid = join(Path.dir_2017, 'SF', 'RunBCDEF_SF_ID.root')
     fiso = join(Path.dir_2017, 'SF', 'RunBCDEF_SF_ISO.root')
@@ -138,9 +133,8 @@ def ApplyMuonSF(indir_name, ch, syst, systdir):
 # End of function ApplyMuonSF
 
 
+# Add b-tag SF to samples of given channel, systematic type, and variation (Up or Down)
 def ApplyBtagSF(indir_name, facdir_name, ch, syst, systdir):
-    print '---Calculating b-tagging SF:', indir_name
-    print '---Systematic:', syst+systdir
     exe = join(Path.dir_bin, 'SFcalc_btag')
     fcsv = join(Path.dir_2017, 'SF', 'DeepCSV_94XSF_V5_B_F.csv')
     indir = join(Path.dir_2017, 'Systematics', indir_name, syst+systdir)
@@ -180,9 +174,8 @@ def ApplyBtagSF(indir_name, facdir_name, ch, syst, systdir):
 # End of function ApplyBtagSF
 
 
+# Add event weight to samples of given channel, systematic type, and variation (Up or Down)
 def MakeWeight(indir_name, ch, syst, systdir):
-    print '---Calculating event weight:', indir_name
-    print '---Systematic:', syst+systdir
     exe = join(Path.dir_bin, 'MakeWeight')
     indir = join(Path.dir_2017, 'Systematics', indir_name, syst+systdir)
     if systdir!='Up' and systdir!='Down':
@@ -216,9 +209,9 @@ def MakeWeight(indir_name, ch, syst, systdir):
 # End of function MakeWeight
 
 
-# Apply all SFs for given systematics
+# Add all SFs and weights to samples of given channel, systematic type, and variation (Up or Down)
 def ProcSystSF(ch, syst, systdir):
-    print '---Process systematic:', syst+systdir
+    #print '---Processing: {}{}  ({})'.format(syst, systdir, ch)
     if ch == 'had':
         indir_name = 'Presel_had_phID_btag-L'
         facdir_name = 'SFbtag_extrapolation_had'
@@ -246,133 +239,3 @@ def ProcSystSF(ch, syst, systdir):
     ApplyBtagSF(indir_name, facdir_name, ch, syst, systdir)
     MakeWeight(indir_name, ch, syst, systdir)
 # End of function ProcSystSF
-
-
-if __name__ == '__main__':
-    ## hadronic channel
-    #ProcSystSF('had', 'MvaShift', 'Up')
-    #ProcSystSF('had', 'MvaShift', 'Down')
-    #ProcSystSF('had', 'SigmaEOverEShift', 'Up')
-    #ProcSystSF('had', 'SigmaEOverEShift', 'Down')
-    #ProcSystSF('had', 'MaterialCentralBarrel', 'Up')
-    #ProcSystSF('had', 'MaterialCentralBarrel', 'Down')
-    #ProcSystSF('had', 'MaterialOuterBarrel', 'Up')
-    #ProcSystSF('had', 'MaterialOuterBarrel', 'Down')
-    #ProcSystSF('had', 'MaterialForward', 'Up')
-    #ProcSystSF('had', 'MaterialForward', 'Down')
-    #ProcSystSF('had', 'FNUFEB', 'Up')
-    #ProcSystSF('had', 'FNUFEB', 'Down')
-    #ProcSystSF('had', 'FNUFEE', 'Up')
-    #ProcSystSF('had', 'FNUFEE', 'Down')
-    #ProcSystSF('had', 'MCScaleGain6EB', 'Up')
-    #ProcSystSF('had', 'MCScaleGain6EB', 'Down')
-    #ProcSystSF('had', 'MCScaleGain1EB', 'Up')
-    #ProcSystSF('had', 'MCScaleGain1EB', 'Down')
-    #ProcSystSF('had', 'ShowerShapeHighR9EB', 'Up')
-    #ProcSystSF('had', 'ShowerShapeHighR9EB', 'Down')
-    #ProcSystSF('had', 'MCScaleHighR9EB', 'Up')
-    #ProcSystSF('had', 'MCScaleHighR9EB', 'Down')
-    #ProcSystSF('had', 'MCSmearHighR9EBRho', 'Up')
-    #ProcSystSF('had', 'MCSmearHighR9EBRho', 'Down')
-    #ProcSystSF('had', 'MCSmearHighR9EBPhi', 'Up')
-    #ProcSystSF('had', 'MCSmearHighR9EBPhi', 'Down')
-    #ProcSystSF('had', 'ShowerShapeHighR9EE', 'Up')
-    #ProcSystSF('had', 'ShowerShapeHighR9EE', 'Down')
-    #ProcSystSF('had', 'MCScaleHighR9EE', 'Up')
-    #ProcSystSF('had', 'MCScaleHighR9EE', 'Down')
-    #ProcSystSF('had', 'MCSmearHighR9EERho', 'Up')
-    #ProcSystSF('had', 'MCSmearHighR9EERho', 'Down')
-    #ProcSystSF('had', 'MCSmearHighR9EEPhi', 'Up')
-    #ProcSystSF('had', 'MCSmearHighR9EEPhi', 'Down')
-    #ProcSystSF('had', 'ShowerShapeLowR9EB', 'Up')
-    #ProcSystSF('had', 'ShowerShapeLowR9EB', 'Down')
-    #ProcSystSF('had', 'MCScaleLowR9EB', 'Up')
-    #ProcSystSF('had', 'MCScaleLowR9EB', 'Down')
-    #ProcSystSF('had', 'MCSmearLowR9EBRho', 'Up')
-    #ProcSystSF('had', 'MCSmearLowR9EBRho', 'Down')
-    #ProcSystSF('had', 'MCSmearLowR9EBPhi', 'Up')
-    #ProcSystSF('had', 'MCSmearLowR9EBPhi', 'Down')
-    #ProcSystSF('had', 'ShowerShapeLowR9EE', 'Up')
-    #ProcSystSF('had', 'ShowerShapeLowR9EE', 'Down')
-    #ProcSystSF('had', 'MCScaleLowR9EE', 'Up')
-    #ProcSystSF('had', 'MCScaleLowR9EE', 'Down')
-    #ProcSystSF('had', 'MCSmearLowR9EERho', 'Up')
-    #ProcSystSF('had', 'MCSmearLowR9EERho', 'Down')
-    #ProcSystSF('had', 'MCSmearLowR9EEPhi', 'Up')
-    #ProcSystSF('had', 'MCSmearLowR9EEPhi', 'Down')
-    #ProcSystSF('had', 'JEC', 'Up')
-    #ProcSystSF('had', 'JEC', 'Down')
-    #ProcSystSF('had', 'JER', 'Up')
-    #ProcSystSF('had', 'JER', 'Down')
-    #ProcSystSF('had', 'METJetEn', 'Up')
-    #ProcSystSF('had', 'METJetEn', 'Down')
-    #ProcSystSF('had', 'METJetRes', 'Up')
-    #ProcSystSF('had', 'METJetRes', 'Down')
-    #ProcSystSF('had', 'METUncEn', 'Up')
-    #ProcSystSF('had', 'METUncEn', 'Down')
-    #ProcSystSF('had', 'METPhoEn', 'Up')
-    #ProcSystSF('had', 'METPhoEn', 'Down')
-
-    # leptonic channel
-    #ProcSystSF('lep', 'MvaShift', 'Up')
-    #ProcSystSF('lep', 'MvaShift', 'Down')
-    #ProcSystSF('lep', 'SigmaEOverEShift', 'Up')
-    #ProcSystSF('lep', 'SigmaEOverEShift', 'Down')
-    #ProcSystSF('lep', 'MaterialCentralBarrel', 'Up')
-    #ProcSystSF('lep', 'MaterialCentralBarrel', 'Down')
-    #ProcSystSF('lep', 'MaterialOuterBarrel', 'Up')
-    #ProcSystSF('lep', 'MaterialOuterBarrel', 'Down')
-    #ProcSystSF('lep', 'MaterialForward', 'Up')
-    #ProcSystSF('lep', 'MaterialForward', 'Down')
-    #ProcSystSF('lep', 'FNUFEB', 'Up')
-    #ProcSystSF('lep', 'FNUFEB', 'Down')
-    #ProcSystSF('lep', 'FNUFEE', 'Up')
-    #ProcSystSF('lep', 'FNUFEE', 'Down')
-    #ProcSystSF('lep', 'MCScaleGain6EB', 'Up')
-    #ProcSystSF('lep', 'MCScaleGain6EB', 'Down')
-    #ProcSystSF('lep', 'MCScaleGain1EB', 'Up')
-    #ProcSystSF('lep', 'MCScaleGain1EB', 'Down')
-    #ProcSystSF('lep', 'ShowerShapeHighR9EB', 'Up')
-    #ProcSystSF('lep', 'ShowerShapeHighR9EB', 'Down')
-    #ProcSystSF('lep', 'MCScaleHighR9EB', 'Up')
-    #ProcSystSF('lep', 'MCScaleHighR9EB', 'Down')
-    #ProcSystSF('lep', 'MCSmearHighR9EBRho', 'Up')
-    #ProcSystSF('lep', 'MCSmearHighR9EBRho', 'Down')
-    #ProcSystSF('lep', 'MCSmearHighR9EBPhi', 'Up')
-    #ProcSystSF('lep', 'MCSmearHighR9EBPhi', 'Down')
-    #ProcSystSF('lep', 'ShowerShapeHighR9EE', 'Up')
-    #ProcSystSF('lep', 'ShowerShapeHighR9EE', 'Down')
-    #ProcSystSF('lep', 'MCScaleHighR9EE', 'Up')
-    #ProcSystSF('lep', 'MCScaleHighR9EE', 'Down')
-    #ProcSystSF('lep', 'MCSmearHighR9EERho', 'Up')
-    #ProcSystSF('lep', 'MCSmearHighR9EERho', 'Down')
-    #ProcSystSF('lep', 'MCSmearHighR9EEPhi', 'Up')
-    #ProcSystSF('lep', 'MCSmearHighR9EEPhi', 'Down')
-    #ProcSystSF('lep', 'ShowerShapeLowR9EB', 'Up')
-    #ProcSystSF('lep', 'ShowerShapeLowR9EB', 'Down')
-    #ProcSystSF('lep', 'MCScaleLowR9EB', 'Up')
-    #ProcSystSF('lep', 'MCScaleLowR9EB', 'Down')
-    #ProcSystSF('lep', 'MCSmearLowR9EBRho', 'Up')
-    #ProcSystSF('lep', 'MCSmearLowR9EBRho', 'Down')
-    #ProcSystSF('lep', 'MCSmearLowR9EBPhi', 'Up')
-    #ProcSystSF('lep', 'MCSmearLowR9EBPhi', 'Down')
-    #ProcSystSF('lep', 'ShowerShapeLowR9EE', 'Up')
-    #ProcSystSF('lep', 'ShowerShapeLowR9EE', 'Down')
-    #ProcSystSF('lep', 'MCScaleLowR9EE', 'Up')
-    #ProcSystSF('lep', 'MCScaleLowR9EE', 'Down')
-    #ProcSystSF('lep', 'MCSmearLowR9EERho', 'Up')
-    #ProcSystSF('lep', 'MCSmearLowR9EERho', 'Down')
-    #ProcSystSF('lep', 'MCSmearLowR9EEPhi', 'Up')
-    #ProcSystSF('lep', 'MCSmearLowR9EEPhi', 'Down')
-    ProcSystSF('lep', 'JEC', 'Up')
-    ProcSystSF('lep', 'JEC', 'Down')
-    ProcSystSF('lep', 'JER', 'Up')
-    ProcSystSF('lep', 'JER', 'Down')
-    ProcSystSF('lep', 'METJetEn', 'Up')
-    ProcSystSF('lep', 'METJetEn', 'Down')
-    ProcSystSF('lep', 'METJetRes', 'Up')
-    ProcSystSF('lep', 'METJetRes', 'Down')
-    ProcSystSF('lep', 'METUncEn', 'Up')
-    ProcSystSF('lep', 'METUncEn', 'Down')
-    ProcSystSF('lep', 'METPhoEn', 'Up')
-    ProcSystSF('lep', 'METPhoEn', 'Down')
