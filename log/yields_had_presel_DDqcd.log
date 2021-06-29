@@ -1,0 +1,62 @@
+       TT_FCNC-TtoHJ_aThad_hct    3.38 +- 0.01
+       TT_FCNC-aTtoHJ_Thad_hct    3.38 +- 0.01
+       TT_FCNC-TtoHJ_aThad_hut    3.29 +- 0.01
+       TT_FCNC-aTtoHJ_Thad_hut    3.29 +- 0.01
+           ST_FCNC-TH_Thad_hct    0.22 +- 0.00
+           ST_FCNC-TH_Thad_hut    1.10 +- 0.00
+               DiPhotonJetsBox    27091.30 +- 36.01
+                      GJet_QCD    94988.02 +- 379.29
+                        TGJets    130.80 +- 14.65
+                    tW_antitop    44.65 +- 3.04
+                        tW_top    37.54 +- 3.11
+                          TTGG    48.11 +- 0.31
+                       TTGJets    654.81 +- 9.72
+                        TTJets    1585.78 +- 57.16
+                  TTWJetsToLNu    2.42 +- 0.13
+                   TTZToLLNuNu    1.70 +- 0.12
+                    DYJetsToLL    189.48 +- 34.07
+                      WGToLNuG    411.33 +- 18.94
+                       ZGToLLG    107.59 +- 4.89
+                            WW    32.23 +- 3.84
+                            WZ    6.17 +- 1.39
+                            ZZ    1.44 +- 0.58
+                   GluGluHToGG    60.35 +- 0.84
+                      VBFHToGG    5.45 +- 0.13
+                        VHToGG    10.20 +- 0.13
+                    ttHJetToGG    14.76 +- 0.14
+
+
+                        TT Hct    6.77 +- 0.01
+                        TT Hut    6.57 +- 0.01
+                        ST Hct    0.22 +- 0.00
+                        ST Hut    1.10 +- 0.00
+               DiPhotonJetsBox    27091.30 +- 36.01
+                      GJet_QCD    94988.02 +- 379.29
+                        TGJets    130.80 +- 14.65
+                            tW    82.19 +- 4.35
+                          TTGG    48.11 +- 0.31
+                       TTGJets    654.81 +- 9.72
+                        TTJets    1585.78 +- 57.16
+                           TTV    4.12 +- 0.18
+                            DY    189.48 +- 34.07
+                            VG    518.93 +- 19.56
+                            VV    39.84 +- 4.12
+                      SM_Higgs    90.75 +- 0.87
+
+                     Total bkg    125424.12 +- 387.71
+                          Data    130016.00 +- 360.58
+                (MC-data)/data    -3.5 +- 0.4 %
+
+
+               DiPhotonJetsBox    21.60 %
+                      GJet_QCD    75.73 %
+                        TGJets    0.10 %
+                            tW    0.07 %
+                          TTGG    0.04 %
+                       TTGJets    0.52 %
+                        TTJets    1.26 %
+                           TTV    0.00 %
+                            DY    0.15 %
+                            VG    0.41 %
+                            VV    0.03 %
+                      SM_Higgs    0.07 %

@@ -1,0 +1,400 @@
+[INFO] Openning input files: /wk_cms2/mc_cheng/public/tqHGG/2017/MVAreco_perms_lep/ST_FCNC*
+DataSetInfo              : [dataset] : Added class "Signal"
+                         : Add Tree TPerm_ST of type Signal with 580169 events
+                         : Add Tree TPerm_ST of type Signal with 1158342 events
+DataSetInfo              : [dataset] : Added class "Background"
+                         : Add Tree TPerm_ST of type Background with 640718 events
+                         : Add Tree TPerm_ST of type Background with 1282045 events
+                         : Parsing option string: 
+                         : ... "V:AnalysisType=Classification"
+                         : The following options are set:
+                         : - By User:
+                         :     V: "True" [Verbose flag]
+                         :     AnalysisType: "Classification" [Set the analysis type (Classification, Regression, Multiclass, Auto) (default: Auto)]
+                         : - Default:
+                         :     Color: "True" [Flag for coloured screen output (default: True, if in batch mode: False)]
+                         :     Transformations: "I" [List of transformations to test; formatting example: "Transformations=I;D;P;U;G,D", for identity, decorrelation, PCA, Uniform and Gaussianisation followed by decorrelation transformations]
+                         :     Correlations: "False" [boolean to show correlation in output]
+                         :     ROC: "True" [boolean to show ROC in output]
+                         :     Silent: "False" [Batch mode: boolean silent flag inhibiting any output from TMVA after the creation of the factory class object (default: False)]
+                         :     DrawProgressBar: "True" [Draw progress bar to display training, testing and evaluation schedule (default: True)]
+                         :     ModelPersistence: "True" [Option to save the trained model in xml file or using serialization]
+Factory                  : Booking method: [1mANN[0m
+                         : 
+                         : Parsing option string: 
+                         : ... "H:V:IgnoreNegWeightsInTraining:VarTransform=N:NCycles=500:HiddenLayers=N,N-1:LearningRate=0.02:DecayRate=0.01"
+                         : The following options are set:
+                         : - By User:
+                         :     <none>
+                         : - Default:
+                         :     Boost_num: "0" [Number of times the classifier will be boosted]
+                         : Parsing option string: 
+                         : ... "H:V:IgnoreNegWeightsInTraining:VarTransform=N:NCycles=500:HiddenLayers=N,N-1:LearningRate=0.02:DecayRate=0.01"
+                         : The following options are set:
+                         : - By User:
+                         :     NCycles: "500" [Number of training cycles]
+                         :     HiddenLayers: "N,N-1" [Specification of hidden layer architecture]
+                         :     V: "True" [Verbose output (short form of "VerbosityLevel" below - overrides the latter one)]
+                         :     VarTransform: "N" [List of variable transformations performed before training, e.g., "D_Background,P_Signal,G,N_AllClasses" for: "Decorrelation, PCA-transformation, Gaussianisation, Normalisation, each for the given class of events ('AllClasses' denotes all events of all classes, if no class indication is given, 'All' is assumed)"]
+                         :     H: "True" [Print method-specific help message]
+                         :     IgnoreNegWeightsInTraining: "True" [Events with negative weights are ignored in the training (but are included for testing and performance evaluation)]
+                         :     LearningRate: "2.000000e-02" [ANN learning rate parameter]
+                         :     DecayRate: "1.000000e-02" [Decay rate for learning parameter]
+                         : - Default:
+                         :     NeuronType: "sigmoid" [Neuron activation function type]
+                         :     RandomSeed: "1" [Random seed for initial synapse weights (0 means unique seed for each run; default value '1')]
+                         :     EstimatorType: "MSE" [MSE (Mean Square Estimator) for Gaussian Likelihood or CE(Cross-Entropy) for Bernoulli Likelihood]
+                         :     NeuronInputType: "sum" [Neuron input function type]
+                         :     VerbosityLevel: "Default" [Verbosity level]
+                         :     CreateMVAPdfs: "False" [Create PDFs for classifier outputs (signal and background)]
+                         :     TrainingMethod: "BP" [Train with Back-Propagation (BP), BFGS Algorithm (BFGS), or Genetic Algorithm (GA - slower and worse)]
+                         :     TestRate: "10" [Test for overtraining performed at each #th epochs]
+                         :     EpochMonitoring: "False" [Provide epoch-wise monitoring plots according to TestRate (caution: causes big ROOT output file!)]
+                         :     Sampling: "1.000000e+00" [Only 'Sampling' (randomly selected) events are trained each epoch]
+                         :     SamplingEpoch: "1.000000e+00" [Sampling is used for the first 'SamplingEpoch' epochs, afterwards, all events are taken for training]
+                         :     SamplingImportance: "1.000000e+00" [ The sampling weights of events in epochs which successful (worse estimator than before) are multiplied with SamplingImportance, else they are divided.]
+                         :     SamplingTraining: "True" [The training sample is sampled]
+                         :     SamplingTesting: "False" [The testing sample is sampled]
+                         :     ResetStep: "50" [How often BFGS should reset history]
+                         :     Tau: "3.000000e+00" [LineSearch "size step"]
+                         :     BPMode: "sequential" [Back-propagation learning mode: sequential or batch]
+                         :     BatchSize: "-1" [Batch size: number of events/batch, only set if in Batch Mode, -1 for BatchSize=number_of_events]
+                         :     ConvergenceImprove: "1.000000e-30" [Minimum improvement which counts as improvement (<0 means automatic convergence check is turned off)]
+                         :     ConvergenceTests: "-1" [Number of steps (without improvement) required for convergence (<0 means automatic convergence check is turned off)]
+                         :     UseRegulator: "False" [Use regulator to avoid over-training]
+                         :     UpdateLimit: "10000" [Maximum times of regulator update]
+                         :     CalculateErrors: "False" [Calculates inverse Hessian matrix at the end of the training to be able to calculate the uncertainties of an MVA value]
+                         :     WeightRange: "1.000000e+00" [Take the events for the estimator calculations from small deviations from the desired value to large deviations only over the weight range]
+ANN                      : [dataset] : Create Transformation "N" with events from all classes.
+                         : 
+                         : Transformation, Variable selection : 
+                         : Input : variable 'bJet_Pt' <---> Output : variable 'bJet_Pt'
+                         : Input : variable 'bJet_Eta' <---> Output : variable 'bJet_Eta'
+                         : Input : variable 'bJet_btag' <---> Output : variable 'bJet_btag'
+                         : Input : variable 'lep_ID' <---> Output : variable 'lep_ID'
+                         : Input : variable 'lep_Pt' <---> Output : variable 'lep_Pt'
+                         : Input : variable 'lep_Eta' <---> Output : variable 'lep_Eta'
+                         : Input : variable 'dR_lb' <---> Output : variable 'dR_lb'
+                         : Input : variable 'dR_lH' <---> Output : variable 'dR_lH'
+                         : Input : variable 'dPhi_bMET' <---> Output : variable 'dPhi_bMET'
+                         : Input : variable 'Met_Pt' <---> Output : variable 'Met_Pt'
+ANN                      : Building Network. 
+                         : Initializing weights
+                         : Will ignore negative events in training!
+[INFO] Start training!
+Factory                  : [1mTrain all methods[0m
+                         : Parsing option string: 
+                         : ... "V:NormMode=EqualNumEvents"
+                         : The following options are set:
+                         : - By User:
+                         :     NormMode: "EqualNumEvents" [Overall renormalisation of  event-by-event weights used in the training (NumEvents: average weight of 1 per event, independently for signal and background; EqualNumEvents: average weight of 1 per event for signal, and sum of weights for background equal to sum of weights for signal)]
+                         :     V: "True" [Verbosity (default: true)]
+                         : - Default:
+                         :     SplitMode: "Random" [Method of picking training and testing events (default: random)]
+                         :     MixMode: "SameAsSplitMode" [Method of mixing events of different classes into one dataset (default: SameAsSplitMode)]
+                         :     SplitSeed: "100" [Seed for random event shuffling]
+                         :     ScaleWithPreselEff: "False" [Scale the number of requested events by the eff. of the preselection cuts (or not)]
+                         :     nTrain_Signal: "0" [Number of training events of class Signal (default: 0 = all)]
+                         :     nTest_Signal: "0" [Number of test events of class Signal (default: 0 = all)]
+                         :     TrainTestSplit_Signal: "0.000000e+00" [Number of test events of class Signal (default: 0 = all)]
+                         :     nTrain_Background: "0" [Number of training events of class Background (default: 0 = all)]
+                         :     nTest_Background: "0" [Number of test events of class Background (default: 0 = all)]
+                         :     TrainTestSplit_Background: "0.000000e+00" [Number of test events of class Background (default: 0 = all)]
+                         :     VerboseLevel: "Info" [VerboseLevel (Debug/Verbose/Info)]
+DataSetFactory           : [dataset] : Number of events in input trees
+                         : 
+                         : 
+                         : Dataset[dataset] : Weight renormalisation mode: "EqualNumEvents": renormalises all event classes ...
+                         : Dataset[dataset] :  such that the effective (weighted) number of events in each class is the same 
+                         : Dataset[dataset] :  (and equals the number of events (entries) given for class=0 )
+                         : Dataset[dataset] : ... i.e. such that Sum[i=1..N_j]{w_i} = N_classA, j=classA, classB, ...
+                         : Dataset[dataset] : ... (note that N_j is the sum of TRAINING events
+                         : Dataset[dataset] :  ..... Testing events are not renormalised nor included in the renormalisation factor!)
+                         : Number of training and testing events
+                         : ---------------------------------------------------------------------------
+                         : Signal     -- training events            : 580169
+                         : Signal     -- testing events             : 1158342
+                         : Signal     -- training and testing events: 1738511
+                         : Background -- training events            : 640718
+                         : Background -- testing events             : 1282045
+                         : Background -- training and testing events: 1922763
+                         : 
+DataSetInfo              : Correlation matrix (Signal):
+                         : -----------------------------------------------------------------------------------------------
+                         :            bJet_Pt bJet_Eta bJet_btag  lep_ID  lep_Pt lep_Eta   dR_lb   dR_lH dPhi_bMET  Met_Pt
+                         :   bJet_Pt:  +1.000   -0.001    +0.071  -0.048  -0.023  -0.001  -0.386  -0.098    -0.243  +0.065
+                         :  bJet_Eta:  -0.001   +1.000    -0.006  -0.000  -0.000  +0.600  +0.001  +0.000    +0.000  -0.001
+                         : bJet_btag:  +0.071   -0.006    +1.000  -0.002  +0.010  -0.006  -0.017  +0.000    +0.015  -0.013
+                         :    lep_ID:  -0.048   -0.000    -0.002  +1.000  -0.026  -0.002  +0.034  -0.024    +0.038  -0.041
+                         :    lep_Pt:  -0.023   -0.000    +0.010  -0.026  +1.000  -0.000  -0.207  +0.190    -0.071  -0.083
+                         :   lep_Eta:  -0.001   +0.600    -0.006  -0.002  -0.000  +1.000  +0.002  -0.002    -0.001  -0.002
+                         :     dR_lb:  -0.386   +0.001    -0.017  +0.034  -0.207  +0.002  +1.000  -0.181    +0.032  -0.075
+                         :     dR_lH:  -0.098   +0.000    +0.000  -0.024  +0.190  -0.002  -0.181  +1.000    +0.197  -0.065
+                         : dPhi_bMET:  -0.243   +0.000    +0.015  +0.038  -0.071  -0.001  +0.032  +0.197    +1.000  -0.185
+                         :    Met_Pt:  +0.065   -0.001    -0.013  -0.041  -0.083  -0.002  -0.075  -0.065    -0.185  +1.000
+                         : -----------------------------------------------------------------------------------------------
+DataSetInfo              : Correlation matrix (Background):
+                         : -----------------------------------------------------------------------------------------------
+                         :            bJet_Pt bJet_Eta bJet_btag  lep_ID  lep_Pt lep_Eta   dR_lb   dR_lH dPhi_bMET  Met_Pt
+                         :   bJet_Pt:  +1.000   -0.001    +0.148  -0.025  +0.089  -0.001  +0.047  -0.062    +0.071  +0.110
+                         :  bJet_Eta:  -0.001   +1.000    -0.009  -0.001  -0.000  +0.126  +0.003  +0.000    +0.001  +0.000
+                         : bJet_btag:  +0.148   -0.009    +1.000  +0.003  +0.009  -0.002  -0.024  -0.011    -0.017  -0.006
+                         :    lep_ID:  -0.025   -0.001    +0.003  +1.000  -0.034  -0.004  -0.000  -0.024    -0.000  -0.044
+                         :    lep_Pt:  +0.089   -0.000    +0.009  -0.034  +1.000  +0.002  +0.013  +0.167    +0.017  -0.055
+                         :   lep_Eta:  -0.001   +0.126    -0.002  -0.004  +0.002  +1.000  -0.005  -0.001    +0.000  +0.000
+                         :     dR_lb:  +0.047   +0.003    -0.024  -0.000  +0.013  -0.005  +1.000  -0.099    +0.079  +0.008
+                         :     dR_lH:  -0.062   +0.000    -0.011  -0.024  +0.167  -0.001  -0.099  +1.000    +0.077  -0.040
+                         : dPhi_bMET:  +0.071   +0.001    -0.017  -0.000  +0.017  +0.000  +0.079  +0.077    +1.000  +0.030
+                         :    Met_Pt:  +0.110   +0.000    -0.006  -0.044  -0.055  +0.000  +0.008  -0.040    +0.030  +1.000
+                         : -----------------------------------------------------------------------------------------------
+DataSetFactory           : [dataset] :  
+                         : 
+Factory                  : [dataset] : Create Transformation "I" with events from all classes.
+                         : 
+                         : Transformation, Variable selection : 
+                         : Input : variable 'bJet_Pt' <---> Output : variable 'bJet_Pt'
+                         : Input : variable 'bJet_Eta' <---> Output : variable 'bJet_Eta'
+                         : Input : variable 'bJet_btag' <---> Output : variable 'bJet_btag'
+                         : Input : variable 'lep_ID' <---> Output : variable 'lep_ID'
+                         : Input : variable 'lep_Pt' <---> Output : variable 'lep_Pt'
+                         : Input : variable 'lep_Eta' <---> Output : variable 'lep_Eta'
+                         : Input : variable 'dR_lb' <---> Output : variable 'dR_lb'
+                         : Input : variable 'dR_lH' <---> Output : variable 'dR_lH'
+                         : Input : variable 'dPhi_bMET' <---> Output : variable 'dPhi_bMET'
+                         : Input : variable 'Met_Pt' <---> Output : variable 'Met_Pt'
+TFHandler_Factory        :  Variable         Mean         RMS   [        Min         Max ]
+                         : ----------------------------------------------------------------
+                         :   bJet_Pt:     66.666     44.673   [     25.000     1084.2 ]
+                         :  bJet_Eta:  0.0028810     1.1841   [    -2.4000     2.4000 ]
+                         : bJet_btag:    0.34960    0.69309   [    -2.0000     1.0000 ]
+                         :    lep_ID:    -3.0201     11.793   [    -13.000     13.000 ]
+                         :    lep_Pt:     56.159     37.092   [     9.0001     853.74 ]
+                         :   lep_Eta: -0.0019922     1.1142   [    -2.4000     2.4000 ]
+                         :     dR_lb:     2.0751    0.86897   [    0.40005     5.6271 ]
+                         :     dR_lH:     2.7240    0.83129   [   0.012631     8.5228 ]
+                         : dPhi_bMET:     1.5938    0.90812   [     0.0000     3.1416 ]
+                         :    Met_Pt:     74.029     50.756   [   0.059522     953.71 ]
+                         : ----------------------------------------------------------------
+                         : Ranking input variables (method unspecific)...
+IdTransformation         : Ranking result (top variable is best ranked)
+                         : ----------------------------------
+                         : Rank : Variable  : Separation
+                         : ----------------------------------
+                         :    1 : bJet_btag : 5.010e-01
+                         :    2 : bJet_Pt   : 9.978e-02
+                         :    3 : dR_lb     : 8.162e-02
+                         :    4 : bJet_Eta  : 3.944e-02
+                         :    5 : Met_Pt    : 3.427e-03
+                         :    6 : lep_Pt    : 2.746e-03
+                         :    7 : dPhi_bMET : 2.401e-03
+                         :    8 : lep_Eta   : 2.390e-04
+                         :    9 : dR_lH     : 1.827e-04
+                         :   10 : lep_ID    : 4.068e-06
+                         : ----------------------------------
+Factory                  : Train method: ANN for Classification
+                         : 
+                         : 
+                         : [1m================================================================[0m
+                         : [1mH e l p   f o r   M V A   m e t h o d   [ ANN ] :[0m
+                         : 
+                         : [1m--- Short description:[0m
+                         : 
+                         : The MLP artificial neural network (ANN) is a traditional feed-
+                         : forward multilayer perceptron implementation. The MLP has a user-
+                         : defined hidden layer architecture, while the number of input (output)
+                         : nodes is determined by the input variables (output classes, i.e., 
+                         : signal and one background). 
+                         : 
+                         : [1m--- Performance optimisation:[0m
+                         : 
+                         : Neural networks are stable and performing for a large variety of 
+                         : linear and non-linear classification problems. However, in contrast
+                         : to (e.g.) boosted decision trees, the user is advised to reduce the 
+                         : number of input variables that have only little discrimination power. 
+                         : 
+                         : In the tests we have carried out so far, the MLP and ROOT networks
+                         : (TMlpANN, interfaced via TMVA) performed equally well, with however
+                         : a clear speed advantage for the MLP. The Clermont-Ferrand neural 
+                         : net (CFMlpANN) exhibited worse classification performance in these
+                         : tests, which is partly due to the slow convergence of its training
+                         : (at least 10k training cycles are required to achieve approximately
+                         : competitive results).
+                         : 
+                         : [1mOvertraining: [0monly the TMlpANN performs an explicit separation of the
+                         : full training sample into independent training and validation samples.
+                         : We have found that in most high-energy physics applications the 
+                         : available degrees of freedom (training events) are sufficient to 
+                         : constrain the weights of the relatively simple architectures required
+                         : to achieve good performance. Hence no overtraining should occur, and 
+                         : the use of validation samples would only reduce the available training
+                         : information. However, if the performance on the training sample is 
+                         : found to be significantly better than the one found with the inde-
+                         : pendent test sample, caution is needed. The results for these samples 
+                         : are printed to standard output at the end of each training job.
+                         : 
+                         : [1m--- Performance tuning via configuration options:[0m
+                         : 
+                         : The hidden layer architecture for all ANNs is defined by the option
+                         : "HiddenLayers=N+1,N,...", where here the first hidden layer has N+1
+                         : neurons and the second N neurons (and so on), and where N is the number  
+                         : of input variables. Excessive numbers of hidden layers should be avoided,
+                         : in favour of more neurons in the first hidden layer.
+                         : 
+                         : The number of cycles should be above 500. As said, if the number of
+                         : adjustable weights is small compared to the training sample size,
+                         : using a large number of training samples should not lead to overtraining.
+                         : 
+                         : <Suppress this message by specifying "!H" in the booking option>
+                         : [1m================================================================[0m
+                         : 
+TFHandler_ANN            :  Variable         Mean         RMS   [        Min         Max ]
+                         : ----------------------------------------------------------------
+                         :   bJet_Pt:   -0.92133   0.084349   [    -1.0000     1.0000 ]
+                         :  bJet_Eta:  0.0011987    0.49337   [    -1.0000     1.0000 ]
+                         : bJet_btag:    0.56640    0.46206   [    -1.0000     1.0000 ]
+                         :    lep_ID:   -0.23232    0.90713   [    -1.0000     1.0000 ]
+                         :    lep_Pt:   -0.88835   0.087818   [    -1.0000     1.0000 ]
+                         :   lep_Eta:-0.00082749    0.46424   [    -1.0000     1.0000 ]
+                         :     dR_lb:   -0.35907    0.33249   [    -1.0000     1.0000 ]
+                         :     dR_lH:   -0.36280    0.19536   [    -1.0000     1.0000 ]
+                         : dPhi_bMET:   0.014623    0.57812   [    -1.0000     1.0000 ]
+                         :    Met_Pt:   -0.84487    0.10645   [    -1.0000     1.0000 ]
+                         : ----------------------------------------------------------------
+                         : Training Network
+                         : 
+0%, time left: unknown
+6%, time left: 2 hrs : 24 mins
+12%, time left: 2 hrs : 13 mins
+19%, time left: 2 hrs : 3 mins
+25%, time left: 1 hr : 53 mins
+31%, time left: 1 hr : 44 mins
+37%, time left: 1 hr : 34 mins
+44%, time left: 1 hr : 25 mins
+50%, time left: 1 hr : 16 mins
+56%, time left: 1 hr : 6 mins
+62%, time left: 57 mins
+69%, time left: 47 mins
+75%, time left: 38 mins
+81%, time left: 28 mins
+87%, time left: 18 mins
+94%, time left: 9 mins
+                         : Elapsed time for training with 1220887 events: 9.17e+03 sec         
+ANN                      : [dataset] : Evaluation of ANN on training sample (1220887 events)
+0%, time left: unknown
+6%, time left: 5 sec
+12%, time left: 4 sec
+18%, time left: 4 sec
+25%, time left: 4 sec
+31%, time left: 3 sec
+37%, time left: 3 sec
+43%, time left: 3 sec
+50%, time left: 2 sec
+56%, time left: 2 sec
+62%, time left: 2 sec
+68%, time left: 1 sec
+75%, time left: 1 sec
+81%, time left: 0 sec
+87%, time left: 0 sec
+93%, time left: 0 sec
+                         : Elapsed time for evaluation of 1220887 events: 5.47 sec       
+                         : Creating xml weight file: [0;36mdataset/weights/STlep_ANN.weights.xml[0m
+                         : Creating standalone class: [0;36mdataset/weights/STlep_ANN.class.C[0m
+                         : Write special histos to file: /wk_cms2/mc_cheng/public/tqHGG/2017/MVAreco_model/result_STlep.root:/dataset/Method_ANN/ANN
+Factory                  : Training finished
+                         : 
+                         : Ranking input variables (method specific)...
+ANN                      : Ranking result (top variable is best ranked)
+                         : ----------------------------------
+                         : Rank : Variable  : Importance
+                         : ----------------------------------
+                         :    1 : bJet_Pt   : 9.606e+02
+                         :    2 : lep_Pt    : 6.113e+02
+                         :    3 : bJet_btag : 1.839e+02
+                         :    4 : Met_Pt    : 7.209e+01
+                         :    5 : bJet_Eta  : 6.427e+00
+                         :    6 : dR_lb     : 4.894e+00
+                         :    7 : lep_Eta   : 3.971e+00
+                         :    8 : dR_lH     : 2.029e+00
+                         :    9 : dPhi_bMET : 1.387e+00
+                         :   10 : lep_ID    : 1.355e-02
+                         : ----------------------------------
+Factory                  : === Destroy and recreate all methods via weight files for testing ===
+                         : 
+ANN                      : Building Network. 
+                         : Initializing weights
+Factory                  : [1mTest all methods[0m
+Factory                  : Test method: ANN for Classification performance
+                         : 
+ANN                      : [dataset] : Evaluation of ANN on testing sample (2440387 events)
+0%, time left: unknown
+6%, time left: 10 sec
+12%, time left: 9 sec
+18%, time left: 8 sec
+25%, time left: 8 sec
+31%, time left: 7 sec
+37%, time left: 6 sec
+43%, time left: 6 sec
+50%, time left: 5 sec
+56%, time left: 4 sec
+62%, time left: 4 sec
+68%, time left: 3 sec
+75%, time left: 2 sec
+81%, time left: 1 sec
+87%, time left: 1 sec
+93%, time left: 0 sec
+                         : Elapsed time for evaluation of 2440387 events: 10.9 sec       
+Factory                  : [1mEvaluate all methods[0m
+Factory                  : Evaluate classifier: ANN
+                         : 
+TFHandler_ANN            :  Variable         Mean         RMS   [        Min         Max ]
+                         : ----------------------------------------------------------------
+                         :   bJet_Pt:   -0.92237   0.083876   [    -1.0000     1.2078 ]
+                         :  bJet_Eta:  0.0015889    0.49612   [    -1.0000     1.0000 ]
+                         : bJet_btag:    0.55384    0.46573   [    -1.0000     1.0000 ]
+                         :    lep_ID:   -0.23102    0.90735   [    -1.0000     1.0000 ]
+                         :    lep_Pt:   -0.88833   0.087672   [    -1.0000     1.7259 ]
+                         :   lep_Eta: 0.00022373    0.46448   [    -1.0000     1.0000 ]
+                         :     dR_lb:   -0.35442    0.33366   [    -1.0000     1.0362 ]
+                         :     dR_lH:   -0.36293    0.19496   [    -1.0022     1.2650 ]
+                         : dPhi_bMET:   0.016501    0.57838   [    -1.0000     1.0000 ]
+                         :    Met_Pt:   -0.84482    0.10631   [    -1.0000     2.8505 ]
+                         : ----------------------------------------------------------------
+ANN                      : [dataset] : Loop over test events and fill histograms with classifier response...
+                         : 
+TFHandler_ANN            :  Variable         Mean         RMS   [        Min         Max ]
+                         : ----------------------------------------------------------------
+                         :   bJet_Pt:   -0.92237   0.083876   [    -1.0000     1.2078 ]
+                         :  bJet_Eta:  0.0015889    0.49612   [    -1.0000     1.0000 ]
+                         : bJet_btag:    0.55384    0.46573   [    -1.0000     1.0000 ]
+                         :    lep_ID:   -0.23102    0.90735   [    -1.0000     1.0000 ]
+                         :    lep_Pt:   -0.88833   0.087672   [    -1.0000     1.7259 ]
+                         :   lep_Eta: 0.00022373    0.46448   [    -1.0000     1.0000 ]
+                         :     dR_lb:   -0.35442    0.33366   [    -1.0000     1.0362 ]
+                         :     dR_lH:   -0.36293    0.19496   [    -1.0022     1.2650 ]
+                         : dPhi_bMET:   0.016501    0.57838   [    -1.0000     1.0000 ]
+                         :    Met_Pt:   -0.84482    0.10631   [    -1.0000     2.8505 ]
+                         : ----------------------------------------------------------------
+                         : 
+                         : Evaluation results ranked by best signal efficiency and purity (area)
+                         : -------------------------------------------------------------------------------------------------------------------
+                         : DataSet       MVA                       
+                         : Name:         Method:          ROC-integ
+                         : dataset       ANN            : 0.943
+                         : -------------------------------------------------------------------------------------------------------------------
+                         : 
+                         : Testing efficiency compared to training efficiency (overtraining check)
+                         : -------------------------------------------------------------------------------------------------------------------
+                         : DataSet              MVA              Signal efficiency: from test sample (from training sample) 
+                         : Name:                Method:          @B=0.01             @B=0.10            @B=0.30   
+                         : -------------------------------------------------------------------------------------------------------------------
+                         : dataset              ANN            : 0.451 (0.455)       0.852 (0.852)      0.948 (0.948)
+                         : -------------------------------------------------------------------------------------------------------------------
+                         : 
+Dataset:dataset          : Created tree 'TestTree' with 2440387 events
+                         : 
+Dataset:dataset          : Created tree 'TrainTree' with 1220887 events
+                         : 
+Factory                  : [1mThank you for using TMVA![0m
+                         : [1mFor citation information, please visit: http://tmva.sf.net/citeTMVA.html[0m
+[INFO] End of training!
+[INFO] Output files are saved at: /wk_cms2/mc_cheng/public/tqHGG/2017/MVAreco_model

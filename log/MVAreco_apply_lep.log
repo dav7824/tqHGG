@@ -1,0 +1,1153 @@
+---Processing: ST_FCNC-TH_Tlep_hct
+[INFO] Reading input file: /wk_cms2/mc_cheng/public/tqHGG/2017/MVAreco_perms_lep/ST_FCNC-TH_Tlep_hct.root
+                         : Parsing option string: 
+                         : ... "V"
+                         : The following options are set:
+                         : - By User:
+                         :     V: "True" [Verbose flag]
+                         : - Default:
+                         :     Color: "False" [Color flag (default True)]
+                         :     Silent: "False" [Boolean silent flag (default False)]
+                         :     Error: "False" [Calculates errors (default False)]
+                         : Booking "STlep" of type "MLP" from /wk_cms2/mc_cheng/public/tqHGG/2017/MVAreco_model/dataset/weights/STlep_ANN.weights.xml.
+<HEADER> DataSetInfo              : [Default] : Added class "Signal"
+<HEADER> DataSetInfo              : [Default] : Added class "Background"
+<HEADER> ANN                      : Building Network. 
+                         : Initializing weights
+                         : Booked classifier "ANN" of type: "MLP"
+[INFO] Saved output: /wk_cms2/mc_cheng/public/tqHGG/2017/MVAreco_result_lep/ST_FCNC-TH_Tlep_hct.root
+[INFO] Reconstruction matching rate: 0.795981  (641208/805557)
+
+[INFO] Reading input file: /wk_cms2/mc_cheng/public/tqHGG/2017/MVAreco_perms_lep/ST_FCNC-TH_Tlep_hct.root
+                         : Parsing option string: 
+                         : ... "V"
+                         : The following options are set:
+                         : - By User:
+                         :     V: "True" [Verbose flag]
+                         : - Default:
+                         :     Color: "False" [Color flag (default True)]
+                         :     Silent: "False" [Boolean silent flag (default False)]
+                         :     Error: "False" [Calculates errors (default False)]
+                         : Booking "TTlep" of type "MLP" from /wk_cms2/mc_cheng/public/tqHGG/2017/MVAreco_model/dataset/weights/TTlep_ANN.weights.xml.
+<HEADER> DataSetInfo              : [Default] : Added class "Signal"
+<HEADER> DataSetInfo              : [Default] : Added class "Background"
+<HEADER> ANN                      : Building Network. 
+                         : Initializing weights
+                         : Booked classifier "ANN" of type: "MLP"
+[INFO] Saved output: /wk_cms2/mc_cheng/public/tqHGG/2017/MVAreco_result_lep/ST_FCNC-TH_Tlep_hct.root
+
+---Processing: TT_FCNC-TtoHJ_aTlep_hut
+[INFO] Reading input file: /wk_cms2/mc_cheng/public/tqHGG/2017/MVAreco_perms_lep/TT_FCNC-TtoHJ_aTlep_hut.root
+                         : Parsing option string: 
+                         : ... "V"
+                         : The following options are set:
+                         : - By User:
+                         :     V: "True" [Verbose flag]
+                         : - Default:
+                         :     Color: "False" [Color flag (default True)]
+                         :     Silent: "False" [Boolean silent flag (default False)]
+                         :     Error: "False" [Calculates errors (default False)]
+                         : Booking "TTlep" of type "MLP" from /wk_cms2/mc_cheng/public/tqHGG/2017/MVAreco_model/dataset/weights/TTlep_ANN.weights.xml.
+<HEADER> DataSetInfo              : [Default] : Added class "Signal"
+<HEADER> DataSetInfo              : [Default] : Added class "Background"
+<HEADER> ANN                      : Building Network. 
+                         : Initializing weights
+                         : Booked classifier "ANN" of type: "MLP"
+[INFO] Saved output: /wk_cms2/mc_cheng/public/tqHGG/2017/MVAreco_result_lep/TT_FCNC-TtoHJ_aTlep_hut.root
+[INFO] Reconstruction matching rate: 0.564725  (89597/158656)
+
+[INFO] Reading input file: /wk_cms2/mc_cheng/public/tqHGG/2017/MVAreco_perms_lep/TT_FCNC-TtoHJ_aTlep_hut.root
+                         : Parsing option string: 
+                         : ... "V"
+                         : The following options are set:
+                         : - By User:
+                         :     V: "True" [Verbose flag]
+                         : - Default:
+                         :     Color: "False" [Color flag (default True)]
+                         :     Silent: "False" [Boolean silent flag (default False)]
+                         :     Error: "False" [Calculates errors (default False)]
+                         : Booking "STlep" of type "MLP" from /wk_cms2/mc_cheng/public/tqHGG/2017/MVAreco_model/dataset/weights/STlep_ANN.weights.xml.
+<HEADER> DataSetInfo              : [Default] : Added class "Signal"
+<HEADER> DataSetInfo              : [Default] : Added class "Background"
+<HEADER> ANN                      : Building Network. 
+                         : Initializing weights
+                         : Booked classifier "ANN" of type: "MLP"
+[INFO] Saved output: /wk_cms2/mc_cheng/public/tqHGG/2017/MVAreco_result_lep/TT_FCNC-TtoHJ_aTlep_hut.root
+
+---Processing: TT_FCNC-aTtoHJ_Tlep_hut
+[INFO] Reading input file: /wk_cms2/mc_cheng/public/tqHGG/2017/MVAreco_perms_lep/TT_FCNC-aTtoHJ_Tlep_hut.root
+                         : Parsing option string: 
+                         : ... "V"
+                         : The following options are set:
+                         : - By User:
+                         :     V: "True" [Verbose flag]
+                         : - Default:
+                         :     Color: "False" [Color flag (default True)]
+                         :     Silent: "False" [Boolean silent flag (default False)]
+                         :     Error: "False" [Calculates errors (default False)]
+                         : Booking "TTlep" of type "MLP" from /wk_cms2/mc_cheng/public/tqHGG/2017/MVAreco_model/dataset/weights/TTlep_ANN.weights.xml.
+<HEADER> DataSetInfo              : [Default] : Added class "Signal"
+<HEADER> DataSetInfo              : [Default] : Added class "Background"
+<HEADER> ANN                      : Building Network. 
+                         : Initializing weights
+                         : Booked classifier "ANN" of type: "MLP"
+[INFO] Saved output: /wk_cms2/mc_cheng/public/tqHGG/2017/MVAreco_result_lep/TT_FCNC-aTtoHJ_Tlep_hut.root
+[INFO] Reconstruction matching rate: 0.564158  (96229/170571)
+
+[INFO] Reading input file: /wk_cms2/mc_cheng/public/tqHGG/2017/MVAreco_perms_lep/TT_FCNC-aTtoHJ_Tlep_hut.root
+                         : Parsing option string: 
+                         : ... "V"
+                         : The following options are set:
+                         : - By User:
+                         :     V: "True" [Verbose flag]
+                         : - Default:
+                         :     Color: "False" [Color flag (default True)]
+                         :     Silent: "False" [Boolean silent flag (default False)]
+                         :     Error: "False" [Calculates errors (default False)]
+                         : Booking "STlep" of type "MLP" from /wk_cms2/mc_cheng/public/tqHGG/2017/MVAreco_model/dataset/weights/STlep_ANN.weights.xml.
+<HEADER> DataSetInfo              : [Default] : Added class "Signal"
+<HEADER> DataSetInfo              : [Default] : Added class "Background"
+<HEADER> ANN                      : Building Network. 
+                         : Initializing weights
+                         : Booked classifier "ANN" of type: "MLP"
+[INFO] Saved output: /wk_cms2/mc_cheng/public/tqHGG/2017/MVAreco_result_lep/TT_FCNC-aTtoHJ_Tlep_hut.root
+
+---Processing: TT_FCNC-TtoHJ_aTlep_hct
+[INFO] Reading input file: /wk_cms2/mc_cheng/public/tqHGG/2017/MVAreco_perms_lep/TT_FCNC-TtoHJ_aTlep_hct.root
+                         : Parsing option string: 
+                         : ... "V"
+                         : The following options are set:
+                         : - By User:
+                         :     V: "True" [Verbose flag]
+                         : - Default:
+                         :     Color: "False" [Color flag (default True)]
+                         :     Silent: "False" [Boolean silent flag (default False)]
+                         :     Error: "False" [Calculates errors (default False)]
+                         : Booking "TTlep" of type "MLP" from /wk_cms2/mc_cheng/public/tqHGG/2017/MVAreco_model/dataset/weights/TTlep_ANN.weights.xml.
+<HEADER> DataSetInfo              : [Default] : Added class "Signal"
+<HEADER> DataSetInfo              : [Default] : Added class "Background"
+<HEADER> ANN                      : Building Network. 
+                         : Initializing weights
+                         : Booked classifier "ANN" of type: "MLP"
+[INFO] Saved output: /wk_cms2/mc_cheng/public/tqHGG/2017/MVAreco_result_lep/TT_FCNC-TtoHJ_aTlep_hct.root
+[INFO] Reconstruction matching rate: 0.541537  (93446/172557)
+
+[INFO] Reading input file: /wk_cms2/mc_cheng/public/tqHGG/2017/MVAreco_perms_lep/TT_FCNC-TtoHJ_aTlep_hct.root
+                         : Parsing option string: 
+                         : ... "V"
+                         : The following options are set:
+                         : - By User:
+                         :     V: "True" [Verbose flag]
+                         : - Default:
+                         :     Color: "False" [Color flag (default True)]
+                         :     Silent: "False" [Boolean silent flag (default False)]
+                         :     Error: "False" [Calculates errors (default False)]
+                         : Booking "STlep" of type "MLP" from /wk_cms2/mc_cheng/public/tqHGG/2017/MVAreco_model/dataset/weights/STlep_ANN.weights.xml.
+<HEADER> DataSetInfo              : [Default] : Added class "Signal"
+<HEADER> DataSetInfo              : [Default] : Added class "Background"
+<HEADER> ANN                      : Building Network. 
+                         : Initializing weights
+                         : Booked classifier "ANN" of type: "MLP"
+[INFO] Saved output: /wk_cms2/mc_cheng/public/tqHGG/2017/MVAreco_result_lep/TT_FCNC-TtoHJ_aTlep_hct.root
+
+---Processing: TT_FCNC-aTtoHJ_Tlep_hct
+[INFO] Reading input file: /wk_cms2/mc_cheng/public/tqHGG/2017/MVAreco_perms_lep/TT_FCNC-aTtoHJ_Tlep_hct.root
+                         : Parsing option string: 
+                         : ... "V"
+                         : The following options are set:
+                         : - By User:
+                         :     V: "True" [Verbose flag]
+                         : - Default:
+                         :     Color: "False" [Color flag (default True)]
+                         :     Silent: "False" [Boolean silent flag (default False)]
+                         :     Error: "False" [Calculates errors (default False)]
+                         : Booking "TTlep" of type "MLP" from /wk_cms2/mc_cheng/public/tqHGG/2017/MVAreco_model/dataset/weights/TTlep_ANN.weights.xml.
+<HEADER> DataSetInfo              : [Default] : Added class "Signal"
+<HEADER> DataSetInfo              : [Default] : Added class "Background"
+<HEADER> ANN                      : Building Network. 
+                         : Initializing weights
+                         : Booked classifier "ANN" of type: "MLP"
+[INFO] Saved output: /wk_cms2/mc_cheng/public/tqHGG/2017/MVAreco_result_lep/TT_FCNC-aTtoHJ_Tlep_hct.root
+[INFO] Reconstruction matching rate: 0.541101  (90063/166444)
+
+[INFO] Reading input file: /wk_cms2/mc_cheng/public/tqHGG/2017/MVAreco_perms_lep/TT_FCNC-aTtoHJ_Tlep_hct.root
+                         : Parsing option string: 
+                         : ... "V"
+                         : The following options are set:
+                         : - By User:
+                         :     V: "True" [Verbose flag]
+                         : - Default:
+                         :     Color: "False" [Color flag (default True)]
+                         :     Silent: "False" [Boolean silent flag (default False)]
+                         :     Error: "False" [Calculates errors (default False)]
+                         : Booking "STlep" of type "MLP" from /wk_cms2/mc_cheng/public/tqHGG/2017/MVAreco_model/dataset/weights/STlep_ANN.weights.xml.
+<HEADER> DataSetInfo              : [Default] : Added class "Signal"
+<HEADER> DataSetInfo              : [Default] : Added class "Background"
+<HEADER> ANN                      : Building Network. 
+                         : Initializing weights
+                         : Booked classifier "ANN" of type: "MLP"
+[INFO] Saved output: /wk_cms2/mc_cheng/public/tqHGG/2017/MVAreco_result_lep/TT_FCNC-aTtoHJ_Tlep_hct.root
+
+---Processing: ST_FCNC-TH_Tlep_hut
+[INFO] Reading input file: /wk_cms2/mc_cheng/public/tqHGG/2017/MVAreco_perms_lep/ST_FCNC-TH_Tlep_hut.root
+                         : Parsing option string: 
+                         : ... "V"
+                         : The following options are set:
+                         : - By User:
+                         :     V: "True" [Verbose flag]
+                         : - Default:
+                         :     Color: "False" [Color flag (default True)]
+                         :     Silent: "False" [Boolean silent flag (default False)]
+                         :     Error: "False" [Calculates errors (default False)]
+                         : Booking "STlep" of type "MLP" from /wk_cms2/mc_cheng/public/tqHGG/2017/MVAreco_model/dataset/weights/STlep_ANN.weights.xml.
+<HEADER> DataSetInfo              : [Default] : Added class "Signal"
+<HEADER> DataSetInfo              : [Default] : Added class "Background"
+<HEADER> ANN                      : Building Network. 
+                         : Initializing weights
+                         : Booked classifier "ANN" of type: "MLP"
+[INFO] Saved output: /wk_cms2/mc_cheng/public/tqHGG/2017/MVAreco_result_lep/ST_FCNC-TH_Tlep_hut.root
+[INFO] Reconstruction matching rate: 0.810048  (466655/576083)
+
+[INFO] Reading input file: /wk_cms2/mc_cheng/public/tqHGG/2017/MVAreco_perms_lep/ST_FCNC-TH_Tlep_hut.root
+                         : Parsing option string: 
+                         : ... "V"
+                         : The following options are set:
+                         : - By User:
+                         :     V: "True" [Verbose flag]
+                         : - Default:
+                         :     Color: "False" [Color flag (default True)]
+                         :     Silent: "False" [Boolean silent flag (default False)]
+                         :     Error: "False" [Calculates errors (default False)]
+                         : Booking "TTlep" of type "MLP" from /wk_cms2/mc_cheng/public/tqHGG/2017/MVAreco_model/dataset/weights/TTlep_ANN.weights.xml.
+<HEADER> DataSetInfo              : [Default] : Added class "Signal"
+<HEADER> DataSetInfo              : [Default] : Added class "Background"
+<HEADER> ANN                      : Building Network. 
+                         : Initializing weights
+                         : Booked classifier "ANN" of type: "MLP"
+[INFO] Saved output: /wk_cms2/mc_cheng/public/tqHGG/2017/MVAreco_result_lep/ST_FCNC-TH_Tlep_hut.root
+
+---Processing: WGToLNuG
+[INFO] Reading input file: /wk_cms2/mc_cheng/public/tqHGG/2017/MVAreco_perms_lep/WGToLNuG.root
+                         : Parsing option string: 
+                         : ... "V"
+                         : The following options are set:
+                         : - By User:
+                         :     V: "True" [Verbose flag]
+                         : - Default:
+                         :     Color: "False" [Color flag (default True)]
+                         :     Silent: "False" [Boolean silent flag (default False)]
+                         :     Error: "False" [Calculates errors (default False)]
+                         : Booking "TTlep" of type "MLP" from /wk_cms2/mc_cheng/public/tqHGG/2017/MVAreco_model/dataset/weights/TTlep_ANN.weights.xml.
+<HEADER> DataSetInfo              : [Default] : Added class "Signal"
+<HEADER> DataSetInfo              : [Default] : Added class "Background"
+<HEADER> ANN                      : Building Network. 
+                         : Initializing weights
+                         : Booked classifier "ANN" of type: "MLP"
+[INFO] Saved output: /wk_cms2/mc_cheng/public/tqHGG/2017/MVAreco_result_lep/WGToLNuG.root
+
+[INFO] Reading input file: /wk_cms2/mc_cheng/public/tqHGG/2017/MVAreco_perms_lep/WGToLNuG.root
+                         : Parsing option string: 
+                         : ... "V"
+                         : The following options are set:
+                         : - By User:
+                         :     V: "True" [Verbose flag]
+                         : - Default:
+                         :     Color: "False" [Color flag (default True)]
+                         :     Silent: "False" [Boolean silent flag (default False)]
+                         :     Error: "False" [Calculates errors (default False)]
+                         : Booking "STlep" of type "MLP" from /wk_cms2/mc_cheng/public/tqHGG/2017/MVAreco_model/dataset/weights/STlep_ANN.weights.xml.
+<HEADER> DataSetInfo              : [Default] : Added class "Signal"
+<HEADER> DataSetInfo              : [Default] : Added class "Background"
+<HEADER> ANN                      : Building Network. 
+                         : Initializing weights
+                         : Booked classifier "ANN" of type: "MLP"
+[INFO] Saved output: /wk_cms2/mc_cheng/public/tqHGG/2017/MVAreco_result_lep/WGToLNuG.root
+
+---Processing: ZGToLLG
+[INFO] Reading input file: /wk_cms2/mc_cheng/public/tqHGG/2017/MVAreco_perms_lep/ZGToLLG.root
+                         : Parsing option string: 
+                         : ... "V"
+                         : The following options are set:
+                         : - By User:
+                         :     V: "True" [Verbose flag]
+                         : - Default:
+                         :     Color: "False" [Color flag (default True)]
+                         :     Silent: "False" [Boolean silent flag (default False)]
+                         :     Error: "False" [Calculates errors (default False)]
+                         : Booking "TTlep" of type "MLP" from /wk_cms2/mc_cheng/public/tqHGG/2017/MVAreco_model/dataset/weights/TTlep_ANN.weights.xml.
+<HEADER> DataSetInfo              : [Default] : Added class "Signal"
+<HEADER> DataSetInfo              : [Default] : Added class "Background"
+<HEADER> ANN                      : Building Network. 
+                         : Initializing weights
+                         : Booked classifier "ANN" of type: "MLP"
+[INFO] Saved output: /wk_cms2/mc_cheng/public/tqHGG/2017/MVAreco_result_lep/ZGToLLG.root
+
+[INFO] Reading input file: /wk_cms2/mc_cheng/public/tqHGG/2017/MVAreco_perms_lep/ZGToLLG.root
+                         : Parsing option string: 
+                         : ... "V"
+                         : The following options are set:
+                         : - By User:
+                         :     V: "True" [Verbose flag]
+                         : - Default:
+                         :     Color: "False" [Color flag (default True)]
+                         :     Silent: "False" [Boolean silent flag (default False)]
+                         :     Error: "False" [Calculates errors (default False)]
+                         : Booking "STlep" of type "MLP" from /wk_cms2/mc_cheng/public/tqHGG/2017/MVAreco_model/dataset/weights/STlep_ANN.weights.xml.
+<HEADER> DataSetInfo              : [Default] : Added class "Signal"
+<HEADER> DataSetInfo              : [Default] : Added class "Background"
+<HEADER> ANN                      : Building Network. 
+                         : Initializing weights
+                         : Booked classifier "ANN" of type: "MLP"
+[INFO] Saved output: /wk_cms2/mc_cheng/public/tqHGG/2017/MVAreco_result_lep/ZGToLLG.root
+
+---Processing: tW_antitop
+[INFO] Reading input file: /wk_cms2/mc_cheng/public/tqHGG/2017/MVAreco_perms_lep/tW_antitop.root
+                         : Parsing option string: 
+                         : ... "V"
+                         : The following options are set:
+                         : - By User:
+                         :     V: "True" [Verbose flag]
+                         : - Default:
+                         :     Color: "False" [Color flag (default True)]
+                         :     Silent: "False" [Boolean silent flag (default False)]
+                         :     Error: "False" [Calculates errors (default False)]
+                         : Booking "TTlep" of type "MLP" from /wk_cms2/mc_cheng/public/tqHGG/2017/MVAreco_model/dataset/weights/TTlep_ANN.weights.xml.
+<HEADER> DataSetInfo              : [Default] : Added class "Signal"
+<HEADER> DataSetInfo              : [Default] : Added class "Background"
+<HEADER> ANN                      : Building Network. 
+                         : Initializing weights
+                         : Booked classifier "ANN" of type: "MLP"
+[INFO] Saved output: /wk_cms2/mc_cheng/public/tqHGG/2017/MVAreco_result_lep/tW_antitop.root
+
+[INFO] Reading input file: /wk_cms2/mc_cheng/public/tqHGG/2017/MVAreco_perms_lep/tW_antitop.root
+                         : Parsing option string: 
+                         : ... "V"
+                         : The following options are set:
+                         : - By User:
+                         :     V: "True" [Verbose flag]
+                         : - Default:
+                         :     Color: "False" [Color flag (default True)]
+                         :     Silent: "False" [Boolean silent flag (default False)]
+                         :     Error: "False" [Calculates errors (default False)]
+                         : Booking "STlep" of type "MLP" from /wk_cms2/mc_cheng/public/tqHGG/2017/MVAreco_model/dataset/weights/STlep_ANN.weights.xml.
+<HEADER> DataSetInfo              : [Default] : Added class "Signal"
+<HEADER> DataSetInfo              : [Default] : Added class "Background"
+<HEADER> ANN                      : Building Network. 
+                         : Initializing weights
+                         : Booked classifier "ANN" of type: "MLP"
+[INFO] Saved output: /wk_cms2/mc_cheng/public/tqHGG/2017/MVAreco_result_lep/tW_antitop.root
+
+---Processing: tW_top
+[INFO] Reading input file: /wk_cms2/mc_cheng/public/tqHGG/2017/MVAreco_perms_lep/tW_top.root
+                         : Parsing option string: 
+                         : ... "V"
+                         : The following options are set:
+                         : - By User:
+                         :     V: "True" [Verbose flag]
+                         : - Default:
+                         :     Color: "False" [Color flag (default True)]
+                         :     Silent: "False" [Boolean silent flag (default False)]
+                         :     Error: "False" [Calculates errors (default False)]
+                         : Booking "TTlep" of type "MLP" from /wk_cms2/mc_cheng/public/tqHGG/2017/MVAreco_model/dataset/weights/TTlep_ANN.weights.xml.
+<HEADER> DataSetInfo              : [Default] : Added class "Signal"
+<HEADER> DataSetInfo              : [Default] : Added class "Background"
+<HEADER> ANN                      : Building Network. 
+                         : Initializing weights
+                         : Booked classifier "ANN" of type: "MLP"
+[INFO] Saved output: /wk_cms2/mc_cheng/public/tqHGG/2017/MVAreco_result_lep/tW_top.root
+
+[INFO] Reading input file: /wk_cms2/mc_cheng/public/tqHGG/2017/MVAreco_perms_lep/tW_top.root
+                         : Parsing option string: 
+                         : ... "V"
+                         : The following options are set:
+                         : - By User:
+                         :     V: "True" [Verbose flag]
+                         : - Default:
+                         :     Color: "False" [Color flag (default True)]
+                         :     Silent: "False" [Boolean silent flag (default False)]
+                         :     Error: "False" [Calculates errors (default False)]
+                         : Booking "STlep" of type "MLP" from /wk_cms2/mc_cheng/public/tqHGG/2017/MVAreco_model/dataset/weights/STlep_ANN.weights.xml.
+<HEADER> DataSetInfo              : [Default] : Added class "Signal"
+<HEADER> DataSetInfo              : [Default] : Added class "Background"
+<HEADER> ANN                      : Building Network. 
+                         : Initializing weights
+                         : Booked classifier "ANN" of type: "MLP"
+[INFO] Saved output: /wk_cms2/mc_cheng/public/tqHGG/2017/MVAreco_result_lep/tW_top.root
+
+---Processing: DYJetsToLL
+[INFO] Reading input file: /wk_cms2/mc_cheng/public/tqHGG/2017/MVAreco_perms_lep/DYJetsToLL.root
+                         : Parsing option string: 
+                         : ... "V"
+                         : The following options are set:
+                         : - By User:
+                         :     V: "True" [Verbose flag]
+                         : - Default:
+                         :     Color: "False" [Color flag (default True)]
+                         :     Silent: "False" [Boolean silent flag (default False)]
+                         :     Error: "False" [Calculates errors (default False)]
+                         : Booking "TTlep" of type "MLP" from /wk_cms2/mc_cheng/public/tqHGG/2017/MVAreco_model/dataset/weights/TTlep_ANN.weights.xml.
+<HEADER> DataSetInfo              : [Default] : Added class "Signal"
+<HEADER> DataSetInfo              : [Default] : Added class "Background"
+<HEADER> ANN                      : Building Network. 
+                         : Initializing weights
+                         : Booked classifier "ANN" of type: "MLP"
+[INFO] Saved output: /wk_cms2/mc_cheng/public/tqHGG/2017/MVAreco_result_lep/DYJetsToLL.root
+
+[INFO] Reading input file: /wk_cms2/mc_cheng/public/tqHGG/2017/MVAreco_perms_lep/DYJetsToLL.root
+                         : Parsing option string: 
+                         : ... "V"
+                         : The following options are set:
+                         : - By User:
+                         :     V: "True" [Verbose flag]
+                         : - Default:
+                         :     Color: "False" [Color flag (default True)]
+                         :     Silent: "False" [Boolean silent flag (default False)]
+                         :     Error: "False" [Calculates errors (default False)]
+                         : Booking "STlep" of type "MLP" from /wk_cms2/mc_cheng/public/tqHGG/2017/MVAreco_model/dataset/weights/STlep_ANN.weights.xml.
+<HEADER> DataSetInfo              : [Default] : Added class "Signal"
+<HEADER> DataSetInfo              : [Default] : Added class "Background"
+<HEADER> ANN                      : Building Network. 
+                         : Initializing weights
+                         : Booked classifier "ANN" of type: "MLP"
+[INFO] Saved output: /wk_cms2/mc_cheng/public/tqHGG/2017/MVAreco_result_lep/DYJetsToLL.root
+
+---Processing: TTWJetsToLNu
+[INFO] Reading input file: /wk_cms2/mc_cheng/public/tqHGG/2017/MVAreco_perms_lep/TTWJetsToLNu.root
+                         : Parsing option string: 
+                         : ... "V"
+                         : The following options are set:
+                         : - By User:
+                         :     V: "True" [Verbose flag]
+                         : - Default:
+                         :     Color: "False" [Color flag (default True)]
+                         :     Silent: "False" [Boolean silent flag (default False)]
+                         :     Error: "False" [Calculates errors (default False)]
+                         : Booking "TTlep" of type "MLP" from /wk_cms2/mc_cheng/public/tqHGG/2017/MVAreco_model/dataset/weights/TTlep_ANN.weights.xml.
+<HEADER> DataSetInfo              : [Default] : Added class "Signal"
+<HEADER> DataSetInfo              : [Default] : Added class "Background"
+<HEADER> ANN                      : Building Network. 
+                         : Initializing weights
+                         : Booked classifier "ANN" of type: "MLP"
+[INFO] Saved output: /wk_cms2/mc_cheng/public/tqHGG/2017/MVAreco_result_lep/TTWJetsToLNu.root
+
+[INFO] Reading input file: /wk_cms2/mc_cheng/public/tqHGG/2017/MVAreco_perms_lep/TTWJetsToLNu.root
+                         : Parsing option string: 
+                         : ... "V"
+                         : The following options are set:
+                         : - By User:
+                         :     V: "True" [Verbose flag]
+                         : - Default:
+                         :     Color: "False" [Color flag (default True)]
+                         :     Silent: "False" [Boolean silent flag (default False)]
+                         :     Error: "False" [Calculates errors (default False)]
+                         : Booking "STlep" of type "MLP" from /wk_cms2/mc_cheng/public/tqHGG/2017/MVAreco_model/dataset/weights/STlep_ANN.weights.xml.
+<HEADER> DataSetInfo              : [Default] : Added class "Signal"
+<HEADER> DataSetInfo              : [Default] : Added class "Background"
+<HEADER> ANN                      : Building Network. 
+                         : Initializing weights
+                         : Booked classifier "ANN" of type: "MLP"
+[INFO] Saved output: /wk_cms2/mc_cheng/public/tqHGG/2017/MVAreco_result_lep/TTWJetsToLNu.root
+
+---Processing: TTZToLLNuNu
+[INFO] Reading input file: /wk_cms2/mc_cheng/public/tqHGG/2017/MVAreco_perms_lep/TTZToLLNuNu.root
+                         : Parsing option string: 
+                         : ... "V"
+                         : The following options are set:
+                         : - By User:
+                         :     V: "True" [Verbose flag]
+                         : - Default:
+                         :     Color: "False" [Color flag (default True)]
+                         :     Silent: "False" [Boolean silent flag (default False)]
+                         :     Error: "False" [Calculates errors (default False)]
+                         : Booking "TTlep" of type "MLP" from /wk_cms2/mc_cheng/public/tqHGG/2017/MVAreco_model/dataset/weights/TTlep_ANN.weights.xml.
+<HEADER> DataSetInfo              : [Default] : Added class "Signal"
+<HEADER> DataSetInfo              : [Default] : Added class "Background"
+<HEADER> ANN                      : Building Network. 
+                         : Initializing weights
+                         : Booked classifier "ANN" of type: "MLP"
+[INFO] Saved output: /wk_cms2/mc_cheng/public/tqHGG/2017/MVAreco_result_lep/TTZToLLNuNu.root
+
+[INFO] Reading input file: /wk_cms2/mc_cheng/public/tqHGG/2017/MVAreco_perms_lep/TTZToLLNuNu.root
+                         : Parsing option string: 
+                         : ... "V"
+                         : The following options are set:
+                         : - By User:
+                         :     V: "True" [Verbose flag]
+                         : - Default:
+                         :     Color: "False" [Color flag (default True)]
+                         :     Silent: "False" [Boolean silent flag (default False)]
+                         :     Error: "False" [Calculates errors (default False)]
+                         : Booking "STlep" of type "MLP" from /wk_cms2/mc_cheng/public/tqHGG/2017/MVAreco_model/dataset/weights/STlep_ANN.weights.xml.
+<HEADER> DataSetInfo              : [Default] : Added class "Signal"
+<HEADER> DataSetInfo              : [Default] : Added class "Background"
+<HEADER> ANN                      : Building Network. 
+                         : Initializing weights
+                         : Booked classifier "ANN" of type: "MLP"
+[INFO] Saved output: /wk_cms2/mc_cheng/public/tqHGG/2017/MVAreco_result_lep/TTZToLLNuNu.root
+
+---Processing: WW
+[INFO] Reading input file: /wk_cms2/mc_cheng/public/tqHGG/2017/MVAreco_perms_lep/WW.root
+                         : Parsing option string: 
+                         : ... "V"
+                         : The following options are set:
+                         : - By User:
+                         :     V: "True" [Verbose flag]
+                         : - Default:
+                         :     Color: "False" [Color flag (default True)]
+                         :     Silent: "False" [Boolean silent flag (default False)]
+                         :     Error: "False" [Calculates errors (default False)]
+                         : Booking "TTlep" of type "MLP" from /wk_cms2/mc_cheng/public/tqHGG/2017/MVAreco_model/dataset/weights/TTlep_ANN.weights.xml.
+<HEADER> DataSetInfo              : [Default] : Added class "Signal"
+<HEADER> DataSetInfo              : [Default] : Added class "Background"
+<HEADER> ANN                      : Building Network. 
+                         : Initializing weights
+                         : Booked classifier "ANN" of type: "MLP"
+[INFO] Saved output: /wk_cms2/mc_cheng/public/tqHGG/2017/MVAreco_result_lep/WW.root
+
+[INFO] Reading input file: /wk_cms2/mc_cheng/public/tqHGG/2017/MVAreco_perms_lep/WW.root
+                         : Parsing option string: 
+                         : ... "V"
+                         : The following options are set:
+                         : - By User:
+                         :     V: "True" [Verbose flag]
+                         : - Default:
+                         :     Color: "False" [Color flag (default True)]
+                         :     Silent: "False" [Boolean silent flag (default False)]
+                         :     Error: "False" [Calculates errors (default False)]
+                         : Booking "STlep" of type "MLP" from /wk_cms2/mc_cheng/public/tqHGG/2017/MVAreco_model/dataset/weights/STlep_ANN.weights.xml.
+<HEADER> DataSetInfo              : [Default] : Added class "Signal"
+<HEADER> DataSetInfo              : [Default] : Added class "Background"
+<HEADER> ANN                      : Building Network. 
+                         : Initializing weights
+                         : Booked classifier "ANN" of type: "MLP"
+[INFO] Saved output: /wk_cms2/mc_cheng/public/tqHGG/2017/MVAreco_result_lep/WW.root
+
+---Processing: WZ
+[INFO] Reading input file: /wk_cms2/mc_cheng/public/tqHGG/2017/MVAreco_perms_lep/WZ.root
+                         : Parsing option string: 
+                         : ... "V"
+                         : The following options are set:
+                         : - By User:
+                         :     V: "True" [Verbose flag]
+                         : - Default:
+                         :     Color: "False" [Color flag (default True)]
+                         :     Silent: "False" [Boolean silent flag (default False)]
+                         :     Error: "False" [Calculates errors (default False)]
+                         : Booking "TTlep" of type "MLP" from /wk_cms2/mc_cheng/public/tqHGG/2017/MVAreco_model/dataset/weights/TTlep_ANN.weights.xml.
+<HEADER> DataSetInfo              : [Default] : Added class "Signal"
+<HEADER> DataSetInfo              : [Default] : Added class "Background"
+<HEADER> ANN                      : Building Network. 
+                         : Initializing weights
+                         : Booked classifier "ANN" of type: "MLP"
+[INFO] Saved output: /wk_cms2/mc_cheng/public/tqHGG/2017/MVAreco_result_lep/WZ.root
+
+[INFO] Reading input file: /wk_cms2/mc_cheng/public/tqHGG/2017/MVAreco_perms_lep/WZ.root
+                         : Parsing option string: 
+                         : ... "V"
+                         : The following options are set:
+                         : - By User:
+                         :     V: "True" [Verbose flag]
+                         : - Default:
+                         :     Color: "False" [Color flag (default True)]
+                         :     Silent: "False" [Boolean silent flag (default False)]
+                         :     Error: "False" [Calculates errors (default False)]
+                         : Booking "STlep" of type "MLP" from /wk_cms2/mc_cheng/public/tqHGG/2017/MVAreco_model/dataset/weights/STlep_ANN.weights.xml.
+<HEADER> DataSetInfo              : [Default] : Added class "Signal"
+<HEADER> DataSetInfo              : [Default] : Added class "Background"
+<HEADER> ANN                      : Building Network. 
+                         : Initializing weights
+                         : Booked classifier "ANN" of type: "MLP"
+[INFO] Saved output: /wk_cms2/mc_cheng/public/tqHGG/2017/MVAreco_result_lep/WZ.root
+
+---Processing: ZZ
+[INFO] Reading input file: /wk_cms2/mc_cheng/public/tqHGG/2017/MVAreco_perms_lep/ZZ.root
+                         : Parsing option string: 
+                         : ... "V"
+                         : The following options are set:
+                         : - By User:
+                         :     V: "True" [Verbose flag]
+                         : - Default:
+                         :     Color: "False" [Color flag (default True)]
+                         :     Silent: "False" [Boolean silent flag (default False)]
+                         :     Error: "False" [Calculates errors (default False)]
+                         : Booking "TTlep" of type "MLP" from /wk_cms2/mc_cheng/public/tqHGG/2017/MVAreco_model/dataset/weights/TTlep_ANN.weights.xml.
+<HEADER> DataSetInfo              : [Default] : Added class "Signal"
+<HEADER> DataSetInfo              : [Default] : Added class "Background"
+<HEADER> ANN                      : Building Network. 
+                         : Initializing weights
+                         : Booked classifier "ANN" of type: "MLP"
+[INFO] Saved output: /wk_cms2/mc_cheng/public/tqHGG/2017/MVAreco_result_lep/ZZ.root
+
+[INFO] Reading input file: /wk_cms2/mc_cheng/public/tqHGG/2017/MVAreco_perms_lep/ZZ.root
+                         : Parsing option string: 
+                         : ... "V"
+                         : The following options are set:
+                         : - By User:
+                         :     V: "True" [Verbose flag]
+                         : - Default:
+                         :     Color: "False" [Color flag (default True)]
+                         :     Silent: "False" [Boolean silent flag (default False)]
+                         :     Error: "False" [Calculates errors (default False)]
+                         : Booking "STlep" of type "MLP" from /wk_cms2/mc_cheng/public/tqHGG/2017/MVAreco_model/dataset/weights/STlep_ANN.weights.xml.
+<HEADER> DataSetInfo              : [Default] : Added class "Signal"
+<HEADER> DataSetInfo              : [Default] : Added class "Background"
+<HEADER> ANN                      : Building Network. 
+                         : Initializing weights
+                         : Booked classifier "ANN" of type: "MLP"
+[INFO] Saved output: /wk_cms2/mc_cheng/public/tqHGG/2017/MVAreco_result_lep/ZZ.root
+
+---Processing: QCD_Pt-30toInf_MGG-40to80
+[INFO] Reading input file: /wk_cms2/mc_cheng/public/tqHGG/2017/MVAreco_perms_lep/QCD_Pt-30toInf_MGG-40to80.root
+                         : Parsing option string: 
+                         : ... "V"
+                         : The following options are set:
+                         : - By User:
+                         :     V: "True" [Verbose flag]
+                         : - Default:
+                         :     Color: "False" [Color flag (default True)]
+                         :     Silent: "False" [Boolean silent flag (default False)]
+                         :     Error: "False" [Calculates errors (default False)]
+                         : Booking "TTlep" of type "MLP" from /wk_cms2/mc_cheng/public/tqHGG/2017/MVAreco_model/dataset/weights/TTlep_ANN.weights.xml.
+<HEADER> DataSetInfo              : [Default] : Added class "Signal"
+<HEADER> DataSetInfo              : [Default] : Added class "Background"
+<HEADER> ANN                      : Building Network. 
+                         : Initializing weights
+                         : Booked classifier "ANN" of type: "MLP"
+[INFO] Saved output: /wk_cms2/mc_cheng/public/tqHGG/2017/MVAreco_result_lep/QCD_Pt-30toInf_MGG-40to80.root
+
+[INFO] Reading input file: /wk_cms2/mc_cheng/public/tqHGG/2017/MVAreco_perms_lep/QCD_Pt-30toInf_MGG-40to80.root
+                         : Parsing option string: 
+                         : ... "V"
+                         : The following options are set:
+                         : - By User:
+                         :     V: "True" [Verbose flag]
+                         : - Default:
+                         :     Color: "False" [Color flag (default True)]
+                         :     Silent: "False" [Boolean silent flag (default False)]
+                         :     Error: "False" [Calculates errors (default False)]
+                         : Booking "STlep" of type "MLP" from /wk_cms2/mc_cheng/public/tqHGG/2017/MVAreco_model/dataset/weights/STlep_ANN.weights.xml.
+<HEADER> DataSetInfo              : [Default] : Added class "Signal"
+<HEADER> DataSetInfo              : [Default] : Added class "Background"
+<HEADER> ANN                      : Building Network. 
+                         : Initializing weights
+                         : Booked classifier "ANN" of type: "MLP"
+[INFO] Saved output: /wk_cms2/mc_cheng/public/tqHGG/2017/MVAreco_result_lep/QCD_Pt-30toInf_MGG-40to80.root
+
+---Processing: QCD_Pt-40toInf_MGG-80toInf
+[INFO] Reading input file: /wk_cms2/mc_cheng/public/tqHGG/2017/MVAreco_perms_lep/QCD_Pt-40toInf_MGG-80toInf.root
+                         : Parsing option string: 
+                         : ... "V"
+                         : The following options are set:
+                         : - By User:
+                         :     V: "True" [Verbose flag]
+                         : - Default:
+                         :     Color: "False" [Color flag (default True)]
+                         :     Silent: "False" [Boolean silent flag (default False)]
+                         :     Error: "False" [Calculates errors (default False)]
+                         : Booking "TTlep" of type "MLP" from /wk_cms2/mc_cheng/public/tqHGG/2017/MVAreco_model/dataset/weights/TTlep_ANN.weights.xml.
+<HEADER> DataSetInfo              : [Default] : Added class "Signal"
+<HEADER> DataSetInfo              : [Default] : Added class "Background"
+<HEADER> ANN                      : Building Network. 
+                         : Initializing weights
+                         : Booked classifier "ANN" of type: "MLP"
+[INFO] Saved output: /wk_cms2/mc_cheng/public/tqHGG/2017/MVAreco_result_lep/QCD_Pt-40toInf_MGG-80toInf.root
+
+[INFO] Reading input file: /wk_cms2/mc_cheng/public/tqHGG/2017/MVAreco_perms_lep/QCD_Pt-40toInf_MGG-80toInf.root
+                         : Parsing option string: 
+                         : ... "V"
+                         : The following options are set:
+                         : - By User:
+                         :     V: "True" [Verbose flag]
+                         : - Default:
+                         :     Color: "False" [Color flag (default True)]
+                         :     Silent: "False" [Boolean silent flag (default False)]
+                         :     Error: "False" [Calculates errors (default False)]
+                         : Booking "STlep" of type "MLP" from /wk_cms2/mc_cheng/public/tqHGG/2017/MVAreco_model/dataset/weights/STlep_ANN.weights.xml.
+<HEADER> DataSetInfo              : [Default] : Added class "Signal"
+<HEADER> DataSetInfo              : [Default] : Added class "Background"
+<HEADER> ANN                      : Building Network. 
+                         : Initializing weights
+                         : Booked classifier "ANN" of type: "MLP"
+[INFO] Saved output: /wk_cms2/mc_cheng/public/tqHGG/2017/MVAreco_result_lep/QCD_Pt-40toInf_MGG-80toInf.root
+
+---Processing: GJet_Pt-20to40_MGG-80toInf
+[INFO] Reading input file: /wk_cms2/mc_cheng/public/tqHGG/2017/MVAreco_perms_lep/GJet_Pt-20to40_MGG-80toInf.root
+                         : Parsing option string: 
+                         : ... "V"
+                         : The following options are set:
+                         : - By User:
+                         :     V: "True" [Verbose flag]
+                         : - Default:
+                         :     Color: "False" [Color flag (default True)]
+                         :     Silent: "False" [Boolean silent flag (default False)]
+                         :     Error: "False" [Calculates errors (default False)]
+                         : Booking "TTlep" of type "MLP" from /wk_cms2/mc_cheng/public/tqHGG/2017/MVAreco_model/dataset/weights/TTlep_ANN.weights.xml.
+<HEADER> DataSetInfo              : [Default] : Added class "Signal"
+<HEADER> DataSetInfo              : [Default] : Added class "Background"
+<HEADER> ANN                      : Building Network. 
+                         : Initializing weights
+                         : Booked classifier "ANN" of type: "MLP"
+[INFO] Saved output: /wk_cms2/mc_cheng/public/tqHGG/2017/MVAreco_result_lep/GJet_Pt-20to40_MGG-80toInf.root
+
+[INFO] Reading input file: /wk_cms2/mc_cheng/public/tqHGG/2017/MVAreco_perms_lep/GJet_Pt-20to40_MGG-80toInf.root
+                         : Parsing option string: 
+                         : ... "V"
+                         : The following options are set:
+                         : - By User:
+                         :     V: "True" [Verbose flag]
+                         : - Default:
+                         :     Color: "False" [Color flag (default True)]
+                         :     Silent: "False" [Boolean silent flag (default False)]
+                         :     Error: "False" [Calculates errors (default False)]
+                         : Booking "STlep" of type "MLP" from /wk_cms2/mc_cheng/public/tqHGG/2017/MVAreco_model/dataset/weights/STlep_ANN.weights.xml.
+<HEADER> DataSetInfo              : [Default] : Added class "Signal"
+<HEADER> DataSetInfo              : [Default] : Added class "Background"
+<HEADER> ANN                      : Building Network. 
+                         : Initializing weights
+                         : Booked classifier "ANN" of type: "MLP"
+[INFO] Saved output: /wk_cms2/mc_cheng/public/tqHGG/2017/MVAreco_result_lep/GJet_Pt-20to40_MGG-80toInf.root
+
+---Processing: GJet_Pt-20toInf_MGG-40to80
+[INFO] Reading input file: /wk_cms2/mc_cheng/public/tqHGG/2017/MVAreco_perms_lep/GJet_Pt-20toInf_MGG-40to80.root
+                         : Parsing option string: 
+                         : ... "V"
+                         : The following options are set:
+                         : - By User:
+                         :     V: "True" [Verbose flag]
+                         : - Default:
+                         :     Color: "False" [Color flag (default True)]
+                         :     Silent: "False" [Boolean silent flag (default False)]
+                         :     Error: "False" [Calculates errors (default False)]
+                         : Booking "TTlep" of type "MLP" from /wk_cms2/mc_cheng/public/tqHGG/2017/MVAreco_model/dataset/weights/TTlep_ANN.weights.xml.
+<HEADER> DataSetInfo              : [Default] : Added class "Signal"
+<HEADER> DataSetInfo              : [Default] : Added class "Background"
+<HEADER> ANN                      : Building Network. 
+                         : Initializing weights
+                         : Booked classifier "ANN" of type: "MLP"
+[INFO] Saved output: /wk_cms2/mc_cheng/public/tqHGG/2017/MVAreco_result_lep/GJet_Pt-20toInf_MGG-40to80.root
+
+[INFO] Reading input file: /wk_cms2/mc_cheng/public/tqHGG/2017/MVAreco_perms_lep/GJet_Pt-20toInf_MGG-40to80.root
+                         : Parsing option string: 
+                         : ... "V"
+                         : The following options are set:
+                         : - By User:
+                         :     V: "True" [Verbose flag]
+                         : - Default:
+                         :     Color: "False" [Color flag (default True)]
+                         :     Silent: "False" [Boolean silent flag (default False)]
+                         :     Error: "False" [Calculates errors (default False)]
+                         : Booking "STlep" of type "MLP" from /wk_cms2/mc_cheng/public/tqHGG/2017/MVAreco_model/dataset/weights/STlep_ANN.weights.xml.
+<HEADER> DataSetInfo              : [Default] : Added class "Signal"
+<HEADER> DataSetInfo              : [Default] : Added class "Background"
+<HEADER> ANN                      : Building Network. 
+                         : Initializing weights
+                         : Booked classifier "ANN" of type: "MLP"
+[INFO] Saved output: /wk_cms2/mc_cheng/public/tqHGG/2017/MVAreco_result_lep/GJet_Pt-20toInf_MGG-40to80.root
+
+---Processing: GJet_Pt-40toInf_MGG-80toInf
+[INFO] Reading input file: /wk_cms2/mc_cheng/public/tqHGG/2017/MVAreco_perms_lep/GJet_Pt-40toInf_MGG-80toInf.root
+                         : Parsing option string: 
+                         : ... "V"
+                         : The following options are set:
+                         : - By User:
+                         :     V: "True" [Verbose flag]
+                         : - Default:
+                         :     Color: "False" [Color flag (default True)]
+                         :     Silent: "False" [Boolean silent flag (default False)]
+                         :     Error: "False" [Calculates errors (default False)]
+                         : Booking "TTlep" of type "MLP" from /wk_cms2/mc_cheng/public/tqHGG/2017/MVAreco_model/dataset/weights/TTlep_ANN.weights.xml.
+<HEADER> DataSetInfo              : [Default] : Added class "Signal"
+<HEADER> DataSetInfo              : [Default] : Added class "Background"
+<HEADER> ANN                      : Building Network. 
+                         : Initializing weights
+                         : Booked classifier "ANN" of type: "MLP"
+[INFO] Saved output: /wk_cms2/mc_cheng/public/tqHGG/2017/MVAreco_result_lep/GJet_Pt-40toInf_MGG-80toInf.root
+
+[INFO] Reading input file: /wk_cms2/mc_cheng/public/tqHGG/2017/MVAreco_perms_lep/GJet_Pt-40toInf_MGG-80toInf.root
+                         : Parsing option string: 
+                         : ... "V"
+                         : The following options are set:
+                         : - By User:
+                         :     V: "True" [Verbose flag]
+                         : - Default:
+                         :     Color: "False" [Color flag (default True)]
+                         :     Silent: "False" [Boolean silent flag (default False)]
+                         :     Error: "False" [Calculates errors (default False)]
+                         : Booking "STlep" of type "MLP" from /wk_cms2/mc_cheng/public/tqHGG/2017/MVAreco_model/dataset/weights/STlep_ANN.weights.xml.
+<HEADER> DataSetInfo              : [Default] : Added class "Signal"
+<HEADER> DataSetInfo              : [Default] : Added class "Background"
+<HEADER> ANN                      : Building Network. 
+                         : Initializing weights
+                         : Booked classifier "ANN" of type: "MLP"
+[INFO] Saved output: /wk_cms2/mc_cheng/public/tqHGG/2017/MVAreco_result_lep/GJet_Pt-40toInf_MGG-80toInf.root
+
+---Processing: DiPhotonJetsBox
+[INFO] Reading input file: /wk_cms2/mc_cheng/public/tqHGG/2017/MVAreco_perms_lep/DiPhotonJetsBox.root
+                         : Parsing option string: 
+                         : ... "V"
+                         : The following options are set:
+                         : - By User:
+                         :     V: "True" [Verbose flag]
+                         : - Default:
+                         :     Color: "False" [Color flag (default True)]
+                         :     Silent: "False" [Boolean silent flag (default False)]
+                         :     Error: "False" [Calculates errors (default False)]
+                         : Booking "TTlep" of type "MLP" from /wk_cms2/mc_cheng/public/tqHGG/2017/MVAreco_model/dataset/weights/TTlep_ANN.weights.xml.
+<HEADER> DataSetInfo              : [Default] : Added class "Signal"
+<HEADER> DataSetInfo              : [Default] : Added class "Background"
+<HEADER> ANN                      : Building Network. 
+                         : Initializing weights
+                         : Booked classifier "ANN" of type: "MLP"
+[INFO] Saved output: /wk_cms2/mc_cheng/public/tqHGG/2017/MVAreco_result_lep/DiPhotonJetsBox.root
+
+[INFO] Reading input file: /wk_cms2/mc_cheng/public/tqHGG/2017/MVAreco_perms_lep/DiPhotonJetsBox.root
+                         : Parsing option string: 
+                         : ... "V"
+                         : The following options are set:
+                         : - By User:
+                         :     V: "True" [Verbose flag]
+                         : - Default:
+                         :     Color: "False" [Color flag (default True)]
+                         :     Silent: "False" [Boolean silent flag (default False)]
+                         :     Error: "False" [Calculates errors (default False)]
+                         : Booking "STlep" of type "MLP" from /wk_cms2/mc_cheng/public/tqHGG/2017/MVAreco_model/dataset/weights/STlep_ANN.weights.xml.
+<HEADER> DataSetInfo              : [Default] : Added class "Signal"
+<HEADER> DataSetInfo              : [Default] : Added class "Background"
+<HEADER> ANN                      : Building Network. 
+                         : Initializing weights
+                         : Booked classifier "ANN" of type: "MLP"
+[INFO] Saved output: /wk_cms2/mc_cheng/public/tqHGG/2017/MVAreco_result_lep/DiPhotonJetsBox.root
+
+---Processing: TTGJets
+[INFO] Reading input file: /wk_cms2/mc_cheng/public/tqHGG/2017/MVAreco_perms_lep/TTGJets.root
+                         : Parsing option string: 
+                         : ... "V"
+                         : The following options are set:
+                         : - By User:
+                         :     V: "True" [Verbose flag]
+                         : - Default:
+                         :     Color: "False" [Color flag (default True)]
+                         :     Silent: "False" [Boolean silent flag (default False)]
+                         :     Error: "False" [Calculates errors (default False)]
+                         : Booking "TTlep" of type "MLP" from /wk_cms2/mc_cheng/public/tqHGG/2017/MVAreco_model/dataset/weights/TTlep_ANN.weights.xml.
+<HEADER> DataSetInfo              : [Default] : Added class "Signal"
+<HEADER> DataSetInfo              : [Default] : Added class "Background"
+<HEADER> ANN                      : Building Network. 
+                         : Initializing weights
+                         : Booked classifier "ANN" of type: "MLP"
+[INFO] Saved output: /wk_cms2/mc_cheng/public/tqHGG/2017/MVAreco_result_lep/TTGJets.root
+
+[INFO] Reading input file: /wk_cms2/mc_cheng/public/tqHGG/2017/MVAreco_perms_lep/TTGJets.root
+                         : Parsing option string: 
+                         : ... "V"
+                         : The following options are set:
+                         : - By User:
+                         :     V: "True" [Verbose flag]
+                         : - Default:
+                         :     Color: "False" [Color flag (default True)]
+                         :     Silent: "False" [Boolean silent flag (default False)]
+                         :     Error: "False" [Calculates errors (default False)]
+                         : Booking "STlep" of type "MLP" from /wk_cms2/mc_cheng/public/tqHGG/2017/MVAreco_model/dataset/weights/STlep_ANN.weights.xml.
+<HEADER> DataSetInfo              : [Default] : Added class "Signal"
+<HEADER> DataSetInfo              : [Default] : Added class "Background"
+<HEADER> ANN                      : Building Network. 
+                         : Initializing weights
+                         : Booked classifier "ANN" of type: "MLP"
+[INFO] Saved output: /wk_cms2/mc_cheng/public/tqHGG/2017/MVAreco_result_lep/TTGJets.root
+
+---Processing: GluGluHToGG
+[INFO] Reading input file: /wk_cms2/mc_cheng/public/tqHGG/2017/MVAreco_perms_lep/GluGluHToGG.root
+                         : Parsing option string: 
+                         : ... "V"
+                         : The following options are set:
+                         : - By User:
+                         :     V: "True" [Verbose flag]
+                         : - Default:
+                         :     Color: "False" [Color flag (default True)]
+                         :     Silent: "False" [Boolean silent flag (default False)]
+                         :     Error: "False" [Calculates errors (default False)]
+                         : Booking "TTlep" of type "MLP" from /wk_cms2/mc_cheng/public/tqHGG/2017/MVAreco_model/dataset/weights/TTlep_ANN.weights.xml.
+<HEADER> DataSetInfo              : [Default] : Added class "Signal"
+<HEADER> DataSetInfo              : [Default] : Added class "Background"
+<HEADER> ANN                      : Building Network. 
+                         : Initializing weights
+                         : Booked classifier "ANN" of type: "MLP"
+[INFO] Saved output: /wk_cms2/mc_cheng/public/tqHGG/2017/MVAreco_result_lep/GluGluHToGG.root
+
+[INFO] Reading input file: /wk_cms2/mc_cheng/public/tqHGG/2017/MVAreco_perms_lep/GluGluHToGG.root
+                         : Parsing option string: 
+                         : ... "V"
+                         : The following options are set:
+                         : - By User:
+                         :     V: "True" [Verbose flag]
+                         : - Default:
+                         :     Color: "False" [Color flag (default True)]
+                         :     Silent: "False" [Boolean silent flag (default False)]
+                         :     Error: "False" [Calculates errors (default False)]
+                         : Booking "STlep" of type "MLP" from /wk_cms2/mc_cheng/public/tqHGG/2017/MVAreco_model/dataset/weights/STlep_ANN.weights.xml.
+<HEADER> DataSetInfo              : [Default] : Added class "Signal"
+<HEADER> DataSetInfo              : [Default] : Added class "Background"
+<HEADER> ANN                      : Building Network. 
+                         : Initializing weights
+                         : Booked classifier "ANN" of type: "MLP"
+[INFO] Saved output: /wk_cms2/mc_cheng/public/tqHGG/2017/MVAreco_result_lep/GluGluHToGG.root
+
+---Processing: VBFHToGG
+[INFO] Reading input file: /wk_cms2/mc_cheng/public/tqHGG/2017/MVAreco_perms_lep/VBFHToGG.root
+                         : Parsing option string: 
+                         : ... "V"
+                         : The following options are set:
+                         : - By User:
+                         :     V: "True" [Verbose flag]
+                         : - Default:
+                         :     Color: "False" [Color flag (default True)]
+                         :     Silent: "False" [Boolean silent flag (default False)]
+                         :     Error: "False" [Calculates errors (default False)]
+                         : Booking "TTlep" of type "MLP" from /wk_cms2/mc_cheng/public/tqHGG/2017/MVAreco_model/dataset/weights/TTlep_ANN.weights.xml.
+<HEADER> DataSetInfo              : [Default] : Added class "Signal"
+<HEADER> DataSetInfo              : [Default] : Added class "Background"
+<HEADER> ANN                      : Building Network. 
+                         : Initializing weights
+                         : Booked classifier "ANN" of type: "MLP"
+[INFO] Saved output: /wk_cms2/mc_cheng/public/tqHGG/2017/MVAreco_result_lep/VBFHToGG.root
+
+[INFO] Reading input file: /wk_cms2/mc_cheng/public/tqHGG/2017/MVAreco_perms_lep/VBFHToGG.root
+                         : Parsing option string: 
+                         : ... "V"
+                         : The following options are set:
+                         : - By User:
+                         :     V: "True" [Verbose flag]
+                         : - Default:
+                         :     Color: "False" [Color flag (default True)]
+                         :     Silent: "False" [Boolean silent flag (default False)]
+                         :     Error: "False" [Calculates errors (default False)]
+                         : Booking "STlep" of type "MLP" from /wk_cms2/mc_cheng/public/tqHGG/2017/MVAreco_model/dataset/weights/STlep_ANN.weights.xml.
+<HEADER> DataSetInfo              : [Default] : Added class "Signal"
+<HEADER> DataSetInfo              : [Default] : Added class "Background"
+<HEADER> ANN                      : Building Network. 
+                         : Initializing weights
+                         : Booked classifier "ANN" of type: "MLP"
+[INFO] Saved output: /wk_cms2/mc_cheng/public/tqHGG/2017/MVAreco_result_lep/VBFHToGG.root
+
+---Processing: VHToGG
+[INFO] Reading input file: /wk_cms2/mc_cheng/public/tqHGG/2017/MVAreco_perms_lep/VHToGG.root
+                         : Parsing option string: 
+                         : ... "V"
+                         : The following options are set:
+                         : - By User:
+                         :     V: "True" [Verbose flag]
+                         : - Default:
+                         :     Color: "False" [Color flag (default True)]
+                         :     Silent: "False" [Boolean silent flag (default False)]
+                         :     Error: "False" [Calculates errors (default False)]
+                         : Booking "TTlep" of type "MLP" from /wk_cms2/mc_cheng/public/tqHGG/2017/MVAreco_model/dataset/weights/TTlep_ANN.weights.xml.
+<HEADER> DataSetInfo              : [Default] : Added class "Signal"
+<HEADER> DataSetInfo              : [Default] : Added class "Background"
+<HEADER> ANN                      : Building Network. 
+                         : Initializing weights
+                         : Booked classifier "ANN" of type: "MLP"
+[INFO] Saved output: /wk_cms2/mc_cheng/public/tqHGG/2017/MVAreco_result_lep/VHToGG.root
+
+[INFO] Reading input file: /wk_cms2/mc_cheng/public/tqHGG/2017/MVAreco_perms_lep/VHToGG.root
+                         : Parsing option string: 
+                         : ... "V"
+                         : The following options are set:
+                         : - By User:
+                         :     V: "True" [Verbose flag]
+                         : - Default:
+                         :     Color: "False" [Color flag (default True)]
+                         :     Silent: "False" [Boolean silent flag (default False)]
+                         :     Error: "False" [Calculates errors (default False)]
+                         : Booking "STlep" of type "MLP" from /wk_cms2/mc_cheng/public/tqHGG/2017/MVAreco_model/dataset/weights/STlep_ANN.weights.xml.
+<HEADER> DataSetInfo              : [Default] : Added class "Signal"
+<HEADER> DataSetInfo              : [Default] : Added class "Background"
+<HEADER> ANN                      : Building Network. 
+                         : Initializing weights
+                         : Booked classifier "ANN" of type: "MLP"
+[INFO] Saved output: /wk_cms2/mc_cheng/public/tqHGG/2017/MVAreco_result_lep/VHToGG.root
+
+---Processing: ttHJetToGG
+[INFO] Reading input file: /wk_cms2/mc_cheng/public/tqHGG/2017/MVAreco_perms_lep/ttHJetToGG.root
+                         : Parsing option string: 
+                         : ... "V"
+                         : The following options are set:
+                         : - By User:
+                         :     V: "True" [Verbose flag]
+                         : - Default:
+                         :     Color: "False" [Color flag (default True)]
+                         :     Silent: "False" [Boolean silent flag (default False)]
+                         :     Error: "False" [Calculates errors (default False)]
+                         : Booking "TTlep" of type "MLP" from /wk_cms2/mc_cheng/public/tqHGG/2017/MVAreco_model/dataset/weights/TTlep_ANN.weights.xml.
+<HEADER> DataSetInfo              : [Default] : Added class "Signal"
+<HEADER> DataSetInfo              : [Default] : Added class "Background"
+<HEADER> ANN                      : Building Network. 
+                         : Initializing weights
+                         : Booked classifier "ANN" of type: "MLP"
+[INFO] Saved output: /wk_cms2/mc_cheng/public/tqHGG/2017/MVAreco_result_lep/ttHJetToGG.root
+
+[INFO] Reading input file: /wk_cms2/mc_cheng/public/tqHGG/2017/MVAreco_perms_lep/ttHJetToGG.root
+                         : Parsing option string: 
+                         : ... "V"
+                         : The following options are set:
+                         : - By User:
+                         :     V: "True" [Verbose flag]
+                         : - Default:
+                         :     Color: "False" [Color flag (default True)]
+                         :     Silent: "False" [Boolean silent flag (default False)]
+                         :     Error: "False" [Calculates errors (default False)]
+                         : Booking "STlep" of type "MLP" from /wk_cms2/mc_cheng/public/tqHGG/2017/MVAreco_model/dataset/weights/STlep_ANN.weights.xml.
+<HEADER> DataSetInfo              : [Default] : Added class "Signal"
+<HEADER> DataSetInfo              : [Default] : Added class "Background"
+<HEADER> ANN                      : Building Network. 
+                         : Initializing weights
+                         : Booked classifier "ANN" of type: "MLP"
+[INFO] Saved output: /wk_cms2/mc_cheng/public/tqHGG/2017/MVAreco_result_lep/ttHJetToGG.root
+
+---Processing: TGJets
+[INFO] Reading input file: /wk_cms2/mc_cheng/public/tqHGG/2017/MVAreco_perms_lep/TGJets.root
+                         : Parsing option string: 
+                         : ... "V"
+                         : The following options are set:
+                         : - By User:
+                         :     V: "True" [Verbose flag]
+                         : - Default:
+                         :     Color: "False" [Color flag (default True)]
+                         :     Silent: "False" [Boolean silent flag (default False)]
+                         :     Error: "False" [Calculates errors (default False)]
+                         : Booking "TTlep" of type "MLP" from /wk_cms2/mc_cheng/public/tqHGG/2017/MVAreco_model/dataset/weights/TTlep_ANN.weights.xml.
+<HEADER> DataSetInfo              : [Default] : Added class "Signal"
+<HEADER> DataSetInfo              : [Default] : Added class "Background"
+<HEADER> ANN                      : Building Network. 
+                         : Initializing weights
+                         : Booked classifier "ANN" of type: "MLP"
+[INFO] Saved output: /wk_cms2/mc_cheng/public/tqHGG/2017/MVAreco_result_lep/TGJets.root
+
+[INFO] Reading input file: /wk_cms2/mc_cheng/public/tqHGG/2017/MVAreco_perms_lep/TGJets.root
+                         : Parsing option string: 
+                         : ... "V"
+                         : The following options are set:
+                         : - By User:
+                         :     V: "True" [Verbose flag]
+                         : - Default:
+                         :     Color: "False" [Color flag (default True)]
+                         :     Silent: "False" [Boolean silent flag (default False)]
+                         :     Error: "False" [Calculates errors (default False)]
+                         : Booking "STlep" of type "MLP" from /wk_cms2/mc_cheng/public/tqHGG/2017/MVAreco_model/dataset/weights/STlep_ANN.weights.xml.
+<HEADER> DataSetInfo              : [Default] : Added class "Signal"
+<HEADER> DataSetInfo              : [Default] : Added class "Background"
+<HEADER> ANN                      : Building Network. 
+                         : Initializing weights
+                         : Booked classifier "ANN" of type: "MLP"
+[INFO] Saved output: /wk_cms2/mc_cheng/public/tqHGG/2017/MVAreco_result_lep/TGJets.root
+
+---Processing: TTJets
+[INFO] Reading input file: /wk_cms2/mc_cheng/public/tqHGG/2017/MVAreco_perms_lep/TTJets.root
+                         : Parsing option string: 
+                         : ... "V"
+                         : The following options are set:
+                         : - By User:
+                         :     V: "True" [Verbose flag]
+                         : - Default:
+                         :     Color: "False" [Color flag (default True)]
+                         :     Silent: "False" [Boolean silent flag (default False)]
+                         :     Error: "False" [Calculates errors (default False)]
+                         : Booking "TTlep" of type "MLP" from /wk_cms2/mc_cheng/public/tqHGG/2017/MVAreco_model/dataset/weights/TTlep_ANN.weights.xml.
+<HEADER> DataSetInfo              : [Default] : Added class "Signal"
+<HEADER> DataSetInfo              : [Default] : Added class "Background"
+<HEADER> ANN                      : Building Network. 
+                         : Initializing weights
+                         : Booked classifier "ANN" of type: "MLP"
+[INFO] Saved output: /wk_cms2/mc_cheng/public/tqHGG/2017/MVAreco_result_lep/TTJets.root
+
+[INFO] Reading input file: /wk_cms2/mc_cheng/public/tqHGG/2017/MVAreco_perms_lep/TTJets.root
+                         : Parsing option string: 
+                         : ... "V"
+                         : The following options are set:
+                         : - By User:
+                         :     V: "True" [Verbose flag]
+                         : - Default:
+                         :     Color: "False" [Color flag (default True)]
+                         :     Silent: "False" [Boolean silent flag (default False)]
+                         :     Error: "False" [Calculates errors (default False)]
+                         : Booking "STlep" of type "MLP" from /wk_cms2/mc_cheng/public/tqHGG/2017/MVAreco_model/dataset/weights/STlep_ANN.weights.xml.
+<HEADER> DataSetInfo              : [Default] : Added class "Signal"
+<HEADER> DataSetInfo              : [Default] : Added class "Background"
+<HEADER> ANN                      : Building Network. 
+                         : Initializing weights
+                         : Booked classifier "ANN" of type: "MLP"
+[INFO] Saved output: /wk_cms2/mc_cheng/public/tqHGG/2017/MVAreco_result_lep/TTJets.root
+
+---Processing: TTGG
+[INFO] Reading input file: /wk_cms2/mc_cheng/public/tqHGG/2017/MVAreco_perms_lep/TTGG.root
+                         : Parsing option string: 
+                         : ... "V"
+                         : The following options are set:
+                         : - By User:
+                         :     V: "True" [Verbose flag]
+                         : - Default:
+                         :     Color: "False" [Color flag (default True)]
+                         :     Silent: "False" [Boolean silent flag (default False)]
+                         :     Error: "False" [Calculates errors (default False)]
+                         : Booking "TTlep" of type "MLP" from /wk_cms2/mc_cheng/public/tqHGG/2017/MVAreco_model/dataset/weights/TTlep_ANN.weights.xml.
+<HEADER> DataSetInfo              : [Default] : Added class "Signal"
+<HEADER> DataSetInfo              : [Default] : Added class "Background"
+<HEADER> ANN                      : Building Network. 
+                         : Initializing weights
+                         : Booked classifier "ANN" of type: "MLP"
+[INFO] Saved output: /wk_cms2/mc_cheng/public/tqHGG/2017/MVAreco_result_lep/TTGG.root
+
+[INFO] Reading input file: /wk_cms2/mc_cheng/public/tqHGG/2017/MVAreco_perms_lep/TTGG.root
+                         : Parsing option string: 
+                         : ... "V"
+                         : The following options are set:
+                         : - By User:
+                         :     V: "True" [Verbose flag]
+                         : - Default:
+                         :     Color: "False" [Color flag (default True)]
+                         :     Silent: "False" [Boolean silent flag (default False)]
+                         :     Error: "False" [Calculates errors (default False)]
+                         : Booking "STlep" of type "MLP" from /wk_cms2/mc_cheng/public/tqHGG/2017/MVAreco_model/dataset/weights/STlep_ANN.weights.xml.
+<HEADER> DataSetInfo              : [Default] : Added class "Signal"
+<HEADER> DataSetInfo              : [Default] : Added class "Background"
+<HEADER> ANN                      : Building Network. 
+                         : Initializing weights
+                         : Booked classifier "ANN" of type: "MLP"
+[INFO] Saved output: /wk_cms2/mc_cheng/public/tqHGG/2017/MVAreco_result_lep/TTGG.root
+
+---Processing: data
+[INFO] Reading input file: /wk_cms2/mc_cheng/public/tqHGG/2017/MVAreco_perms_lep/data.root
+                         : Parsing option string: 
+                         : ... "V"
+                         : The following options are set:
+                         : - By User:
+                         :     V: "True" [Verbose flag]
+                         : - Default:
+                         :     Color: "False" [Color flag (default True)]
+                         :     Silent: "False" [Boolean silent flag (default False)]
+                         :     Error: "False" [Calculates errors (default False)]
+                         : Booking "TTlep" of type "MLP" from /wk_cms2/mc_cheng/public/tqHGG/2017/MVAreco_model/dataset/weights/TTlep_ANN.weights.xml.
+<HEADER> DataSetInfo              : [Default] : Added class "Signal"
+<HEADER> DataSetInfo              : [Default] : Added class "Background"
+<HEADER> ANN                      : Building Network. 
+                         : Initializing weights
+                         : Booked classifier "ANN" of type: "MLP"
+[INFO] Saved output: /wk_cms2/mc_cheng/public/tqHGG/2017/MVAreco_result_lep/data.root
+
+[INFO] Reading input file: /wk_cms2/mc_cheng/public/tqHGG/2017/MVAreco_perms_lep/data.root
+                         : Parsing option string: 
+                         : ... "V"
+                         : The following options are set:
+                         : - By User:
+                         :     V: "True" [Verbose flag]
+                         : - Default:
+                         :     Color: "False" [Color flag (default True)]
+                         :     Silent: "False" [Boolean silent flag (default False)]
+                         :     Error: "False" [Calculates errors (default False)]
+                         : Booking "STlep" of type "MLP" from /wk_cms2/mc_cheng/public/tqHGG/2017/MVAreco_model/dataset/weights/STlep_ANN.weights.xml.
+<HEADER> DataSetInfo              : [Default] : Added class "Signal"
+<HEADER> DataSetInfo              : [Default] : Added class "Background"
+<HEADER> ANN                      : Building Network. 
+                         : Initializing weights
+                         : Booked classifier "ANN" of type: "MLP"
+[INFO] Saved output: /wk_cms2/mc_cheng/public/tqHGG/2017/MVAreco_result_lep/data.root
+

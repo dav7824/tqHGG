@@ -1,0 +1,594 @@
+[INFO] Reading input dir: /wk_cms2/mc_cheng/public/tqHGG/2017/BDT_input_had
+DataSetInfo              : [dataset] : Added class "Signal"
+                         : Add Tree T of type Signal with 1108306 events
+                         : Add Tree T of type Signal with 1108716 events
+DataSetInfo              : [dataset] : Added class "Background"
+                         : Add Tree T of type Background with 88956 events
+                         : Add Tree T of type Background with 87491 events
+                         : Add Tree T of type Background with 722286 events
+                         : Add Tree T of type Background with 723576 events
+                         : Parsing option string: 
+                         : ... "V:AnalysisType=Classification"
+                         : The following options are set:
+                         : - By User:
+                         :     V: "True" [Verbose flag]
+                         :     AnalysisType: "Classification" [Set the analysis type (Classification, Regression, Multiclass, Auto) (default: Auto)]
+                         : - Default:
+                         :     Color: "False" [Flag for coloured screen output (default: True, if in batch mode: False)]
+                         :     Transformations: "I" [List of transformations to test; formatting example: "Transformations=I;D;P;U;G,D", for identity, decorrelation, PCA, Uniform and Gaussianisation followed by decorrelation transformations]
+                         :     Correlations: "False" [boolean to show correlation in output]
+                         :     ROC: "True" [boolean to show ROC in output]
+                         :     Silent: "False" [Batch mode: boolean silent flag inhibiting any output from TMVA after the creation of the factory class object (default: False)]
+                         :     DrawProgressBar: "True" [Draw progress bar to display training, testing and evaluation schedule (default: True)]
+                         :     ModelPersistence: "True" [Option to save the trained model in xml file or using serialization]
+<HEADER> Factory                  : Booking method: BDT
+                         : 
+<VERBOSE>                          : Parsing option string: 
+<VERBOSE>                          : ... "H:V:NTrees=800:MaxDepth=5:BoostType=AdaBoost:AdaBoostBeta=0.4:IgnoreNegWeightsInTraining"
+<VERBOSE>                          : The following options are set:
+<VERBOSE>                          : - By User:
+<VERBOSE>                          :     <none>
+<VERBOSE>                          : - Default:
+<VERBOSE>                          :     Boost_num: "0" [Number of times the classifier will be boosted]
+<VERBOSE>                          : Parsing option string: 
+<VERBOSE>                          : ... "H:V:NTrees=800:MaxDepth=5:BoostType=AdaBoost:AdaBoostBeta=0.4:IgnoreNegWeightsInTraining"
+<VERBOSE>                          : The following options are set:
+<VERBOSE>                          : - By User:
+<VERBOSE>                          :     V: "True" [Verbose output (short form of "VerbosityLevel" below - overrides the latter one)]
+<VERBOSE>                          :     H: "True" [Print method-specific help message]
+<VERBOSE>                          :     IgnoreNegWeightsInTraining: "True" [Events with negative weights are ignored in the training (but are included for testing and performance evaluation)]
+<VERBOSE>                          :     NTrees: "800" [Number of trees in the forest]
+<VERBOSE>                          :     MaxDepth: "5" [Max depth of the decision tree allowed]
+<VERBOSE>                          :     BoostType: "AdaBoost" [Boosting type for the trees in the forest (note: AdaCost is still experimental)]
+<VERBOSE>                          :     AdaBoostBeta: "4.000000e-01" [Learning rate  for AdaBoost algorithm]
+<VERBOSE>                          : - Default:
+<VERBOSE>                          :     VerbosityLevel: "Default" [Verbosity level]
+<VERBOSE>                          :     VarTransform: "None" [List of variable transformations performed before training, e.g., "D_Background,P_Signal,G,N_AllClasses" for: "Decorrelation, PCA-transformation, Gaussianisation, Normalisation, each for the given class of events ('AllClasses' denotes all events of all classes, if no class indication is given, 'All' is assumed)"]
+<VERBOSE>                          :     CreateMVAPdfs: "False" [Create PDFs for classifier outputs (signal and background)]
+<VERBOSE>                          :     MinNodeSize: "5%" [Minimum percentage of training events required in a leaf node (default: Classification: 5%, Regression: 0.2%)]
+<VERBOSE>                          :     nCuts: "20" [Number of grid points in variable range used in finding optimal cut in node splitting]
+<VERBOSE>                          :     AdaBoostR2Loss: "Quadratic" [Type of Loss function in AdaBoostR2]
+<VERBOSE>                          :     UseBaggedBoost: "False" [Use only a random subsample of all events for growing the trees in each boost iteration.]
+<VERBOSE>                          :     Shrinkage: "1.000000e+00" [Learning rate for GradBoost algorithm]
+<VERBOSE>                          :     UseRandomisedTrees: "False" [Determine at each node splitting the cut variable only as the best out of a random subset of variables (like in RandomForests)]
+<VERBOSE>                          :     UseNvars: "7" [Size of the subset of variables used with RandomisedTree option]
+<VERBOSE>                          :     UsePoissonNvars: "True" [Interpret "UseNvars" not as fixed number but as mean of a Poisson distribution in each split with RandomisedTree option]
+<VERBOSE>                          :     BaggedSampleFraction: "6.000000e-01" [Relative size of bagged event sample to original size of the data sample (used whenever bagging is used (i.e. UseBaggedBoost, Bagging,)]
+<VERBOSE>                          :     UseYesNoLeaf: "True" [Use Sig or Bkg categories, or the purity=S/(S+B) as classification of the leaf node -> Real-AdaBoost]
+<VERBOSE>                          :     NegWeightTreatment: "InverseBoostNegWeights" [How to treat events with negative weights in the BDT training (particular the boosting) : IgnoreInTraining;  Boost With inverse boostweight; Pair events with negative and positive weights in training sample and *annihilate* them (experimental!)]
+<VERBOSE>                          :     Css: "1.000000e+00" [AdaCost: cost of true signal selected signal]
+<VERBOSE>                          :     Cts_sb: "1.000000e+00" [AdaCost: cost of true signal selected bkg]
+<VERBOSE>                          :     Ctb_ss: "1.000000e+00" [AdaCost: cost of true bkg    selected signal]
+<VERBOSE>                          :     Cbb: "1.000000e+00" [AdaCost: cost of true bkg    selected bkg ]
+<VERBOSE>                          :     NodePurityLimit: "5.000000e-01" [In boosting/pruning, nodes with purity > NodePurityLimit are signal; background otherwise.]
+<VERBOSE>                          :     SeparationType: "GiniIndex" [Separation criterion for node splitting]
+<VERBOSE>                          :     RegressionLossFunctionBDTG: "Huber" [Loss function for BDTG regression.]
+<VERBOSE>                          :     HuberQuantile: "7.000000e-01" [In the Huber loss function this is the quantile that separates the core from the tails in the residuals distribution.]
+<VERBOSE>                          :     DoBoostMonitor: "False" [Create control plot with ROC integral vs tree number]
+<VERBOSE>                          :     UseFisherCuts: "False" [Use multivariate splits using the Fisher criterion]
+<VERBOSE>                          :     MinLinCorrForFisher: "8.000000e-01" [The minimum linear correlation between two variables demanded for use in Fisher criterion in node splitting]
+<VERBOSE>                          :     UseExclusiveVars: "False" [Variables already used in fisher criterion are not anymore analysed individually for node splitting]
+<VERBOSE>                          :     DoPreselection: "False" [and and apply automatic pre-selection for 100% efficient signal (bkg) cuts prior to training]
+<VERBOSE>                          :     SigToBkgFraction: "1.000000e+00" [Sig to Bkg ratio used in Training (similar to NodePurityLimit, which cannot be used in real adaboost]
+<VERBOSE>                          :     PruneMethod: "NoPruning" [Note: for BDTs use small trees (e.g.MaxDepth=3) and NoPruning:  Pruning: Method used for pruning (removal) of statistically insignificant branches ]
+<VERBOSE>                          :     PruneStrength: "0.000000e+00" [Pruning strength]
+<VERBOSE>                          :     PruningValFraction: "5.000000e-01" [Fraction of events to use for optimizing automatic pruning.]
+<VERBOSE>                          :     SkipNormalization: "False" [Skip normalization at initialization, to keep expectation value of BDT output according to the fraction of events]
+<VERBOSE>                          :     nEventsMin: "0" [deprecated: Use MinNodeSize (in % of training events) instead]
+<VERBOSE>                          :     UseBaggedGrad: "False" [deprecated: Use *UseBaggedBoost* instead:  Use only a random subsample of all events for growing the trees in each iteration.]
+<VERBOSE>                          :     GradBaggingFraction: "6.000000e-01" [deprecated: Use *BaggedSampleFraction* instead: Defines the fraction of events to be used in each iteration, e.g. when UseBaggedGrad=kTRUE. ]
+<VERBOSE>                          :     UseNTrainEvents: "0" [deprecated: Use *BaggedSampleFraction* instead: Number of randomly picked training events used in randomised (and bagged) trees]
+<VERBOSE>                          :     NNodesMax: "0" [deprecated: Use MaxDepth instead to limit the tree size]
+<VERBOSE>                          : Parsing option string: 
+<VERBOSE>                          : ... "V:NormMode=EqualNumEvents"
+<VERBOSE>                          : The following options are set:
+<VERBOSE>                          : - By User:
+<VERBOSE>                          :     NormMode: "EqualNumEvents" [Overall renormalisation of  event-by-event weights used in the training (NumEvents: average weight of 1 per event, independently for signal and background; EqualNumEvents: average weight of 1 per event for signal, and sum of weights for background equal to sum of weights for signal)]
+<VERBOSE>                          :     V: "True" [Verbosity (default: true)]
+<VERBOSE>                          : - Default:
+<VERBOSE>                          :     SplitMode: "Random" [Method of picking training and testing events (default: random)]
+<VERBOSE>                          :     MixMode: "SameAsSplitMode" [Method of mixing events of different classes into one dataset (default: SameAsSplitMode)]
+<VERBOSE>                          :     SplitSeed: "100" [Seed for random event shuffling]
+<VERBOSE>                          :     ScaleWithPreselEff: "False" [Scale the number of requested events by the eff. of the preselection cuts (or not)]
+<VERBOSE>                          :     nTrain_Signal: "0" [Number of training events of class Signal (default: 0 = all)]
+<VERBOSE>                          :     nTest_Signal: "0" [Number of test events of class Signal (default: 0 = all)]
+<VERBOSE>                          :     TrainTestSplit_Signal: "0.000000e+00" [Number of test events of class Signal (default: 0 = all)]
+<VERBOSE>                          :     nTrain_Background: "0" [Number of training events of class Background (default: 0 = all)]
+<VERBOSE>                          :     nTest_Background: "0" [Number of test events of class Background (default: 0 = all)]
+<VERBOSE>                          :     TrainTestSplit_Background: "0.000000e+00" [Number of test events of class Background (default: 0 = all)]
+<VERBOSE>                          :     VerboseLevel: "Info" [VerboseLevel (Debug/Verbose/Info)]
+<HEADER> DataSetFactory           : [dataset] : Number of events in input trees
+                         : 
+                         : 
+                         : Dataset[dataset] : Weight renormalisation mode: "EqualNumEvents": renormalises all event classes ...
+                         : Dataset[dataset] :  such that the effective (weighted) number of events in each class is the same 
+                         : Dataset[dataset] :  (and equals the number of events (entries) given for class=0 )
+                         : Dataset[dataset] : ... i.e. such that Sum[i=1..N_j]{w_i} = N_classA, j=classA, classB, ...
+                         : Dataset[dataset] : ... (note that N_j is the sum of TRAINING events
+                         : Dataset[dataset] :  ..... Testing events are not renormalised nor included in the renormalisation factor!)
+                         : Number of training and testing events
+                         : ---------------------------------------------------------------------------
+                         : Signal     -- training events            : 1108306
+                         : Signal     -- testing events             : 1108716
+                         : Signal     -- training and testing events: 2217022
+                         : Background -- training events            : 811242
+                         : Background -- testing events             : 811067
+                         : Background -- training and testing events: 1622309
+                         : 
+<HEADER> DataSetInfo              : Correlation matrix (Signal):
+                         : ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+                         :                  pho1_ptOverMgg pho1_eta pho1_PixelSeed pho2_ptOverMgg pho2_eta pho2_PixelSeed pho_maxIDMVA pho_minIDMVA dipho_ptOverMgg dipho_eta dipho_dPhi dipho_dR dipho_heliAngle jet1_pt jet1_eta jet1_btag jet2_pt jet2_eta jet2_btag jet3_pt jet3_eta jet3_btag jet4_pt jet4_eta jet4_btag jet_btag1 jet_btag2   jet_N  jet_Ht  met_Pt TT_tqH_ptOverM TT_tqH_eta TT_dR_tqH_H TT_dR_qH TT_dR_tt TT_tbW_pt TT_tbW_eta TT_tbW_M TT_dR_tbW_H TT_score ST_tbW_pt ST_tbW_eta ST_tbW_M ST_dR_tbW_H ST_score
+                         :  pho1_ptOverMgg:         +1.000   +0.000         -0.026         +0.322   -0.001         -0.022       +0.012       +0.005          +0.903    +0.000     -0.064   -0.652          +0.144  +0.525   +0.001    +0.014  +0.341   -0.001    +0.009  +0.265   +0.002    +0.005  +0.057   +0.052    +0.052    +0.004    +0.015  +0.091  +0.427  +0.111         +0.052     +0.052      +0.051   +0.051   +0.052    +0.131     +0.052   +0.070      +0.052   +0.052    +0.581     +0.001   +0.119      +0.011   +0.016
+                         :        pho1_eta:         +0.000   +1.000         -0.002         +0.003   +0.543         -0.002       +0.000       +0.003          +0.001    +0.883     -0.001   -0.002          -0.004  +0.000   +0.258    -0.002  +0.003   +0.296    -0.001  +0.002   +0.273    +0.002  -0.000   +0.000    -0.000    -0.004    -0.000  +0.001  +0.001  -0.000         -0.000     +0.002      -0.000   -0.000   -0.000    +0.000     +0.000   -0.000      -0.000   -0.000    +0.001     +0.321   -0.001      -0.001   +0.002
+                         :  pho1_PixelSeed:         -0.026   -0.002         +1.000         -0.013   -0.000         +0.030       -0.079       -0.064          -0.017    -0.001     +0.002   +0.017          +0.071  -0.015   -0.001    +0.001  -0.011   -0.001    +0.003  -0.012   +0.001    -0.002  -0.011   -0.010    -0.010    +0.000    +0.001  -0.012  -0.016  +0.017         -0.010     -0.010      -0.010   -0.010   -0.010    -0.013     -0.010   -0.010      -0.010   -0.010    -0.013     -0.001   +0.002      +0.026   -0.005
+                         :  pho2_ptOverMgg:         +0.322   +0.003         -0.013         +1.000   +0.002         -0.024       +0.019       +0.016          +0.585    +0.003     -0.038   -0.653          -0.487  +0.355   +0.002    +0.009  +0.232   +0.000    +0.008  +0.175   +0.002    +0.003  +0.035   +0.032    +0.032    +0.002    +0.007  +0.056  +0.286  +0.075         +0.032     +0.032      +0.031   +0.032   +0.032    +0.084     +0.032   +0.044      +0.032   +0.032    +0.387     +0.002   +0.080      +0.018   +0.014
+                         :        pho2_eta:         -0.001   +0.543         -0.000         +0.002   +1.000         -0.006       -0.004       -0.001          +0.001    +0.769     -0.001   -0.002          -0.000  -0.000   +0.219    -0.001  +0.002   +0.254    +0.001  +0.002   +0.231    +0.001  +0.002   +0.002    +0.002    -0.001    +0.002  +0.001  +0.001  -0.002         +0.002     +0.003      +0.002   +0.002   +0.002    +0.002     +0.002   +0.001      +0.002   +0.002    +0.002     +0.271   -0.002      -0.001   +0.002
+                         :  pho2_PixelSeed:         -0.022   -0.002         +0.030         -0.024   -0.006         +1.000       -0.068       -0.077          -0.014    -0.004     +0.002   +0.016          -0.107  -0.012   +0.000    +0.001  -0.010   -0.000    +0.001  -0.011   -0.002    -0.001  -0.008   -0.008    -0.008    -0.002    +0.000  -0.006  -0.013  +0.018         -0.008     -0.008      -0.008   -0.008   -0.008    -0.010     -0.008   -0.008      -0.008   -0.008    -0.009     -0.001   -0.003      +0.018   -0.001
+                         :    pho_maxIDMVA:         +0.012   +0.000         -0.079         +0.019   -0.004         -0.068       +1.000       +0.435          +0.022    -0.002     -0.026   -0.045          +0.000  -0.040   -0.000    +0.005  -0.020   -0.001    +0.001  -0.012   -0.003    +0.001  -0.004   -0.004    -0.004    +0.010    -0.005  -0.013  -0.031  -0.039         -0.004     -0.004      -0.004   -0.004   -0.004    -0.007     -0.004   -0.007      -0.004   -0.004    -0.015     -0.002   -0.012      +0.016   +0.015
+                         :    pho_minIDMVA:         +0.005   +0.003         -0.064         +0.016   -0.001         -0.077       +0.435       +1.000          +0.015    +0.000     -0.023   -0.033          +0.005  -0.058   +0.001    +0.009  -0.033   +0.000    +0.001  -0.022   -0.001    +0.003  -0.002   -0.001    -0.001    +0.016    +0.002  -0.015  -0.045  -0.047         -0.001     -0.001      -0.001   -0.001   -0.001    -0.007     -0.001   -0.005      -0.001   -0.001    -0.038     -0.001   -0.015      +0.031   +0.022
+                         : dipho_ptOverMgg:         +0.903   +0.001         -0.017         +0.585   +0.001         -0.014       +0.022       +0.015          +1.000    +0.001     -0.144   -0.861          -0.031  +0.566   +0.002    +0.014  +0.378   -0.001    +0.008  +0.297   +0.002    +0.008  +0.068   +0.062    +0.062    +0.005    +0.015  +0.104  +0.467  +0.120         +0.062     +0.062      +0.061   +0.062   +0.062    +0.148     +0.062   +0.081      +0.062   +0.062    +0.645     +0.002   +0.129      +0.010   +0.024
+                         :       dipho_eta:         +0.000   +0.883         -0.001         +0.003   +0.769         -0.004       -0.002       +0.000          +0.001    +1.000     -0.001   -0.003          -0.003  +0.001   +0.263    -0.002  +0.003   +0.306    -0.001  +0.003   +0.279    +0.001  +0.000   +0.000    -0.000    -0.003    +0.000  +0.001  +0.002  -0.001         -0.000     +0.002      -0.000   -0.000   -0.000    +0.001     +0.000   -0.000      -0.000   -0.000    +0.002     +0.337   -0.001      -0.000   +0.002
+                         :      dipho_dPhi:         -0.064   -0.001         +0.002         -0.038   -0.001         +0.002       -0.026       -0.023          -0.144    -0.001     +1.000   +0.403          +0.110  -0.021   -0.002    +0.000  -0.024   -0.000    +0.006  -0.027   -0.002    -0.005  -0.011   -0.010    -0.010    -0.002    +0.003  -0.015  -0.026  -0.005         -0.010     -0.010      -0.010   -0.010   -0.010    -0.018     -0.010   -0.010      -0.010   -0.010    -0.076     -0.001   -0.008      +0.002   -0.012
+                         :        dipho_dR:         -0.652   -0.002         +0.017         -0.653   -0.002         +0.016       -0.045       -0.033          -0.861    -0.003     +0.403   +1.000          +0.254  -0.445   -0.003    -0.012  -0.316   +0.000    -0.004  -0.256   -0.003    -0.009  -0.062   -0.057    -0.057    -0.007    -0.011  -0.093  -0.380  -0.097         -0.057     -0.057      -0.056   -0.056   -0.056    -0.129     -0.057   -0.070      -0.057   -0.057    -0.555     -0.002   -0.103      -0.012   -0.032
+                         : dipho_heliAngle:         +0.144   -0.004         +0.071         -0.487   -0.000         -0.107       +0.000       +0.005          -0.031    -0.003     +0.110   +0.254          +1.000  -0.022   -0.002    -0.001  -0.018   -0.001    -0.001  -0.012   -0.001    -0.000  -0.001   -0.001    -0.001    -0.004    +0.001  -0.003  -0.019  -0.004         -0.001     -0.001      -0.001   -0.001   -0.001    -0.005     -0.001   -0.001      -0.001   -0.001    -0.029     -0.001   -0.003      -0.018   -0.008
+                         :         jet1_pt:         +0.525   +0.000         -0.015         +0.355   -0.000         -0.012       -0.040       -0.058          +0.566    +0.001     -0.021   -0.445          -0.022  +1.000   +0.002    -0.023  +0.694   -0.001    +0.009  +0.512   +0.001    +0.023  +0.152   +0.141    +0.141    -0.002    +0.048  +0.242  +0.851  +0.127         +0.141     +0.141      +0.141   +0.141   +0.141    +0.234     +0.141   +0.191      +0.141   +0.141    +0.663     +0.001   +0.318      -0.155   -0.091
+                         :        jet1_eta:         +0.001   +0.258         -0.001         +0.002   +0.219         +0.000       -0.000       +0.001          +0.002    +0.263     -0.002   -0.003          -0.002  +0.002   +1.000    -0.002  +0.004   +0.373    -0.000  +0.002   +0.316    -0.001  +0.001   +0.001    +0.001    -0.002    +0.000  +0.002  +0.003  +0.002         +0.001     +0.001      +0.001   +0.001   +0.001    +0.001     +0.002   +0.001      +0.001   +0.001    +0.003     +0.669   +0.001      +0.002   +0.001
+                         :       jet1_btag:         +0.014   -0.002         +0.001         +0.009   -0.001         +0.001       +0.005       +0.009          +0.014    -0.002     +0.000   -0.012          -0.001  -0.023   -0.002    +1.000  -0.056   -0.002    -0.183  -0.074   -0.003    -0.129  -0.074   -0.072    -0.072    +0.316    +0.204  -0.093  -0.071  -0.014         -0.072     -0.072      -0.072   -0.072   -0.072    -0.069     -0.072   -0.071      -0.072   -0.072    +0.016     -0.003   +0.029      +0.065   +0.044
+                         :         jet2_pt:         +0.341   +0.003         -0.011         +0.232   +0.002         -0.010       -0.020       -0.033          +0.378    +0.003     -0.024   -0.316          -0.018  +0.694   +0.004    -0.056  +1.000   +0.000    +0.033  +0.713   +0.002    +0.039  +0.231   +0.217    +0.217    +0.019    +0.068  +0.332  +0.854  +0.114         +0.217     +0.217      +0.216   +0.216   +0.216    +0.299     +0.217   +0.264      +0.216   +0.217    +0.604     +0.002   +0.307      -0.134   -0.035
+                         :        jet2_eta:         -0.001   +0.296         -0.001         +0.000   +0.254         -0.000       -0.001       +0.000          -0.001    +0.306     -0.000   +0.000          -0.001  -0.001   +0.373    -0.002  +0.000   +1.000    +0.001  -0.001   +0.260    +0.000  -0.001   -0.000    -0.001    -0.001    +0.001  -0.002  -0.001  -0.002         -0.001     -0.000      -0.001   -0.001   -0.001    -0.001     +0.001   -0.001      -0.001   -0.001    +0.001     +0.608   -0.001      +0.001   +0.003
+                         :       jet2_btag:         +0.009   -0.001         +0.003         +0.008   +0.001         +0.001       +0.001       +0.001          +0.008    -0.001     +0.006   -0.004          -0.001  +0.009   -0.000    -0.183  +0.033   +0.001    +1.000  +0.009   -0.001    -0.084  -0.031   -0.031    -0.032    +0.225    +0.227  -0.034  +0.004  -0.000         -0.031     -0.031      -0.031   -0.031   -0.031    -0.030     -0.031   -0.028      -0.031   -0.031    -0.003     -0.000   +0.023      -0.005   +0.042
+                         :         jet3_pt:         +0.265   +0.002         -0.012         +0.175   +0.002         -0.011       -0.012       -0.022          +0.297    +0.003     -0.027   -0.256          -0.012  +0.512   +0.002    -0.074  +0.713   -0.001    +0.009  +1.000   +0.001    +0.068  +0.341   +0.322    +0.322    +0.041    +0.097  +0.456  +0.794  +0.098         +0.322     +0.322      +0.322   +0.322   +0.322    +0.392     +0.322   +0.356      +0.322   +0.322    +0.512     +0.001   +0.203      -0.137   +0.056
+                         :        jet3_eta:         +0.002   +0.273         +0.001         +0.002   +0.231         -0.002       -0.003       -0.001          +0.002    +0.279     -0.002   -0.003          -0.001  +0.001   +0.316    -0.003  +0.002   +0.260    -0.001  +0.001   +1.000    -0.005  +0.001   +0.001    +0.000    -0.004    -0.002  +0.001  +0.002  +0.001         +0.000     +0.001      +0.000   +0.000   +0.000    +0.001     +0.002   +0.000      +0.000   +0.000    +0.002     +0.535   -0.000      +0.002   -0.001
+                         :       jet3_btag:         +0.005   +0.002         -0.002         +0.003   +0.001         -0.001       +0.001       +0.003          +0.008    +0.001     -0.005   -0.009          -0.000  +0.023   -0.001    -0.129  +0.039   +0.000    -0.084  +0.068   -0.005    +1.000  +0.019   +0.019    +0.019    +0.157    +0.229  +0.013  +0.039  -0.004         +0.019     +0.019      +0.019   +0.019   +0.019    +0.020     +0.019   +0.020      +0.019   +0.019    +0.012     -0.002   +0.009      -0.014   +0.066
+                         :         jet4_pt:         +0.057   -0.000         -0.011         +0.035   +0.002         -0.008       -0.004       -0.002          +0.068    +0.000     -0.011   -0.062          -0.001  +0.152   +0.001    -0.074  +0.231   -0.001    -0.031  +0.341   +0.001    +0.019  +1.000   +1.000    +1.000    +0.051    +0.175  +0.707  +0.400  +0.046         +1.000     +1.000      +1.000   +1.000   +1.000    +0.990     +1.000   +0.989      +1.000   +1.000    +0.144     +0.002   -0.253      -0.146   +0.418
+                         :        jet4_eta:         +0.052   +0.000         -0.010         +0.032   +0.002         -0.008       -0.004       -0.001          +0.062    +0.000     -0.010   -0.057          -0.001  +0.141   +0.001    -0.072  +0.217   -0.000    -0.031  +0.322   +0.001    +0.019  +1.000   +1.000    +1.000    +0.050    +0.173  +0.697  +0.382  +0.044         +1.000     +1.000      +1.000   +1.000   +1.000    +0.988     +1.000   +0.989      +1.000   +1.000    +0.133     +0.003   -0.257      -0.143   +0.419
+                         :       jet4_btag:         +0.052   -0.000         -0.010         +0.032   +0.002         -0.008       -0.004       -0.001          +0.062    -0.000     -0.010   -0.057          -0.001  +0.141   +0.001    -0.072  +0.217   -0.001    -0.032  +0.322   +0.000    +0.019  +1.000   +1.000    +1.000    +0.050    +0.173  +0.697  +0.382  +0.044         +1.000     +1.000      +1.000   +1.000   +1.000    +0.988     +1.000   +0.989      +1.000   +1.000    +0.133     +0.002   -0.257      -0.143   +0.419
+                         :       jet_btag1:         +0.004   -0.004         +0.000         +0.002   -0.001         -0.002       +0.010       +0.016          +0.005    -0.003     -0.002   -0.007          -0.004  -0.002   -0.002    +0.316  +0.019   -0.001    +0.225  +0.041   -0.004    +0.157  +0.051   +0.050    +0.050    +1.000    +0.300  +0.053  +0.029  -0.022         +0.050     +0.050      +0.050   +0.050   +0.050    +0.049     +0.050   +0.046      +0.050   +0.050    +0.020     -0.002   -0.028      +0.015   +0.267
+                         :       jet_btag2:         +0.015   -0.000         +0.001         +0.007   +0.002         +0.000       -0.005       +0.002          +0.015    +0.000     +0.003   -0.011          +0.001  +0.048   +0.000    +0.204  +0.068   +0.001    +0.227  +0.097   -0.002    +0.229  +0.175   +0.173    +0.173    +0.300    +1.000  +0.212  +0.124  +0.023         +0.173     +0.173      +0.173   +0.173   +0.173    +0.173     +0.173   +0.168      +0.173   +0.173    +0.029     -0.001   -0.048      -0.037   +0.166
+                         :           jet_N:         +0.091   +0.001         -0.012         +0.056   +0.001         -0.006       -0.013       -0.015          +0.104    +0.001     -0.015   -0.093          -0.003  +0.242   +0.002    -0.093  +0.332   -0.002    -0.034  +0.456   +0.001    +0.013  +0.707   +0.697    +0.697    +0.053    +0.212  +1.000  +0.599  +0.075         +0.697     +0.697      +0.697   +0.697   +0.697    +0.703     +0.697   +0.677      +0.697   +0.697    +0.186     +0.003   -0.196      -0.172   +0.363
+                         :          jet_Ht:         +0.427   +0.001         -0.016         +0.286   +0.001         -0.013       -0.031       -0.045          +0.467    +0.002     -0.026   -0.380          -0.019  +0.851   +0.003    -0.071  +0.854   -0.001    +0.004  +0.794   +0.002    +0.039  +0.400   +0.382    +0.382    +0.029    +0.124  +0.599  +1.000  +0.135         +0.382     +0.382      +0.382   +0.381   +0.382    +0.468     +0.382   +0.421      +0.382   +0.382    +0.651     +0.003   +0.221      -0.193   +0.060
+                         :          met_Pt:         +0.111   -0.000         +0.017         +0.075   -0.002         +0.018       -0.039       -0.047          +0.120    -0.001     -0.005   -0.097          -0.004  +0.127   +0.002    -0.014  +0.114   -0.002    -0.000  +0.098   +0.001    -0.004  +0.046   +0.044    +0.044    -0.022    +0.023  +0.075  +0.135  +1.000         +0.044     +0.044      +0.044   +0.044   +0.044    +0.058     +0.044   +0.050      +0.044   +0.044    +0.098     +0.000   +0.039      -0.037   -0.024
+                         :  TT_tqH_ptOverM:         +0.052   -0.000         -0.010         +0.032   +0.002         -0.008       -0.004       -0.001          +0.062    -0.000     -0.010   -0.057          -0.001  +0.141   +0.001    -0.072  +0.217   -0.001    -0.031  +0.322   +0.000    +0.019  +1.000   +1.000    +1.000    +0.050    +0.173  +0.697  +0.382  +0.044         +1.000     +1.000      +1.000   +1.000   +1.000    +0.988     +1.000   +0.989      +1.000   +1.000    +0.134     +0.002   -0.257      -0.143   +0.419
+                         :      TT_tqH_eta:         +0.052   +0.002         -0.010         +0.032   +0.003         -0.008       -0.004       -0.001          +0.062    +0.002     -0.010   -0.057          -0.001  +0.141   +0.001    -0.072  +0.217   -0.000    -0.031  +0.322   +0.001    +0.019  +1.000   +1.000    +1.000    +0.050    +0.173  +0.697  +0.382  +0.044         +1.000     +1.000      +1.000   +1.000   +1.000    +0.988     +1.000   +0.989      +1.000   +1.000    +0.133     +0.002   -0.257      -0.143   +0.419
+                         :     TT_dR_tqH_H:         +0.051   -0.000         -0.010         +0.031   +0.002         -0.008       -0.004       -0.001          +0.061    -0.000     -0.010   -0.056          -0.001  +0.141   +0.001    -0.072  +0.216   -0.001    -0.031  +0.322   +0.000    +0.019  +1.000   +1.000    +1.000    +0.050    +0.173  +0.697  +0.382  +0.044         +1.000     +1.000      +1.000   +1.000   +1.000    +0.988     +1.000   +0.989      +1.000   +1.000    +0.133     +0.002   -0.257      -0.143   +0.419
+                         :        TT_dR_qH:         +0.051   -0.000         -0.010         +0.032   +0.002         -0.008       -0.004       -0.001          +0.062    -0.000     -0.010   -0.056          -0.001  +0.141   +0.001    -0.072  +0.216   -0.001    -0.031  +0.322   +0.000    +0.019  +1.000   +1.000    +1.000    +0.050    +0.173  +0.697  +0.381  +0.044         +1.000     +1.000      +1.000   +1.000   +1.000    +0.988     +1.000   +0.989      +1.000   +1.000    +0.133     +0.002   -0.257      -0.143   +0.419
+                         :        TT_dR_tt:         +0.052   -0.000         -0.010         +0.032   +0.002         -0.008       -0.004       -0.001          +0.062    -0.000     -0.010   -0.056          -0.001  +0.141   +0.001    -0.072  +0.216   -0.001    -0.031  +0.322   +0.000    +0.019  +1.000   +1.000    +1.000    +0.050    +0.173  +0.697  +0.382  +0.044         +1.000     +1.000      +1.000   +1.000   +1.000    +0.988     +1.000   +0.989      +1.000   +1.000    +0.133     +0.002   -0.257      -0.142   +0.419
+                         :       TT_tbW_pt:         +0.131   +0.000         -0.013         +0.084   +0.002         -0.010       -0.007       -0.007          +0.148    +0.001     -0.018   -0.129          -0.005  +0.234   +0.001    -0.069  +0.299   -0.001    -0.030  +0.392   +0.001    +0.020  +0.990   +0.988    +0.988    +0.049    +0.173  +0.703  +0.468  +0.058         +0.988     +0.988      +0.988   +0.988   +0.988    +1.000     +0.988   +0.983      +0.988   +0.988    +0.243     +0.002   -0.233      -0.147   +0.410
+                         :      TT_tbW_eta:         +0.052   +0.000         -0.010         +0.032   +0.002         -0.008       -0.004       -0.001          +0.062    +0.000     -0.010   -0.057          -0.001  +0.141   +0.002    -0.072  +0.217   +0.001    -0.031  +0.322   +0.002    +0.019  +1.000   +1.000    +1.000    +0.050    +0.173  +0.697  +0.382  +0.044         +1.000     +1.000      +1.000   +1.000   +1.000    +0.988     +1.000   +0.989      +1.000   +1.000    +0.133     +0.004   -0.257      -0.143   +0.419
+                         :        TT_tbW_M:         +0.070   -0.000         -0.010         +0.044   +0.001         -0.008       -0.007       -0.005          +0.081    -0.000     -0.010   -0.070          -0.001  +0.191   +0.001    -0.071  +0.264   -0.001    -0.028  +0.356   +0.000    +0.020  +0.989   +0.989    +0.989    +0.046    +0.168  +0.677  +0.421  +0.050         +0.989     +0.989      +0.989   +0.989   +0.989    +0.983     +0.989   +1.000      +0.989   +0.989    +0.157     +0.001   -0.204      -0.155   +0.369
+                         :     TT_dR_tbW_H:         +0.052   -0.000         -0.010         +0.032   +0.002         -0.008       -0.004       -0.001          +0.062    -0.000     -0.010   -0.057          -0.001  +0.141   +0.001    -0.072  +0.216   -0.001    -0.031  +0.322   +0.000    +0.019  +1.000   +1.000    +1.000    +0.050    +0.173  +0.697  +0.382  +0.044         +1.000     +1.000      +1.000   +1.000   +1.000    +0.988     +1.000   +0.989      +1.000   +1.000    +0.133     +0.002   -0.257      -0.142   +0.419
+                         :        TT_score:         +0.052   -0.000         -0.010         +0.032   +0.002         -0.008       -0.004       -0.001          +0.062    -0.000     -0.010   -0.057          -0.001  +0.141   +0.001    -0.072  +0.217   -0.001    -0.031  +0.322   +0.000    +0.019  +1.000   +1.000    +1.000    +0.050    +0.173  +0.697  +0.382  +0.044         +1.000     +1.000      +1.000   +1.000   +1.000    +0.988     +1.000   +0.989      +1.000   +1.000    +0.133     +0.002   -0.257      -0.143   +0.419
+                         :       ST_tbW_pt:         +0.581   +0.001         -0.013         +0.387   +0.002         -0.009       -0.015       -0.038          +0.645    +0.002     -0.076   -0.555          -0.029  +0.663   +0.003    +0.016  +0.604   +0.001    -0.003  +0.512   +0.002    +0.012  +0.144   +0.133    +0.133    +0.020    +0.029  +0.186  +0.651  +0.098         +0.134     +0.133      +0.133   +0.133   +0.133    +0.243     +0.133   +0.157      +0.133   +0.133    +1.000     +0.002   +0.162      +0.004   +0.074
+                         :      ST_tbW_eta:         +0.001   +0.321         -0.001         +0.002   +0.271         -0.001       -0.002       -0.001          +0.002    +0.337     -0.001   -0.002          -0.001  +0.001   +0.669    -0.003  +0.002   +0.608    -0.000  +0.001   +0.535    -0.002  +0.002   +0.003    +0.002    -0.002    -0.001  +0.003  +0.003  +0.000         +0.002     +0.002      +0.002   +0.002   +0.002    +0.002     +0.004   +0.001      +0.002   +0.002    +0.002     +1.000   -0.000      +0.000   +0.002
+                         :        ST_tbW_M:         +0.119   -0.001         +0.002         +0.080   -0.002         -0.003       -0.012       -0.015          +0.129    -0.001     -0.008   -0.103          -0.003  +0.318   +0.001    +0.029  +0.307   -0.001    +0.023  +0.203   -0.000    +0.009  -0.253   -0.257    -0.257    -0.028    -0.048  -0.196  +0.221  +0.039         -0.257     -0.257      -0.257   -0.257   -0.257    -0.233     -0.257   -0.204      -0.257   -0.257    +0.162     -0.000   +1.000      +0.085   -0.548
+                         :     ST_dR_tbW_H:         +0.011   -0.001         +0.026         +0.018   -0.001         +0.018       +0.016       +0.031          +0.010    -0.000     +0.002   -0.012          -0.018  -0.155   +0.002    +0.065  -0.134   +0.001    -0.005  -0.137   +0.002    -0.014  -0.146   -0.143    -0.143    +0.015    -0.037  -0.172  -0.193  -0.037         -0.143     -0.143      -0.143   -0.143   -0.142    -0.147     -0.143   -0.155      -0.142   -0.143    +0.004     +0.000   +0.085      +1.000   -0.026
+                         :        ST_score:         +0.016   +0.002         -0.005         +0.014   +0.002         -0.001       +0.015       +0.022          +0.024    +0.002     -0.012   -0.032          -0.008  -0.091   +0.001    +0.044  -0.035   +0.003    +0.042  +0.056   -0.001    +0.066  +0.418   +0.419    +0.419    +0.267    +0.166  +0.363  +0.060  -0.024         +0.419     +0.419      +0.419   +0.419   +0.419    +0.410     +0.419   +0.369      +0.419   +0.419    +0.074     +0.002   -0.548      -0.026   +1.000
+                         : ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+<HEADER> DataSetInfo              : Correlation matrix (Background):
+                         : ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+                         :                  pho1_ptOverMgg pho1_eta pho1_PixelSeed pho2_ptOverMgg pho2_eta pho2_PixelSeed pho_maxIDMVA pho_minIDMVA dipho_ptOverMgg dipho_eta dipho_dPhi dipho_dR dipho_heliAngle jet1_pt jet1_eta jet1_btag jet2_pt jet2_eta jet2_btag jet3_pt jet3_eta jet3_btag jet4_pt jet4_eta jet4_btag jet_btag1 jet_btag2   jet_N  jet_Ht  met_Pt TT_tqH_ptOverM TT_tqH_eta TT_dR_tqH_H TT_dR_qH TT_dR_tt TT_tbW_pt TT_tbW_eta TT_tbW_M TT_dR_tbW_H TT_score ST_tbW_pt ST_tbW_eta ST_tbW_M ST_dR_tbW_H ST_score
+                         :  pho1_ptOverMgg:         +1.000   +0.006         -0.139         +0.280   -0.001         -0.117       +0.165       +0.149          +0.864    +0.007     -0.077   -0.662          -0.071  +0.360   +0.008    +0.046  +0.196   +0.004    +0.047  +0.162   -0.006    +0.034  +0.074   +0.072    +0.072    +0.032    +0.036  +0.083  +0.295  +0.053         +0.072     +0.072      +0.072   +0.072   +0.072    +0.102     +0.072   +0.090      +0.072   +0.072    +0.394     +0.005   +0.123      -0.049   +0.028
+                         :        pho1_eta:         +0.006   +1.000         -0.023         +0.005   -0.139         +0.004       +0.003       +0.010          +0.002    +0.775     -0.002   -0.005          -0.012  +0.001   +0.106    -0.001  -0.005   +0.092    -0.001  -0.004   +0.046    -0.007  +0.009   +0.009    +0.009    -0.005    -0.008  +0.006  -0.001  -0.002         +0.009     +0.011      +0.009   +0.009   +0.009    +0.009     +0.009   +0.008      +0.009   +0.009    +0.000     +0.113   -0.004      -0.007   +0.005
+                         :  pho1_PixelSeed:         -0.139   -0.023         +1.000         -0.148   -0.000         -0.031       -0.142       -0.108          -0.089    -0.018     -0.012   +0.161          +0.215  -0.043   -0.011    -0.009  -0.039   -0.010    -0.010  -0.030   -0.002    -0.007  +0.002   +0.003    +0.003    +0.016    +0.011  +0.002  -0.040  +0.061         +0.003     +0.003      +0.003   +0.003   +0.003    +0.000     +0.003   -0.002      +0.003   +0.003    -0.032     -0.013   -0.029      +0.063   +0.012
+                         :  pho2_ptOverMgg:         +0.280   +0.005         -0.148         +1.000   -0.000         -0.114       +0.132       +0.175          +0.255    +0.006     -0.030   -0.651          -0.513  +0.079   +0.003    +0.018  +0.059   +0.002    +0.017  +0.040   -0.001    -0.001  -0.002   -0.002    -0.002    +0.013    +0.006  +0.005  +0.069  +0.004         -0.002     -0.002      -0.002   -0.002   -0.002    +0.004     -0.002   +0.004      -0.002   -0.002    +0.049     +0.007   +0.033      +0.008   -0.000
+                         :        pho2_eta:         -0.001   -0.139         -0.000         -0.000   +1.000         -0.019       -0.002       -0.001          -0.002    +0.390     +0.001   +0.002          +0.003  +0.003   +0.081    +0.004  +0.004   +0.050    +0.003  +0.003   +0.042    +0.007  -0.001   -0.001    -0.001    +0.006    +0.002  +0.001  +0.004  +0.002         -0.001     -0.001      -0.001   -0.001   -0.001    -0.000     -0.001   -0.001      -0.001   -0.001    +0.001     +0.077   +0.004      +0.005   +0.002
+                         :  pho2_PixelSeed:         -0.117   +0.004         -0.031         -0.114   -0.019         +1.000       -0.068       -0.073          -0.075    -0.006     -0.008   +0.139          -0.111  -0.036   -0.011    -0.007  -0.029   +0.003    -0.008  -0.022   +0.003    -0.011  -0.005   -0.005    -0.005    +0.002    +0.000  -0.008  -0.033  +0.032         -0.005     -0.005      -0.005   -0.005   -0.005    -0.008     -0.005   -0.007      -0.005   -0.005    -0.030     -0.005   -0.014      +0.013   +0.000
+                         :    pho_maxIDMVA:         +0.165   +0.003         -0.142         +0.132   -0.002         -0.068       +1.000       +0.494          +0.151    +0.001     -0.049   -0.177          -0.108  +0.118   -0.001    +0.013  +0.109   -0.003    +0.025  +0.085   -0.004    +0.018  +0.017   +0.016    +0.016    +0.018    +0.017  +0.018  +0.115  -0.016         +0.016     +0.016      +0.016   +0.016   +0.016    +0.024     +0.016   +0.025      +0.016   +0.016    +0.094     -0.003   +0.084      -0.018   -0.014
+                         :    pho_minIDMVA:         +0.149   +0.010         -0.108         +0.175   -0.001         -0.073       +0.494       +1.000          +0.128    +0.008     -0.039   -0.183          -0.140  +0.123   +0.003    +0.015  +0.121   +0.001    +0.024  +0.089   -0.007    +0.020  +0.017   +0.016    +0.016    +0.007    +0.010  +0.014  +0.121  -0.027         +0.016     +0.016      +0.016   +0.016   +0.016    +0.024     +0.016   +0.028      +0.016   +0.016    +0.092     -0.001   +0.090      +0.027   -0.018
+                         : dipho_ptOverMgg:         +0.864   +0.002         -0.089         +0.255   -0.002         -0.075       +0.151       +0.128          +1.000    +0.004     -0.329   -0.760          -0.076  +0.428   +0.005    +0.051  +0.234   +0.002    +0.048  +0.199   -0.003    +0.043  +0.105   +0.103    +0.103    +0.034    +0.045  +0.117  +0.355  +0.056         +0.103     +0.103      +0.102   +0.102   +0.103    +0.138     +0.103   +0.123      +0.103   +0.103    +0.484     +0.002   +0.153      -0.063   +0.033
+                         :       dipho_eta:         +0.007   +0.775         -0.018         +0.006   +0.390         -0.006       +0.001       +0.008          +0.004    +1.000     -0.003   -0.006          -0.009  +0.004   +0.135    +0.003  -0.001   +0.105    +0.001  -0.001   +0.059    -0.002  +0.006   +0.006    +0.006    +0.001    -0.007  +0.004  +0.002  -0.001         +0.006     +0.008      +0.006   +0.006   +0.006    +0.007     +0.006   +0.006      +0.006   +0.006    +0.003     +0.139   -0.000      -0.001   +0.004
+                         :      dipho_dPhi:         -0.077   -0.002         -0.012         -0.030   +0.001         -0.008       -0.049       -0.039          -0.329    -0.003     +1.000   +0.382          +0.085  -0.141   +0.000    -0.031  -0.090   +0.008    -0.021  -0.080   -0.002    -0.023  -0.060   -0.059    -0.059    -0.022    -0.026  -0.064  -0.127  -0.015         -0.059     -0.059      -0.059   -0.059   -0.059    -0.069     -0.059   -0.063      -0.059   -0.059    -0.192     +0.004   -0.058      +0.038   -0.023
+                         :        dipho_dR:         -0.662   -0.005         +0.161         -0.651   +0.002         +0.139       -0.177       -0.183          -0.760    -0.006     +0.382   +1.000          +0.356  -0.283   -0.004    -0.049  -0.172   -0.003    -0.044  -0.146   -0.001    -0.029  -0.071   -0.070    -0.070    -0.034    -0.035  -0.081  -0.244  -0.032         -0.070     -0.070      -0.069   -0.069   -0.069    -0.091     -0.070   -0.083      -0.069   -0.070    -0.324     -0.005   -0.107      +0.052   -0.027
+                         : dipho_heliAngle:         -0.071   -0.012         +0.215         -0.513   +0.003         -0.111       -0.108       -0.140          -0.076    -0.009     +0.085   +0.356          +1.000  -0.039   -0.001    -0.015  -0.036   -0.008    -0.010  -0.026   -0.001    +0.002  -0.002   -0.002    -0.002    -0.002    -0.001  -0.002  -0.036  +0.012         -0.002     -0.002      -0.002   -0.002   -0.002    -0.004     -0.002   -0.005      -0.002   -0.002    -0.029     -0.005   -0.027      +0.027   +0.012
+                         :         jet1_pt:         +0.360   +0.001         -0.043         +0.079   +0.003         -0.036       +0.118       +0.123          +0.428    +0.004     -0.141   -0.283          -0.039  +1.000   +0.000    +0.078  +0.776   -0.004    +0.087  +0.549   -0.004    +0.075  +0.215   +0.209    +0.209    +0.059    +0.084  +0.265  +0.919  +0.135         +0.209     +0.209      +0.209   +0.208   +0.209    +0.271     +0.209   +0.279      +0.209   +0.209    +0.728     -0.004   +0.493      -0.092   -0.036
+                         :        jet1_eta:         +0.008   +0.106         -0.011         +0.003   +0.081         -0.011       -0.001       +0.003          +0.005    +0.135     +0.000   -0.004          -0.001  +0.000   +1.000    -0.006  -0.002   +0.072    +0.001  -0.000   +0.081    -0.005  +0.003   +0.003    +0.003    -0.003    -0.002  +0.002  +0.000  -0.007         +0.003     +0.003      +0.003   +0.003   +0.003    +0.003     +0.003   +0.003      +0.003   +0.003    -0.000     +0.609   -0.013      +0.005   +0.010
+                         :       jet1_btag:         +0.046   -0.001         -0.009         +0.018   +0.004         -0.007       +0.013       +0.015          +0.051    +0.003     -0.031   -0.049          -0.015  +0.078   -0.006    +1.000  +0.062   -0.002    -0.013  +0.051   +0.005    -0.029  +0.007   +0.007    +0.007    +0.289    +0.293  +0.015  +0.073  +0.011         +0.007     +0.007      +0.007   +0.007   +0.007    +0.012     +0.007   +0.012      +0.007   +0.007    +0.061     -0.002   +0.053      -0.004   +0.058
+                         :         jet2_pt:         +0.196   -0.005         -0.039         +0.059   +0.004         -0.029       +0.109       +0.121          +0.234    -0.001     -0.090   -0.172          -0.036  +0.776   -0.002    +0.062  +1.000   -0.004    +0.094  +0.642   -0.005    +0.076  +0.244   +0.236    +0.236    +0.068    +0.085  +0.301  +0.896  +0.104         +0.236     +0.236      +0.236   +0.236   +0.236    +0.290     +0.236   +0.310      +0.236   +0.236    +0.554     -0.005   +0.482      -0.072   -0.009
+                         :        jet2_eta:         +0.004   +0.092         -0.010         +0.002   +0.050         +0.003       -0.003       +0.001          +0.002    +0.105     +0.008   -0.003          -0.008  -0.004   +0.072    -0.002  -0.004   +1.000    +0.001  -0.006   +0.082    -0.003  -0.005   -0.005    -0.005    +0.002    -0.008  -0.004  -0.005  -0.001         -0.005     -0.005      -0.005   -0.005   -0.005    -0.005     -0.005   -0.005      -0.005   -0.005    -0.003     +0.484   +0.001      +0.001   +0.001
+                         :       jet2_btag:         +0.047   -0.001         -0.010         +0.017   +0.003         -0.008       +0.025       +0.024          +0.048    +0.001     -0.021   -0.044          -0.010  +0.087   +0.001    -0.013  +0.094   +0.001    +1.000  +0.074   -0.006    -0.008  +0.015   +0.014    +0.014    +0.231    +0.330  +0.019  +0.092  -0.000         +0.014     +0.014      +0.014   +0.014   +0.014    +0.020     +0.014   +0.020      +0.014   +0.014    +0.065     +0.000   +0.062      -0.014   +0.071
+                         :         jet3_pt:         +0.162   -0.004         -0.030         +0.040   +0.003         -0.022       +0.085       +0.089          +0.199    -0.001     -0.080   -0.146          -0.026  +0.549   -0.000    +0.051  +0.642   -0.006    +0.074  +1.000   -0.007    +0.103  +0.350   +0.337    +0.338    +0.101    +0.112  +0.443  +0.756  +0.101         +0.338     +0.337      +0.337   +0.337   +0.337    +0.386     +0.338   +0.399      +0.337   +0.338    +0.470     -0.009   +0.280      -0.092   +0.095
+                         :        jet3_eta:         -0.006   +0.046         -0.002         -0.001   +0.042         +0.003       -0.004       -0.007          -0.003    +0.059     -0.002   -0.001          -0.001  -0.004   +0.081    +0.005  -0.005   +0.082    -0.006  -0.007   +1.000    -0.005  -0.006   -0.005    -0.006    -0.004    -0.005  -0.007  -0.006  -0.002         -0.006     -0.005      -0.006   -0.006   -0.006    -0.006     -0.005   -0.005      -0.006   -0.006    -0.004     +0.410   +0.004      +0.005   -0.009
+                         :       jet3_btag:         +0.034   -0.007         -0.007         -0.001   +0.007         -0.011       +0.018       +0.020          +0.043    -0.002     -0.023   -0.029          +0.002  +0.075   -0.005    -0.029  +0.076   -0.003    -0.008  +0.103   -0.005    +1.000  +0.047   +0.046    +0.046    +0.180    +0.310  +0.050  +0.090  -0.008         +0.046     +0.046      +0.046   +0.046   +0.046    +0.051     +0.046   +0.050      +0.046   +0.046    +0.062     -0.006   +0.041      -0.008   +0.097
+                         :         jet4_pt:         +0.074   +0.009         +0.002         -0.002   -0.001         -0.005       +0.017       +0.017          +0.105    +0.006     -0.060   -0.071          -0.002  +0.215   +0.003    +0.007  +0.244   -0.005    +0.015  +0.350   -0.006    +0.047  +1.000   +1.000    +1.000    +0.100    +0.165  +0.821  +0.389  +0.076         +1.000     +1.000      +1.000   +1.000   +1.000    +0.994     +1.000   +0.983      +1.000   +1.000    +0.196     +0.000   -0.199      -0.120   +0.442
+                         :        jet4_eta:         +0.072   +0.009         +0.003         -0.002   -0.001         -0.005       +0.016       +0.016          +0.103    +0.006     -0.059   -0.070          -0.002  +0.209   +0.003    +0.007  +0.236   -0.005    +0.014  +0.337   -0.005    +0.046  +1.000   +1.000    +1.000    +0.099    +0.164  +0.815  +0.379  +0.074         +1.000     +1.000      +1.000   +1.000   +1.000    +0.993     +1.000   +0.982      +1.000   +1.000    +0.190     +0.000   -0.201      -0.118   +0.442
+                         :       jet4_btag:         +0.072   +0.009         +0.003         -0.002   -0.001         -0.005       +0.016       +0.016          +0.103    +0.006     -0.059   -0.070          -0.002  +0.209   +0.003    +0.007  +0.236   -0.005    +0.014  +0.338   -0.006    +0.046  +1.000   +1.000    +1.000    +0.099    +0.164  +0.815  +0.379  +0.074         +1.000     +1.000      +1.000   +1.000   +1.000    +0.993     +1.000   +0.982      +1.000   +1.000    +0.190     +0.000   -0.201      -0.118   +0.442
+                         :       jet_btag1:         +0.032   -0.005         +0.016         +0.013   +0.006         +0.002       +0.018       +0.007          +0.034    +0.001     -0.022   -0.034          -0.002  +0.059   -0.003    +0.289  +0.068   +0.002    +0.231  +0.101   -0.004    +0.180  +0.100   +0.099    +0.099    +1.000    +0.333  +0.124  +0.094  +0.076         +0.099     +0.099      +0.099   +0.099   +0.099    +0.101     +0.099   +0.097      +0.099   +0.099    +0.048     +0.000   +0.003      -0.040   +0.230
+                         :       jet_btag2:         +0.036   -0.008         +0.011         +0.006   +0.002         +0.000       +0.017       +0.010          +0.045    -0.007     -0.026   -0.035          -0.001  +0.084   -0.002    +0.293  +0.085   -0.008    +0.330  +0.112   -0.005    +0.310  +0.165   +0.164    +0.164    +0.333    +1.000  +0.184  +0.124  +0.043         +0.164     +0.164      +0.164   +0.164   +0.164    +0.166     +0.164   +0.160      +0.164   +0.164    +0.072     -0.003   +0.001      -0.034   +0.179
+                         :           jet_N:         +0.083   +0.006         +0.002         +0.005   +0.001         -0.008       +0.018       +0.014          +0.117    +0.004     -0.064   -0.081          -0.002  +0.265   +0.002    +0.015  +0.301   -0.004    +0.019  +0.443   -0.007    +0.050  +0.821   +0.815    +0.815    +0.124    +0.184  +1.000  +0.495  +0.097         +0.815     +0.815      +0.815   +0.815   +0.815    +0.822     +0.815   +0.791      +0.815   +0.815    +0.224     -0.001   -0.177      -0.123   +0.467
+                         :          jet_Ht:         +0.295   -0.001         -0.040         +0.069   +0.004         -0.033       +0.115       +0.121          +0.355    +0.002     -0.127   -0.244          -0.036  +0.919   +0.000    +0.073  +0.896   -0.005    +0.092  +0.756   -0.006    +0.090  +0.389   +0.379    +0.379    +0.094    +0.124  +0.495  +1.000  +0.141         +0.379     +0.379      +0.378   +0.378   +0.378    +0.440     +0.379   +0.447      +0.378   +0.379    +0.689     -0.005   +0.426      -0.111   +0.076
+                         :          met_Pt:         +0.053   -0.002         +0.061         +0.004   +0.002         +0.032       -0.016       -0.027          +0.056    -0.001     -0.015   -0.032          +0.012  +0.135   -0.007    +0.011  +0.104   -0.001    -0.000  +0.101   -0.002    -0.008  +0.076   +0.074    +0.074    +0.076    +0.043  +0.097  +0.141  +1.000         +0.074     +0.074      +0.074   +0.074   +0.074    +0.083     +0.074   +0.082      +0.074   +0.074    +0.115     -0.007   +0.035      -0.057   +0.034
+                         :  TT_tqH_ptOverM:         +0.072   +0.009         +0.003         -0.002   -0.001         -0.005       +0.016       +0.016          +0.103    +0.006     -0.059   -0.070          -0.002  +0.209   +0.003    +0.007  +0.236   -0.005    +0.014  +0.338   -0.006    +0.046  +1.000   +1.000    +1.000    +0.099    +0.164  +0.815  +0.379  +0.074         +1.000     +1.000      +1.000   +1.000   +1.000    +0.993     +1.000   +0.982      +1.000   +1.000    +0.190     +0.000   -0.201      -0.118   +0.442
+                         :      TT_tqH_eta:         +0.072   +0.011         +0.003         -0.002   -0.001         -0.005       +0.016       +0.016          +0.103    +0.008     -0.059   -0.070          -0.002  +0.209   +0.003    +0.007  +0.236   -0.005    +0.014  +0.337   -0.005    +0.046  +1.000   +1.000    +1.000    +0.099    +0.164  +0.815  +0.379  +0.074         +1.000     +1.000      +1.000   +1.000   +1.000    +0.993     +1.000   +0.982      +1.000   +1.000    +0.190     +0.000   -0.201      -0.118   +0.442
+                         :     TT_dR_tqH_H:         +0.072   +0.009         +0.003         -0.002   -0.001         -0.005       +0.016       +0.016          +0.102    +0.006     -0.059   -0.069          -0.002  +0.209   +0.003    +0.007  +0.236   -0.005    +0.014  +0.337   -0.006    +0.046  +1.000   +1.000    +1.000    +0.099    +0.164  +0.815  +0.378  +0.074         +1.000     +1.000      +1.000   +1.000   +1.000    +0.993     +1.000   +0.982      +1.000   +1.000    +0.190     +0.000   -0.201      -0.118   +0.442
+                         :        TT_dR_qH:         +0.072   +0.009         +0.003         -0.002   -0.001         -0.005       +0.016       +0.016          +0.102    +0.006     -0.059   -0.069          -0.002  +0.208   +0.003    +0.007  +0.236   -0.005    +0.014  +0.337   -0.006    +0.046  +1.000   +1.000    +1.000    +0.099    +0.164  +0.815  +0.378  +0.074         +1.000     +1.000      +1.000   +1.000   +1.000    +0.993     +1.000   +0.982      +1.000   +1.000    +0.190     +0.000   -0.201      -0.118   +0.442
+                         :        TT_dR_tt:         +0.072   +0.009         +0.003         -0.002   -0.001         -0.005       +0.016       +0.016          +0.103    +0.006     -0.059   -0.069          -0.002  +0.209   +0.003    +0.007  +0.236   -0.005    +0.014  +0.337   -0.006    +0.046  +1.000   +1.000    +1.000    +0.099    +0.164  +0.815  +0.378  +0.074         +1.000     +1.000      +1.000   +1.000   +1.000    +0.993     +1.000   +0.982      +1.000   +1.000    +0.190     +0.000   -0.201      -0.118   +0.442
+                         :       TT_tbW_pt:         +0.102   +0.009         +0.000         +0.004   -0.000         -0.008       +0.024       +0.024          +0.138    +0.007     -0.069   -0.091          -0.004  +0.271   +0.003    +0.012  +0.290   -0.005    +0.020  +0.386   -0.006    +0.051  +0.994   +0.993    +0.993    +0.101    +0.166  +0.822  +0.440  +0.083         +0.993     +0.993      +0.993   +0.993   +0.993    +1.000     +0.993   +0.982      +0.993   +0.993    +0.254     -0.000   -0.186      -0.127   +0.437
+                         :      TT_tbW_eta:         +0.072   +0.009         +0.003         -0.002   -0.001         -0.005       +0.016       +0.016          +0.103    +0.006     -0.059   -0.070          -0.002  +0.209   +0.003    +0.007  +0.236   -0.005    +0.014  +0.338   -0.005    +0.046  +1.000   +1.000    +1.000    +0.099    +0.164  +0.815  +0.379  +0.074         +1.000     +1.000      +1.000   +1.000   +1.000    +0.993     +1.000   +0.982      +1.000   +1.000    +0.190     +0.001   -0.201      -0.118   +0.442
+                         :        TT_tbW_M:         +0.090   +0.008         -0.002         +0.004   -0.001         -0.007       +0.025       +0.028          +0.123    +0.006     -0.063   -0.083          -0.005  +0.279   +0.003    +0.012  +0.310   -0.005    +0.020  +0.399   -0.005    +0.050  +0.983   +0.982    +0.982    +0.097    +0.160  +0.791  +0.447  +0.082         +0.982     +0.982      +0.982   +0.982   +0.982    +0.982     +0.982   +1.000      +0.982   +0.982    +0.245     -0.001   -0.152      -0.131   +0.391
+                         :     TT_dR_tbW_H:         +0.072   +0.009         +0.003         -0.002   -0.001         -0.005       +0.016       +0.016          +0.103    +0.006     -0.059   -0.069          -0.002  +0.209   +0.003    +0.007  +0.236   -0.005    +0.014  +0.337   -0.006    +0.046  +1.000   +1.000    +1.000    +0.099    +0.164  +0.815  +0.378  +0.074         +1.000     +1.000      +1.000   +1.000   +1.000    +0.993     +1.000   +0.982      +1.000   +1.000    +0.190     +0.000   -0.201      -0.118   +0.442
+                         :        TT_score:         +0.072   +0.009         +0.003         -0.002   -0.001         -0.005       +0.016       +0.016          +0.103    +0.006     -0.059   -0.070          -0.002  +0.209   +0.003    +0.007  +0.236   -0.005    +0.014  +0.338   -0.006    +0.046  +1.000   +1.000    +1.000    +0.099    +0.164  +0.815  +0.379  +0.074         +1.000     +1.000      +1.000   +1.000   +1.000    +0.993     +1.000   +0.982      +1.000   +1.000    +0.190     +0.000   -0.201      -0.118   +0.442
+                         :       ST_tbW_pt:         +0.394   +0.000         -0.032         +0.049   +0.001         -0.030       +0.094       +0.092          +0.484    +0.003     -0.192   -0.324          -0.029  +0.728   -0.000    +0.061  +0.554   -0.003    +0.065  +0.470   -0.004    +0.062  +0.196   +0.190    +0.190    +0.048    +0.072  +0.224  +0.689  +0.115         +0.190     +0.190      +0.190   +0.190   +0.190    +0.254     +0.190   +0.245      +0.190   +0.190    +1.000     -0.002   +0.243      -0.085   +0.034
+                         :      ST_tbW_eta:         +0.005   +0.113         -0.013         +0.007   +0.077         -0.005       -0.003       -0.001          +0.002    +0.139     +0.004   -0.005          -0.005  -0.004   +0.609    -0.002  -0.005   +0.484    +0.000  -0.009   +0.410    -0.006  +0.000   +0.000    +0.000    +0.000    -0.003  -0.001  -0.005  -0.007         +0.000     +0.000      +0.000   +0.000   +0.000    -0.000     +0.001   -0.001      +0.000   +0.000    -0.002     +1.000   -0.009      +0.009   +0.009
+                         :        ST_tbW_M:         +0.123   -0.004         -0.029         +0.033   +0.004         -0.014       +0.084       +0.090          +0.153    -0.000     -0.058   -0.107          -0.027  +0.493   -0.013    +0.053  +0.482   +0.001    +0.062  +0.280   +0.004    +0.041  -0.199   -0.201    -0.201    +0.003    +0.001  -0.177  +0.426  +0.035         -0.201     -0.201      -0.201   -0.201   -0.201    -0.186     -0.201   -0.152      -0.201   -0.201    +0.243     -0.009   +1.000      +0.060   -0.405
+                         :     ST_dR_tbW_H:         -0.049   -0.007         +0.063         +0.008   +0.005         +0.013       -0.018       +0.027          -0.063    -0.001     +0.038   +0.052          +0.027  -0.092   +0.005    -0.004  -0.072   +0.001    -0.014  -0.092   +0.005    -0.008  -0.120   -0.118    -0.118    -0.040    -0.034  -0.123  -0.111  -0.057         -0.118     -0.118      -0.118   -0.118   -0.118    -0.127     -0.118   -0.131      -0.118   -0.118    -0.085     +0.009   +0.060      +1.000   -0.037
+                         :        ST_score:         +0.028   +0.005         +0.012         -0.000   +0.002         +0.000       -0.014       -0.018          +0.033    +0.004     -0.023   -0.027          +0.012  -0.036   +0.010    +0.058  -0.009   +0.001    +0.071  +0.095   -0.009    +0.097  +0.442   +0.442    +0.442    +0.230    +0.179  +0.467  +0.076  +0.034         +0.442     +0.442      +0.442   +0.442   +0.442    +0.437     +0.442   +0.391      +0.442   +0.442    +0.034     +0.009   -0.405      -0.037   +1.000
+                         : ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+<HEADER> DataSetFactory           : [dataset] :  
+                         : 
+[INFO] Start training!
+<HEADER> Factory                  : Train all methods
+<HEADER> Factory                  : [dataset] : Create Transformation "I" with events from all classes.
+                         : 
+<HEADER>                          : Transformation, Variable selection : 
+                         : Input : variable 'pho1_ptOverMgg' <---> Output : variable 'pho1_ptOverMgg'
+                         : Input : variable 'pho1_eta' <---> Output : variable 'pho1_eta'
+                         : Input : variable 'pho1_PixelSeed' <---> Output : variable 'pho1_PixelSeed'
+                         : Input : variable 'pho2_ptOverMgg' <---> Output : variable 'pho2_ptOverMgg'
+                         : Input : variable 'pho2_eta' <---> Output : variable 'pho2_eta'
+                         : Input : variable 'pho2_PixelSeed' <---> Output : variable 'pho2_PixelSeed'
+                         : Input : variable 'pho_maxIDMVA' <---> Output : variable 'pho_maxIDMVA'
+                         : Input : variable 'pho_minIDMVA' <---> Output : variable 'pho_minIDMVA'
+                         : Input : variable 'dipho_ptOverMgg' <---> Output : variable 'dipho_ptOverMgg'
+                         : Input : variable 'dipho_eta' <---> Output : variable 'dipho_eta'
+                         : Input : variable 'dipho_dPhi' <---> Output : variable 'dipho_dPhi'
+                         : Input : variable 'dipho_dR' <---> Output : variable 'dipho_dR'
+                         : Input : variable 'dipho_heliAngle' <---> Output : variable 'dipho_heliAngle'
+                         : Input : variable 'jet1_pt' <---> Output : variable 'jet1_pt'
+                         : Input : variable 'jet1_eta' <---> Output : variable 'jet1_eta'
+                         : Input : variable 'jet1_btag' <---> Output : variable 'jet1_btag'
+                         : Input : variable 'jet2_pt' <---> Output : variable 'jet2_pt'
+                         : Input : variable 'jet2_eta' <---> Output : variable 'jet2_eta'
+                         : Input : variable 'jet2_btag' <---> Output : variable 'jet2_btag'
+                         : Input : variable 'jet3_pt' <---> Output : variable 'jet3_pt'
+                         : Input : variable 'jet3_eta' <---> Output : variable 'jet3_eta'
+                         : Input : variable 'jet3_btag' <---> Output : variable 'jet3_btag'
+                         : Input : variable 'jet4_pt' <---> Output : variable 'jet4_pt'
+                         : Input : variable 'jet4_eta' <---> Output : variable 'jet4_eta'
+                         : Input : variable 'jet4_btag' <---> Output : variable 'jet4_btag'
+                         : Input : variable 'jet_btag1' <---> Output : variable 'jet_btag1'
+                         : Input : variable 'jet_btag2' <---> Output : variable 'jet_btag2'
+                         : Input : variable 'jet_N' <---> Output : variable 'jet_N'
+                         : Input : variable 'jet_Ht' <---> Output : variable 'jet_Ht'
+                         : Input : variable 'met_Pt' <---> Output : variable 'met_Pt'
+                         : Input : variable 'TT_tqH_ptOverM' <---> Output : variable 'TT_tqH_ptOverM'
+                         : Input : variable 'TT_tqH_eta' <---> Output : variable 'TT_tqH_eta'
+                         : Input : variable 'TT_dR_tqH_H' <---> Output : variable 'TT_dR_tqH_H'
+                         : Input : variable 'TT_dR_qH' <---> Output : variable 'TT_dR_qH'
+                         : Input : variable 'TT_dR_tt' <---> Output : variable 'TT_dR_tt'
+                         : Input : variable 'TT_tbW_pt' <---> Output : variable 'TT_tbW_pt'
+                         : Input : variable 'TT_tbW_eta' <---> Output : variable 'TT_tbW_eta'
+                         : Input : variable 'TT_tbW_M' <---> Output : variable 'TT_tbW_M'
+                         : Input : variable 'TT_dR_tbW_H' <---> Output : variable 'TT_dR_tbW_H'
+                         : Input : variable 'TT_score' <---> Output : variable 'TT_score'
+                         : Input : variable 'ST_tbW_pt' <---> Output : variable 'ST_tbW_pt'
+                         : Input : variable 'ST_tbW_eta' <---> Output : variable 'ST_tbW_eta'
+                         : Input : variable 'ST_tbW_M' <---> Output : variable 'ST_tbW_M'
+                         : Input : variable 'ST_dR_tbW_H' <---> Output : variable 'ST_dR_tbW_H'
+                         : Input : variable 'ST_score' <---> Output : variable 'ST_score'
+<HEADER> TFHandler_Factory        :        Variable               Mean               RMS       [        Min               Max ]
+                         : ----------------------------------------------------------------------------------------------
+                         :  pho1_ptOverMgg:          0.71390          0.39805   [         0.084543           13.934 ]
+                         :        pho1_eta:        -0.012591           1.2350   [          -2.5000           2.5000 ]
+                         :  pho1_PixelSeed:          0.15810          0.36483   [           0.0000           1.0000 ]
+                         :  pho2_ptOverMgg:          0.35349          0.17498   [         0.026172           6.1151 ]
+                         :        pho2_eta:       -0.0026561           1.1952   [          -2.5000           2.5000 ]
+                         :  pho2_PixelSeed:          0.14602          0.35313   [           0.0000           1.0000 ]
+                         :    pho_maxIDMVA:          0.76860          0.36584   [         -0.69998          0.99878 ]
+                         :    pho_minIDMVA:          0.25633          0.58325   [         -0.70000          0.99640 ]
+                         : dipho_ptOverMgg:          0.69191          0.57204   [       0.00036970           14.225 ]
+                         :       dipho_eta:        -0.016355           1.6692   [          -8.3963           7.9957 ]
+                         :      dipho_dPhi:          0.65618          0.30741   [       1.8319e-06           1.0000 ]
+                         :        dipho_dR:           2.5818          0.82779   [          0.16003           5.8385 ]
+                         : dipho_heliAngle:          0.55350          0.28858   [       9.9739e-07           1.0000 ]
+                         :         jet1_pt:           115.95           85.710   [           25.001           11964. ]
+                         :        jet1_eta:       -0.0032100           1.1707   [          -2.4000           2.4000 ]
+                         :       jet1_btag:          0.24720          0.45326   [          -2.0000           1.0000 ]
+                         :         jet2_pt:           70.190           49.351   [           25.000           2033.3 ]
+                         :        jet2_eta:       -0.0036921           1.1838   [          -2.4000           2.4000 ]
+                         :       jet2_btag:          0.18178          0.51697   [          -2.0000           1.0000 ]
+                         :         jet3_pt:           46.381           25.218   [           25.000           1287.6 ]
+                         :        jet3_eta:        0.0063036           1.2127   [          -2.4000           2.4000 ]
+                         :       jet3_btag:          0.10969          0.60829   [          -2.0000           1.0000 ]
+                         :         jet4_pt:          -443.39           518.50   [          -999.00           1196.4 ]
+                         :        jet4_eta:          -464.87           498.30   [          -999.00           2.4000 ]
+                         :       jet4_btag:          -464.83           498.34   [          -999.00           1.0000 ]
+                         :       jet_btag1:          0.61122          0.31289   [          0.15220           1.0000 ]
+                         :       jet_btag2:          0.21352          0.26227   [          -2.0000           1.0000 ]
+                         :           jet_N:           3.9337           1.1443   [           3.0000           31.000 ]
+                         :          jet_Ht:           268.10           172.64   [           75.617           12733. ]
+                         :          met_Pt:           42.094           26.877   [         0.022217           11718. ]
+                         :  TT_tqH_ptOverM:          -464.52           498.64   [          -999.00           7.6406 ]
+                         :      TT_tqH_eta:          -464.88           498.29   [          -999.00           7.9333 ]
+                         :     TT_dR_tqH_H:          -464.51           498.64   [          -999.00           7.1776 ]
+                         :        TT_dR_qH:          -463.93           499.18   [          -999.00           7.9709 ]
+                         :        TT_dR_tt:          -463.08           499.97   [          -999.00           12.186 ]
+                         :       TT_tbW_pt:          -389.98           573.05   [          -999.00           12019. ]
+                         :      TT_tbW_eta:          -464.87           498.30   [          -999.00           8.1174 ]
+                         :        TT_tbW_M:          -353.02           611.13   [          -999.00           9434.1 ]
+                         :     TT_dR_tbW_H:          -463.17           499.89   [          -999.00           11.243 ]
+                         :        TT_score:          -464.55           498.60   [          -999.00          0.99922 ]
+                         :       ST_tbW_pt:           112.69           89.287   [          0.12325           12069. ]
+                         :      ST_tbW_eta:       -0.0025255           1.6486   [          -8.5684           8.8865 ]
+                         :        ST_tbW_M:           214.40           131.20   [           29.766           9621.6 ]
+                         :     ST_dR_tbW_H:           3.0927          0.99493   [        0.0021232           11.784 ]
+                         :        ST_score:          0.50811          0.36811   [       1.2609e-09          0.99550 ]
+                         : ----------------------------------------------------------------------------------------------
+                         : 
+                         : <PlotVariables> Will not produce scatter plots ==> 
+                         : |  The number of 45 input variables and 0 target values would require 990 two-dimensional
+                         : |  histograms, which would occupy the computer's memory. Note that this
+                         : |  suppression does not have any consequences for your analysis, other
+                         : |  than not disposing of these scatter plots. You can modify the maximum
+                         : |  number of input variables allowed to generate scatter plots in your
+                         : |  script via the command line:
+                         : |  "(TMVA::gConfig().GetVariablePlotting()).fMaxNumOfAllowedVariablesForScatterPlots = <some int>;"
+                         : 
+                         : Some more output
+                         : Ranking input variables (method unspecific)...
+<HEADER> IdTransformation         : Ranking result (top variable is best ranked)
+                         : ----------------------------------------
+                         : Rank : Variable        : Separation
+                         : ----------------------------------------
+                         :    1 : ST_score        : 2.957e-01
+                         :    2 : dipho_dR        : 2.905e-01
+                         :    3 : jet_btag1       : 2.577e-01
+                         :    4 : pho2_ptOverMgg  : 2.557e-01
+                         :    5 : pho_minIDMVA    : 2.465e-01
+                         :    6 : pho1_ptOverMgg  : 2.292e-01
+                         :    7 : TT_score        : 2.058e-01
+                         :    8 : dipho_ptOverMgg : 1.821e-01
+                         :    9 : pho_maxIDMVA    : 1.512e-01
+                         :   10 : jet3_pt         : 1.447e-01
+                         :   11 : jet_Ht          : 1.327e-01
+                         :   12 : jet2_pt         : 1.245e-01
+                         :   13 : TT_tbW_M        : 1.244e-01
+                         :   14 : dipho_heliAngle : 1.214e-01
+                         :   15 : jet_N           : 1.091e-01
+                         :   16 : TT_tbW_pt       : 1.043e-01
+                         :   17 : ST_tbW_M        : 1.033e-01
+                         :   18 : jet4_btag       : 9.843e-02
+                         :   19 : jet4_pt         : 9.739e-02
+                         :   20 : jet4_eta        : 9.638e-02
+                         :   21 : TT_dR_qH        : 9.605e-02
+                         :   22 : TT_tqH_eta      : 9.601e-02
+                         :   23 : TT_dR_tt        : 9.601e-02
+                         :   24 : TT_dR_tbW_H     : 9.601e-02
+                         :   25 : TT_tqH_ptOverM  : 9.601e-02
+                         :   26 : TT_tbW_eta      : 9.601e-02
+                         :   27 : TT_dR_tqH_H     : 9.601e-02
+                         :   28 : jet1_pt         : 8.525e-02
+                         :   29 : jet1_btag       : 8.346e-02
+                         :   30 : jet_btag2       : 6.899e-02
+                         :   31 : pho1_eta        : 6.567e-02
+                         :   32 : jet3_btag       : 6.065e-02
+                         :   33 : jet2_btag       : 5.824e-02
+                         :   34 : dipho_eta       : 5.315e-02
+                         :   35 : ST_tbW_pt       : 4.468e-02
+                         :   36 : pho1_PixelSeed  : 4.390e-02
+                         :   37 : dipho_dPhi      : 3.869e-02
+                         :   38 : ST_dR_tbW_H     : 3.590e-02
+                         :   39 : pho2_PixelSeed  : 2.764e-02
+                         :   40 : pho2_eta        : 2.203e-02
+                         :   41 : jet3_eta        : 1.347e-02
+                         :   42 : jet2_eta        : 1.330e-02
+                         :   43 : jet1_eta        : 1.245e-02
+                         :   44 : ST_tbW_eta      : 8.371e-03
+                         :   45 : met_Pt          : 5.049e-03
+                         : ----------------------------------------
+<HEADER> Factory                  : Train method: BDT for Classification
+                         : 
+                         : 
+                         : ================================================================
+                         : H e l p   f o r   M V A   m e t h o d   [ BDT ] :
+                         : 
+                         : --- Short description:
+                         : 
+                         : Boosted Decision Trees are a collection of individual decision
+                         : trees which form a multivariate classifier by (weighted) majority 
+                         : vote of the individual trees. Consecutive decision trees are  
+                         : trained using the original training data set with re-weighted 
+                         : events. By default, the AdaBoost method is employed, which gives 
+                         : events that were misclassified in the previous tree a larger 
+                         : weight in the training of the following tree.
+                         : 
+                         : Decision trees are a sequence of binary splits of the data sample
+                         : using a single discriminant variable at a time. A test event 
+                         : ending up after the sequence of left-right splits in a final 
+                         : ("leaf") node is classified as either signal or background
+                         : depending on the majority type of training events in that node.
+                         : 
+                         : --- Performance optimisation:
+                         : 
+                         : By the nature of the binary splits performed on the individual
+                         : variables, decision trees do not deal well with linear correlations
+                         : between variables (they need to approximate the linear split in
+                         : the two dimensional space by a sequence of splits on the two 
+                         : variables individually). Hence decorrelation could be useful 
+                         : to optimise the BDT performance.
+                         : 
+                         : --- Performance tuning via configuration options:
+                         : 
+                         : The two most important parameters in the configuration are the  
+                         : minimal number of events requested by a leaf node as percentage of the 
+                         :    number of training events (option "MinNodeSize"  replacing the actual number 
+                         :  of events "nEventsMin" as given in earlier versions
+                         : If this number is too large, detailed features 
+                         : in the parameter space are hard to be modelled. If it is too small, 
+                         : the risk to overtrain rises and boosting seems to be less effective
+                         :   typical values from our current experience for best performance  
+                         :   are between 0.5(%) and 10(%) 
+                         : 
+                         : The default minimal number is currently set to 
+                         :    max(20, (N_training_events / N_variables^2 / 10)) 
+                         : and can be changed by the user.
+                         : 
+                         : The other crucial parameter, the pruning strength ("PruneStrength"),
+                         : is also related to overtraining. It is a regularisation parameter 
+                         : that is used when determining after the training which splits 
+                         : are considered statistically insignificant and are removed. The
+                         : user is advised to carefully watch the BDT screen output for
+                         : the comparison between efficiencies obtained on the training and
+                         : the independent test sample. They should be equal within statistical
+                         : errors, in order to minimize statistical fluctuations in different samples.
+                         : 
+                         : <Suppress this message by specifying "!H" in the booking option>
+                         : ================================================================
+                         : 
+                         : Events with weight == 0 are going to be simply ignored 
+<HEADER> BDT                      : #events: (reweighted) sig: 933114 bkg: 933114
+                         : #events: (unweighted) sig: 1108099 bkg: 758128
+                         : Training 800 Decision Trees ... patience please
+                         : Elapsed time for training with 1919548 events: 6.56e+03 sec         
+<HEADER> BDT                      : [dataset] : Evaluation of BDT on training sample (1919548 events)
+                         : Elapsed time for evaluation of 1919548 events: 216 sec       
+                         : Creating xml weight file: dataset/weights/SRhad_BDT.weights.xml
+                         : Creating standalone class: dataset/weights/SRhad_BDT.class.C
+<HEADER> Factory                  : Training finished
+                         : 
+                         : Ranking input variables (method specific)...
+<HEADER> BDT                      : Ranking result (top variable is best ranked)
+                         : -------------------------------------------------
+                         : Rank : Variable        : Variable Importance
+                         : -------------------------------------------------
+                         :    1 : ST_score        : 6.064e-02
+                         :    2 : dipho_dR        : 5.950e-02
+                         :    3 : TT_score        : 5.416e-02
+                         :    4 : pho2_ptOverMgg  : 5.341e-02
+                         :    5 : pho_minIDMVA    : 5.059e-02
+                         :    6 : jet_btag1       : 5.032e-02
+                         :    7 : pho1_ptOverMgg  : 3.054e-02
+                         :    8 : pho1_eta        : 2.698e-02
+                         :    9 : jet1_eta        : 2.663e-02
+                         :   10 : jet1_pt         : 2.650e-02
+                         :   11 : jet4_pt         : 2.633e-02
+                         :   12 : dipho_heliAngle : 2.590e-02
+                         :   13 : jet2_eta        : 2.587e-02
+                         :   14 : jet3_eta        : 2.487e-02
+                         :   15 : pho2_eta        : 2.449e-02
+                         :   16 : jet3_pt         : 2.372e-02
+                         :   17 : jet2_pt         : 2.350e-02
+                         :   18 : jet_Ht          : 2.339e-02
+                         :   19 : pho_maxIDMVA    : 2.297e-02
+                         :   20 : jet_btag2       : 2.179e-02
+                         :   21 : met_Pt          : 2.087e-02
+                         :   22 : ST_dR_tbW_H     : 2.071e-02
+                         :   23 : jet1_btag       : 1.989e-02
+                         :   24 : ST_tbW_pt       : 1.985e-02
+                         :   25 : dipho_eta       : 1.981e-02
+                         :   26 : dipho_dPhi      : 1.920e-02
+                         :   27 : jet3_btag       : 1.840e-02
+                         :   28 : pho1_PixelSeed  : 1.810e-02
+                         :   29 : TT_tbW_M        : 1.801e-02
+                         :   30 : ST_tbW_eta      : 1.641e-02
+                         :   31 : ST_tbW_M        : 1.604e-02
+                         :   32 : dipho_ptOverMgg : 1.571e-02
+                         :   33 : jet2_btag       : 1.555e-02
+                         :   34 : TT_dR_qH        : 1.552e-02
+                         :   35 : jet_N           : 1.388e-02
+                         :   36 : TT_dR_tqH_H     : 1.235e-02
+                         :   37 : pho2_PixelSeed  : 1.198e-02
+                         :   38 : TT_tbW_pt       : 1.066e-02
+                         :   39 : TT_tqH_ptOverM  : 3.853e-03
+                         :   40 : TT_tqH_eta      : 3.256e-03
+                         :   41 : TT_dR_tbW_H     : 2.985e-03
+                         :   42 : TT_dR_tt        : 2.441e-03
+                         :   43 : jet4_eta        : 1.373e-03
+                         :   44 : jet4_btag       : 1.068e-03
+                         :   45 : TT_tbW_eta      : 0.000e+00
+                         : -------------------------------------------------
+<HEADER> Factory                  : === Destroy and recreate all methods via weight files for testing ===
+                         : 
+<HEADER> Factory                  : Test all methods
+<HEADER> Factory                  : Test method: BDT for Classification performance
+                         : 
+<HEADER> BDT                      : [dataset] : Evaluation of BDT on testing sample (1919783 events)
+                         : Elapsed time for evaluation of 1919783 events: 173 sec       
+<HEADER> Factory                  : Evaluate all methods
+<HEADER> Factory                  : Evaluate classifier: BDT
+                         : 
+<HEADER> BDT                      : [dataset] : Loop over test events and fill histograms with classifier response...
+                         : 
+<HEADER> TFHandler_BDT            :        Variable               Mean               RMS       [        Min               Max ]
+                         : ----------------------------------------------------------------------------------------------
+                         :  pho1_ptOverMgg:          0.56709          0.31429   [         0.083242           12.751 ]
+                         :        pho1_eta:        -0.020121           1.4004   [          -2.5000           2.5000 ]
+                         :  pho1_PixelSeed:          0.23162          0.42187   [           0.0000           1.0000 ]
+                         :  pho2_ptOverMgg:          0.27756          0.11356   [         0.024584           6.0245 ]
+                         :        pho2_eta:        -0.014898           1.2945   [          -2.5000           2.5000 ]
+                         :  pho2_PixelSeed:          0.20506          0.40375   [           0.0000           1.0000 ]
+                         :    pho_maxIDMVA:          0.63227          0.45237   [         -0.69991          0.99902 ]
+                         :    pho_minIDMVA:        -0.034520          0.54678   [         -0.70000          0.99748 ]
+                         : dipho_ptOverMgg:          0.47559          0.37959   [       0.00091315           14.625 ]
+                         :       dipho_eta:        -0.039564           1.8621   [          -8.0100           7.6574 ]
+                         :      dipho_dPhi:          0.71610          0.29047   [       9.0996e-07           1.0000 ]
+                         :        dipho_dR:           3.0173          0.72132   [          0.14570           5.8370 ]
+                         : dipho_heliAngle:          0.64450          0.27811   [       6.7154e-07           1.0000 ]
+                         :         jet1_pt:           110.01           94.422   [           25.000           7418.6 ]
+                         :        jet1_eta:       -0.0041224           1.2413   [          -2.4000           2.4000 ]
+                         :       jet1_btag:          0.14696          0.43376   [          -2.0000           1.0000 ]
+                         :         jet2_pt:           64.682           55.938   [           25.000           2211.5 ]
+                         :        jet2_eta:       -0.0010099           1.2573   [          -2.4000           2.4000 ]
+                         :       jet2_btag:         0.095886          0.55492   [          -2.0000           1.0000 ]
+                         :         jet3_pt:           40.443           24.095   [           25.000           1306.7 ]
+                         :        jet3_eta:        0.0055199           1.2793   [          -2.4000           2.4000 ]
+                         :       jet3_btag:         0.013907          0.68359   [          -2.0000           1.0000 ]
+                         :         jet4_pt:          -610.74           501.37   [          -999.00           658.86 ]
+                         :        jet4_eta:          -624.40           483.63   [          -999.00           2.4000 ]
+                         :       jet4_btag:          -624.41           483.62   [          -999.00           1.0000 ]
+                         :       jet_btag1:          0.44831          0.26662   [          0.15220           1.0000 ]
+                         :       jet_btag2:          0.15143          0.26825   [          -2.0000           1.0000 ]
+                         :           jet_N:           3.5699          0.90423   [           3.0000           17.000 ]
+                         :          jet_Ht:           235.32           177.47   [           75.408           7840.3 ]
+                         :          met_Pt:           43.528           29.080   [         0.040788           7014.7 ]
+                         :  TT_tqH_ptOverM:          -624.22           483.86   [          -999.00           7.1825 ]
+                         :      TT_tqH_eta:          -624.41           483.61   [          -999.00           8.4904 ]
+                         :     TT_dR_tqH_H:          -624.06           484.06   [          -999.00           7.6053 ]
+                         :        TT_dR_qH:          -623.63           484.62   [          -999.00           8.5336 ]
+                         :        TT_dR_tt:          -623.05           485.37   [          -999.00           11.834 ]
+                         :       TT_tbW_pt:          -577.28           548.25   [          -999.00           2978.0 ]
+                         :      TT_tbW_eta:          -624.39           483.65   [          -999.00           8.6506 ]
+                         :        TT_tbW_M:          -536.20           609.10   [          -999.00           9047.3 ]
+                         :     TT_dR_tbW_H:          -623.13           485.27   [          -999.00           10.976 ]
+                         :        TT_score:          -624.27           483.79   [          -999.00          0.99921 ]
+                         :       ST_tbW_pt:           96.892           84.194   [          0.13072           6999.8 ]
+                         :      ST_tbW_eta:       -0.0065876           1.7398   [          -8.7768           8.8571 ]
+                         :        ST_tbW_M:           234.45           163.91   [           29.900           6553.8 ]
+                         :     ST_dR_tbW_H:           3.2282           1.1107   [        0.0014790           12.724 ]
+                         :        ST_score:          0.30963          0.30327   [       1.1807e-09          0.99565 ]
+                         : ----------------------------------------------------------------------------------------------
+                         : 
+                         : <PlotVariables> Will not produce scatter plots ==> 
+                         : |  The number of 45 input variables and 0 target values would require 990 two-dimensional
+                         : |  histograms, which would occupy the computer's memory. Note that this
+                         : |  suppression does not have any consequences for your analysis, other
+                         : |  than not disposing of these scatter plots. You can modify the maximum
+                         : |  number of input variables allowed to generate scatter plots in your
+                         : |  script via the command line:
+                         : |  "(TMVA::gConfig().GetVariablePlotting()).fMaxNumOfAllowedVariablesForScatterPlots = <some int>;"
+                         : 
+                         : Some more output
+                         : 
+                         : Evaluation results ranked by best signal efficiency and purity (area)
+                         : -------------------------------------------------------------------------------------------------------------------
+                         : DataSet       MVA                       
+                         : Name:         Method:          ROC-integ
+                         : dataset       BDT            : 0.961
+                         : -------------------------------------------------------------------------------------------------------------------
+                         : 
+                         : Testing efficiency compared to training efficiency (overtraining check)
+                         : -------------------------------------------------------------------------------------------------------------------
+                         : DataSet              MVA              Signal efficiency: from test sample (from training sample) 
+                         : Name:                Method:          @B=0.01             @B=0.10            @B=0.30   
+                         : -------------------------------------------------------------------------------------------------------------------
+                         : dataset              BDT            : 0.529 (0.589)       0.885 (0.896)      0.979 (0.980)
+                         : -------------------------------------------------------------------------------------------------------------------
+                         : 
+<HEADER> Dataset:dataset          : Created tree 'TestTree' with 1919783 events
+                         : 
+<HEADER> Dataset:dataset          : Created tree 'TrainTree' with 1919548 events
+                         : 
+<HEADER> Factory                  : Thank you for using TMVA!
+                         : For citation information, please visit: http://tmva.sf.net/citeTMVA.html
+[INFO] End of training!
+[INFO] Output files are saved at: /wk_cms2/mc_cheng/public/tqHGG/2017/BDT_model
+

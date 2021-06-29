@@ -1,0 +1,440 @@
+[INFO] Openning input files: /wk_cms2/mc_cheng/public/tqHGG/2017/MVAreco_perms_had/ST_FCNC*
+DataSetInfo              : [dataset] : Added class "Signal"
+                         : Add Tree TPerm_ST of type Signal with 326987 events
+                         : Add Tree TPerm_ST of type Signal with 667113 events
+DataSetInfo              : [dataset] : Added class "Background"
+                         : Add Tree TPerm_ST of type Background with 1379701 events
+                         : Add Tree TPerm_ST of type Background with 14201613 events
+                         : Parsing option string: 
+                         : ... "V:AnalysisType=Classification"
+                         : The following options are set:
+                         : - By User:
+                         :     V: "True" [Verbose flag]
+                         :     AnalysisType: "Classification" [Set the analysis type (Classification, Regression, Multiclass, Auto) (default: Auto)]
+                         : - Default:
+                         :     Color: "True" [Flag for coloured screen output (default: True, if in batch mode: False)]
+                         :     Transformations: "I" [List of transformations to test; formatting example: "Transformations=I;D;P;U;G,D", for identity, decorrelation, PCA, Uniform and Gaussianisation followed by decorrelation transformations]
+                         :     Correlations: "False" [boolean to show correlation in output]
+                         :     ROC: "True" [boolean to show ROC in output]
+                         :     Silent: "False" [Batch mode: boolean silent flag inhibiting any output from TMVA after the creation of the factory class object (default: False)]
+                         :     DrawProgressBar: "True" [Draw progress bar to display training, testing and evaluation schedule (default: True)]
+                         :     ModelPersistence: "True" [Option to save the trained model in xml file or using serialization]
+Factory                  : Booking method: [1mANN[0m
+                         : 
+                         : Parsing option string: 
+                         : ... "H:V:IgnoreNegWeightsInTraining:VarTransform=N:NCycles=500:HiddenLayers=N,N-1:LearningRate=0.02:DecayRate=0.01"
+                         : The following options are set:
+                         : - By User:
+                         :     <none>
+                         : - Default:
+                         :     Boost_num: "0" [Number of times the classifier will be boosted]
+                         : Parsing option string: 
+                         : ... "H:V:IgnoreNegWeightsInTraining:VarTransform=N:NCycles=500:HiddenLayers=N,N-1:LearningRate=0.02:DecayRate=0.01"
+                         : The following options are set:
+                         : - By User:
+                         :     NCycles: "500" [Number of training cycles]
+                         :     HiddenLayers: "N,N-1" [Specification of hidden layer architecture]
+                         :     V: "True" [Verbose output (short form of "VerbosityLevel" below - overrides the latter one)]
+                         :     VarTransform: "N" [List of variable transformations performed before training, e.g., "D_Background,P_Signal,G,N_AllClasses" for: "Decorrelation, PCA-transformation, Gaussianisation, Normalisation, each for the given class of events ('AllClasses' denotes all events of all classes, if no class indication is given, 'All' is assumed)"]
+                         :     H: "True" [Print method-specific help message]
+                         :     IgnoreNegWeightsInTraining: "True" [Events with negative weights are ignored in the training (but are included for testing and performance evaluation)]
+                         :     LearningRate: "2.000000e-02" [ANN learning rate parameter]
+                         :     DecayRate: "1.000000e-02" [Decay rate for learning parameter]
+                         : - Default:
+                         :     NeuronType: "sigmoid" [Neuron activation function type]
+                         :     RandomSeed: "1" [Random seed for initial synapse weights (0 means unique seed for each run; default value '1')]
+                         :     EstimatorType: "MSE" [MSE (Mean Square Estimator) for Gaussian Likelihood or CE(Cross-Entropy) for Bernoulli Likelihood]
+                         :     NeuronInputType: "sum" [Neuron input function type]
+                         :     VerbosityLevel: "Default" [Verbosity level]
+                         :     CreateMVAPdfs: "False" [Create PDFs for classifier outputs (signal and background)]
+                         :     TrainingMethod: "BP" [Train with Back-Propagation (BP), BFGS Algorithm (BFGS), or Genetic Algorithm (GA - slower and worse)]
+                         :     TestRate: "10" [Test for overtraining performed at each #th epochs]
+                         :     EpochMonitoring: "False" [Provide epoch-wise monitoring plots according to TestRate (caution: causes big ROOT output file!)]
+                         :     Sampling: "1.000000e+00" [Only 'Sampling' (randomly selected) events are trained each epoch]
+                         :     SamplingEpoch: "1.000000e+00" [Sampling is used for the first 'SamplingEpoch' epochs, afterwards, all events are taken for training]
+                         :     SamplingImportance: "1.000000e+00" [ The sampling weights of events in epochs which successful (worse estimator than before) are multiplied with SamplingImportance, else they are divided.]
+                         :     SamplingTraining: "True" [The training sample is sampled]
+                         :     SamplingTesting: "False" [The testing sample is sampled]
+                         :     ResetStep: "50" [How often BFGS should reset history]
+                         :     Tau: "3.000000e+00" [LineSearch "size step"]
+                         :     BPMode: "sequential" [Back-propagation learning mode: sequential or batch]
+                         :     BatchSize: "-1" [Batch size: number of events/batch, only set if in Batch Mode, -1 for BatchSize=number_of_events]
+                         :     ConvergenceImprove: "1.000000e-30" [Minimum improvement which counts as improvement (<0 means automatic convergence check is turned off)]
+                         :     ConvergenceTests: "-1" [Number of steps (without improvement) required for convergence (<0 means automatic convergence check is turned off)]
+                         :     UseRegulator: "False" [Use regulator to avoid over-training]
+                         :     UpdateLimit: "10000" [Maximum times of regulator update]
+                         :     CalculateErrors: "False" [Calculates inverse Hessian matrix at the end of the training to be able to calculate the uncertainties of an MVA value]
+                         :     WeightRange: "1.000000e+00" [Take the events for the estimator calculations from small deviations from the desired value to large deviations only over the weight range]
+ANN                      : [dataset] : Create Transformation "N" with events from all classes.
+                         : 
+                         : Transformation, Variable selection : 
+                         : Input : variable 'bJet_Pt' <---> Output : variable 'bJet_Pt'
+                         : Input : variable 'bJet_Eta' <---> Output : variable 'bJet_Eta'
+                         : Input : variable 'bJet_btag' <---> Output : variable 'bJet_btag'
+                         : Input : variable 'WJet1_Pt' <---> Output : variable 'WJet1_Pt'
+                         : Input : variable 'WJet1_Eta' <---> Output : variable 'WJet1_Eta'
+                         : Input : variable 'WJet1_btag' <---> Output : variable 'WJet1_btag'
+                         : Input : variable 'WJet2_Pt' <---> Output : variable 'WJet2_Pt'
+                         : Input : variable 'WJet2_Eta' <---> Output : variable 'WJet2_Eta'
+                         : Input : variable 'WJet2_btag' <---> Output : variable 'WJet2_btag'
+                         : Input : variable 'M1' <---> Output : variable 'M1'
+                         : Input : variable 'MW' <---> Output : variable 'MW'
+                         : Input : variable 'dR_bW' <---> Output : variable 'dR_bW'
+                         : Input : variable 'dR_tH' <---> Output : variable 'dR_tH'
+                         : Input : variable 'dR_qq' <---> Output : variable 'dR_qq'
+ANN                      : Building Network. 
+                         : Initializing weights
+                         : Will ignore negative events in training!
+[INFO] Start training!
+Factory                  : [1mTrain all methods[0m
+                         : Parsing option string: 
+                         : ... "V:NormMode=EqualNumEvents"
+                         : The following options are set:
+                         : - By User:
+                         :     NormMode: "EqualNumEvents" [Overall renormalisation of  event-by-event weights used in the training (NumEvents: average weight of 1 per event, independently for signal and background; EqualNumEvents: average weight of 1 per event for signal, and sum of weights for background equal to sum of weights for signal)]
+                         :     V: "True" [Verbosity (default: true)]
+                         : - Default:
+                         :     SplitMode: "Random" [Method of picking training and testing events (default: random)]
+                         :     MixMode: "SameAsSplitMode" [Method of mixing events of different classes into one dataset (default: SameAsSplitMode)]
+                         :     SplitSeed: "100" [Seed for random event shuffling]
+                         :     ScaleWithPreselEff: "False" [Scale the number of requested events by the eff. of the preselection cuts (or not)]
+                         :     nTrain_Signal: "0" [Number of training events of class Signal (default: 0 = all)]
+                         :     nTest_Signal: "0" [Number of test events of class Signal (default: 0 = all)]
+                         :     TrainTestSplit_Signal: "0.000000e+00" [Number of test events of class Signal (default: 0 = all)]
+                         :     nTrain_Background: "0" [Number of training events of class Background (default: 0 = all)]
+                         :     nTest_Background: "0" [Number of test events of class Background (default: 0 = all)]
+                         :     TrainTestSplit_Background: "0.000000e+00" [Number of test events of class Background (default: 0 = all)]
+                         :     VerboseLevel: "Info" [VerboseLevel (Debug/Verbose/Info)]
+DataSetFactory           : [dataset] : Number of events in input trees
+                         : 
+                         : 
+                         : Dataset[dataset] : Weight renormalisation mode: "EqualNumEvents": renormalises all event classes ...
+                         : Dataset[dataset] :  such that the effective (weighted) number of events in each class is the same 
+                         : Dataset[dataset] :  (and equals the number of events (entries) given for class=0 )
+                         : Dataset[dataset] : ... i.e. such that Sum[i=1..N_j]{w_i} = N_classA, j=classA, classB, ...
+                         : Dataset[dataset] : ... (note that N_j is the sum of TRAINING events
+                         : Dataset[dataset] :  ..... Testing events are not renormalised nor included in the renormalisation factor!)
+                         : Number of training and testing events
+                         : ---------------------------------------------------------------------------
+                         : Signal     -- training events            : 326987
+                         : Signal     -- testing events             : 667113
+                         : Signal     -- training and testing events: 994100
+                         : Background -- training events            : 1379701
+                         : Background -- testing events             : 14201613
+                         : Background -- training and testing events: 15581314
+                         : 
+DataSetInfo              : Correlation matrix (Signal):
+                         : ------------------------------------------------------------------------------------------------------------------------------------------
+                         :             bJet_Pt bJet_Eta bJet_btag WJet1_Pt WJet1_Eta WJet1_btag WJet2_Pt WJet2_Eta WJet2_btag      M1      MW   dR_bW   dR_tH   dR_qq
+                         :    bJet_Pt:  +1.000   -0.001    +0.040   +0.002    -0.001     +0.001   -0.043    -0.000     -0.003  +0.260  +0.024  -0.536  -0.021  +0.094
+                         :   bJet_Eta:  -0.001   +1.000    -0.007   +0.001    +0.627     -0.000   +0.001    +0.551     -0.001  +0.002  +0.001  +0.001  -0.001  -0.000
+                         :  bJet_btag:  +0.040   -0.007    +1.000   -0.004    -0.006     -0.028   +0.000    -0.008     -0.020  +0.064  -0.004  +0.012  +0.005  -0.002
+                         :   WJet1_Pt:  +0.002   +0.001    -0.004   +1.000    +0.001     +0.061   +0.435    -0.001     +0.011  +0.249  +0.276  -0.369  -0.038  -0.596
+                         :  WJet1_Eta:  -0.001   +0.627    -0.006   +0.001    +1.000     -0.004   +0.001    +0.673     -0.004  +0.003  +0.003  +0.003  +0.001  +0.002
+                         : WJet1_btag:  +0.001   -0.000    -0.028   +0.061    -0.004     +1.000   +0.029    -0.000     -0.016  +0.018  +0.027  -0.026  -0.001  -0.041
+                         :   WJet2_Pt:  -0.043   +0.001    +0.000   +0.435    +0.001     +0.029   +1.000    +0.001     +0.045  +0.219  +0.252  -0.235  -0.027  -0.563
+                         :  WJet2_Eta:  -0.000   +0.551    -0.008   -0.001    +0.673     -0.000   +0.001    +1.000     -0.003  +0.003  +0.003  +0.003  +0.000  +0.004
+                         : WJet2_btag:  -0.003   -0.001    -0.020   +0.011    -0.004     -0.016   +0.045    -0.003     +1.000  +0.010  +0.016  -0.012  -0.002  -0.027
+                         :         M1:  +0.260   +0.002    +0.064   +0.249    +0.003     +0.018   +0.219    +0.003     +0.010  +1.000  +0.709  +0.053  +0.035  +0.099
+                         :         MW:  +0.024   +0.001    -0.004   +0.276    +0.003     +0.027   +0.252    +0.003     +0.016  +0.709  +1.000  -0.006  +0.031  +0.235
+                         :      dR_bW:  -0.536   +0.001    +0.012   -0.369    +0.003     -0.026   -0.235    +0.003     -0.012  +0.053  -0.006  +1.000  +0.111  +0.369
+                         :      dR_tH:  -0.021   -0.001    +0.005   -0.038    +0.001     -0.001   -0.027    +0.000     -0.002  +0.035  +0.031  +0.111  +1.000  +0.063
+                         :      dR_qq:  +0.094   -0.000    -0.002   -0.596    +0.002     -0.041   -0.563    +0.004     -0.027  +0.099  +0.235  +0.369  +0.063  +1.000
+                         : ------------------------------------------------------------------------------------------------------------------------------------------
+DataSetInfo              : Correlation matrix (Background):
+                         : ------------------------------------------------------------------------------------------------------------------------------------------
+                         :             bJet_Pt bJet_Eta bJet_btag WJet1_Pt WJet1_Eta WJet1_btag WJet2_Pt WJet2_Eta WJet2_btag      M1      MW   dR_bW   dR_tH   dR_qq
+                         :    bJet_Pt:  +1.000   -0.001    +0.156   +0.090    +0.000     -0.034   +0.042    -0.000     -0.014  +0.373  +0.065  -0.091  +0.042  -0.001
+                         :   bJet_Eta:  -0.001   +1.000    -0.006   +0.001    +0.342     -0.002   +0.001    +0.237     -0.001  -0.001  -0.002  -0.000  -0.001  -0.003
+                         :  bJet_btag:  +0.156   -0.006    +1.000   -0.022    -0.001     -0.106   -0.023    -0.001     -0.055  +0.038  +0.018  -0.030  +0.029  +0.020
+                         :   WJet1_Pt:  +0.090   +0.001    -0.022   +1.000    -0.000     +0.102   +0.469    -0.001     +0.054  +0.450  +0.454  -0.118  +0.051  -0.119
+                         :  WJet1_Eta:  +0.000   +0.342    -0.001   -0.000    +1.000     -0.004   +0.001    +0.283     -0.000  -0.002  -0.001  -0.001  +0.001  -0.002
+                         : WJet1_btag:  -0.034   -0.002    -0.106   +0.102    -0.004     +1.000   +0.041    -0.001     -0.074  -0.015  -0.000  -0.038  +0.033  -0.056
+                         :   WJet2_Pt:  +0.042   +0.001    -0.023   +0.469    +0.001     +0.041   +1.000    -0.000     +0.143  +0.411  +0.478  -0.014  +0.064  -0.091
+                         :  WJet2_Eta:  -0.000   +0.237    -0.001   -0.001    +0.283     -0.001   -0.000    +1.000     -0.008  -0.001  +0.000  -0.003  +0.000  +0.000
+                         : WJet2_btag:  -0.014   -0.001    -0.055   +0.054    -0.000     -0.074   +0.143    -0.008     +1.000  +0.011  +0.022  -0.025  +0.044  -0.042
+                         :         M1:  +0.373   -0.001    +0.038   +0.450    -0.002     -0.015   +0.411    -0.001     +0.011  +1.000  +0.732  +0.375  +0.056  +0.330
+                         :         MW:  +0.065   -0.002    +0.018   +0.454    -0.001     -0.000   +0.478    +0.000     +0.022  +0.732  +1.000  +0.043  +0.045  +0.594
+                         :      dR_bW:  -0.091   -0.000    -0.030   -0.118    -0.001     -0.038   -0.014    -0.003     -0.025  +0.375  +0.043  +1.000  +0.044  +0.163
+                         :      dR_tH:  +0.042   -0.001    +0.029   +0.051    +0.001     +0.033   +0.064    +0.000     +0.044  +0.056  +0.045  +0.044  +1.000  +0.010
+                         :      dR_qq:  -0.001   -0.003    +0.020   -0.119    -0.002     -0.056   -0.091    +0.000     -0.042  +0.330  +0.594  +0.163  +0.010  +1.000
+                         : ------------------------------------------------------------------------------------------------------------------------------------------
+DataSetFactory           : [dataset] :  
+                         : 
+Factory                  : [dataset] : Create Transformation "I" with events from all classes.
+                         : 
+                         : Transformation, Variable selection : 
+                         : Input : variable 'bJet_Pt' <---> Output : variable 'bJet_Pt'
+                         : Input : variable 'bJet_Eta' <---> Output : variable 'bJet_Eta'
+                         : Input : variable 'bJet_btag' <---> Output : variable 'bJet_btag'
+                         : Input : variable 'WJet1_Pt' <---> Output : variable 'WJet1_Pt'
+                         : Input : variable 'WJet1_Eta' <---> Output : variable 'WJet1_Eta'
+                         : Input : variable 'WJet1_btag' <---> Output : variable 'WJet1_btag'
+                         : Input : variable 'WJet2_Pt' <---> Output : variable 'WJet2_Pt'
+                         : Input : variable 'WJet2_Eta' <---> Output : variable 'WJet2_Eta'
+                         : Input : variable 'WJet2_btag' <---> Output : variable 'WJet2_btag'
+                         : Input : variable 'M1' <---> Output : variable 'M1'
+                         : Input : variable 'MW' <---> Output : variable 'MW'
+                         : Input : variable 'dR_bW' <---> Output : variable 'dR_bW'
+                         : Input : variable 'dR_tH' <---> Output : variable 'dR_tH'
+                         : Input : variable 'dR_qq' <---> Output : variable 'dR_qq'
+TFHandler_Factory        :   Variable          Mean          RMS   [        Min          Max ]
+                         : ---------------------------------------------------------------------
+                         :    bJet_Pt:      70.070      47.471   [      25.000      1460.3 ]
+                         :   bJet_Eta:   0.0022192      1.1018   [     -2.4000      2.4000 ]
+                         :  bJet_btag:     0.47822     0.57513   [     -2.0000      1.0000 ]
+                         :   WJet1_Pt:      85.834      50.883   [      25.000      1460.3 ]
+                         :  WJet1_Eta:   0.0013186      1.0681   [     -2.4000      2.4000 ]
+                         : WJet1_btag:     0.21574     0.44958   [     -2.0000      1.0000 ]
+                         :   WJet2_Pt:      44.875      21.264   [      25.000      641.60 ]
+                         :  WJet2_Eta:   0.0025251      1.1426   [     -2.4000      2.4000 ]
+                         : WJet2_btag:     0.10544     0.58100   [     -2.0000      1.0000 ]
+                         :         M1:      196.50      97.908   [      30.045      2968.8 ]
+                         :         MW:      102.67      66.282   [      12.033      2559.1 ]
+                         :      dR_bW:      2.0470     0.89782   [   0.0010196      10.017 ]
+                         :      dR_tH:      3.2091     0.74259   [   0.0039261      10.567 ]
+                         :      dR_qq:      1.8711     0.83183   [     0.36913      5.6962 ]
+                         : ---------------------------------------------------------------------
+                         : Ranking input variables (method unspecific)...
+IdTransformation         : Ranking result (top variable is best ranked)
+                         : -----------------------------------
+                         : Rank : Variable   : Separation
+                         : -----------------------------------
+                         :    1 : bJet_btag  : 4.055e-01
+                         :    2 : MW         : 3.028e-01
+                         :    3 : M1         : 2.449e-01
+                         :    4 : WJet1_btag : 1.184e-01
+                         :    5 : dR_qq      : 1.043e-01
+                         :    6 : WJet2_btag : 7.203e-02
+                         :    7 : dR_bW      : 3.286e-02
+                         :    8 : bJet_Pt    : 2.147e-02
+                         :    9 : WJet2_Eta  : 1.092e-02
+                         :   10 : bJet_Eta   : 1.055e-02
+                         :   11 : WJet1_Pt   : 1.019e-02
+                         :   12 : WJet2_Pt   : 7.679e-03
+                         :   13 : WJet1_Eta  : 7.468e-03
+                         :   14 : dR_tH      : 6.546e-03
+                         : -----------------------------------
+Factory                  : Train method: ANN for Classification
+                         : 
+                         : 
+                         : [1m================================================================[0m
+                         : [1mH e l p   f o r   M V A   m e t h o d   [ ANN ] :[0m
+                         : 
+                         : [1m--- Short description:[0m
+                         : 
+                         : The MLP artificial neural network (ANN) is a traditional feed-
+                         : forward multilayer perceptron implementation. The MLP has a user-
+                         : defined hidden layer architecture, while the number of input (output)
+                         : nodes is determined by the input variables (output classes, i.e., 
+                         : signal and one background). 
+                         : 
+                         : [1m--- Performance optimisation:[0m
+                         : 
+                         : Neural networks are stable and performing for a large variety of 
+                         : linear and non-linear classification problems. However, in contrast
+                         : to (e.g.) boosted decision trees, the user is advised to reduce the 
+                         : number of input variables that have only little discrimination power. 
+                         : 
+                         : In the tests we have carried out so far, the MLP and ROOT networks
+                         : (TMlpANN, interfaced via TMVA) performed equally well, with however
+                         : a clear speed advantage for the MLP. The Clermont-Ferrand neural 
+                         : net (CFMlpANN) exhibited worse classification performance in these
+                         : tests, which is partly due to the slow convergence of its training
+                         : (at least 10k training cycles are required to achieve approximately
+                         : competitive results).
+                         : 
+                         : [1mOvertraining: [0monly the TMlpANN performs an explicit separation of the
+                         : full training sample into independent training and validation samples.
+                         : We have found that in most high-energy physics applications the 
+                         : available degrees of freedom (training events) are sufficient to 
+                         : constrain the weights of the relatively simple architectures required
+                         : to achieve good performance. Hence no overtraining should occur, and 
+                         : the use of validation samples would only reduce the available training
+                         : information. However, if the performance on the training sample is 
+                         : found to be significantly better than the one found with the inde-
+                         : pendent test sample, caution is needed. The results for these samples 
+                         : are printed to standard output at the end of each training job.
+                         : 
+                         : [1m--- Performance tuning via configuration options:[0m
+                         : 
+                         : The hidden layer architecture for all ANNs is defined by the option
+                         : "HiddenLayers=N+1,N,...", where here the first hidden layer has N+1
+                         : neurons and the second N neurons (and so on), and where N is the number  
+                         : of input variables. Excessive numbers of hidden layers should be avoided,
+                         : in favour of more neurons in the first hidden layer.
+                         : 
+                         : The number of cycles should be above 500. As said, if the number of
+                         : adjustable weights is small compared to the training sample size,
+                         : using a large number of training samples should not lead to overtraining.
+                         : 
+                         : <Suppress this message by specifying "!H" in the booking option>
+                         : [1m================================================================[0m
+                         : 
+TFHandler_ANN            :   Variable          Mean          RMS   [        Min          Max ]
+                         : ---------------------------------------------------------------------
+                         :    bJet_Pt:    -0.93720    0.066148   [     -1.0000      1.0000 ]
+                         :   bJet_Eta:  0.00092875     0.45910   [     -1.0000      1.0000 ]
+                         :  bJet_btag:     0.65214     0.38342   [     -1.0000      1.0000 ]
+                         :   WJet1_Pt:    -0.91523    0.070902   [     -1.0000      1.0000 ]
+                         :  WJet1_Eta:  0.00055079     0.44502   [     -1.0000      1.0000 ]
+                         : WJet1_btag:     0.47716     0.29972   [     -1.0000      1.0000 ]
+                         :   WJet2_Pt:    -0.93553    0.068972   [     -1.0000      1.0000 ]
+                         :  WJet2_Eta:   0.0010439     0.47608   [     -1.0000      1.0000 ]
+                         : WJet2_btag:     0.40363     0.38733   [     -1.0000      1.0000 ]
+                         :         M1:    -0.88672    0.066631   [     -1.0000      1.0000 ]
+                         :         MW:    -0.92883    0.052047   [     -1.0000      1.0000 ]
+                         :      dR_bW:    -0.59148     0.17927   [     -1.0000      1.0000 ]
+                         :      dR_tH:    -0.39314     0.14060   [     -1.0000      1.0000 ]
+                         :      dR_qq:    -0.43609     0.31231   [     -1.0000      1.0000 ]
+                         : ---------------------------------------------------------------------
+                         : Training Network
+                         : 
+0%, time left: unknown
+6%, time left: 6 hrs : 16 mins
+12%, time left: 5 hrs : 49 mins
+19%, time left: 5 hrs : 23 mins
+25%, time left: 4 hrs : 58 mins
+31%, time left: 4 hrs : 32 mins
+37%, time left: 4 hrs : 8 mins
+44%, time left: 3 hrs : 45 mins
+50%, time left: 3 hrs : 20 mins
+56%, time left: 2 hrs : 54 mins
+62%, time left: 2 hrs : 29 mins
+69%, time left: 2 hrs : 4 mins
+75%, time left: 1 hr : 39 mins
+81%, time left: 1 hr : 14 mins
+87%, time left: 49 mins
+94%, time left: 24 mins
+                         : Elapsed time for training with 1706688 events: 2.41e+04 sec         
+ANN                      : [dataset] : Evaluation of ANN on training sample (1706688 events)
+0%, time left: unknown
+6%, time left: 10 sec
+12%, time left: 9 sec
+18%, time left: 9 sec
+25%, time left: 8 sec
+31%, time left: 7 sec
+37%, time left: 7 sec
+43%, time left: 6 sec
+50%, time left: 5 sec
+56%, time left: 4 sec
+62%, time left: 4 sec
+68%, time left: 3 sec
+75%, time left: 2 sec
+81%, time left: 2 sec
+87%, time left: 1 sec
+93%, time left: 0 sec
+                         : Elapsed time for evaluation of 1706688 events: 11.4 sec       
+                         : Creating xml weight file: [0;36mdataset/weights/SThad_ANN.weights.xml[0m
+                         : Creating standalone class: [0;36mdataset/weights/SThad_ANN.class.C[0m
+                         : Write special histos to file: /wk_cms2/mc_cheng/public/tqHGG/2017/MVAreco_model/result_SThad.root:/dataset/Method_ANN/ANN
+Factory                  : Training finished
+                         : 
+                         : Ranking input variables (method specific)...
+ANN                      : Ranking result (top variable is best ranked)
+                         : -----------------------------------
+                         : Rank : Variable   : Importance
+                         : -----------------------------------
+                         :    1 : M1         : 2.878e+03
+                         :    2 : MW         : 1.831e+03
+                         :    3 : WJet1_Pt   : 3.607e+02
+                         :    4 : bJet_Pt    : 3.071e+02
+                         :    5 : WJet2_Pt   : 2.672e+02
+                         :    6 : bJet_btag  : 2.529e+02
+                         :    7 : WJet1_btag : 1.310e+02
+                         :    8 : WJet2_btag : 8.256e+01
+                         :    9 : dR_qq      : 1.244e+01
+                         :   10 : bJet_Eta   : 5.281e+00
+                         :   11 : dR_bW      : 4.604e+00
+                         :   12 : WJet2_Eta  : 3.851e+00
+                         :   13 : WJet1_Eta  : 2.736e+00
+                         :   14 : dR_tH      : 7.425e-01
+                         : -----------------------------------
+Factory                  : === Destroy and recreate all methods via weight files for testing ===
+                         : 
+ANN                      : Building Network. 
+                         : Initializing weights
+Factory                  : [1mTest all methods[0m
+Factory                  : Test method: ANN for Classification performance
+                         : 
+ANN                      : [dataset] : Evaluation of ANN on testing sample (14868726 events)
+0%, time left: unknown
+6%, time left: 92 sec
+12%, time left: 86 sec
+18%, time left: 80 sec
+25%, time left: 73 sec
+31%, time left: 67 sec
+37%, time left: 61 sec
+43%, time left: 55 sec
+50%, time left: 48 sec
+56%, time left: 42 sec
+62%, time left: 36 sec
+68%, time left: 30 sec
+75%, time left: 23 sec
+81%, time left: 17 sec
+87%, time left: 11 sec
+93%, time left: 5 sec
+                         : Elapsed time for evaluation of 14868726 events: 100 sec       
+Factory                  : [1mEvaluate all methods[0m
+Factory                  : Evaluate classifier: ANN
+                         : 
+TFHandler_ANN            :   Variable          Mean          RMS   [        Min          Max ]
+                         : ---------------------------------------------------------------------
+                         :    bJet_Pt:    -0.94274    0.066515   [     -1.0000      2.0328 ]
+                         :   bJet_Eta:   0.0016475     0.48356   [     -1.0000      1.0000 ]
+                         :  bJet_btag:     0.45511     0.40636   [     -1.0000      1.0000 ]
+                         :   WJet1_Pt:    -0.91278    0.077607   [     -1.0000      2.0328 ]
+                         :  WJet1_Eta:  0.00098606     0.46425   [     -1.0000      1.0000 ]
+                         : WJet1_btag:     0.51574     0.33590   [     -1.0000      1.0000 ]
+                         :   WJet2_Pt:    -0.93643    0.074742   [     -1.0000      1.7939 ]
+                         :  WJet2_Eta:   0.0022939     0.50213   [     -1.0000      1.0000 ]
+                         : WJet2_btag:     0.39448     0.45834   [     -1.0000      1.0000 ]
+                         :         M1:    -0.86576    0.089464   [     -1.0008      2.2083 ]
+                         :         MW:    -0.91276    0.070095   [    -0.99962      1.9992 ]
+                         :      dR_bW:    -0.56918     0.19855   [     -1.0001     0.96068 ]
+                         :      dR_tH:    -0.40956     0.15416   [     -1.0005      1.1756 ]
+                         :      dR_qq:    -0.34745     0.34799   [     -1.0008      1.0081 ]
+                         : ---------------------------------------------------------------------
+ANN                      : [dataset] : Loop over test events and fill histograms with classifier response...
+                         : 
+TFHandler_ANN            :   Variable          Mean          RMS   [        Min          Max ]
+                         : ---------------------------------------------------------------------
+                         :    bJet_Pt:    -0.94274    0.066515   [     -1.0000      2.0328 ]
+                         :   bJet_Eta:   0.0016475     0.48356   [     -1.0000      1.0000 ]
+                         :  bJet_btag:     0.45511     0.40636   [     -1.0000      1.0000 ]
+                         :   WJet1_Pt:    -0.91278    0.077607   [     -1.0000      2.0328 ]
+                         :  WJet1_Eta:  0.00098606     0.46425   [     -1.0000      1.0000 ]
+                         : WJet1_btag:     0.51574     0.33590   [     -1.0000      1.0000 ]
+                         :   WJet2_Pt:    -0.93643    0.074742   [     -1.0000      1.7939 ]
+                         :  WJet2_Eta:   0.0022939     0.50213   [     -1.0000      1.0000 ]
+                         : WJet2_btag:     0.39448     0.45834   [     -1.0000      1.0000 ]
+                         :         M1:    -0.86576    0.089464   [     -1.0008      2.2083 ]
+                         :         MW:    -0.91276    0.070095   [    -0.99962      1.9992 ]
+                         :      dR_bW:    -0.56918     0.19855   [     -1.0001     0.96068 ]
+                         :      dR_tH:    -0.40956     0.15416   [     -1.0005      1.1756 ]
+                         :      dR_qq:    -0.34745     0.34799   [     -1.0008      1.0081 ]
+                         : ---------------------------------------------------------------------
+                         : 
+                         : Evaluation results ranked by best signal efficiency and purity (area)
+                         : -------------------------------------------------------------------------------------------------------------------
+                         : DataSet       MVA                       
+                         : Name:         Method:          ROC-integ
+                         : dataset       ANN            : 0.965
+                         : -------------------------------------------------------------------------------------------------------------------
+                         : 
+                         : Testing efficiency compared to training efficiency (overtraining check)
+                         : -------------------------------------------------------------------------------------------------------------------
+                         : DataSet              MVA              Signal efficiency: from test sample (from training sample) 
+                         : Name:                Method:          @B=0.01             @B=0.10            @B=0.30   
+                         : -------------------------------------------------------------------------------------------------------------------
+                         : dataset              ANN            : 0.491 (0.447)       0.909 (0.900)      0.985 (0.985)
+                         : -------------------------------------------------------------------------------------------------------------------
+                         : 
+Dataset:dataset          : Created tree 'TestTree' with 14868726 events
+                         : 
+Dataset:dataset          : Created tree 'TrainTree' with 1706688 events
+                         : 
+Factory                  : [1mThank you for using TMVA![0m
+                         : [1mFor citation information, please visit: http://tmva.sf.net/citeTMVA.html[0m
+[INFO] End of training!
+[INFO] Output files are saved at: /wk_cms2/mc_cheng/public/tqHGG/2017/MVAreco_model

@@ -1,0 +1,33 @@
+Processing: ST_FCNC-TH_Tlep_hct
+[INFO] Event yield = 0.0342007 +- 0.000102662
+
+Processing: TT_FCNC-TtoHJ_aTlep_hut
+[INFO] Event yield = 0.522628 +- 0.00290737
+
+Processing: TT_FCNC-aTtoHJ_Tlep_hut
+[INFO] Event yield = 0.532604 +- 0.00282806
+
+Processing: TT_FCNC-TtoHJ_aTlep_hct
+[INFO] Event yield = 0.473468 +- 0.00262136
+
+Processing: TT_FCNC-aTtoHJ_Tlep_hct
+[INFO] Event yield = 0.485775 +- 0.00270766
+
+Processing: ST_FCNC-TH_Tlep_hut
+[INFO] Event yield = 0.194178 +- 0.00065501
+
+Processing: GluGluHToGG
+[INFO] Event yield = 0.03623 +- 0.0215895
+
+Processing: VBFHToGG
+[INFO] Event yield = 0.00786605 +- 0.00493796
+
+Processing: VHToGG
+[INFO] Event yield = 0.305545 +- 0.0374455
+
+Processing: ttHJetToGG
+[INFO] Event yield = 0.65619 +- 0.0507707
+
+Processing: data
+[INFO] Event yield = 13 +- 3.60555
+
