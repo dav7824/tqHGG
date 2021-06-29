@@ -1,0 +1,2 @@
+Rint.Logon: $(HOME)/rootlogon.C
+Unix.*.Root.MacroPath:      .:$(DIR_TQHGG)/macro:$(ROOTSYS)/macros
