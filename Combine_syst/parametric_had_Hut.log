@@ -1,0 +1,16 @@
+ <<< Combine >>> 
+>>> including systematics
+>>> method used is AsymptoticLimits
+>>> random number generator seed is 123456
+RooArgSet:: = ()
+Computing results starting from observation (a-posteriori)
+
+ -- AsymptoticLimits ( CLs ) --
+Observed Limit: r < 18.2223
+Expected  2.5%: r < 2.5276
+Expected 16.0%: r < 3.6000
+Expected 50.0%: r < 5.5781
+Expected 84.0%: r < 8.9578
+Expected 97.5%: r < 13.8981
+
+Done in 0.02 min (cpu), 0.02 min (real)

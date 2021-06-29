@@ -1,0 +1,82 @@
+ <<< Combine >>> 
+>>> including systematics
+>>> method used is AsymptoticLimits
+>>> random number generator seed is 123456
+Object gaus1_resbkg is duplicated
+Object gaus2_resbkg is duplicated
+Object gaus1_sigHct is duplicated
+Object gaus2_sigHct is duplicated
+The model has no constrained nuisance parameters. Please run the limit tool with no systematics (option -S 0).
+To make things easier, I will assume you have done it.
+RooArgSet:: = ()
+Computing results starting from observation (a-posteriori)
+Parameters: 
+  1) RooRealVar::           bkgbuild_bkg_expex1 = -0.0667216 +/- 0.0185551
+  2) RooRealVar::   bkgbuild_bkg_laur_evenfrac1 = 0.221026 +/- 0.688502
+  3) RooRealVar::                    mu1_resbkg = 124.661 +/- 0.171614
+  4) RooRealVar::                    mu1_sigHct = 124.671 +/- 0.0152844
+  5) RooRealVar::                    mu2_resbkg = 123.16 +/- 0.773192
+  6) RooRealVar::                    mu2_sigHct = 122.693 +/- 0.163266
+  7) RooRealVar:: n_exp_binhad_proc_non-res_bkg = 1
+  8) RooRealVar::     n_exp_binhad_proc_res_bkg = 0.818
+  9) RooRealVar:: n_exp_binlep_proc_non-res_bkg = 1
+ 10) RooRealVar::     n_exp_binlep_proc_res_bkg = 1.008
+ 11) RooRealVar::                             r = 0.2 +/- 2
+ 12) RooRealVar::                 sigma1_resbkg = 1.5036 +/- 0.250286
+ 13) RooRealVar::                 sigma1_sigHct = 1.7348 +/- 0.0158384
+ 14) RooRealVar::                 sigma2_resbkg = 3.32792 +/- 0.252852
+ 15) RooRealVar::                 sigma2_sigHct = 5.6871 +/- 0.137263
+Obs: 
+  1) RooRealVar::  dipho_mass = 179.6
+  2) RooCategory:: CMS_channel = lep(idx = 1)
+
+Parameters: 
+  1) RooRealVar::           bkgbuild_bkg_expex1 = -0.0555138 +/- 0.0138676
+  2) RooRealVar::   bkgbuild_bkg_laur_evenfrac1 = 0.249397 +/- 0.665966
+  3) RooRealVar::                    mu1_resbkg = 124.661 +/- 0.171614
+  4) RooRealVar::                    mu1_sigHct = 124.671 +/- 0.0152844
+  5) RooRealVar::                    mu2_resbkg = 123.16 +/- 0.773192
+  6) RooRealVar::                    mu2_sigHct = 122.693 +/- 0.163266
+  7) RooRealVar:: n_exp_binhad_proc_non-res_bkg = 1
+  8) RooRealVar::     n_exp_binhad_proc_res_bkg = 0.818
+  9) RooRealVar:: n_exp_binlep_proc_non-res_bkg = 1
+ 10) RooRealVar::     n_exp_binlep_proc_res_bkg = 1.008
+ 11) RooRealVar::                             r = 2
+ 12) RooRealVar::                 sigma1_resbkg = 1.5036 +/- 0.250286
+ 13) RooRealVar::                 sigma1_sigHct = 1.7348 +/- 0.0158384
+ 14) RooRealVar::                 sigma2_resbkg = 3.32792 +/- 0.252852
+ 15) RooRealVar::                 sigma2_sigHct = 5.6871 +/- 0.137263
+Obs: 
+  1) RooRealVar::  dipho_mass = 110.287
+  2) RooCategory:: CMS_channel = lep(idx = 1)
+
+Parameters: 
+  1) RooRealVar::           bkgbuild_bkg_expex1 = -0.0555138 +/- 0.0138676
+  2) RooRealVar::   bkgbuild_bkg_laur_evenfrac1 = 0.249397 +/- 0.665966
+  3) RooRealVar::                    mu1_resbkg = 124.661 +/- 0.171614
+  4) RooRealVar::                    mu1_sigHct = 124.671 +/- 0.0152844
+  5) RooRealVar::                    mu2_resbkg = 123.16 +/- 0.773192
+  6) RooRealVar::                    mu2_sigHct = 122.693 +/- 0.163266
+  7) RooRealVar:: n_exp_binhad_proc_non-res_bkg = 1
+  8) RooRealVar::     n_exp_binhad_proc_res_bkg = 0.818
+  9) RooRealVar:: n_exp_binlep_proc_non-res_bkg = 1
+ 10) RooRealVar::     n_exp_binlep_proc_res_bkg = 1.008
+ 11) RooRealVar::                             r = 2
+ 12) RooRealVar::                 sigma1_resbkg = 1.5036 +/- 0.250286
+ 13) RooRealVar::                 sigma1_sigHct = 1.7348 +/- 0.0158384
+ 14) RooRealVar::                 sigma2_resbkg = 3.32792 +/- 0.252852
+ 15) RooRealVar::                 sigma2_sigHct = 5.6871 +/- 0.137263
+Obs: 
+  1) RooRealVar::  dipho_mass = 179.6
+  2) RooCategory:: CMS_channel = lep(idx = 1)
+
+
+ -- AsymptoticLimits ( CLs ) --
+Observed Limit: r < 9.7755
+Expected  2.5%: r < 1.2319
+Expected 16.0%: r < 1.7663
+Expected 50.0%: r < 2.7188
+Expected 84.0%: r < 4.3226
+Expected 97.5%: r < 6.6340
+
+Done in 0.00 min (cpu), 0.01 min (real)

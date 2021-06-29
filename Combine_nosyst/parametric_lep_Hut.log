@@ -1,0 +1,69 @@
+ <<< Combine >>> 
+>>> including systematics
+>>> method used is AsymptoticLimits
+>>> random number generator seed is 123456
+The model has no constrained nuisance parameters. Please run the limit tool with no systematics (option -S 0).
+To make things easier, I will assume you have done it.
+RooArgSet:: = ()
+Computing results starting from observation (a-posteriori)
+Parameters: 
+  1) RooRealVar::   bkgbuild_bkg_laur_evenfrac1 = 0.221026 +/- 0.688502
+  2) RooRealVar::                    mu1_resbkg = 124.661 +/- 0.171614
+  3) RooRealVar::                    mu1_sigHut = 124.675 +/- 0.00773416
+  4) RooRealVar::                    mu2_resbkg = 123.16 +/- 0.773192
+  5) RooRealVar::                    mu2_sigHut = 122.514 +/- 0.0791049
+  6) RooRealVar:: n_exp_binlep_proc_non-res_bkg = 1
+  7) RooRealVar::     n_exp_binlep_proc_res_bkg = 1.008
+  8) RooRealVar::                             r = 0.2 +/- 2
+  9) RooRealVar::                 sigma1_resbkg = 1.5036 +/- 0.250286
+ 10) RooRealVar::                 sigma1_sigHut = 1.91709 +/- 0.00858397
+ 11) RooRealVar::                 sigma2_resbkg = 3.32792 +/- 0.252852
+ 12) RooRealVar::                 sigma2_sigHut = 6.09096 +/- 0.0657415
+Obs: 
+  1) RooRealVar::  dipho_mass = 179.6
+  2) RooCategory:: CMS_channel = lep(idx = 0)
+
+Parameters: 
+  1) RooRealVar::   bkgbuild_bkg_laur_evenfrac1 = 0.249397 +/- 0.665966
+  2) RooRealVar::                    mu1_resbkg = 124.661 +/- 0.171614
+  3) RooRealVar::                    mu1_sigHut = 124.675 +/- 0.00773416
+  4) RooRealVar::                    mu2_resbkg = 123.16 +/- 0.773192
+  5) RooRealVar::                    mu2_sigHut = 122.514 +/- 0.0791049
+  6) RooRealVar:: n_exp_binlep_proc_non-res_bkg = 1
+  7) RooRealVar::     n_exp_binlep_proc_res_bkg = 1.008
+  8) RooRealVar::                             r = 2
+  9) RooRealVar::                 sigma1_resbkg = 1.5036 +/- 0.250286
+ 10) RooRealVar::                 sigma1_sigHut = 1.91709 +/- 0.00858397
+ 11) RooRealVar::                 sigma2_resbkg = 3.32792 +/- 0.252852
+ 12) RooRealVar::                 sigma2_sigHut = 6.09096 +/- 0.0657415
+Obs: 
+  1) RooRealVar::  dipho_mass = 110.287
+  2) RooCategory:: CMS_channel = lep(idx = 0)
+
+Parameters: 
+  1) RooRealVar::   bkgbuild_bkg_laur_evenfrac1 = 0.249397 +/- 0.665966
+  2) RooRealVar::                    mu1_resbkg = 124.661 +/- 0.171614
+  3) RooRealVar::                    mu1_sigHut = 124.675 +/- 0.00773416
+  4) RooRealVar::                    mu2_resbkg = 123.16 +/- 0.773192
+  5) RooRealVar::                    mu2_sigHut = 122.514 +/- 0.0791049
+  6) RooRealVar:: n_exp_binlep_proc_non-res_bkg = 1
+  7) RooRealVar::     n_exp_binlep_proc_res_bkg = 1.008
+  8) RooRealVar::                             r = 2
+  9) RooRealVar::                 sigma1_resbkg = 1.5036 +/- 0.250286
+ 10) RooRealVar::                 sigma1_sigHut = 1.91709 +/- 0.00858397
+ 11) RooRealVar::                 sigma2_resbkg = 3.32792 +/- 0.252852
+ 12) RooRealVar::                 sigma2_sigHut = 6.09096 +/- 0.0657415
+Obs: 
+  1) RooRealVar::  dipho_mass = 179.6
+  2) RooCategory:: CMS_channel = lep(idx = 0)
+
+
+ -- AsymptoticLimits ( CLs ) --
+Observed Limit: r < 4.9252
+Expected  2.5%: r < 1.2715
+Expected 16.0%: r < 1.8462
+Expected 50.0%: r < 2.9062
+Expected 84.0%: r < 4.7366
+Expected 97.5%: r < 7.3958
+
+Done in 0.00 min (cpu), 0.01 min (real)

@@ -1,0 +1,77 @@
+
+imax 1
+jmax 3
+kmax *
+---------------
+shapes sig_TT      lep tHqleptonic_ws.root w:pdf_sigHut_
+shapes sig_ST      lep tHqleptonic_ws.root w:pdf_sigHut_
+shapes res_bkg     lep tHqleptonic_ws.root w:pdf_resbkg_
+shapes non-res_bkg lep tHqleptonic_ws.root w:bestPdf
+shapes data_obs    lep tHqleptonic_ws.root w:data
+---------------
+bin lep
+observation -1
+------------------------------
+bin          lep        lep        lep        lep
+process      sig_TT     sig_ST     res_bkg    non-res_bkg
+process      -1         0          1          2
+rate         1.055      0.194      1.008      1
+--------------------------------
+            SMH_QcdRenorm  lnN       -            -             1.100       -
+               SMH_AlphaS  lnN       -            -             1.020       -
+                  SMH_Pdf  lnN       -            -             1.050       -
+                   Br_HGG  lnN        1.020        1.020        1.020       -
+               Xsec_ttbar  lnN        1.060       -            -            -
+              STFCNC_norm  lnN       -             1.300       -            -
+                 ttH_norm  lnN       -            -             1.400       -
+                     lumi  lnN        1.023        1.023        1.023       -
+                Bkg_shape  lnN       -            -            -       0.756/1.317
+
+          DiPhoLooseMvaSF  lnN  1.000/1.000  1.001/1.001  0.998/0.998       -     
+            DiPhoPreselSF  lnN  0.992/1.008  0.991/1.011  0.990/1.005       -     
+      DiPhoelectronVetoSF  lnN  0.998/1.002  0.998/1.003  0.996/1.000       -     
+       DiPhoTriggerWeight  lnN  0.998/1.002  0.999/1.003  0.996/1.000       -     
+                 ElecReco  lnN  0.997/1.003  0.998/1.004  0.995/1.000       -     
+                   ElecId  lnN  0.992/1.009  0.993/1.009  0.987/1.008       -     
+                   MuonId  lnN  0.999/1.001  1.000/1.002  0.997/0.999       -     
+                  MuonIso  lnN  1.000/1.000  1.001/1.001  0.998/0.998       -     
+                  btagjes  lnN  1.004/0.998  1.003/1.000  1.011/0.990       -     
+                   btaglf  lnN  0.980/1.020  0.979/1.023  1.009/0.986       -     
+                   btaghf  lnN  1.012/0.988  1.009/0.993  1.023/0.971       -     
+             btaglfstats1  lnN  0.997/1.003  0.999/1.003  0.998/0.998       -     
+             btaglfstats2  lnN  1.001/1.000  1.001/1.001  1.002/0.994       -     
+             btaghfstats1  lnN  1.005/0.995  1.006/0.995  0.996/1.000       -     
+             btaghfstats2  lnN  0.998/1.002  0.999/1.003  0.994/1.002       -     
+               btagcferr1  lnN  1.000/1.000  1.002/1.000  1.020/0.984       -     
+               btagcferr2  lnN  1.000/1.000  1.001/1.001  1.007/0.991       -     
+                      JEC  lnN  0.993/1.006  0.998/1.006  1.000/0.985       -     
+                      JER  lnN  1.005/0.995  1.005/0.998  1.004/0.975       -     
+                 METJetEn  lnN  1.003/0.997  1.005/0.998  0.993/0.971       -     
+                METJetRes  lnN  1.000/0.996  1.002/0.998  0.983/0.981       -     
+                 METUncEn  lnN  1.001/0.997  1.004/0.998  0.992/0.998       -     
+                 METPhoEn  lnN  0.999/1.002  1.001/1.003  1.001/0.987       -     
+                 MvaShift  lnN  0.982/1.010  0.991/0.998  0.985/1.019       -     
+         SigmaEOverEShift  lnN  1.000/1.000  1.001/1.001  0.998/0.998       -     
+    MaterialCentralBarrel  lnN  1.000/1.000  1.001/1.001  0.998/0.998       -     
+      MaterialOuterBarrel  lnN  1.000/1.000  1.001/1.001  0.998/0.998       -     
+          MaterialForward  lnN  1.000/1.000  1.001/1.001  0.994/0.999       -     
+                   FNUFEB  lnN  1.001/1.000  1.001/1.001  1.007/0.991       -     
+                   FNUFEE  lnN  1.000/1.000  1.001/1.001  0.994/0.999       -     
+           MCScaleGain6EB  lnN  1.000/1.000  1.001/1.000  1.003/0.994       -     
+           MCScaleGain1EB  lnN  1.000/1.000  1.001/1.001  0.999/0.997       -     
+      ShowerShapeHighR9EB  lnN  1.000/1.000  1.001/1.001  0.996/1.002       -     
+          MCScaleHighR9EB  lnN  1.000/1.000  1.001/1.001  1.003/0.994       -     
+       MCSmearHighR9EBRho  lnN  1.000/1.000  1.001/1.001  0.999/0.997       -     
+       MCSmearHighR9EBPhi  lnN  1.000/1.000  1.001/1.001  0.992/0.992       -     
+      ShowerShapeHighR9EE  lnN  1.000/1.000  1.001/1.001  0.998/0.998       -     
+          MCScaleHighR9EE  lnN  1.000/1.000  1.001/1.001  0.996/0.998       -     
+       MCSmearHighR9EERho  lnN  1.000/1.000  1.001/1.001  0.998/0.999       -     
+       MCSmearHighR9EEPhi  lnN  1.000/1.000  1.001/1.001  0.998/0.998       -     
+       ShowerShapeLowR9EB  lnN  1.000/1.000  1.001/1.001  0.998/0.998       -     
+           MCScaleLowR9EB  lnN  1.000/1.000  1.001/1.001  0.998/0.998       -     
+        MCSmearLowR9EBRho  lnN  1.000/1.000  1.001/1.001  0.998/0.998       -     
+        MCSmearLowR9EBPhi  lnN  1.000/1.000  1.001/1.001  1.004/1.004       -     
+       ShowerShapeLowR9EE  lnN  1.000/1.000  1.001/1.001  0.998/0.999       -     
+           MCScaleLowR9EE  lnN  1.000/1.000  1.001/1.001  0.998/0.997       -     
+        MCSmearLowR9EERho  lnN  1.000/1.000  1.001/1.001  0.998/0.998       -     
+        MCSmearLowR9EEPhi  lnN  1.000/1.000  1.001/1.001  0.998/0.998       -     
